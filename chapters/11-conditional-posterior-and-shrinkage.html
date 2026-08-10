@@ -1,0 +1,1133 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.37">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>11&nbsp; The Conditional Posterior and Shrinkage – Bayesian Semiparametric Item Response Modelling for Person-Specific Latent Traits</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../chapters/12-empirical-bayes-tradition.html" rel="next">
+<link href="../chapters/10-bayesian-hierarchical-rasch.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-5ccb035bea26c1e21f80f44cf7c27909.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>
+.prov { font-size: 0.88em; color: #555; font-style: italic; }
+blockquote.ms { border-left: 3px solid #c0392b; background: #fdf3f2; }
+</style>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/10-bayesian-hierarchical-rasch.html">IV — Bayesian Hierarchical Modelling and Shrinkage</a></li><li class="breadcrumb-item"><a href="../chapters/11-conditional-posterior-and-shrinkage.html"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">The Conditional Posterior and Shrinkage</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Bayesian Semiparametric Item Response Modelling for Person-Specific Latent Traits</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">About This Book</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">I — Orientation</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/01-the-estimation-problem.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">The Estimation Problem</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/02-notation-and-frameworks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Notation, Terminology, and Two Frameworks</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">II — The Measurement Models</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/03-rasch-and-2pl-foundations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Foundations: the Rasch and 2PL Models</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/04-identification.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Identification</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/05-item-parameter-estimation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Estimating Item Parameters</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/06-person-parameter-estimation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Estimating Person Parameters</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">III — Information, Error, and Reliability</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/07-information-and-error.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Information and Measurement Error</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/08-reliability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Reliability in the Rasch Model</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/09-designing-for-reliability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Designing for a Target Reliability</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">IV — Bayesian Hierarchical Modelling and Shrinkage</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/10-bayesian-hierarchical-rasch.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">The Bayesian Hierarchical Rasch Model</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/11-conditional-posterior-and-shrinkage.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">The Conditional Posterior and Shrinkage</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/12-empirical-bayes-tradition.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Empirical Bayes and the Shrinkage Tradition</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">V — Beyond Normality: Flexible Latent-Trait Distributions</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/13-non-normality.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Non-Normality in Latent Traits</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/14-flexible-alternatives.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Flexible Parametric and Semiparametric Alternatives</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/15-dirichlet-process.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">The Dirichlet Process</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/16-dpm-priors.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">DPM Priors for Latent Traits</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
+ <span class="menu-text">VI — Posterior Summaries and Inferential Goals</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/17-three-goals.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Three Goals, Three Losses</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/18-constrained-bayes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Constrained Bayes</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/19-triple-goal.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Triple-Goal Estimation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/20-ranking-and-classification.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Ranking and Classification</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true">
+ <span class="menu-text">VII — Positioning</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/21-relation-to-lee-et-al.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Relation to Lee et al.&nbsp;(2025)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/22-scope-and-extensions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Scope: Why Rasch, and What Extends</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/23-open-problems.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Open Problems</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true">
+ <span class="menu-text">VIII — What Changes Under the 2PL</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/24-discrimination-and-information.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Discrimination and Information</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/25-reliability-under-2pl.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Reliability Under the Two-Parameter Model</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/26-identification-dpm-2pl.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Identification and the DPM Under the Two-Parameter Model</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true">
+ <span class="menu-text">IX — The Realized Evidence</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/27-what-the-simulation-settled.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">What the Simulation Settled</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/28-what-real-tests-look-like.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">What Real Tests Look Like</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/29-evidence-settles-reopens.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">What the Evidence Settles, and What It Reopens</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-10" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/A-proofs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Proofs</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/B-crosswalk.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Notation Crosswalk</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/C-corrections.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">C</span>&nbsp; <span class="chapter-title">Corrections to the Submitted Manuscript</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/D-annotated-bibliography.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">D</span>&nbsp; <span class="chapter-title">Annotated Bibliography</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/E-acquisition-ledger.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">E</span>&nbsp; <span class="chapter-title">Reference Acquisition Ledger</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/F-software.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">F</span>&nbsp; <span class="chapter-title">Software and Computation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/G-build-report.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">G</span>&nbsp; <span class="chapter-title">Build and Verification Report</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#sec-ch11-posterior" id="toc-sec-ch11-posterior" class="nav-link active" data-scroll-target="#sec-ch11-posterior"><span class="header-section-number">11.1</span> The conditional posterior</a></li>
+  <li><a href="#sec-ch11-working" id="toc-sec-ch11-working" class="nav-link" data-scroll-target="#sec-ch11-working"><span class="header-section-number">11.2</span> The normal working model</a></li>
+  <li><a href="#sec-ch11-conjugacy" id="toc-sec-ch11-conjugacy" class="nav-link" data-scroll-target="#sec-ch11-conjugacy"><span class="header-section-number">11.3</span> Normal–normal conjugacy</a></li>
+  <li><a href="#sec-ch11-limits" id="toc-sec-ch11-limits" class="nav-link" data-scroll-target="#sec-ch11-limits"><span class="header-section-number">11.4</span> Limits, and the reliability connection</a></li>
+  <li><a href="#sec-ch11-postvar" id="toc-sec-ch11-postvar" class="nav-link" data-scroll-target="#sec-ch11-postvar"><span class="header-section-number">11.5</span> The posterior variance is smaller, and that is not a free lunch</a></li>
+  <li><a href="#sec-ch11-framework" id="toc-sec-ch11-framework" class="nav-link" data-scroll-target="#sec-ch11-framework"><span class="header-section-number">11.6</span> What “the variance of <span class="math inline">\(\theta_p\)</span>” means</a></li>
+  <li><a href="#sec-ch11-ensemble" id="toc-sec-ch11-ensemble" class="nav-link" data-scroll-target="#sec-ch11-ensemble"><span class="header-section-number">11.7</span> The ensemble is wrong in both directions</a></li>
+  <li><a href="#sec-ch11-eb-vs-fb" id="toc-sec-ch11-eb-vs-fb" class="nav-link" data-scroll-target="#sec-ch11-eb-vs-fb"><span class="header-section-number">11.8</span> Empirical Bayes and full Bayes</a></li>
+  <li><a href="#sec-ch11-sources" id="toc-sec-ch11-sources" class="nav-link" data-scroll-target="#sec-ch11-sources"><span class="header-section-number">11.9</span> Sources and provenance</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/10-bayesian-hierarchical-rasch.html">IV — Bayesian Hierarchical Modelling and Shrinkage</a></li><li class="breadcrumb-item"><a href="../chapters/11-conditional-posterior-and-shrinkage.html"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">The Conditional Posterior and Shrinkage</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span id="sec-ch11" class="quarto-section-identifier"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">The Conditional Posterior and Shrinkage</span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p><a href="10-bayesian-hierarchical-rasch.html" class="quarto-xref"><span>Chapter 10</span></a> wrote the model. This chapter takes one person out of it and asks what the data say about them. The answer — a posterior that is a compromise between the person’s own responses and the population they were drawn from — is the shrinkage estimator, and deriving it properly does three jobs at once: it produces the EAP estimator of <a href="06-person-parameter-estimation.html#sec-ch06-family" class="quarto-xref"><span>Section 6.1</span></a> from first principles, it settles what “the variance of <span class="math inline">\(\theta_p\)</span>” means, which Reviewer 2 correctly noted is framework-dependent, and it exposes the defect that the whole of Part VI exists to repair.</p>
+<section id="sec-ch11-posterior" class="level2" data-number="11.1">
+<h2 data-number="11.1" class="anchored" data-anchor-id="sec-ch11-posterior"><span class="header-section-number">11.1</span> The conditional posterior</h2>
+<p>Condition <a href="10-bayesian-hierarchical-rasch.html#eq-joint-posterior" class="quarto-xref">Equation&nbsp;<span>10.4</span></a> on the item parameters and hyperparameters and look at a single person. What remains is</p>
+<p><span id="eq-cond-post"><span class="math display">\[
+p(\theta_p \mid \mathbf{u}_p; \boldsymbol\beta, \boldsymbol\delta)
+= \frac{L(\theta_p, \boldsymbol\beta \mid \mathbf{u}_p)\, g(\theta_p \mid \boldsymbol\delta)}
+       {\int L(t, \boldsymbol\beta \mid \mathbf{u}_p)\, g(t \mid \boldsymbol\delta)\,dt},
+\tag{11.1}\]</span></span></p>
+<p>with <span class="math inline">\(L\)</span> the person likelihood of <a href="03-rasch-and-2pl-foundations.html#eq-person-lik" class="quarto-xref">Equation&nbsp;<span>3.3</span></a>. Local independence (<a href="03-rasch-and-2pl-foundations.html#sec-ch03-lsi" class="quarto-xref"><span>Section 3.2</span></a>) does the work here: <a href="#eq-cond-post" class="quarto-xref">Equation&nbsp;<span>11.1</span></a> depends on the other <span class="math inline">\(P-1\)</span> people only through <span class="math inline">\(\boldsymbol\beta\)</span>, so once the items are settled every person’s posterior is a separate one-dimensional problem. That is the structural fact that makes person scoring cheap, and it is also the fact that makes the ensemble problem of <a href="#sec-ch11-ensemble" class="quarto-xref"><span>Section 11.7</span></a> invisible if you only ever look at one person at a time.</p>
+<p><a href="#eq-cond-post" class="quarto-xref">Equation&nbsp;<span>11.1</span></a> has no closed form. The Rasch likelihood is logistic and the prior is Gaussian; the product is neither, and the normalizing integral is evaluated by quadrature, Laplace approximation, or MCMC. Everything analytic below is therefore about an <em>approximation</em> to <a href="#eq-cond-post" class="quarto-xref">Equation&nbsp;<span>11.1</span></a>, and saying so once loudly is better than hedging in every subsequent sentence.</p>
+</section>
+<section id="sec-ch11-working" class="level2" data-number="11.2">
+<h2 data-number="11.2" class="anchored" data-anchor-id="sec-ch11-working"><span class="header-section-number">11.2</span> The normal working model</h2>
+<p>Replace the person likelihood by a Gaussian centred at the ML estimate with the curvature the likelihood actually has at its maximum:</p>
+<p><span id="eq-working"><span class="math display">\[
+L(\theta_p \mid \mathbf{u}_p) \;\propto\;
+\exp\!\left\{-\frac{(\theta_p - \hat\theta_p)^2}
+                   {2\,\operatorname{se}(\hat\theta_p)^2}\right\},
+\qquad
+\operatorname{se}(\hat\theta_p)^2 = \mathcal{J}(\hat\theta_p)^{-1} .
+\tag{11.2}\]</span></span></p>
+<p>This is the second-order Taylor expansion of the log-likelihood at <span class="math inline">\(\hat\theta_p\)</span>, and it is the same asymptotic statement as <a href="07-information-and-error.html#eq-sem" class="quarto-xref">Equation&nbsp;<span>7.2</span></a>. Its quality is not uniform.</p>
+<p>It is good when the test is long, the person is near the centre of the item difficulties, and the score is interior. It degrades when any of those fails: the Rasch person likelihood is skewed for extreme scores, and <a href="06-person-parameter-estimation.html#sec-ch06-boundary" class="quarto-xref"><span>Section 6.4</span></a> showed it has <strong>no maximum at all</strong> at a perfect or zero score, so <a href="#eq-working" class="quarto-xref">Equation&nbsp;<span>11.2</span></a> does not merely approximate badly there — it does not exist. The exact posterior <a href="#eq-cond-post" class="quarto-xref">Equation&nbsp;<span>11.1</span></a> is perfectly well-behaved in that case, because the prior supplies the tail the likelihood lacks. This asymmetry is worth holding onto: the approximation fails exactly where the Bayesian machinery is most useful.</p>
+<p>Since the entire shrinkage algebra below rests on <a href="#eq-working" class="quarto-xref">Equation&nbsp;<span>11.2</span></a>, every result in <a href="#sec-ch11-conjugacy" class="quarto-xref"><span>Section 11.3</span></a> and <a href="#sec-ch11-limits" class="quarto-xref"><span>Section 11.4</span></a> is exact for the working model and approximate for the Rasch model. The distinction was blurred in the Appendix C draft and is recorded as <code>C-006</code>.</p>
+</section>
+<section id="sec-ch11-conjugacy" class="level2" data-number="11.3">
+<h2 data-number="11.3" class="anchored" data-anchor-id="sec-ch11-conjugacy"><span class="header-section-number">11.3</span> Normal–normal conjugacy</h2>
+<div id="thm-eap-shrinkage" class="theorem">
+<p><span class="theorem-title"><strong>Theorem 11.1</strong></span> <strong>EAP as a shrinkage estimator.</strong> <em>Adapted from Louis (1984, § 2.1); proved inline in this notation</em></p>
+<p>Under the working likelihood <a href="#eq-working" class="quarto-xref">Equation&nbsp;<span>11.2</span></a> and the prior <span class="math inline">\(\theta_p \sim N(\mu_\theta,
+\sigma^2_\theta)\)</span>, the posterior is Gaussian with</p>
+<p><span id="eq-eap-shrinkage"><span class="math display">\[
+\operatorname{E}(\theta_p \mid \mathbf{u}_p)
+= w_p\,\hat\theta_p + (1-w_p)\,\mu_\theta,
+\qquad
+w_p = \frac{\sigma^2_\theta}{\sigma^2_\theta + \operatorname{se}(\hat\theta_p)^2},
+\tag{11.3}\]</span></span></p>
+<p>and</p>
+<p><span id="eq-post-var"><span class="math display">\[
+\operatorname{Var}(\theta_p \mid \mathbf{u}_p)
+= \left(\mathcal{J}(\hat\theta_p) + \sigma^{-2}_\theta\right)^{-1}
+= w_p \operatorname{se}(\hat\theta_p)^2
+= (1-w_p)\,\sigma^2_\theta .
+\tag{11.4}\]</span></span></p>
+</div>
+<p><em>Proof.</em> Write the log of the product of <a href="#eq-working" class="quarto-xref">Equation&nbsp;<span>11.2</span></a> and the prior, collect the quadratic and linear terms in <span class="math inline">\(\theta_p\)</span>, and complete the square. With likelihood precision <span class="math inline">\(\tau_L = \operatorname{se}(\hat\theta_p)^{-2}\)</span> and prior precision <span class="math inline">\(\tau_\pi =
+\sigma^{-2}_\theta\)</span>, the posterior precision is <span class="math inline">\(\tau_L + \tau_\pi\)</span> and the posterior mean is the precision-weighted average <span class="math inline">\((\tau_L\hat\theta_p + \tau_\pi\mu_\theta)/(\tau_L +
+\tau_\pi)\)</span>. Dividing numerator and denominator by <span class="math inline">\(\tau_L + \tau_\pi\)</span> and substituting gives <a href="#eq-eap-shrinkage" class="quarto-xref">Equation&nbsp;<span>11.3</span></a>; the two right-hand forms in <a href="#eq-post-var" class="quarto-xref">Equation&nbsp;<span>11.4</span></a> follow by substituting <span class="math inline">\(w_p\)</span>. ∎</p>
+<p>The precision reading is the one to keep. Precisions add, and the posterior mean weights each source by the precision it brings. Nothing in <a href="#thm-eap-shrinkage" class="quarto-xref">Theorem&nbsp;<span>11.1</span></a> is specific to psychometrics — it is the same algebra that produces the Kalman filter and the random-effects estimator, and <a href="12-empirical-bayes-tradition.html" class="quarto-xref"><span>Chapter 12</span></a> is about that fact.</p>
+</section>
+<section id="sec-ch11-limits" class="level2" data-number="11.4">
+<h2 data-number="11.4" class="anchored" data-anchor-id="sec-ch11-limits"><span class="header-section-number">11.4</span> Limits, and the reliability connection</h2>
+<p><strong>Limiting behaviour.</strong> These are elementary consequences of <a href="#thm-eap-shrinkage" class="quarto-xref">Theorem&nbsp;<span>11.1</span></a>.</p>
+<p>As <span class="math inline">\(\operatorname{se}(\hat\theta_p)^2 \to 0\)</span>, <span class="math inline">\(w_p \to 1\)</span> and the EAP converges to <span class="math inline">\(\hat\theta_p\)</span>: a perfectly informative test needs no prior. As <span class="math inline">\(\operatorname{se}
+(\hat\theta_p)^2 \to \infty\)</span>, <span class="math inline">\(w_p \to 0\)</span> and the EAP converges to <span class="math inline">\(\mu_\theta\)</span>: an uninformative test returns the population mean. As <span class="math inline">\(\sigma^2_\theta \to \infty\)</span> with <span class="math inline">\(\operatorname{se}\)</span> fixed, <span class="math inline">\(w_p \to 1\)</span> and the estimator becomes ML: a prior that asserts nothing does nothing.</p>
+<p>These are one-line limits and are not claimed as anything more; the Appendix E draft marked them as awaiting a prior-art search, and the search is unnecessary because there is no result here to attribute.</p>
+<p>The third limit is the one worth pausing on. It says the Bayesian and frequentist estimators are not two philosophies but two ends of a continuum indexed by <span class="math inline">\(\sigma^2_\theta\)</span>, and <a href="10-bayesian-hierarchical-rasch.html#sec-ch10-parallel" class="quarto-xref"><span>Section 10.5</span></a> already made the corresponding point about the model. What sits at neither end is the interesting case, and where it sits is decided by <span class="math inline">\(w_p\)</span>. This is the <em>local normal-working shrinkage weight</em> for person <span class="math inline">\(p\)</span>, and it is analogous to reliability rather than identical to the ensemble coefficient. As <a href="08-reliability.html#sec-ch08-shrinkage" class="quarto-xref"><span>Section 8.4</span></a> showed, <span class="math inline">\(P^{-1}\sum_p w_p \ge \bar w\)</span>, with equality only under constant working error variance; exact Rasch EAP weights need not have the closed form used here. <a href="#fig-shrinkage-weight" class="quarto-xref">Figure&nbsp;<span>11.1</span></a> plots the local working quantity.</p>
+<div id="fig-shrinkage-weight" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-shrinkage-weight-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../figures/F-shrinkage-weight.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-shrinkage-weight-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;11.1: The shrinkage weight <span class="math inline">\(w_p=\sigma^2_\theta/(\sigma^2_\theta+se(\hat\theta_p)^2)\)</span> against the conditional error variance, at four values of the between-person variance. The weight is the fraction of a person’s estimate that comes from their own responses rather than from the population. It falls with measurement error and rises with between-person spread, which is why reliability is a property of a test <em>in a population</em> and not of a test. Generated by code/R/09-figures.R.
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="sec-ch11-postvar" class="level2" data-number="11.5">
+<h2 data-number="11.5" class="anchored" data-anchor-id="sec-ch11-postvar"><span class="header-section-number">11.5</span> The posterior variance is smaller, and that is not a free lunch</h2>
+<p><a href="#eq-post-var" class="quarto-xref">Equation&nbsp;<span>11.4</span></a> says the posterior variance is below both the prior variance <span class="math inline">\(\sigma^2_\theta\)</span> and the sampling variance <span class="math inline">\(\operatorname{se}(\hat\theta_p)^2\)</span>, by factors <span class="math inline">\((1-w_p)\)</span> and <span class="math inline">\(w_p\)</span> respectively. It is tempting to read this as the Bayesian estimator being more precise for free. Three things block that reading.</p>
+<p><strong>It answers a different question.</strong> <span class="math inline">\(\operatorname{se}(\hat\theta_p)^2\)</span> is the sampling variance of an estimator around a fixed <span class="math inline">\(\theta_p\)</span>; <a href="#eq-post-var" class="quarto-xref">Equation&nbsp;<span>11.4</span></a> is the spread of a posterior around its own mean. These are not competing answers to one question (<a href="#sec-ch11-framework" class="quarto-xref"><span>Section 11.6</span></a>).</p>
+<p><strong>It is bought with bias.</strong> The EAP is biased toward <span class="math inline">\(\mu_\theta\)</span> by <span class="math inline">\((1-w_p)(\mu_\theta -
+\theta_p)\)</span> under the working model, and the trade is favourable in mean squared error precisely because squared-error loss is what the posterior mean minimizes. Change the loss and the trade changes sign, which is the argument of <a href="17-three-goals.html" class="quarto-xref"><span>Chapter 17</span></a>.</p>
+<p><strong>It conditions on whatever was plugged in.</strong> <a href="#eq-post-var" class="quarto-xref">Equation&nbsp;<span>11.4</span></a> conditions on <span class="math inline">\(\boldsymbol\beta\)</span> and <span class="math inline">\(\boldsymbol\delta\)</span>. In empirical Bayes both are estimated, so the reported conditional posterior omits uncertainty in those estimates — the same omitted source <a href="06-person-parameter-estimation.html#prp-plugin" class="quarto-xref">Proposition&nbsp;<span>6.1</span></a> records for the frequentist standard error, arriving by a different route. This does not imply a pointwise ordering between the plug-in variance and the full posterior variance; <code>C-012</code> covers the scope, and <a href="#sec-ch11-eb-vs-fb" class="quarto-xref"><span>Section 11.8</span></a> gives the identity.</p>
+</section>
+<section id="sec-ch11-framework" class="level2" data-number="11.6">
+<h2 data-number="11.6" class="anchored" data-anchor-id="sec-ch11-framework"><span class="header-section-number">11.6</span> What “the variance of <span class="math inline">\(\theta_p\)</span>” means</h2>
+<p>Reviewer 2’s fourth bullet asked what variance is meant when the paper writes <span class="math inline">\(\operatorname{Var}(\theta_p)\)</span>. The honest answer is that three different quantities have been called that, and which one is meant depends on the framework.</p>
+<p>Under the <strong>frequentist</strong> reading, <span class="math inline">\(\theta_p\)</span> is a fixed unknown constant. It has no variance. What has a variance is the estimator, and <span class="math inline">\(\operatorname{se}(\hat\theta_p)^2 =
+\operatorname{Var}(\hat\theta_p \mid \theta_p)\)</span> is a within-person sampling variance. The population variance <span class="math inline">\(\sigma^2_\theta = \operatorname{Var}_G(\theta_p)\)</span> also exists, but it describes the <em>spread of true abilities across people</em> and says nothing about uncertainty in any particular one.</p>
+<p>Under the <strong>Bayesian</strong> reading, <span class="math inline">\(\theta_p\)</span> is random and has three relevant variances: the prior variance <span class="math inline">\(\sigma^2_\theta\)</span>, the posterior variance <a href="#eq-post-var" class="quarto-xref">Equation&nbsp;<span>11.4</span></a>, and — for predicting new responses — the posterior predictive variance, which adds the Bernoulli noise back in.</p>
+<p>The reconciliation is not that the frameworks agree, and pretending they do is the error worth avoiding. It is that <strong>the same symbol plays the same algebraic role while denoting different things</strong>: <span class="math inline">\(\sigma^2_\theta\)</span> is a structural population parameter to be estimated in one and a prior hyperparameter to be integrated over in the other, and <a href="#eq-eap-shrinkage" class="quarto-xref">Equation&nbsp;<span>11.3</span></a> is the same formula in both because the algebra does not care. <a href="02-notation-and-frameworks.html#sec-ch02-frameworks" class="quarto-xref"><span>Section 2.4</span></a> tabulates the correspondence.</p>
+<p>What follows practically is a naming rule the rest of this book obeys. <span class="math inline">\(\operatorname{se}(\hat\theta_p)^2\)</span> is never called “the variance of <span class="math inline">\(\theta_p\)</span>”; <span class="math inline">\(\sigma^2_\theta\)</span> is called the between-person variance; and <a href="#eq-post-var" class="quarto-xref">Equation&nbsp;<span>11.4</span></a> is called the posterior variance and is never compared directly with <span class="math inline">\(\operatorname{se}
+(\hat\theta_p)^2\)</span> as though one were a better version of the other.</p>
+</section>
+<section id="sec-ch11-ensemble" class="level2" data-number="11.7">
+<h2 data-number="11.7" class="anchored" data-anchor-id="sec-ch11-ensemble"><span class="header-section-number">11.7</span> The ensemble is wrong in both directions</h2>
+<p>Everything so far has been about one person, and everything so far has been reassuring. Now put the estimates side by side.</p>
+<div id="prp-underdispersion" class="theorem proposition">
+<p><span class="theorem-title"><strong>Proposition 11.1</strong></span> <strong>Neither ensemble has the right spread.</strong> <em>Adapted from Louis (1984, § 2.1); the law-of- total-variance and constant-error algebra are given inline</em></p>
+<p>Let <span class="math inline">\(\theta_p \sim G\)</span> with variance <span class="math inline">\(\sigma^2_\theta\)</span>. Then</p>
+<p><span id="eq-underdisp-general"><span class="math display">\[
+\operatorname{Var}\!\left(\operatorname{E}[\theta_p \mid \mathbf{u}_p]\right)
+= \sigma^2_\theta - \operatorname{E}\!\left[\operatorname{Var}(\theta_p \mid \mathbf{u}_p)
+\right]
+\;&lt;\; \sigma^2_\theta
+\tag{11.5}\]</span></span></p>
+<p>for any prior and likelihood with <span class="math inline">\(\operatorname{Var}(\theta_p \mid \mathbf{u}_p) &gt; 0\)</span>, and under the working model with constant <span class="math inline">\(\operatorname{se}^2\)</span> the under-dispersion is exactly the reliability:</p>
+<p><span id="eq-underdisp-exact"><span class="math display">\[
+\operatorname{Var}(\hat\theta^{\mathrm{EAP}}) = \bar w\,\sigma^2_\theta,
+\qquad
+\frac{\operatorname{SD}(\hat\theta^{\mathrm{EAP}})}{\sigma_\theta} = \sqrt{\bar w} .
+\tag{11.6}\]</span></span></p>
+<p>Meanwhile <a href="08-reliability.html#eq-overdisp" class="quarto-xref">Equation&nbsp;<span>8.4</span></a> gives <span class="math inline">\(\operatorname{Var}(\hat\theta^{\mathrm{ML}}) =
+\sigma^2_\theta + \mathrm{MSEM} &gt; \sigma^2_\theta\)</span>.</p>
+</div>
+<p><em>Proof.</em> <a href="#eq-underdisp-general" class="quarto-xref">Equation&nbsp;<span>11.5</span></a> is the law of total variance, <span class="math inline">\(\operatorname{Var}(\theta) = \operatorname{Var}(\operatorname{E}[\theta \mid \mathbf{u}])
++ \operatorname{E}[\operatorname{Var}(\theta \mid \mathbf{u})]\)</span>, rearranged. For <a href="#eq-underdisp-exact" class="quarto-xref">Equation&nbsp;<span>11.6</span></a>, <span class="math inline">\(\hat\theta^{\mathrm{EAP}} = \bar w\hat\theta^{\mathrm{ML}} +
+(1-\bar w)\mu_\theta\)</span> has variance <span class="math inline">\(\bar w^2(\sigma^2_\theta + \operatorname{se}^2) =
+\bar w^2\sigma^2_\theta/\bar w = \bar w\sigma^2_\theta\)</span>, using <span class="math inline">\(\sigma^2_\theta +
+\operatorname{se}^2 = \sigma^2_\theta/\bar w\)</span>. ∎</p>
+<p><a href="#eq-underdisp-exact" class="quarto-xref">Equation&nbsp;<span>11.6</span></a> is worth reading slowly, because it converts an abstract worry into a number. At <span class="math inline">\(\bar w = 0.5\)</span> the histogram of posterior means has <span class="math inline">\(\sqrt{0.5} = 71\%\)</span> of the true standard deviation. At <span class="math inline">\(\bar w = 0.9\)</span> it has <span class="math inline">\(95\%\)</span>. The reliability levels of <a href="09-designing-for-reliability.html#sec-ch09-table2" class="quarto-xref"><span>Section 9.4</span></a> are exactly the levels at which this ranges from severe to mild, which is why the companion simulation varies reliability rather than fixing it.</p>
+<p>It is equally worth remembering what <a href="#eq-underdisp-exact" class="quarto-xref">Equation&nbsp;<span>11.6</span></a> is: an identity of the constant-error working model, not of the Rasch model. Under exact Rasch posteriors the error variance moves with <span class="math inline">\(\theta\)</span>, the two averages of <a href="08-reliability.html#sec-ch08-functionals" class="quarto-xref"><span>Section 8.6</span></a> part company, and the realized ensemble contraction is <span class="math inline">\(\sqrt{\bar w}\)</span> only approximately. <a href="#fig-shrink-deviation" class="quarto-xref">Figure&nbsp;<span>11.2</span></a> computes the exact version across designs and shows the rule holding closely when items are targeted and separating visibly when they are not — with the direction of the separation a property of the design rather than of the model. Sentences elsewhere in this book that lean on <span class="math inline">\(\sqrt{\bar w}\)</span> carry this qualification implicitly, and <a href="13-non-normality.html" class="quarto-xref"><span>Chapter 13</span></a> states it again where it matters most.</p>
+<div id="fig-shrink-deviation" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-shrink-deviation-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../figures/F-shrink-deviation.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-shrink-deviation-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;11.2: <strong>The square-root shrinkage rule is a working-model identity, not a Rasch theorem.</strong> Each point is an exact computation for a Rasch design (5 to 60 items, difficulties at normal quantiles, <span class="math inline">\(G = N(0,1)\)</span>): the realized spread of the EAP ensemble against the dashed <span class="math inline">\(\sqrt{\bar w}\)</span> prediction that is exact under the constant-error Gaussian working model of <a href="#sec-ch11" class="quarto-xref"><span>Chapter 11</span></a>. The rule tracks the exact computation closely but not exactly: in these designs the realized spread sits slightly above it, and mistargeting the difficulties by 1.5 logits separates the two further. The gap exists because the ensemble spread is governed by the EAP-variance functional while <span class="math inline">\(\bar w\)</span> averages error on the variance scale, and the two averages part company as information becomes uneven over the population (<a href="08-reliability.html#sec-ch08-functionals" class="quarto-xref"><span>Section 8.6</span></a>); its direction is a property of the design, not a constant of the model. Exact quadrature over score classes; no simulation. Values frozen in tables/F-shrink-deviation-summary.rds. Generated by code/R/23-figures-v2-theory.R.
+</figcaption>
+</figure>
+</div>
+<div id="fig-ensemble-shrink" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-ensemble-shrink-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../figures/F-ensemble-shrink.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-ensemble-shrink-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;11.3: <strong>Left:</strong> why neither obvious histogram estimates the distribution of the latent traits. Simulated with unit latent variance and a fixed constant error variance. The within-person estimates carry measurement noise on top of the true variation and are too spread out; the posterior means are shrunk and too concentrated. A cut-score applied to either misstates the proportion below it, in opposite directions. <strong>Right:</strong> the same machinery under a sharply bimodal truth, with the constrained-Bayes repair of <a href="18-constrained-bayes.html" class="quarto-xref"><span>Chapter 18</span></a>. CB restores the standard deviation almost exactly. It does not restore the shape, and cannot: <a href="18-constrained-bayes.html#prp-cb-affine" class="quarto-xref">Proposition&nbsp;<span>18.1</span></a> shows CB is a positive affine map of the posterior means, so every standardized moment above the second is inherited unchanged — the excess kurtosis stays at the posterior means’ value while the truth’s is far lower. Bimodality is a shape feature and an affine map has no access to it. Seeds fixed; numerical moments and KS distances are frozen in tables/F-ensemble-shrink-summary.rds with a CSV mirror; illustrative, no inference rests on it. Generated by code/R/09-figures.R.
+</figcaption>
+</figure>
+</div>
+<p><a href="#fig-ensemble-shrink" class="quarto-xref">Figure&nbsp;<span>11.3</span></a> shows both failures on one set of simulated data. The point is not that one estimator is bad. Each is optimal for what it was built for: ML is unbiased for a fixed <span class="math inline">\(\theta_p\)</span> up to <span class="math inline">\(O(I^{-1})\)</span>, and the EAP minimizes squared-error loss person by person. The point is that <strong>optimality for each person separately does not deliver optimality for the ensemble</strong>, and there is no reason it should — a criterion summed over persons is not the same criterion as one applied to the collection.</p>
+<p>Louis <span class="citation" data-cites="louis_estimating_1984">(<a href="#ref-louis_estimating_1984" role="doc-biblioref">1984</a>)</span> is where this was first taken seriously as a problem to be fixed rather than a curiosity, in the compound Gaussian setting: posterior expectations “produce ensembles of estimates with a sample variance smaller than the posterior expected sample variance for parameters,” and the repair is to weight the data by approximately the <em>square root</em> of the posterior-expectation weight. That constant is not arbitrary and falls straight out of <a href="#eq-underdisp-exact" class="quarto-xref">Equation&nbsp;<span>11.6</span></a>: an estimator <span class="math inline">\(a\hat\theta^{\mathrm{ML}} +
+(1-a)\mu_\theta\)</span> has ensemble variance <span class="math inline">\(a^2\sigma^2_\theta/\bar w\)</span>, which equals <span class="math inline">\(\sigma^2_\theta\)</span> exactly when <span class="math inline">\(a = \sqrt{\bar w}\)</span>. <a href="18-constrained-bayes.html" class="quarto-xref"><span>Chapter 18</span></a> develops this as constrained Bayes; <a href="19-triple-goal.html" class="quarto-xref"><span>Chapter 19</span></a> goes further and matches the whole distribution rather than its first two moments.</p>
+<p>Rank estimation is a second ensemble question, but not an automatic second failure in the common-form IRT model. A positive monotone rescaling cannot change an existing ordering; whether the posterior-mean ordering is itself wrong depends on stochastic ordering of the person posteriors. <a href="12-empirical-bayes-tradition.html" class="quarto-xref"><span>Chapter 12</span></a> shows that fixed-item Rasch posteriors satisfy that ordering, while heterogeneous designs and shared parameter uncertainty require a separate analysis. That conditional question, rather than non-constant information by itself, is what <a href="20-ranking-and-classification.html" class="quarto-xref"><span>Chapter 20</span></a> must resolve.</p>
+</section>
+<section id="sec-ch11-eb-vs-fb" class="level2" data-number="11.8">
+<h2 data-number="11.8" class="anchored" data-anchor-id="sec-ch11-eb-vs-fb"><span class="header-section-number">11.8</span> Empirical Bayes and full Bayes</h2>
+<p>Everything above conditioned on <span class="math inline">\((\boldsymbol\beta, \boldsymbol\delta)\)</span>. Two ways of discharging that conditioning are in use.</p>
+<p><strong>Empirical Bayes</strong> estimates them — typically <span class="math inline">\(\hat{\boldsymbol\beta}\)</span> and <span class="math inline">\(\hat{\boldsymbol\delta}\)</span> from marginal maximum likelihood — and substitutes. The resulting estimator has the form <a href="#eq-eap-shrinkage" class="quarto-xref">Equation&nbsp;<span>11.3</span></a> with hats, is justified by minimizing expected squared error under the assumed population model rather than by any Bayesian argument, and is what a great deal of software returns.</p>
+<p><strong>Full Bayes</strong> places hyperpriors and integrates, as in <a href="10-bayesian-hierarchical-rasch.html#eq-joint-posterior" class="quarto-xref">Equation&nbsp;<span>10.4</span></a>. The person-level posterior is then the <em>marginal</em> posterior of <span class="math inline">\(\theta_p\)</span>, having averaged over the hyperparameters.</p>
+<p>What empirical Bayes omits is uncertainty in what it plugs in. Under full Bayes,</p>
+<p><span id="eq-eb-total-variance"><span class="math display">\[
+\operatorname{Var}(\theta_p\mid\mathbf u)=
+\operatorname{E}\!\left[\operatorname{Var}(\theta_p\mid\mathbf u,
+\boldsymbol\delta)\mid\mathbf u\right]
++\operatorname{Var}\!\left(\operatorname{E}[\theta_p\mid\mathbf u,
+\boldsymbol\delta]\mid\mathbf u\right).
+\tag{11.7}\]</span></span></p>
+<p>The second term is nonnegative, but this identity compares the full variance with an <strong>average</strong> conditional variance. It does not order the arbitrary plug-in value <span class="math inline">\(\operatorname{Var}(\theta_p\mid\mathbf u,\hat{\boldsymbol\delta})\)</span> against that average; the plug-in value can lie above or below it. The size and direction of the numerical difference are model- and data-dependent. <a href="16-dpm-priors.html" class="quarto-xref"><span>Chapter 16</span></a> returns to the larger uncertainty object when <span class="math inline">\(\boldsymbol\delta\)</span> includes a distribution.</p>
+</section>
+<section id="sec-ch11-sources" class="level2" data-number="11.9">
+<h2 data-number="11.9" class="anchored" data-anchor-id="sec-ch11-sources"><span class="header-section-number">11.9</span> Sources and provenance</h2>
+<p><a href="#eq-cond-post" class="quarto-xref">Equation&nbsp;<span>11.1</span></a>, <a href="#eq-working" class="quarto-xref">Equation&nbsp;<span>11.2</span></a>, <a href="#thm-eap-shrinkage" class="quarto-xref">Theorem&nbsp;<span>11.1</span></a> and <a href="#eq-post-var" class="quarto-xref">Equation&nbsp;<span>11.4</span></a> follow the Appendix E draft §§ E.2–E.4, which derives them in this notation; the completing-the-square proof is standard normal–normal conjugacy and is restated rather than attributed, since it predates the psychometric literature entirely. Bock and Mislevy <span class="citation" data-cites="bock_adaptive_1982">(<a href="#ref-bock_adaptive_1982" role="doc-biblioref">1982</a>)</span> is the standard psychometric reference for EAP scoring by quadrature.</p>
+<p>The limits in <a href="#sec-ch11-limits" class="quarto-xref"><span>Section 11.4</span></a> are elementary. The Appendix E draft flagged that block as needing a prior-art search; none is required, because taking three limits of <a href="#eq-eap-shrinkage" class="quarto-xref">Equation&nbsp;<span>11.3</span></a> is prose rather than a numbered result.</p>
+<p>The framework-dependence discussion of <a href="#sec-ch11-framework" class="quarto-xref"><span>Section 11.6</span></a> is the Appendix E draft § E.5, sharpened on one point: the draft’s table lists the frequentist interpretation of <span class="math inline">\(\sigma^2_\theta\)</span> as “population variance” and the Bayesian as “prior variance” without saying that under the strict frequentist reading <span class="math inline">\(\theta_p\)</span> has no variance at all. That is the sentence Reviewer 2’s question actually needs, and it is added here.</p>
+<p><a href="#prp-underdispersion" class="quarto-xref">Proposition&nbsp;<span>11.1</span></a> splits its provenance deliberately. <a href="#eq-underdisp-general" class="quarto-xref">Equation&nbsp;<span>11.5</span></a> is the law of total variance and <a href="#eq-underdisp-exact" class="quarto-xref">Equation&nbsp;<span>11.6</span></a> is two lines of algebra; both are derived here and neither is claimed. What is Louis’s <span class="citation" data-cites="louis_estimating_1984">(<a href="#ref-louis_estimating_1984" role="doc-biblioref">1984</a>)</span> is the framing — that an ensemble of estimates is a thing one might want to be right, that posterior means are systematically not, and that the fix weights the data by roughly the square root of the posterior weight. The abstract states the under-dispersion and the square-root weight directly; both were read there and the square-root constant was then re-derived here from <a href="#eq-underdisp-exact" class="quarto-xref">Equation&nbsp;<span>11.6</span></a>, which is why it appears as an identity rather than an approximation in the constant-error case.</p>
+<p><a href="#fig-shrinkage-weight" class="quarto-xref">Figure&nbsp;<span>11.1</span></a> and <a href="#fig-ensemble-shrink" class="quarto-xref">Figure&nbsp;<span>11.3</span></a> are generated in <code>code/R/09-figures.R</code> and were introduced in <a href="01-the-estimation-problem.html" class="quarto-xref"><span>Chapter 1</span></a>; both are illustrative, both fix a seed, and nothing in this chapter rests on either beyond what the algebra already establishes. <a href="#fig-shrink-deviation" class="quarto-xref">Figure&nbsp;<span>11.2</span></a> is exact quadrature over Rasch score classes, added in this edition (<code>code/R/23-figures-v2-theory.R</code>, values frozen in <code>tables/F-shrink-deviation-summary.rds</code>); it exists to keep <a href="#eq-underdisp-exact" class="quarto-xref">Equation&nbsp;<span>11.6</span></a> honest about its working-model status, and no inference rests on it beyond the existence and design-dependence of the gap it displays.</p>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-bock_adaptive_1982" class="csl-entry" role="listitem">
+Bock, R. Darrell, and Robert J. Mislevy. 1982. <span>“Adaptive <span>EAP</span> Estimation of Ability in a Microcomputer Environment.”</span> <em>Applied Psychological Measurement</em> 6 (4): 431–44. <a href="https://doi.org/10.1177/014662168200600405">https://doi.org/10.1177/014662168200600405</a>.
+</div>
+<div id="ref-louis_estimating_1984" class="csl-entry" role="listitem">
+Louis, Thomas A. 1984. <span>“Estimating a Population of Parameter Values Using <span>Bayes</span> and Empirical <span>Bayes</span> Methods.”</span> <em>Journal of the American Statistical Association</em> 79 (386): 393–98. <a href="https://doi.org/10.1080/01621459.1984.10478062">https://doi.org/10.1080/01621459.1984.10478062</a>.
+</div>
+</div>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../chapters/10-bayesian-hierarchical-rasch.html" class="pagination-link" aria-label="The Bayesian Hierarchical Rasch Model">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">The Bayesian Hierarchical Rasch Model</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../chapters/12-empirical-bayes-tradition.html" class="pagination-link" aria-label="Empirical Bayes and the Shrinkage Tradition">
+        <span class="nav-page-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Empirical Bayes and the Shrinkage Tradition</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

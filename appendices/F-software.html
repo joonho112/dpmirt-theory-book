@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.37">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Appendix F — Software and Computation – Bayesian Semiparametric Item Response Modelling for Person-Specific Latent Traits</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../appendices/G-build-report.html" rel="next">
+<link href="../appendices/E-acquisition-ledger.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-5ccb035bea26c1e21f80f44cf7c27909.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>
+.prov { font-size: 0.88em; color: #555; font-style: italic; }
+blockquote.ms { border-left: 3px solid #c0392b; background: #fdf3f2; }
+</style>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../appendices/A-proofs.html">Appendices</a></li><li class="breadcrumb-item"><a href="../appendices/F-software.html"><span class="chapter-number">F</span>&nbsp; <span class="chapter-title">Software and Computation</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Bayesian Semiparametric Item Response Modelling for Person-Specific Latent Traits</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">About This Book</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">I — Orientation</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/01-the-estimation-problem.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">The Estimation Problem</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/02-notation-and-frameworks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Notation, Terminology, and Two Frameworks</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">II — The Measurement Models</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/03-rasch-and-2pl-foundations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Foundations: the Rasch and 2PL Models</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/04-identification.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Identification</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/05-item-parameter-estimation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Estimating Item Parameters</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/06-person-parameter-estimation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Estimating Person Parameters</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">III — Information, Error, and Reliability</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/07-information-and-error.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Information and Measurement Error</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/08-reliability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Reliability in the Rasch Model</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/09-designing-for-reliability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Designing for a Target Reliability</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">IV — Bayesian Hierarchical Modelling and Shrinkage</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/10-bayesian-hierarchical-rasch.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">The Bayesian Hierarchical Rasch Model</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/11-conditional-posterior-and-shrinkage.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">The Conditional Posterior and Shrinkage</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/12-empirical-bayes-tradition.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Empirical Bayes and the Shrinkage Tradition</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">V — Beyond Normality: Flexible Latent-Trait Distributions</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/13-non-normality.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Non-Normality in Latent Traits</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/14-flexible-alternatives.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Flexible Parametric and Semiparametric Alternatives</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/15-dirichlet-process.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">The Dirichlet Process</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/16-dpm-priors.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">DPM Priors for Latent Traits</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
+ <span class="menu-text">VI — Posterior Summaries and Inferential Goals</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/17-three-goals.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Three Goals, Three Losses</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/18-constrained-bayes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Constrained Bayes</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/19-triple-goal.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Triple-Goal Estimation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/20-ranking-and-classification.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Ranking and Classification</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true">
+ <span class="menu-text">VII — Positioning</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/21-relation-to-lee-et-al.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Relation to Lee et al.&nbsp;(2025)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/22-scope-and-extensions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Scope: Why Rasch, and What Extends</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/23-open-problems.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Open Problems</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true">
+ <span class="menu-text">VIII — What Changes Under the 2PL</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/24-discrimination-and-information.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Discrimination and Information</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/25-reliability-under-2pl.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Reliability Under the Two-Parameter Model</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/26-identification-dpm-2pl.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Identification and the DPM Under the Two-Parameter Model</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true">
+ <span class="menu-text">IX — The Realized Evidence</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/27-what-the-simulation-settled.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">What the Simulation Settled</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/28-what-real-tests-look-like.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">What Real Tests Look Like</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/29-evidence-settles-reopens.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">What the Evidence Settles, and What It Reopens</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-10" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/A-proofs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Proofs</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/B-crosswalk.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Notation Crosswalk</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/C-corrections.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">C</span>&nbsp; <span class="chapter-title">Corrections to the Submitted Manuscript</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/D-annotated-bibliography.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">D</span>&nbsp; <span class="chapter-title">Annotated Bibliography</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/E-acquisition-ledger.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">E</span>&nbsp; <span class="chapter-title">Reference Acquisition Ledger</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/F-software.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">F</span>&nbsp; <span class="chapter-title">Software and Computation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/G-build-report.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">G</span>&nbsp; <span class="chapter-title">Build and Verification Report</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#sec-appf-project" id="toc-sec-appf-project" class="nav-link active" data-scroll-target="#sec-appf-project"><span class="header-section-number">F.1</span> The three project packages</a></li>
+  <li><a href="#sec-appf-defaults" id="toc-sec-appf-defaults" class="nav-link" data-scroll-target="#sec-appf-defaults"><span class="header-section-number">F.2</span> Two defaults that are modelling decisions</a>
+  <ul class="collapse">
+  <li><a href="#sec-appf-alpha" id="toc-sec-appf-alpha" class="nav-link" data-scroll-target="#sec-appf-alpha"><span class="header-section-number">F.2.1</span> The <span class="math inline">\(\alpha\)</span> prior falls back silently in substance</a></li>
+  <li><a href="#sec-appf-itemprior" id="toc-sec-appf-itemprior" class="nav-link" data-scroll-target="#sec-appf-itemprior"><span class="header-section-number">F.2.2</span> The item prior is centred and its variance is fixed</a></li>
+  </ul></li>
+  <li><a href="#sec-appf-external" id="toc-sec-appf-external" class="nav-link" data-scroll-target="#sec-appf-external"><span class="header-section-number">F.3</span> External software</a></li>
+  <li><a href="#sec-appf-example" id="toc-sec-appf-example" class="nav-link" data-scroll-target="#sec-appf-example"><span class="header-section-number">F.4</span> Where the worked example lives</a></li>
+  <li><a href="#sec-appf-limits" id="toc-sec-appf-limits" class="nav-link" data-scroll-target="#sec-appf-limits"><span class="header-section-number">F.5</span> What this appendix does not do</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../appendices/A-proofs.html">Appendices</a></li><li class="breadcrumb-item"><a href="../appendices/F-software.html"><span class="chapter-number">F</span>&nbsp; <span class="chapter-title">Software and Computation</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span id="sec-appendix-f" class="quarto-section-identifier">Appendix F — Software and Computation</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>This appendix orients rather than instructs. The Associate Editor’s third demand asked for a worked code example, and decision <code>OQ-1</code> placed it in the companion repository <code>DPMirt-case-study/</code>, not here. What follows says what each piece of software does, where its documentation is, and — more usefully — the two places where a default choice inside the software is a modelling decision that this book has an opinion about.</p>
+<p>Everything below was read from the packages’ <code>DESCRIPTION</code>, <code>NAMESPACE</code> and source on 2026-08-05. Package documentation sits at the bottom of this book’s authority order (<a href="../chapters/02-notation-and-frameworks.html" class="quarto-xref"><span>Chapter 2</span></a>), so nothing here is used to support a claim in the body.</p>
+<section id="sec-appf-project" class="level2" data-number="F.1">
+<h2 data-number="F.1" class="anchored" data-anchor-id="sec-appf-project"><span class="header-section-number">F.1</span> The three project packages</h2>
+<p><strong><code>DPMirt</code></strong> (version 0.2.0) is the fitting package <span class="citation" data-cites="lee_dpmirt_2026">(<a href="#ref-lee_dpmirt_2026" role="doc-biblioref">Lee 2026c</a>)</span>. Its own description states what it covers: Bayesian semiparametric IRT with Dirichlet process mixture priors via NIMBLE, supporting Rasch, 2PL and 3PL models under both Normal and DPM latent-trait priors, and providing posterior mean, constrained Bayes and triple-goal summaries. It exposes 26 functions, organized around a <strong>compile-once, sample-many</strong> workflow: <code>dpmirt_compile()</code> builds and compiles the NIMBLE model, <code>dpmirt()</code> fits, and <code>dpmirt_draws()</code>, <code>dpmirt_estimates()</code>, <code>dpmirt_loss()</code> and <code>dpmirt_diagnostics()</code> read the result. <code>nimble</code> (≥ 1.0.0) is a hard dependency; the model is not portable to another sampler without rewriting it.</p>
+<p><strong><code>IRTsimrel</code></strong> (version 0.2.0) is the design package, and it is the one that makes <a href="../chapters/09-designing-for-reliability.html" class="quarto-xref"><span>Chapter 9</span></a>’s argument operational <span class="citation" data-cites="lee_irtsimrel_2026">(<a href="#ref-lee_irtsimrel_2026" role="doc-biblioref">Lee 2026e</a>)</span>. Its title is “Reliability-Targeted Simulation for Item Response Data,” and its exported API is built around solving for a design that hits a target reliability: <code>eqc_calibrate()</code>, <code>spc_calibrate()</code> and <code>sac_calibrate()</code> are three calibration routes, <code>compute_rho_bar()</code>, <code>compute_rho_tilde()</code> and <code>compute_rho_both()</code> compute the competing coefficients <a href="../chapters/08-reliability.html" class="quarto-xref"><span>Chapter 8</span></a> distinguishes, and <code>check_feasibility()</code> and <code>rho_curve()</code> say whether a target is reachable at all. The calibration algorithms themselves are developed in the package’s companion paper <span class="citation" data-cites="lee_reliability-targeted_2026">(<a href="#ref-lee_reliability-targeted_2026" role="doc-biblioref">Lee 2026f</a>)</span>.</p>
+<p>That the package computes <span class="math inline">\(\bar\rho\)</span> and <span class="math inline">\(\tilde\rho\)</span> <strong>separately</strong> is worth noticing here: it is the software counterpart of <a href="../chapters/08-reliability.html#thm-jensen-sandwich" class="quarto-xref">Theorem&nbsp;<span>8.1</span></a>, and a design calibrated to one is not calibrated to the other.</p>
+<p><strong><code>DPprior</code></strong> (version 1.1.0) is a separate package, not vendored, that performs the <span class="math inline">\(\alpha\)</span>-elicitation of <a href="../chapters/15-dirichlet-process.html" class="quarto-xref"><span>Chapter 15</span></a> — choosing a Gamma hyperprior for the concentration parameter from a belief about the number of clusters, with the dual-anchor extension that constrains the induced weight behaviour at the same time <span class="citation" data-cites="lee_dpprior_2026 lee_design-conditional_2026">(<a href="#ref-lee_dpprior_2026" role="doc-biblioref">Lee 2026d</a>, <a href="#ref-lee_design-conditional_2026" role="doc-biblioref">2026b</a>)</span>. One implementation bound belongs on the record because the case-study volume met it in production: the package’s Antoniak tabulation currently stops at <span class="math inline">\(J = 500\)</span> persons, so every elicitation in that volume ran at <span class="math inline">\(n \le 500\)</span> (<a href="../chapters/29-evidence-settles-reopens.html" class="quarto-xref"><span>Chapter 29</span></a>).</p>
+</section>
+<section id="sec-appf-defaults" class="level2" data-number="F.2">
+<h2 data-number="F.2" class="anchored" data-anchor-id="sec-appf-defaults"><span class="header-section-number">F.2</span> Two defaults that are modelling decisions</h2>
+<section id="sec-appf-alpha" class="level3" data-number="F.2.1">
+<h3 data-number="F.2.1" class="anchored" data-anchor-id="sec-appf-alpha"><span class="header-section-number">F.2.1</span> The <span class="math inline">\(\alpha\)</span> prior falls back silently in substance</h3>
+<p><code>DPprior</code> is a <strong><code>Suggests</code></strong> dependency of <code>DPMirt</code>, not a requirement. Reading <code>R/alpha_prior.R</code>, when the package is absent <code>dpmirt_alpha_prior()</code> emits a message and <strong>falls back to Gamma(1, 3), Paganin et al.’s default</strong>.</p>
+<p>The fallback is announced, so nothing is hidden. But the two paths are not the same modelling decision. The elicited prior encodes a belief about <span class="math inline">\(K\)</span> and inverts Antoniak’s law to reach <span class="math inline">\(\alpha\)</span> (<a href="A-proofs.html#sec-appa-antoniak" class="quarto-xref"><span>Section A.2.4</span></a>); the fallback encodes someone else’s default at a different sample size. <a href="../chapters/16-dpm-priors.html" class="quarto-xref"><span>Chapter 16</span></a>’s realized fit is one instance of how far prior and posterior on <span class="math inline">\(K\)</span> can sit apart, and <a href="../chapters/23-open-problems.html" class="quarto-xref"><span>Chapter 23</span></a> records the interaction between the <span class="math inline">\(\alpha\)</span> prior and the identification convention as unresolved. <strong>A reader reproducing this work should check which of the two paths ran</strong>, because the message is easy to lose in MCMC output.</p>
+<p>When <code>mu_K</code> is not supplied the elicitation itself defaults to <span class="math inline">\(\max(3, \lceil \log N \rceil)\)</span> clusters — a rule of thumb, not a result.</p>
+</section>
+<section id="sec-appf-itemprior" class="level3" data-number="F.2.2">
+<h3 data-number="F.2.2" class="anchored" data-anchor-id="sec-appf-itemprior"><span class="header-section-number">F.2.2</span> The item prior is centred and its variance is fixed</h3>
+<p><code>DPMirt</code>’s implemented item prior is <code>beta.tmp[i] ~ N(0, sigma2_beta)</code> with <code>beta = beta.tmp - mean(beta.tmp)</code> and <code>sigma2_beta</code> <strong>fixed at 3</strong>. There is no <span class="math inline">\(\mu_\beta\)</span> parameter and no hyperprior on the item variance.</p>
+<p>This matters twice over. The centring is the identification constraint of <a href="../chapters/04-identification.html" class="quarto-xref"><span>Chapter 4</span></a> as actually implemented — <a href="../chapters/10-bayesian-hierarchical-rasch.html#prp-centered-item" class="quarto-xref">Proposition&nbsp;<span>10.1</span></a> works out what a centred item prior is as a distribution — and the fixed variance means the item side carries no learned dispersion. It also matters because the submitted manuscript’s Appendix D describes a <em>different</em> prior, with a flat <span class="math inline">\(\mu_\beta\)</span> and an inverse-<span class="math inline">\(\chi^2\)</span> hyperprior. That is correction <code>C-013</code>, and the ruling was that the appendix follows the implemented model, since every number the paper reports came from it.</p>
+</section>
+</section>
+<section id="sec-appf-external" class="level2" data-number="F.3">
+<h2 data-number="F.3" class="anchored" data-anchor-id="sec-appf-external"><span class="header-section-number">F.3</span> External software</h2>
+<p><strong>NIMBLE</strong> is the sampler <code>DPMirt</code> compiles to, and its DP machinery is what makes the semiparametric prior tractable. Documentation: <a href="https://r-nimble.org" class="uri">https://r-nimble.org</a>.</p>
+<p><strong>TAM</strong> is used by <code>IRTsimrel</code> for the validation path — <code>TAM::tam.mml()</code> and <code>TAM::tam.mml.2pl()</code> fit the reference model and <code>TAM::tam.wle()</code> produces the weighted likelihood estimates that <a href="../chapters/06-person-parameter-estimation.html" class="quarto-xref"><span>Chapter 6</span></a> discusses. It is the independent check that a simulated design behaves as intended, not part of the DPM fitting path.</p>
+<p><strong>Stan</strong> and <strong>brms</strong> are not used by any package in this project. They are named here only because a reader coming from the Bayesian IRT literature will expect them, and because <a href="../chapters/10-bayesian-hierarchical-rasch.html" class="quarto-xref"><span>Chapter 10</span></a> mentions HMC as the alternative to NIMBLE’s samplers for this model class.</p>
+</section>
+<section id="sec-appf-example" class="level2" data-number="F.4">
+<h2 data-number="F.4" class="anchored" data-anchor-id="sec-appf-example"><span class="header-section-number">F.4</span> Where the worked example lives</h2>
+<p>Decision <code>OQ-1</code> assigned the Associate Editor’s code example to the case-study repository, so this appendix does not carry one. In the first edition of this book this section reported an empty scaffold; that report is superseded twice over. <strong>The case-study volume is complete and now stands in its second edition</strong> <span class="citation" data-cites="lee_casestudy_2026">(<a href="#ref-lee_casestudy_2026" role="doc-biblioref">Lee 2026a</a>)</span>: nineteen chapters and four appendices over thirteen Item Response Warehouse cases, each fitted under both item models and all three latent-trait priors (78 production fits, replicated in full at a second seed), with the three posterior summaries of <a href="../chapters/17-three-goals.html" class="quarto-xref"><span>Chapter 17</span></a> read from every fit, materiality thresholds declared before fitting, a frozen claim register with its corrections on the record, and a verdict layer joining each case-cell to its matched simulation cell. The second edition rewrote the reader-facing volume; it added no fits and recomputed no frozen number, and its analysis layer — the P-series tables, the manifest, the run records — remains in the first edition’s repository at <code>DPMirt-case-study/</code>, which is what this book’s evidence pipeline reads. The five acceptance criteria this appendix used to list are met in the volume’s own appendices, and <code>OQ-6</code> is closed; the claim-map rows AE-03 and R2-05 move to <code>addressed</code> on that basis, which decision <code>(a7)</code> records. What this book takes from the volume — and the vocabulary rules under which it takes it — is <a href="../chapters/28-what-real-tests-look-like.html" class="quarto-xref"><span>Chapter 28</span></a>’s business.</p>
+<p>A reader who wants to run the machinery today has a better starting point than this appendix: <code>DPMirt</code>’s own vignettes, at <a href="https://joonho112.github.io/DPMirt/" class="uri">https://joonho112.github.io/DPMirt/</a>.</p>
+</section>
+<section id="sec-appf-limits" class="level2" data-number="F.5">
+<h2 data-number="F.5" class="anchored" data-anchor-id="sec-appf-limits"><span class="header-section-number">F.5</span> What this appendix does not do</h2>
+<p>It does not benchmark, compare run times, or recommend one sampler over another. It does not report what any of this software produced when run — that is the companion simulation study’s authority, and <a href="../chapters/21-relation-to-lee-et-al.html" class="quarto-xref"><span>Chapter 21</span></a> and <a href="../chapters/23-open-problems.html" class="quarto-xref"><span>Chapter 23</span></a> draw the same line. And it does not certify that the package versions named above are the ones used for the manuscript’s results; the reproduction record for that belongs with the simulation study’s own build report.</p>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-lee_casestudy_2026" class="csl-entry" role="listitem">
+Lee, JoonHo. 2026a. <em>Case Studies of <span>Dirichlet</span> Process Mixture Priors and Goal-Specific Posterior Summaries in <span>Bayesian</span> <span>IRT</span>: Thirteen Real Tests from the <span>Item</span> <span>Response</span> <span>Warehouse</span></em>. Quarto book, The University of Alabama.
+</div>
+<div id="ref-lee_design-conditional_2026" class="csl-entry" role="listitem">
+Lee, JoonHo. 2026b. <em>Design-Conditional Prior Elicitation for <span>Dirichlet</span> Process Mixtures: A Unified Framework for Cluster Counts and Weight Control</em>. <span>arXiv</span>; arXiv. <a href="https://doi.org/10.48550/arXiv.2602.06301">https://doi.org/10.48550/arXiv.2602.06301</a>.
+</div>
+<div id="ref-lee_dpmirt_2026" class="csl-entry" role="listitem">
+Lee, JoonHo. 2026c. <em><span>DPMirt</span>: <span>Bayesian</span> Semiparametric Item Response Theory Models Using <span>Dirichlet</span> Process Mixture Priors</em>. <a href="https://github.com/joonho112/DPMirt">https://github.com/joonho112/DPMirt</a>.
+</div>
+<div id="ref-lee_dpprior_2026" class="csl-entry" role="listitem">
+Lee, JoonHo. 2026d. <em><span>DPprior</span>: Principled Prior Elicitation for <span>Dirichlet</span> Process Mixture Models</em>. <a href="https://github.com/joonho112/DPprior">https://github.com/joonho112/DPprior</a>.
+</div>
+<div id="ref-lee_irtsimrel_2026" class="csl-entry" role="listitem">
+Lee, JoonHo. 2026e. <em><span>IRTsimrel</span>: Reliability-Targeted Simulation for Item Response Data</em>. <a href="https://github.com/joonho112/IRTsimrel">https://github.com/joonho112/IRTsimrel</a>.
+</div>
+<div id="ref-lee_reliability-targeted_2026" class="csl-entry" role="listitem">
+Lee, JoonHo. 2026f. <em>Reliability-Targeted Simulation of Item Response Data: Solving the Inverse Design Problem</em>. <span>arXiv</span>; arXiv. <a href="https://doi.org/10.48550/arXiv.2512.16012">https://doi.org/10.48550/arXiv.2512.16012</a>.
+</div>
+</div>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../appendices/E-acquisition-ledger.html" class="pagination-link" aria-label="Reference Acquisition Ledger">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">E</span>&nbsp; <span class="chapter-title">Reference Acquisition Ledger</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../appendices/G-build-report.html" class="pagination-link" aria-label="Build and Verification Report">
+        <span class="nav-page-text"><span class="chapter-number">G</span>&nbsp; <span class="chapter-title">Build and Verification Report</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

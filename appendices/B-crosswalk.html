@@ -1,0 +1,1253 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.37">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Appendix B — Notation Crosswalk – Bayesian Semiparametric Item Response Modelling for Person-Specific Latent Traits</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../appendices/C-corrections.html" rel="next">
+<link href="../appendices/A-proofs.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-5ccb035bea26c1e21f80f44cf7c27909.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>
+.prov { font-size: 0.88em; color: #555; font-style: italic; }
+blockquote.ms { border-left: 3px solid #c0392b; background: #fdf3f2; }
+</style>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../appendices/A-proofs.html">Appendices</a></li><li class="breadcrumb-item"><a href="../appendices/B-crosswalk.html"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Notation Crosswalk</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Bayesian Semiparametric Item Response Modelling for Person-Specific Latent Traits</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">About This Book</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">I — Orientation</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/01-the-estimation-problem.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">The Estimation Problem</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/02-notation-and-frameworks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Notation, Terminology, and Two Frameworks</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">II — The Measurement Models</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/03-rasch-and-2pl-foundations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Foundations: the Rasch and 2PL Models</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/04-identification.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Identification</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/05-item-parameter-estimation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Estimating Item Parameters</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/06-person-parameter-estimation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Estimating Person Parameters</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">III — Information, Error, and Reliability</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/07-information-and-error.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Information and Measurement Error</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/08-reliability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Reliability in the Rasch Model</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/09-designing-for-reliability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Designing for a Target Reliability</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">IV — Bayesian Hierarchical Modelling and Shrinkage</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/10-bayesian-hierarchical-rasch.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">The Bayesian Hierarchical Rasch Model</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/11-conditional-posterior-and-shrinkage.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">The Conditional Posterior and Shrinkage</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/12-empirical-bayes-tradition.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Empirical Bayes and the Shrinkage Tradition</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">V — Beyond Normality: Flexible Latent-Trait Distributions</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/13-non-normality.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Non-Normality in Latent Traits</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/14-flexible-alternatives.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Flexible Parametric and Semiparametric Alternatives</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/15-dirichlet-process.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">The Dirichlet Process</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/16-dpm-priors.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">DPM Priors for Latent Traits</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
+ <span class="menu-text">VI — Posterior Summaries and Inferential Goals</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/17-three-goals.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Three Goals, Three Losses</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/18-constrained-bayes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Constrained Bayes</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/19-triple-goal.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Triple-Goal Estimation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/20-ranking-and-classification.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Ranking and Classification</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true">
+ <span class="menu-text">VII — Positioning</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/21-relation-to-lee-et-al.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Relation to Lee et al.&nbsp;(2025)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/22-scope-and-extensions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Scope: Why Rasch, and What Extends</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/23-open-problems.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Open Problems</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true">
+ <span class="menu-text">VIII — What Changes Under the 2PL</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/24-discrimination-and-information.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Discrimination and Information</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/25-reliability-under-2pl.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Reliability Under the Two-Parameter Model</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/26-identification-dpm-2pl.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Identification and the DPM Under the Two-Parameter Model</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true">
+ <span class="menu-text">IX — The Realized Evidence</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/27-what-the-simulation-settled.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">What the Simulation Settled</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/28-what-real-tests-look-like.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">What Real Tests Look Like</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/29-evidence-settles-reopens.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">What the Evidence Settles, and What It Reopens</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-10" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/A-proofs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Proofs</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/B-crosswalk.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Notation Crosswalk</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/C-corrections.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">C</span>&nbsp; <span class="chapter-title">Corrections to the Submitted Manuscript</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/D-annotated-bibliography.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">D</span>&nbsp; <span class="chapter-title">Annotated Bibliography</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/E-acquisition-ledger.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">E</span>&nbsp; <span class="chapter-title">Reference Acquisition Ledger</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/F-software.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">F</span>&nbsp; <span class="chapter-title">Software and Computation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/G-build-report.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">G</span>&nbsp; <span class="chapter-title">Build and Verification Report</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#sec-appb-table" id="toc-sec-appb-table" class="nav-link active" data-scroll-target="#sec-appb-table"><span class="header-section-number">B.1</span> The crosswalk</a></li>
+  <li><a href="#sec-appb-collisions" id="toc-sec-appb-collisions" class="nav-link" data-scroll-target="#sec-appb-collisions"><span class="header-section-number">B.2</span> Five collisions</a>
+  <ul class="collapse">
+  <li><a href="#sec-appb-I" id="toc-sec-appb-I" class="nav-link" data-scroll-target="#sec-appb-I"><span class="header-section-number">B.2.1</span> <span class="math inline">\(I\)</span> is a count here and a reliability in Lee et al.&nbsp;</a></li>
+  <li><a href="#sec-appb-eta" id="toc-sec-appb-eta" class="nav-link" data-scroll-target="#sec-appb-eta"><span class="header-section-number">B.2.2</span> <span class="math inline">\(\eta\)</span> is an ability in Paganin et al.&nbsp;and a posterior mean here</a></li>
+  <li><a href="#sec-appb-alpha" id="toc-sec-appb-alpha" class="nav-link" data-scroll-target="#sec-appb-alpha"><span class="header-section-number">B.2.3</span> <span class="math inline">\(\alpha\)</span> is a discrimination in Baker and Kim</a></li>
+  <li><a href="#sec-appb-fox" id="toc-sec-appb-fox" class="nav-link" data-scroll-target="#sec-appb-fox"><span class="header-section-number">B.2.4</span> Fox reverses both indices</a></li>
+  <li><a href="#sec-appb-lambda" id="toc-sec-appb-lambda" class="nav-link" data-scroll-target="#sec-appb-lambda"><span class="header-section-number">B.2.5</span> <span class="math inline">\(\lambda_p\)</span>: the one departure this book makes</a></li>
+  </ul></li>
+  <li><a href="#sec-appb-practice" id="toc-sec-appb-practice" class="nav-link" data-scroll-target="#sec-appb-practice"><span class="header-section-number">B.3</span> Reading a formula across the boundary</a></li>
+  <li><a href="#sec-appb-manuscript" id="toc-sec-appb-manuscript" class="nav-link" data-scroll-target="#sec-appb-manuscript"><span class="header-section-number">B.4</span> The manuscript</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../appendices/A-proofs.html">Appendices</a></li><li class="breadcrumb-item"><a href="../appendices/B-crosswalk.html"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Notation Crosswalk</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span id="sec-appendix-b" class="quarto-section-identifier">Appendix B — Notation Crosswalk</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>A reader of this book will move between it and half a dozen other treatments, and the symbols do not agree. This appendix exists so that the move does not silently change what a formula says.</p>
+<p>Every cell below was read in the source at the locator recorded in <code>manifest/part-vii-source-receipts.csv</code> — the model-definition passage where the symbol is introduced — rather than recalled. A dash means the source has no symbol for that concept in the passage read, not that one was overlooked.</p>
+<section id="sec-appb-table" class="level2" data-number="B.1">
+<h2 data-number="B.1" class="anchored" data-anchor-id="sec-appb-table"><span class="header-section-number">B.1</span> The crosswalk</h2>
+<div class="cell">
+<div id="tbl-crosswalk" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-crosswalk-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;B.1: This book’s symbols against six treatments, read at each source’s model definition. Source: tables/T-crosswalk.rds.
+</figcaption>
+<div aria-describedby="tbl-crosswalk-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<table class="cell caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 19%">
+<col style="width: 9%">
+<col style="width: 11%">
+<col style="width: 19%">
+<col style="width: 14%">
+<col style="width: 15%">
+<col style="width: 9%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Concept</th>
+<th style="text-align: left;">This book</th>
+<th style="text-align: left;">Debelak et al.&nbsp;(2022)</th>
+<th style="text-align: left;">Fox (2010)</th>
+<th style="text-align: left;">Baker &amp; Kim (2004)</th>
+<th style="text-align: left;">Paganin et al.&nbsp;(2022)</th>
+<th style="text-align: left;">Lee et al.&nbsp;(2025)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Person index</td>
+<td style="text-align: left;"><span class="math inline">\(p\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(p\)</span></td>
+<td style="text-align: left;"><strong><span class="math inline">\(i\)</span></strong></td>
+<td style="text-align: left;"><span class="math inline">\(j\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(j\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(j\)</span> (site)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Item index</td>
+<td style="text-align: left;"><span class="math inline">\(i\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(i\)</span></td>
+<td style="text-align: left;"><strong><span class="math inline">\(k\)</span></strong></td>
+<td style="text-align: left;"><span class="math inline">\(i\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(i\)</span></td>
+<td style="text-align: left;">–</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Latent trait / ability</td>
+<td style="text-align: left;"><span class="math inline">\(\theta_p\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(\theta_p\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(\theta_i\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(\theta_j\)</span></td>
+<td style="text-align: left;"><strong><span class="math inline">\(\eta_j\)</span></strong></td>
+<td style="text-align: left;"><span class="math inline">\(\tau_j\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Item difficulty</td>
+<td style="text-align: left;"><span class="math inline">\(\beta_i\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(\beta_i\)</span></td>
+<td style="text-align: left;">in <span class="math inline">\(\boldsymbol\xi\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(\beta_i\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(\beta_i\)</span></td>
+<td style="text-align: left;">–</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Item discrimination</td>
+<td style="text-align: left;"><span class="math inline">\(\lambda_i\)</span></td>
+<td style="text-align: left;">–</td>
+<td style="text-align: left;">in <span class="math inline">\(\boldsymbol\xi\)</span></td>
+<td style="text-align: left;"><strong><span class="math inline">\(\alpha_i\)</span></strong></td>
+<td style="text-align: left;"><span class="math inline">\(\lambda_i\)</span></td>
+<td style="text-align: left;">–</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Response variable</td>
+<td style="text-align: left;"><span class="math inline">\(U_{pi}\)</span>, <span class="math inline">\(u_{pi}\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(U_{pi}\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(Y_{ik}\)</span></td>
+<td style="text-align: left;">–</td>
+<td style="text-align: left;"><span class="math inline">\(y_{ij}\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(\hat\tau_j\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Latent distribution</td>
+<td style="text-align: left;"><span class="math inline">\(G\)</span></td>
+<td style="text-align: left;">–</td>
+<td style="text-align: left;"><span class="math inline">\(p(\theta_i \mid \boldsymbol\theta_P)\)</span></td>
+<td style="text-align: left;">–</td>
+<td style="text-align: left;"><span class="math inline">\(G\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(G\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Posterior mean of the trait</td>
+<td style="text-align: left;"><span class="math inline">\(\eta_p\)</span></td>
+<td style="text-align: left;">–</td>
+<td style="text-align: left;">–</td>
+<td style="text-align: left;">–</td>
+<td style="text-align: left;">–</td>
+<td style="text-align: left;"><span class="math inline">\(\tau^*_j\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Posterior variance of the trait</td>
+<td style="text-align: left;"><span class="math inline">\(v_p\)</span></td>
+<td style="text-align: left;">–</td>
+<td style="text-align: left;">–</td>
+<td style="text-align: left;">–</td>
+<td style="text-align: left;">–</td>
+<td style="text-align: left;"><span class="math inline">\(V_j\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Number of items</td>
+<td style="text-align: left;"><span class="math inline">\(I\)</span></td>
+<td style="text-align: left;">–</td>
+<td style="text-align: left;">–</td>
+<td style="text-align: left;"><span class="math inline">\(n\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(I\)</span></td>
+<td style="text-align: left;">–</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Number of persons or units</td>
+<td style="text-align: left;"><span class="math inline">\(P\)</span></td>
+<td style="text-align: left;">–</td>
+<td style="text-align: left;"><span class="math inline">\(N\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(N\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(N\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(J\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">DP concentration</td>
+<td style="text-align: left;"><span class="math inline">\(\alpha\)</span></td>
+<td style="text-align: left;">–</td>
+<td style="text-align: left;">–</td>
+<td style="text-align: left;">–</td>
+<td style="text-align: left;"><span class="math inline">\(\alpha\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(\alpha\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Reliability of the unit-level estimate</td>
+<td style="text-align: left;"><span class="math inline">\(\bar w\)</span></td>
+<td style="text-align: left;">–</td>
+<td style="text-align: left;">–</td>
+<td style="text-align: left;">–</td>
+<td style="text-align: left;">–</td>
+<td style="text-align: left;"><strong><span class="math inline">\(I\)</span></strong></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Slope-intercept form</td>
+<td style="text-align: left;">–</td>
+<td style="text-align: left;">–</td>
+<td style="text-align: left;">–</td>
+<td style="text-align: left;"><span class="math inline">\(\zeta_i = -\alpha_i\beta_i\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(\gamma_i = -\lambda_i\beta_i\)</span></td>
+<td style="text-align: left;">–</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</figure>
+</div>
+</div>
+<p>The bold entries are the ones that will cost a careless reader an hour. They are set out below.</p>
+</section>
+<section id="sec-appb-collisions" class="level2" data-number="B.2">
+<h2 data-number="B.2" class="anchored" data-anchor-id="sec-appb-collisions"><span class="header-section-number">B.2</span> Five collisions</h2>
+<div class="cell">
+<div id="tbl-collisions" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-collisions-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;B.2: Symbols that mean different things in different sources. Source: tables/T-collisions.rds.
+</figcaption>
+<div aria-describedby="tbl-collisions-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<table class="cell caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 4%">
+<col style="width: 16%">
+<col style="width: 28%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Symbol</th>
+<th style="text-align: left;">In this book</th>
+<th style="text-align: left;">Elsewhere</th>
+<th style="text-align: left;">Why it matters</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><span class="math inline">\(I\)</span></td>
+<td style="text-align: left;">number of items</td>
+<td style="text-align: left;">Lee et al.’s <strong>informativeness</strong>, an average reliability in <span class="math inline">\([0,1]\)</span></td>
+<td style="text-align: left;">Both are central and both appear in <a href="../chapters/21-relation-to-lee-et-al.html" class="quarto-xref"><span>Chapter 21</span></a>; a reader moving between the two papers can read a reliability as a test length</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span class="math inline">\(\eta\)</span></td>
+<td style="text-align: left;">posterior mean of <span class="math inline">\(\theta_p\)</span></td>
+<td style="text-align: left;">Paganin et al.’s <strong>latent ability</strong>, this book’s <span class="math inline">\(\theta_p\)</span></td>
+<td style="text-align: left;"><a href="../chapters/11-conditional-posterior-and-shrinkage.html" class="quarto-xref"><span>Chapter 11</span></a> and Part VI use <span class="math inline">\(\eta_p\)</span> for the posterior mean on every page</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><span class="math inline">\(\alpha\)</span></td>
+<td style="text-align: left;">Dirichlet process concentration</td>
+<td style="text-align: left;">Baker and Kim’s <strong>item discrimination</strong> <span class="math inline">\(\alpha_i\)</span></td>
+<td style="text-align: left;">The DP literature and the 2PL literature both reach for <span class="math inline">\(\alpha\)</span>; <a href="../chapters/15-dirichlet-process.html" class="quarto-xref"><span>Chapter 15</span></a> and <a href="../chapters/16-dpm-priors.html" class="quarto-xref"><span>Chapter 16</span></a> use it only for concentration</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span class="math inline">\(i\)</span> and <span class="math inline">\(k\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(i\)</span> indexes items; persons are <span class="math inline">\(p\)</span></td>
+<td style="text-align: left;">Fox indexes <strong>persons</strong> by <span class="math inline">\(i\)</span> and <strong>items</strong> by <span class="math inline">\(k\)</span> — both reversed</td>
+<td style="text-align: left;">Every formula in Fox’s ch.&nbsp;2 transposes against this book’s</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><span class="math inline">\(\lambda_p\)</span></td>
+<td style="text-align: left;">not used; discrimination is <span class="math inline">\(\lambda_i\)</span></td>
+<td style="text-align: left;">Shen and Louis’s <strong>posterior variance</strong>, this book’s <span class="math inline">\(v_p\)</span></td>
+<td style="text-align: left;">The collision that forced this book’s one notation departure (<a href="../chapters/02-notation-and-frameworks.html" class="quarto-xref"><span>Chapter 2</span></a>)</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</figure>
+</div>
+</div>
+<section id="sec-appb-I" class="level3" data-number="B.2.1">
+<h3 data-number="B.2.1" class="anchored" data-anchor-id="sec-appb-I"><span class="header-section-number">B.2.1</span> <span class="math inline">\(I\)</span> is a count here and a reliability in Lee et al.&nbsp;</h3>
+<p>This is the one to watch, because <a href="../chapters/21-relation-to-lee-et-al.html" class="quarto-xref"><span>Chapter 21</span></a> puts both papers on the same page. In this book <span class="math inline">\(I\)</span> is the number of items, an integer that indexes the identification result — under its anchored Rasch conditions, the observable law is generated by <span class="math inline">\(I+1\)</span> displayed integral evaluations of <span class="math inline">\(G\)</span>, subject to their identities. In Lee et al. <span class="citation" data-cites="lee_improving_2025">(<a href="#ref-lee_improving_2025" role="doc-biblioref">2025</a>)</span> <span class="math inline">\(I\)</span> is <em>informativeness</em>,</p>
+<p><span class="math display">\[I = \frac{\sigma^2}{\sigma^2 + \exp\!\left(\tfrac{1}{J}\sum_j \ln \widehat{se}^2_j\right)}
+\;\in\; [0,1],\]</span></p>
+<p>an average reliability of the site-level maximum likelihood estimates, and the single most influential factor in their study. A sentence like “performance improves with <span class="math inline">\(I\)</span>” is true in both papers and means two different things.</p>
+</section>
+<section id="sec-appb-eta" class="level3" data-number="B.2.2">
+<h3 data-number="B.2.2" class="anchored" data-anchor-id="sec-appb-eta"><span class="header-section-number">B.2.2</span> <span class="math inline">\(\eta\)</span> is an ability in Paganin et al.&nbsp;and a posterior mean here</h3>
+<p>Paganin et al. <span class="citation" data-cites="paganin_computational_2022">(<a href="#ref-paganin_computational_2022" role="doc-biblioref">2022</a>)</span> write the 2PL as <span class="math inline">\(\operatorname{logit}(\pi_{ij}) = \lambda_i(\eta_j - \beta_i)\)</span>, so their <span class="math inline">\(\eta_j\)</span> is this book’s <span class="math inline">\(\theta_p\)</span>. This book uses <span class="math inline">\(\eta_p\)</span> for the <strong>posterior mean</strong> of <span class="math inline">\(\theta_p\)</span>, on every page of <a href="../chapters/11-conditional-posterior-and-shrinkage.html" class="quarto-xref"><span>Chapter 11</span></a> and Part VI. The two are related by an integral, not by a change of letter.</p>
+<p>The collision is worth flagging precisely because the rest of their notation agrees with this book’s: <span class="math inline">\(\lambda_i\)</span> for discrimination, <span class="math inline">\(\beta_i\)</span> for difficulty, <span class="math inline">\(G\)</span> for the latent distribution, <span class="math inline">\(\alpha\)</span> for the DP concentration. That agreement is not accidental — the companion package’s parameterization draws on theirs — and it makes the one disagreement easier to miss.</p>
+<p>Their slope-intercept form <span class="math inline">\(\lambda_i\eta_j + \gamma_i\)</span> with <span class="math inline">\(\gamma_i = -\lambda_i\beta_i\)</span> is the same reparameterization Baker and Kim write as <span class="math inline">\(\zeta_i = -\alpha_i\beta_i\)</span>.</p>
+</section>
+<section id="sec-appb-alpha" class="level3" data-number="B.2.3">
+<h3 data-number="B.2.3" class="anchored" data-anchor-id="sec-appb-alpha"><span class="header-section-number">B.2.3</span> <span class="math inline">\(\alpha\)</span> is a discrimination in Baker and Kim</h3>
+<p>Baker and Kim <span class="citation" data-cites="baker_item_2004">(<a href="#ref-baker_item_2004" role="doc-biblioref">2004</a>)</span> write the two-parameter normal ogive as <span class="math inline">\(Z_{ij} = \alpha_i(\theta_j - \beta_i)\)</span>, so <span class="math inline">\(\alpha_i\)</span> is the item discrimination. In this book and in the Bayesian nonparametric literature <span class="math inline">\(\alpha\)</span> is the Dirichlet process concentration parameter, and it never carries an item subscript. <a href="../chapters/15-dirichlet-process.html" class="quarto-xref"><span>Chapter 15</span></a> and <a href="../chapters/16-dpm-priors.html" class="quarto-xref"><span>Chapter 16</span></a> use it only in that sense; discrimination is always <span class="math inline">\(\lambda_i\)</span>.</p>
+<p>Baker and Kim also warn, at the same locator, that <span class="math inline">\(Z_{ij} = \alpha_i\theta_j - \gamma_i\)</span> is an “atypical parameterization of item difficulty” that appears in the Gibbs-sampling literature. A reader importing code from that literature should check which <span class="math inline">\(\gamma\)</span> is meant.</p>
+</section>
+<section id="sec-appb-fox" class="level3" data-number="B.2.4">
+<h3 data-number="B.2.4" class="anchored" data-anchor-id="sec-appb-fox"><span class="header-section-number">B.2.4</span> Fox reverses both indices</h3>
+<p>Fox <span class="citation" data-cites="fox_bayesian_2010">(<a href="#ref-fox_bayesian_2010" role="doc-biblioref">2010</a>)</span> indexes <strong>persons</strong> by <span class="math inline">\(i\)</span> and <strong>items</strong> by <span class="math inline">\(k\)</span>: the response is <span class="math inline">\(Y_{ik}\)</span>, the ability is <span class="math inline">\(\theta_i\)</span>, and the item parameters are collected in <span class="math inline">\(\boldsymbol\xi\)</span> with the population hyperparameters in <span class="math inline">\(\boldsymbol\theta_P\)</span>. This book indexes persons by <span class="math inline">\(p\)</span> and items by <span class="math inline">\(i\)</span>.</p>
+<p>Every double-indexed formula therefore transposes. The shrinkage discussion in his § 2.1 — that the posterior mean is a combination of the prior mean and a likelihood-based estimate, shrunk more when the population parameters are informative about <span class="math inline">\(\theta_i\)</span> — is the same statement as <a href="../chapters/11-conditional-posterior-and-shrinkage.html" class="quarto-xref"><span>Chapter 11</span></a>’s, with <span class="math inline">\(i\)</span> where this book writes <span class="math inline">\(p\)</span>.</p>
+</section>
+<section id="sec-appb-lambda" class="level3" data-number="B.2.5">
+<h3 data-number="B.2.5" class="anchored" data-anchor-id="sec-appb-lambda"><span class="header-section-number">B.2.5</span> <span class="math inline">\(\lambda_p\)</span>: the one departure this book makes</h3>
+<p>Shen and Louis <span class="citation" data-cites="shen_triple-goal_1998">(<a href="#ref-shen_triple-goal_1998" role="doc-biblioref">1998</a>)</span> write the posterior variance of unit <span class="math inline">\(k\)</span> as <span class="math inline">\(\lambda_k\)</span>. Under decision <code>TD-3</code> this book carries discrimination as <span class="math inline">\(\lambda_i\)</span> on most pages of Parts III and VI, so the two would collide constantly.</p>
+<p><strong>Resolved (<code>DECISIONS</code> a6): <span class="math inline">\(\lambda_i\)</span> keeps the simulation book’s meaning and the posterior variance becomes <span class="math inline">\(v_p\)</span>.</strong> This is the only place where this book departs from a source’s notation rather than merely differing from it, and it is stated at first use in <a href="../chapters/11-conditional-posterior-and-shrinkage.html" class="quarto-xref"><span>Chapter 11</span></a>, again at <a href="../chapters/17-three-goals.html" class="quarto-xref"><span>Chapter 17</span></a> and <a href="../chapters/18-constrained-bayes.html" class="quarto-xref"><span>Chapter 18</span></a>, and here.</p>
+</section>
+</section>
+<section id="sec-appb-practice" class="level2" data-number="B.3">
+<h2 data-number="B.3" class="anchored" data-anchor-id="sec-appb-practice"><span class="header-section-number">B.3</span> Reading a formula across the boundary</h2>
+<p>Three habits cover most of the risk.</p>
+<p><strong>Check the index order before trusting a double subscript.</strong> Of the five sources with a response variable, this book and Debelak et al.&nbsp;write person-then-item, Fox writes person-then-item with the <em>letters</em> reversed, and Paganin et al.&nbsp;write item-then-person (<span class="math inline">\(y_{ij}\)</span>, <span class="math inline">\(i\)</span> the item). The symbol <span class="math inline">\(y_{21}\)</span> means different cells in different papers.</p>
+<p><strong>Check whether a Greek letter is an item parameter or a hyperparameter.</strong> <span class="math inline">\(\alpha\)</span>, <span class="math inline">\(\gamma\)</span> and <span class="math inline">\(\lambda\)</span> each appear on both sides of that line somewhere in this literature.</p>
+<p><strong>Check whether a latent distribution is called a prior or an assumption.</strong> Lee et al.&nbsp;attach a footnote to exactly this point: they call <span class="math inline">\(G\)</span> a prior distribution to match Bayesian hierarchical practice, and note that in a frequentist frame the same object is a distributional assumption about <span class="math inline">\(\tau_j\)</span>. This book uses “latent trait distribution” for the object and reserves “prior” for the Bayesian reading, but the two literatures it draws on do not agree, and the disagreement is terminological rather than substantive.</p>
+</section>
+<section id="sec-appb-manuscript" class="level2" data-number="B.4">
+<h2 data-number="B.4" class="anchored" data-anchor-id="sec-appb-manuscript"><span class="header-section-number">B.4</span> The manuscript</h2>
+<p>The submitted manuscript’s notation is this book’s, with two exceptions already recorded as corrections rather than as translation problems: its Appendix D describes an item prior the fitted model does not use (<code>C-013</code>), and its Appendix F attributes the partial-identification result to the wrong theorem (<code>C-014</code>). Neither is a notation difference, so neither appears in the crosswalk. A reader moving between the manuscript and this book needs <a href="C-corrections.html" class="quarto-xref"><span>Appendix C</span></a>, not this appendix.</p>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-baker_item_2004" class="csl-entry" role="listitem">
+Baker, Frank B., and Seock-Ho Kim. 2004. <em>Item Response Theory: Parameter Estimation Techniques</em>. 2nd ed. Marcel Dekker.
+</div>
+<div id="ref-fox_bayesian_2010" class="csl-entry" role="listitem">
+Fox, Jean-Paul. 2010. <em>Bayesian Item Response Modeling: Theory and Applications</em>. Statistics for Social and Behavioral Sciences. Springer.
+</div>
+<div id="ref-lee_improving_2025" class="csl-entry" role="listitem">
+Lee, JoonHo, Jonathan Che, Sophia Rabe-Hesketh, Avi Feller, and Luke Miratrix. 2025. <span>“Improving the Estimation of Site-Specific Effects and Their Distribution in Multisite Trials.”</span> <em>Journal of Educational and Behavioral Statistics</em> 50 (5): 731–64. <a href="https://doi.org/10.3102/10769986241254286">https://doi.org/10.3102/10769986241254286</a>.
+</div>
+<div id="ref-paganin_computational_2022" class="csl-entry" role="listitem">
+Paganin, Sally, Christopher J. Paciorek, Claudia Wehrhahn, Abel Rodríguez, Sophia Rabe-Hesketh, and Perry de Valpine. 2022. <span>“Computational Strategies and Estimation Performance with <span>Bayesian</span> Semiparametric Item Response Theory Models.”</span> <em>Journal of Educational and Behavioral Statistics</em>, 10769986221136105. <a href="https://doi.org/10.3102/10769986221136105">https://doi.org/10.3102/10769986221136105</a>.
+</div>
+<div id="ref-shen_triple-goal_1998" class="csl-entry" role="listitem">
+Shen, Wei, and Thomas A. Louis. 1998. <span>“Triple-Goal Estimates in Two-Stage Hierarchical Models.”</span> <em>Journal of the Royal Statistical Society: Series B (Statistical Methodology)</em> 60 (2): 455–71. <a href="https://doi.org/10.1111/1467-9868.00135">https://doi.org/10.1111/1467-9868.00135</a>.
+</div>
+</div>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../appendices/A-proofs.html" class="pagination-link" aria-label="Proofs">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Proofs</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../appendices/C-corrections.html" class="pagination-link" aria-label="Corrections to the Submitted Manuscript">
+        <span class="nav-page-text"><span class="chapter-number">C</span>&nbsp; <span class="chapter-title">Corrections to the Submitted Manuscript</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

@@ -1,0 +1,1187 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.37">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>14&nbsp; Flexible Parametric and Semiparametric Alternatives – Bayesian Semiparametric Item Response Modelling for Person-Specific Latent Traits</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../chapters/15-dirichlet-process.html" rel="next">
+<link href="../chapters/13-non-normality.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-5ccb035bea26c1e21f80f44cf7c27909.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>
+.prov { font-size: 0.88em; color: #555; font-style: italic; }
+blockquote.ms { border-left: 3px solid #c0392b; background: #fdf3f2; }
+</style>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/13-non-normality.html">V — Beyond Normality: Flexible Latent-Trait Distributions</a></li><li class="breadcrumb-item"><a href="../chapters/14-flexible-alternatives.html"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Flexible Parametric and Semiparametric Alternatives</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Bayesian Semiparametric Item Response Modelling for Person-Specific Latent Traits</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">About This Book</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">I — Orientation</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/01-the-estimation-problem.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">The Estimation Problem</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/02-notation-and-frameworks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Notation, Terminology, and Two Frameworks</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">II — The Measurement Models</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/03-rasch-and-2pl-foundations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Foundations: the Rasch and 2PL Models</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/04-identification.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Identification</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/05-item-parameter-estimation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Estimating Item Parameters</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/06-person-parameter-estimation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Estimating Person Parameters</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">III — Information, Error, and Reliability</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/07-information-and-error.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Information and Measurement Error</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/08-reliability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Reliability in the Rasch Model</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/09-designing-for-reliability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Designing for a Target Reliability</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">IV — Bayesian Hierarchical Modelling and Shrinkage</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/10-bayesian-hierarchical-rasch.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">The Bayesian Hierarchical Rasch Model</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/11-conditional-posterior-and-shrinkage.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">The Conditional Posterior and Shrinkage</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/12-empirical-bayes-tradition.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Empirical Bayes and the Shrinkage Tradition</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">V — Beyond Normality: Flexible Latent-Trait Distributions</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/13-non-normality.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Non-Normality in Latent Traits</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/14-flexible-alternatives.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Flexible Parametric and Semiparametric Alternatives</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/15-dirichlet-process.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">The Dirichlet Process</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/16-dpm-priors.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">DPM Priors for Latent Traits</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
+ <span class="menu-text">VI — Posterior Summaries and Inferential Goals</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/17-three-goals.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Three Goals, Three Losses</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/18-constrained-bayes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Constrained Bayes</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/19-triple-goal.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Triple-Goal Estimation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/20-ranking-and-classification.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Ranking and Classification</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true">
+ <span class="menu-text">VII — Positioning</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/21-relation-to-lee-et-al.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Relation to Lee et al.&nbsp;(2025)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/22-scope-and-extensions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Scope: Why Rasch, and What Extends</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/23-open-problems.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Open Problems</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true">
+ <span class="menu-text">VIII — What Changes Under the 2PL</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/24-discrimination-and-information.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Discrimination and Information</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/25-reliability-under-2pl.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Reliability Under the Two-Parameter Model</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/26-identification-dpm-2pl.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Identification and the DPM Under the Two-Parameter Model</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true">
+ <span class="menu-text">IX — The Realized Evidence</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/27-what-the-simulation-settled.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">What the Simulation Settled</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/28-what-real-tests-look-like.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">What Real Tests Look Like</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/29-evidence-settles-reopens.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">What the Evidence Settles, and What It Reopens</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-10" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/A-proofs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Proofs</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/B-crosswalk.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Notation Crosswalk</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/C-corrections.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">C</span>&nbsp; <span class="chapter-title">Corrections to the Submitted Manuscript</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/D-annotated-bibliography.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">D</span>&nbsp; <span class="chapter-title">Annotated Bibliography</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/E-acquisition-ledger.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">E</span>&nbsp; <span class="chapter-title">Reference Acquisition Ledger</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/F-software.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">F</span>&nbsp; <span class="chapter-title">Software and Computation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/G-build-report.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">G</span>&nbsp; <span class="chapter-title">Build and Verification Report</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#sec-ch14-histogram" id="toc-sec-ch14-histogram" class="nav-link active" data-scroll-target="#sec-ch14-histogram"><span class="header-section-number">14.1</span> Estimating <span class="math inline">\(G\)</span> instead of assuming it</a></li>
+  <li><a href="#sec-ch14-smoothing" id="toc-sec-ch14-smoothing" class="nav-link" data-scroll-target="#sec-ch14-smoothing"><span class="header-section-number">14.2</span> Smoothing: splines, Ramsay curves, Davidian curves</a></li>
+  <li><a href="#sec-ch14-parametric" id="toc-sec-ch14-parametric" class="nav-link" data-scroll-target="#sec-ch14-parametric"><span class="header-section-number">14.3</span> Parametric families with more shapes</a></li>
+  <li><a href="#sec-ch14-mixtures" id="toc-sec-ch14-mixtures" class="nav-link" data-scroll-target="#sec-ch14-mixtures"><span class="header-section-number">14.4</span> Finite mixtures, and the question the analyst must answer</a></li>
+  <li><a href="#sec-ch14-nonparametric" id="toc-sec-ch14-nonparametric" class="nav-link" data-scroll-target="#sec-ch14-nonparametric"><span class="header-section-number">14.5</span> Fully nonparametric density estimation</a></li>
+  <li><a href="#sec-ch14-posterior" id="toc-sec-ch14-posterior" class="nav-link" data-scroll-target="#sec-ch14-posterior"><span class="header-section-number">14.6</span> Bayesian versions, and what a posterior over <span class="math inline">\(G\)</span> buys</a></li>
+  <li><a href="#sec-ch14-table" id="toc-sec-ch14-table" class="nav-link" data-scroll-target="#sec-ch14-table"><span class="header-section-number">14.7</span> The comparison</a></li>
+  <li><a href="#sec-ch14-sources" id="toc-sec-ch14-sources" class="nav-link" data-scroll-target="#sec-ch14-sources"><span class="header-section-number">14.8</span> Sources and provenance</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/13-non-normality.html">V — Beyond Normality: Flexible Latent-Trait Distributions</a></li><li class="breadcrumb-item"><a href="../chapters/14-flexible-alternatives.html"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Flexible Parametric and Semiparametric Alternatives</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span id="sec-ch14" class="quarto-section-identifier"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Flexible Parametric and Semiparametric Alternatives</span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>“Let <span class="math inline">\(G\)</span> be flexible” is not a new idea, and the Dirichlet process is not the first answer to it. This chapter is the genealogy, and it exists for a specific reason: a reader deciding whether the semiparametric approach of <a href="16-dpm-priors.html" class="quarto-xref"><span>Chapter 16</span></a> is worth the trouble needs to see what it buys <em>relative to the alternatives</em>, and that comparison is not possible without knowing what the alternatives are.</p>
+<p>The organizing question for the whole chapter is a single one. <strong>What must the analyst decide in advance?</strong> Every family below can represent more shapes than a normal can, and they differ mostly in what they demand to be told before they will do it.</p>
+<section id="sec-ch14-histogram" class="level2" data-number="14.1">
+<h2 data-number="14.1" class="anchored" data-anchor-id="sec-ch14-histogram"><span class="header-section-number">14.1</span> Estimating <span class="math inline">\(G\)</span> instead of assuming it</h2>
+<p>The first move is the oldest. Mislevy <span class="citation" data-cites="mislevy_estimating_1984">(<a href="#ref-mislevy_estimating_1984" role="doc-biblioref">1984</a>)</span> gives maximum likelihood equations for the population parameters of <span class="math inline">\(g(\theta \mid \alpha)\)</span> estimated “directly from the observed responses; i.e., without estimating an ability parameter for each subject,” together with asymptotic standard errors and tests of fit. This is the marginal machinery of <a href="05-item-parameter-estimation.html#sec-ch05-mml" class="quarto-xref"><span>Section 5.3</span></a> turned on <span class="math inline">\(G\)</span> itself rather than only on <span class="math inline">\(\boldsymbol\beta\)</span>, and it is the point at which <span class="math inline">\(G\)</span> becomes an object of estimation.</p>
+<p>Its most-used form is the <strong>empirical histogram</strong>: <span class="math inline">\(G\)</span> is left free at the quadrature points and estimated as a discrete distribution over them. It can represent any shape the grid can resolve and it needs no functional form at all. What it costs is stability — Li and Cai <span class="citation" data-cites="li_summed_2018">(<a href="#ref-li_summed_2018" role="doc-biblioref">2018</a>)</span> report from their own experience that the empirical histogram “is often less stable numerically than the standard normal prior,” which is a mild way of saying that a free parameter at every quadrature point is a great many parameters.</p>
+</section>
+<section id="sec-ch14-smoothing" class="level2" data-number="14.2">
+<h2 data-number="14.2" class="anchored" data-anchor-id="sec-ch14-smoothing"><span class="header-section-number">14.2</span> Smoothing: splines, Ramsay curves, Davidian curves</h2>
+<p>The next generation replaces “free at every grid point” with “smooth, with a controlled number of degrees of freedom.”</p>
+<p>Woods and Thissen <span class="citation" data-cites="woods_item_2006">(<a href="#ref-woods_item_2006" role="doc-biblioref">2006</a>)</span> estimate the latent density with <strong>splines</strong>, simultaneously with the item parameters, and report that when the latent distribution is poorly approximated as normal the 2PL item parameter estimates improve. <strong>Ramsay-curve IRT</strong> <span class="citation" data-cites="woods_ramsay-curve_2006">(<a href="#ref-woods_ramsay-curve_2006" role="doc-biblioref">Woods 2006</a>)</span> does the same with Ramsay’s density family, and Woods extends it to Likert-type data <span class="citation" data-cites="woods_ramsay_2007">(<a href="#ref-woods_ramsay_2007" role="doc-biblioref">2007</a>)</span> and to the 3PL <span class="citation" data-cites="woods_ramsay-curve_2008">(<a href="#ref-woods_ramsay-curve_2008" role="doc-biblioref">2008</a>)</span>. Woods and Lin <span class="citation" data-cites="woods_item_2009">(<a href="#ref-woods_item_2009" role="doc-biblioref">2009</a>)</span> introduce <strong>Davidian-curve IRT</strong>, in which the latent density is a Davidian curve fitted simultaneously with logistic item response functions, and compare it directly against Ramsay curves and the empirical histogram under normal, bimodal and skewed generating distributions.</p>
+<p>Two features of this generation matter for the comparison.</p>
+<p>The first is that they are <strong>maximum-likelihood</strong> procedures, so they produce a point estimate of <span class="math inline">\(G\)</span> and not a posterior over it. That is not a defect; it is a different object, and <a href="#sec-ch14-posterior" class="quarto-xref"><span>Section 14.6</span></a> says when the difference bites. Monroe and Cai <span class="citation" data-cites="monroe_estimation_2014">(<a href="#ref-monroe_estimation_2014" role="doc-biblioref">2014</a>)</span> point out a concrete consequence: the original EM implementation of RC-IRT “does not produce the parameter covariance matrix as an automatic byproduct on convergence,” which limits the inference procedures available, and their paper exists to supply it.</p>
+<p>The second is that each of them has a tuning decision. Splines need knots and a degree; Ramsay curves need a degree and knot count chosen by model selection — Woods <span class="citation" data-cites="woods_ramsay-curve_2006">(<a href="#ref-woods_ramsay-curve_2006" role="doc-biblioref">2006</a>)</span> treats model selection as part of the method and evaluates new approaches to it; Davidian curves need a polynomial degree. The flexibility is real and it is <em>purchased with a choice the data must also be used to make</em>.</p>
+</section>
+<section id="sec-ch14-parametric" class="level2" data-number="14.3">
+<h2 data-number="14.3" class="anchored" data-anchor-id="sec-ch14-parametric"><span class="header-section-number">14.3</span> Parametric families with more shapes</h2>
+<p>A cheaper option is to keep a parametric family and pick a bigger one. Skew-normal and related families add a shape parameter and buy asymmetry for one extra degree of freedom.</p>
+<p>The limitation is structural rather than practical, and <a href="#fig-flexible-g" class="quarto-xref">Figure&nbsp;<span>14.1</span></a> shows it: a skew-normal can bend but it <strong>cannot produce a second mode</strong>, at any parameter value. If the substantive reason to expect non-normality is a mixed population (<a href="13-non-normality.html#sec-ch13-latent" class="quarto-xref"><span>Section 13.3</span></a>), a skew family is the wrong tool no matter how well it is fitted.</p>
+<div id="fig-flexible-g" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-flexible-g-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../figures/F-flexible-g.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-flexible-g-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;14.1: What each family of latent-trait distributions <strong>can represent</strong>, shown as its best approximation to one skewed and bimodal target, obtained by minimizing Kullback–Leibler divergence on a fixed grid. The normal can match only location and scale. The skew-normal captures the asymmetry and cannot produce a second mode at all. The two-component mixture recovers the target exactly, but only because the target <em>is</em> a two-component normal mixture — the fit is circular and is shown to make the point that follows. Five components do no better than two because a nonminimal representation can duplicate or zero out components. This does not refute identification of the minimal order under standard conditions. <a href="#sec-ch14-mixtures" class="quarto-xref"><span>Section 14.4</span></a> contrasts a fixed order, an MFM prior on population order, and a DPM prior on occupied partitions. This figure is about representational capacity given unlimited data. It says nothing about how well any family is <em>estimated</em> from a finite sample, which is where the families differ most and which <a href="#tbl-flexible-g" class="quarto-xref">Table&nbsp;<span>14.1</span></a> reports separately. Deterministic; fixed optimizer starts. Generated by code/R/09-figures.R.
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="sec-ch14-mixtures" class="level2" data-number="14.4">
+<h2 data-number="14.4" class="anchored" data-anchor-id="sec-ch14-mixtures"><span class="header-section-number">14.4</span> Finite mixtures, and the question the analyst must answer</h2>
+<p>Mixtures of normals can represent skewness, multimodality and heavy tails together, which is why they recur.</p>
+<p>Bolt et al. <span class="citation" data-cites="bolt_mixture_2001">(<a href="#ref-bolt_mixture_2001" role="doc-biblioref">2001</a>)</span> use a mixture item response model to capture discrete latent classes with different propensities toward response categories — a mixture over <em>people</em>, motivated substantively. Gnaldi et al. <span class="citation" data-cites="gnaldi_multilevel_2016">(<a href="#ref-gnaldi_multilevel_2016" role="doc-biblioref">2016</a>)</span> extend this to a multilevel finite mixture that clusters both students and schools into ability classes. Bambirra Gonçalves et al. <span class="citation" data-cites="bambirra_goncalves_bayesian_2018">(<a href="#ref-bambirra_goncalves_bayesian_2018" role="doc-biblioref">2018</a>)</span> take the more direct route of putting a normal mixture on the ability distribution itself in a Bayesian 3PL, “allowing for features like skewness, multimodality and heavy tails.” Cheng and Meng <span class="citation" data-cites="cheng_estimating_2025">(<a href="#ref-cheng_estimating_2025" role="doc-biblioref">2025</a>)</span> revisit Gaussian-mixture IRT and note that it doubles as a tool for exploring latent heterogeneity, their contribution being a stochastic-approximation EM algorithm to make the computation tractable.</p>
+<p>The family is expressive enough for anything this book needs. <strong>The unresolved question is how many components to use</strong>, and it is not a technicality:</p>
+<ul>
+<li>Too few impose model-dependent distortion: a fitted <span class="math inline">\(G\)</span> may be too smooth, too narrow, too wide, or miss a mode. Posterior-mean ensemble under-dispersion in <a href="11-conditional-posterior-and-shrinkage.html#prp-underdispersion" class="quarto-xref">Proposition&nbsp;<span>11.1</span></a> does not determine that direction.</li>
+<li>Too many create an overfitted representation at finite <span class="math inline">\(N\)</span>: weakly occupied or duplicate components and label switching complicate component-specific summaries. This does not refute identification of a minimal finite-mixture order under standard conditions.</li>
+<li>Selecting the number by an information criterion makes the reported uncertainty conditional on a selection step whose own uncertainty is then discarded.</li>
+</ul>
+<p><a href="#fig-flexible-g" class="quarto-xref">Figure&nbsp;<span>14.1</span></a> makes the shape of this problem visible while also demonstrating why the figure cannot resolve it: the two-component fit is exact because the target <em>was</em> a two-component mixture, and an overfitted five-component parameterization can reproduce the same density through redundant components. Under standard regularity conditions a minimal finite normal-mixture representation and its order are identifiable; duplicate or zero-weight components are nonminimal representations, not a counterexample.</p>
+<p>One response is the Dirichlet process mixture of <a href="15-dirichlet-process.html" class="quarto-xref"><span>Chapter 15</span></a>: the analyst specifies a concentration parameter governing how readily new occupied clusters appear, and obtains a posterior over the <strong>sample partition count</strong>. That quantity is not a population component order. A different response is a mixture-of-finite-mixtures prior, which places a prior and posterior directly on a finite population component count <span class="citation" data-cites="miller_mixture_2018">(<a href="#ref-miller_mixture_2018" role="doc-biblioref">Miller and Harrison 2018</a>)</span>. The two models answer different complexity questions; neither removes the need to state the prior.</p>
+</section>
+<section id="sec-ch14-nonparametric" class="level2" data-number="14.5">
+<h2 data-number="14.5" class="anchored" data-anchor-id="sec-ch14-nonparametric"><span class="header-section-number">14.5</span> Fully nonparametric density estimation</h2>
+<p>The most permissive option treats the problem as one of inverse estimation. Kappus et al. <span class="citation" data-cites="kappus_nonparametric_2020">(<a href="#ref-kappus_nonparametric_2020" role="doc-biblioref">2020</a>)</span> consider the mixed-effect Rasch model with persons drawn from a large population and estimate the ability density under nonparametric constraints, posing it explicitly as a <strong>statistical linear inverse problem</strong>. This is the same structure as the deconvolution of <a href="12-empirical-bayes-tradition.html#sec-ch12-deconvolution" class="quarto-xref"><span>Section 12.4</span></a>: the observable is the latent variable convolved with response noise, and recovering the latent density means deconvolving.</p>
+<p>Framing it this way is clarifying because it names the difficulty precisely. Inverse problems are ill-posed; the rates are slow; regularization is not optional, and the choice of regularization is the analogue of choosing knots or components. Nothing here escapes the central trade — it relocates it.</p>
+</section>
+<section id="sec-ch14-posterior" class="level2" data-number="14.6">
+<h2 data-number="14.6" class="anchored" data-anchor-id="sec-ch14-posterior"><span class="header-section-number">14.6</span> Bayesian versions, and what a posterior over <span class="math inline">\(G\)</span> buys</h2>
+<p>Zhang et al. <span class="citation" data-cites="zhang_bayesian_2021">(<a href="#ref-zhang_bayesian_2021" role="doc-biblioref">2021</a>)</span> give an MCMC method for ordinal items with flexible latent trait distributions, using a <strong>Davidian curve</strong> to approximate <span class="math inline">\(G\)</span> within a Bayesian sampler — the same density family as Woods and Lin, fitted so as to produce a posterior rather than a maximum. Bambirra Gonçalves et al. <span class="citation" data-cites="bambirra_goncalves_bayesian_2018">(<a href="#ref-bambirra_goncalves_bayesian_2018" role="doc-biblioref">2018</a>)</span> do the corresponding thing for mixtures.</p>
+<p>The distinction these papers turn on is the last column of <a href="#tbl-flexible-g" class="quarto-xref">Table&nbsp;<span>14.1</span></a> and it deserves stating plainly. A maximum-likelihood flexible-<span class="math inline">\(G\)</span> method answers “what is the best estimate of <span class="math inline">\(G\)</span>?” A Bayesian one answers “what is the posterior distribution of <span class="math inline">\(G\)</span>?” — and therefore, for <strong>any functional of <span class="math inline">\(G\)</span></strong>, supplies an interval without further argument. Since Part VI is about functionals of <span class="math inline">\(G\)</span> — quantiles, the proportion beyond a cut-score, the whole EDF, ranks — this is not a stylistic difference. It determines whether the quantities the book cares about come with uncertainty attached.</p>
+<p>Finch and Edwards <span class="citation" data-cites="finch_rasch_2016">(<a href="#ref-finch_rasch_2016" role="doc-biblioref">2016</a>)</span> are the useful counterweight. They review Rasch parameter estimation under non-normal latent traits, note that methods such as RC-IRT have been shown to reduce bias, and evaluate how well they actually do. The literature does not claim that flexibility is free, and neither does this book.</p>
+</section>
+<section id="sec-ch14-table" class="level2" data-number="14.7">
+<h2 data-number="14.7" class="anchored" data-anchor-id="sec-ch14-table"><span class="header-section-number">14.7</span> The comparison</h2>
+<div class="cell">
+<div id="tbl-flexible-g" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-flexible-g-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;14.1: Families of latent-trait distribution, by what they can represent, what they must be told in advance, how they behave in small samples, and whether they yield a posterior over <span class="math inline">\(G\)</span>. Source: tables/T-flexible-g.rds.
+</figcaption>
+<div aria-describedby="tbl-flexible-g-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<table class="cell caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 11%">
+<col style="width: 23%">
+<col style="width: 29%">
+<col style="width: 19%">
+<col style="width: 16%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Family</th>
+<th style="text-align: left;">Can represent</th>
+<th style="text-align: left;">Must be fixed in advance</th>
+<th style="text-align: left;">Small samples</th>
+<th style="text-align: left;">Posterior over G</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Normal (baseline)</td>
+<td style="text-align: left;">nothing beyond location and scale</td>
+<td style="text-align: left;">—</td>
+<td style="text-align: left;">most stable</td>
+<td style="text-align: left;">no (MML)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Empirical histogram</td>
+<td style="text-align: left;">any shape on the quadrature grid</td>
+<td style="text-align: left;">quadrature points</td>
+<td style="text-align: left;">numerically least stable of the flexible options</td>
+<td style="text-align: left;">no (MML)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Spline density</td>
+<td style="text-align: left;">smooth densities, any modality</td>
+<td style="text-align: left;">knots and degree</td>
+<td style="text-align: left;">needs larger calibration samples</td>
+<td style="text-align: left;">no (MML)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Ramsay curve</td>
+<td style="text-align: left;">smooth densities, any modality</td>
+<td style="text-align: left;">degree and knots (chosen by model selection)</td>
+<td style="text-align: left;">needs larger calibration samples</td>
+<td style="text-align: left;">no (MML)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Davidian curve</td>
+<td style="text-align: left;">smooth densities, any modality</td>
+<td style="text-align: left;">degree of the polynomial</td>
+<td style="text-align: left;">needs larger calibration samples</td>
+<td style="text-align: left;">no under MML; <strong>yes</strong> in the MCMC form</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Skew-normal / parametric</td>
+<td style="text-align: left;">skew (and tails, family-dependent); <strong>not</strong> multimodality</td>
+<td style="text-align: left;">the parametric family</td>
+<td style="text-align: left;">few parameters, so relatively stable</td>
+<td style="text-align: left;">depends on fitting method</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Finite normal mixture</td>
+<td style="text-align: left;">skew, multimodality, heavy tails</td>
+<td style="text-align: left;">the number of components, or a prior on it under an MFM</td>
+<td style="text-align: left;">overfitting, weak occupancy, and label switching</td>
+<td style="text-align: left;">yes if fitted by MCMC</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Nonparametric deconvolution</td>
+<td style="text-align: left;">any density, subject to smoothness</td>
+<td style="text-align: left;">smoothness / regularization</td>
+<td style="text-align: left;">slow nonparametric rates</td>
+<td style="text-align: left;">no (point estimate with standard errors)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Dirichlet process mixture</td>
+<td style="text-align: left;">skew, multimodality, heavy tails</td>
+<td style="text-align: left;">concentration and base measure; the occupied partition count is induced</td>
+<td style="text-align: left;">partition and density can remain prior-sensitive</td>
+<td style="text-align: left;"><strong>yes</strong></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</figure>
+</div>
+</div>
+<p>Reading <a href="#tbl-flexible-g" class="quarto-xref">Table&nbsp;<span>14.1</span></a> down the third column rather than the second is the point of the chapter. Representational capacity separates the normal and the skew-normal from everything else, and then stops discriminating: splines, Ramsay curves, Davidian curves, mixtures, nonparametric deconvolution and Dirichlet process mixtures can all represent skewness and multimodality. What separates <em>them</em> is the advance decision — knots, degree, component count, bandwidth — and whether the method can express uncertainty about it. <a href="#fig-flexible-tree" class="quarto-xref">Figure&nbsp;<span>14.2</span></a> draws that organization as a picture.</p>
+<div id="fig-flexible-tree" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-flexible-tree-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../figures/F-flexible-tree.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-flexible-tree-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;14.2: <strong>Flexible latent distributions, organized by the decision the analyst must still make in advance.</strong> The top row is the shared aim; the second row lists the main routes of <a href="#sec-ch14" class="quarto-xref"><span>Chapter 14</span></a>; the third row names the choice each route leaves on the analyst’s desk. Two Bayesian descendants of the finite-mixture route make two different component counts explicit. A Dirichlet process has infinitely many population atoms; its posterior count <span class="math inline">\(K_J\)</span> is the number occupied by the observed <span class="math inline">\(J\)</span> draws and therefore depends on sample size as well as the chosen concentration <span class="math inline">\(\alpha\)</span> (<a href="15-dirichlet-process.html" class="quarto-xref"><span>Chapter 15</span></a>). A mixture of finite mixtures instead places a prior directly on the finite population component count <span class="math inline">\(K\)</span> (Miller and Harrison 2018). Layout only; no analysis output appears. Generated by code/R/22-figures-v2-concepts.R.
+</figcaption>
+</figure>
+</div>
+<p>How much the choice <em>within</em> the flexible family matters is now partly measured. On the 504 real datasets of the Warehouse shape study, an empirical-histogram estimate and its smoothed variant agree about whether a dataset sits beyond the .10 departure landmark for 87.9 percent of units; the empirical histogram against a capped Davidian curve agrees for 75.8 percent, with the Davidian family pulling departures toward normality in a recovery check on generated data <span class="citation" data-cites="lee_theta-nonnormality_2026">(<a href="#ref-lee_theta-nonnormality_2026" role="doc-biblioref">Lee 2026</a>)</span>. The reading this book takes is the modest one: flexible estimators agree with one another far more than any of them agrees with the normal assumption, and the residual disagreement follows the regularization exactly as the third column predicts.</p>
+<p>That is the position the Dirichlet process occupies, and stating it this way is deliberately deflationary. It is not the only family that can represent a bimodal <span class="math inline">\(G\)</span>, yield a posterior over <span class="math inline">\(G\)</span>, or express uncertainty about complexity; Bayesian finite mixtures and mixtures-of-finite-mixtures can do so as well. Its distinctive complexity object is the random occupied partition induced by the concentration and base measure, not a posterior on a true finite component count. Whether that is worth its cost is an empirical question, and it is the companion book’s.</p>
+</section>
+<section id="sec-ch14-sources" class="level2" data-number="14.8">
+<h2 data-number="14.8" class="anchored" data-anchor-id="sec-ch14-sources"><span class="header-section-number">14.8</span> Sources and provenance</h2>
+<p>Every family in <a href="#tbl-flexible-g" class="quarto-xref">Table&nbsp;<span>14.1</span></a> is characterized from the cited work’s own stated aims and method. This chapter is a genealogy, and the reading is at the level of abstracts, introductions and stated results rather than derivations; where a claim needed more than that, it is not made. Specifically:</p>
+<p>Mislevy <span class="citation" data-cites="mislevy_estimating_1984">(<a href="#ref-mislevy_estimating_1984" role="doc-biblioref">1984</a>)</span> for direct estimation of population parameters from responses with standard errors and fit tests; Woods and Thissen <span class="citation" data-cites="woods_item_2006">(<a href="#ref-woods_item_2006" role="doc-biblioref">2006</a>)</span> for splines and the 2PL improvement; Woods <span class="citation" data-cites="woods_ramsay-curve_2006 woods_ramsay_2007 woods_ramsay-curve_2008">(<a href="#ref-woods_ramsay-curve_2006" role="doc-biblioref">2006</a>, <a href="#ref-woods_ramsay_2007" role="doc-biblioref">2007</a>, <a href="#ref-woods_ramsay-curve_2008" role="doc-biblioref">2008</a>)</span> for Ramsay curves, including model selection as part of the method; Woods and Lin <span class="citation" data-cites="woods_item_2009">(<a href="#ref-woods_item_2009" role="doc-biblioref">2009</a>)</span> for Davidian curves and the three-way comparison against Ramsay curves and the empirical histogram; Monroe and Cai <span class="citation" data-cites="monroe_estimation_2014">(<a href="#ref-monroe_estimation_2014" role="doc-biblioref">2014</a>)</span> for the missing covariance matrix under EM; Bolt et al. <span class="citation" data-cites="bolt_mixture_2001">(<a href="#ref-bolt_mixture_2001" role="doc-biblioref">2001</a>)</span> and Gnaldi et al. <span class="citation" data-cites="gnaldi_multilevel_2016">(<a href="#ref-gnaldi_multilevel_2016" role="doc-biblioref">2016</a>)</span> for mixtures over people; Bambirra Gonçalves et al. <span class="citation" data-cites="bambirra_goncalves_bayesian_2018">(<a href="#ref-bambirra_goncalves_bayesian_2018" role="doc-biblioref">2018</a>)</span> and Cheng and Meng <span class="citation" data-cites="cheng_estimating_2025">(<a href="#ref-cheng_estimating_2025" role="doc-biblioref">2025</a>)</span> for mixtures on the ability distribution; Kappus et al. <span class="citation" data-cites="kappus_nonparametric_2020">(<a href="#ref-kappus_nonparametric_2020" role="doc-biblioref">2020</a>)</span> for the inverse-problem framing; Zhang et al. <span class="citation" data-cites="zhang_bayesian_2021">(<a href="#ref-zhang_bayesian_2021" role="doc-biblioref">2021</a>)</span> for the Bayesian Davidian sampler; Finch and Edwards <span class="citation" data-cites="finch_rasch_2016">(<a href="#ref-finch_rasch_2016" role="doc-biblioref">2016</a>)</span> for the corrective evaluation. Li and Cai <span class="citation" data-cites="li_summed_2018">(<a href="#ref-li_summed_2018" role="doc-biblioref">2018</a>)</span> supply the remark on empirical-histogram stability, from their § 1.</p>
+<p><a href="#fig-flexible-g" class="quarto-xref">Figure&nbsp;<span>14.1</span></a> is computed for this chapter and is a statement about <strong>representational capacity only</strong>. Its two-component fit is exact because the target is a two-component mixture; that circularity is deliberate and is the figure’s point rather than a flaw in it. Nothing in the figure is evidence about estimation performance, which is where these families genuinely differ and which <a href="#tbl-flexible-g" class="quarto-xref">Table&nbsp;<span>14.1</span></a> reports from the cited sources instead.</p>
+<p>The three-way separation in <a href="#sec-ch14-table" class="quarto-xref"><span>Section 14.7</span></a> — capacity, advance decision, posterior — is this book’s organization of the literature and not a claim any of these authors makes; <a href="#fig-flexible-tree" class="quarto-xref">Figure&nbsp;<span>14.2</span></a> draws that organization and carries no analysis output. The estimator-agreement percentages quoted under it are the Warehouse shape study’s <span class="citation" data-cites="lee_theta-nonnormality_2026">(<a href="#ref-lee_theta-nonnormality_2026" role="doc-biblioref">2026</a>)</span>, read from its manuscript’s sensitivity analyses as described in <a href="28-what-real-tests-look-like.html" class="quarto-xref"><span>Chapter 28</span></a>.</p>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-bambirra_goncalves_bayesian_2018" class="csl-entry" role="listitem">
+Bambirra Gonçalves, Flávio, Bárbara da Costa Campos Dias, and Tufi Machado Soares. 2018. <span>“Bayesian Item Response Model: A Generalized Approach for the Abilities’ Distribution Using Mixtures.”</span> <em>Journal of Statistical Computation and Simulation</em> 88 (5): 967–81. <a href="https://doi.org/10.1080/00949655.2017.1413650">https://doi.org/10.1080/00949655.2017.1413650</a>.
+</div>
+<div id="ref-bolt_mixture_2001" class="csl-entry" role="listitem">
+Bolt, Daniel M., Allan S. Cohen, and James A. Wollack. 2001. <span>“A Mixture Item Response Model for Multiple-Choice Data.”</span> <em>Journal of Educational and Behavioral Statistics</em> 26 (4): 381–409. <a href="https://doi.org/10.3102/10769986026004381">https://doi.org/10.3102/10769986026004381</a>.
+</div>
+<div id="ref-cheng_estimating_2025" class="csl-entry" role="listitem">
+Cheng, Siyao, and Xiangbin Meng. 2025. <span>“Estimating <span>IRT</span> Models Under <span>Gaussian</span> Mixture Modeling of Latent Traits: An Application of <span>MSAEM</span> Algorithm.”</span> <em>Multivariate Behavioral Research</em> 0 (0): 1–18. <a href="https://doi.org/10.1080/00273171.2025.2512345">https://doi.org/10.1080/00273171.2025.2512345</a>.
+</div>
+<div id="ref-finch_rasch_2016" class="csl-entry" role="listitem">
+Finch, Holmes, and Julianne M. Edwards. 2016. <span>“Rasch Model Parameter Estimation in the Presence of a Nonnormal Latent Trait Using a Nonparametric <span>Bayesian</span> Approach.”</span> <em>Educational and Psychological Measurement</em> 76 (4): 662–84. <a href="https://doi.org/10.1177/0013164415608418">https://doi.org/10.1177/0013164415608418</a>.
+</div>
+<div id="ref-gnaldi_multilevel_2016" class="csl-entry" role="listitem">
+Gnaldi, Michela, Silvia Bacci, and Francesco Bartolucci. 2016. <span>“A Multilevel Finite Mixture Item Response Model to Cluster Examinees and Schools.”</span> <em>Advances in Data Analysis and Classification</em> 10 (1): 53–70. <a href="https://doi.org/10.1007/s11634-014-0196-0">https://doi.org/10.1007/s11634-014-0196-0</a>.
+</div>
+<div id="ref-kappus_nonparametric_2020" class="csl-entry" role="listitem">
+Kappus, Johanna, Friedrich Liese, and Alexander Meister. 2020. <span>“Nonparametric Estimation of the Ability Density in the Mixed-Effect <span>Rasch</span> Model.”</span> <em>Electronic Journal of Statistics</em> 14 (2). <a href="https://doi.org/10.1214/20-EJS1736">https://doi.org/10.1214/20-EJS1736</a>.
+</div>
+<div id="ref-lee_theta-nonnormality_2026" class="csl-entry" role="listitem">
+Lee, JoonHo. 2026. <span>“How Common Are Estimated Latent-Distribution Departures from Normality? <span>Evidence</span> from 504 Item-Response Data Sets.”</span> Unpublished manuscript.
+</div>
+<div id="ref-li_summed_2018" class="csl-entry" role="listitem">
+Li, Zhen, and Li Cai. 2018. <span>“Summed Score Likelihood–Based Indices for Testing Latent Variable Distribution Fit in Item Response Theory.”</span> <em>Educational and Psychological Measurement</em> 78 (5): 857–86. <a href="https://doi.org/10.1177/0013164417717024">https://doi.org/10.1177/0013164417717024</a>.
+</div>
+<div id="ref-miller_mixture_2018" class="csl-entry" role="listitem">
+Miller, Jeffrey W., and Matthew T. Harrison. 2018. <span>“Mixture Models with a Prior on the Number of Components.”</span> <em>Journal of the American Statistical Association</em> 113 (521): 340–56. <a href="https://doi.org/10.1080/01621459.2016.1255636">https://doi.org/10.1080/01621459.2016.1255636</a>.
+</div>
+<div id="ref-mislevy_estimating_1984" class="csl-entry" role="listitem">
+Mislevy, Robert J. 1984. <span>“Estimating Latent Distributions.”</span> <em>Psychometrika</em> 49 (3): 359–81. <a href="https://doi.org/10.1007/BF02306026">https://doi.org/10.1007/BF02306026</a>.
+</div>
+<div id="ref-monroe_estimation_2014" class="csl-entry" role="listitem">
+Monroe, Scott, and Li Cai. 2014. <span>“Estimation of a <span>Ramsay</span>-Curve Item Response Theory Model by the <span>Metropolis</span>–<span>Hastings</span> <span>Robbins</span>–<span>Monro</span> Algorithm.”</span> <em>Educational and Psychological Measurement</em> 74 (2): 343–69. <a href="https://doi.org/10.1177/0013164413499344">https://doi.org/10.1177/0013164413499344</a>.
+</div>
+<div id="ref-woods_ramsay-curve_2006" class="csl-entry" role="listitem">
+Woods, Carol M. 2006. <span>“Ramsay-Curve Item Response Theory (<span>RC</span>-<span>IRT</span>) to Detect and Correct for Nonnormal Latent Variables.”</span> <em>Psychological Methods</em> 11 (3): 253–70. <a href="https://doi.org/10.1037/1082-989X.11.3.253">https://doi.org/10.1037/1082-989X.11.3.253</a>.
+</div>
+<div id="ref-woods_ramsay_2007" class="csl-entry" role="listitem">
+Woods, Carol M. 2007. <span>“Ramsay Curve <span>IRT</span> for Likert-Type Data.”</span> <em>Applied Psychological Measurement</em> 31 (3): 195–212. <a href="https://doi.org/10.1177/0146621606291567">https://doi.org/10.1177/0146621606291567</a>.
+</div>
+<div id="ref-woods_ramsay-curve_2008" class="csl-entry" role="listitem">
+Woods, Carol M. 2008. <span>“Ramsay-Curve Item Response Theory for the Three-Parameter Logistic Item Response Model.”</span> <em>Applied Psychological Measurement</em> 32 (6): 447–65. <a href="https://doi.org/10.1177/0146621607308014">https://doi.org/10.1177/0146621607308014</a>.
+</div>
+<div id="ref-woods_item_2009" class="csl-entry" role="listitem">
+Woods, Carol M., and Nan Lin. 2009. <span>“Item Response Theory with Estimation of the Latent Density Using <span>Davidian</span> Curves.”</span> <em>Applied Psychological Measurement</em> 33 (2): 102–17. <a href="https://doi.org/10.1177/0146621608319512">https://doi.org/10.1177/0146621608319512</a>.
+</div>
+<div id="ref-woods_item_2006" class="csl-entry" role="listitem">
+Woods, Carol M., and David Thissen. 2006. <span>“Item Response Theory with Estimation of the Latent Population Distribution Using Spline-Based Densities.”</span> <em>Psychometrika</em> 71 (2): 281–301. <a href="https://doi.org/10.1007/s11336-004-1175-8">https://doi.org/10.1007/s11336-004-1175-8</a>.
+</div>
+<div id="ref-zhang_bayesian_2021" class="csl-entry" role="listitem">
+Zhang, Xue, Chun Wang, David J. Weiss, and Jian Tao. 2021. <span>“Bayesian Inference for <span>IRT</span> Models with Non-Normal Latent Trait Distributions.”</span> <em>Multivariate Behavioral Research</em> 56 (5): 703–23. <a href="https://doi.org/10.1080/00273171.2020.1776096">https://doi.org/10.1080/00273171.2020.1776096</a>.
+</div>
+</div>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../chapters/13-non-normality.html" class="pagination-link" aria-label="Non-Normality in Latent Traits">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Non-Normality in Latent Traits</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../chapters/15-dirichlet-process.html" class="pagination-link" aria-label="The Dirichlet Process">
+        <span class="nav-page-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">The Dirichlet Process</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

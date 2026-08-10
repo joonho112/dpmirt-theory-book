@@ -1,0 +1,1310 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.37">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>15&nbsp; The Dirichlet Process – Bayesian Semiparametric Item Response Modelling for Person-Specific Latent Traits</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../chapters/16-dpm-priors.html" rel="next">
+<link href="../chapters/14-flexible-alternatives.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-5ccb035bea26c1e21f80f44cf7c27909.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>
+.prov { font-size: 0.88em; color: #555; font-style: italic; }
+blockquote.ms { border-left: 3px solid #c0392b; background: #fdf3f2; }
+</style>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/13-non-normality.html">V — Beyond Normality: Flexible Latent-Trait Distributions</a></li><li class="breadcrumb-item"><a href="../chapters/15-dirichlet-process.html"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">The Dirichlet Process</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Bayesian Semiparametric Item Response Modelling for Person-Specific Latent Traits</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">About This Book</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">I — Orientation</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/01-the-estimation-problem.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">The Estimation Problem</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/02-notation-and-frameworks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Notation, Terminology, and Two Frameworks</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">II — The Measurement Models</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/03-rasch-and-2pl-foundations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Foundations: the Rasch and 2PL Models</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/04-identification.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Identification</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/05-item-parameter-estimation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Estimating Item Parameters</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/06-person-parameter-estimation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Estimating Person Parameters</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">III — Information, Error, and Reliability</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/07-information-and-error.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Information and Measurement Error</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/08-reliability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Reliability in the Rasch Model</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/09-designing-for-reliability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Designing for a Target Reliability</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">IV — Bayesian Hierarchical Modelling and Shrinkage</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/10-bayesian-hierarchical-rasch.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">The Bayesian Hierarchical Rasch Model</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/11-conditional-posterior-and-shrinkage.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">The Conditional Posterior and Shrinkage</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/12-empirical-bayes-tradition.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Empirical Bayes and the Shrinkage Tradition</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">V — Beyond Normality: Flexible Latent-Trait Distributions</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/13-non-normality.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Non-Normality in Latent Traits</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/14-flexible-alternatives.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Flexible Parametric and Semiparametric Alternatives</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/15-dirichlet-process.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">The Dirichlet Process</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/16-dpm-priors.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">DPM Priors for Latent Traits</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
+ <span class="menu-text">VI — Posterior Summaries and Inferential Goals</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/17-three-goals.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Three Goals, Three Losses</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/18-constrained-bayes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Constrained Bayes</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/19-triple-goal.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Triple-Goal Estimation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/20-ranking-and-classification.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Ranking and Classification</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true">
+ <span class="menu-text">VII — Positioning</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/21-relation-to-lee-et-al.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Relation to Lee et al.&nbsp;(2025)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/22-scope-and-extensions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Scope: Why Rasch, and What Extends</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/23-open-problems.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Open Problems</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true">
+ <span class="menu-text">VIII — What Changes Under the 2PL</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/24-discrimination-and-information.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Discrimination and Information</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/25-reliability-under-2pl.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Reliability Under the Two-Parameter Model</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/26-identification-dpm-2pl.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Identification and the DPM Under the Two-Parameter Model</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true">
+ <span class="menu-text">IX — The Realized Evidence</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/27-what-the-simulation-settled.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">What the Simulation Settled</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/28-what-real-tests-look-like.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">What Real Tests Look Like</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/29-evidence-settles-reopens.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">What the Evidence Settles, and What It Reopens</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-10" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/A-proofs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Proofs</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/B-crosswalk.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Notation Crosswalk</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/C-corrections.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">C</span>&nbsp; <span class="chapter-title">Corrections to the Submitted Manuscript</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/D-annotated-bibliography.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">D</span>&nbsp; <span class="chapter-title">Annotated Bibliography</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/E-acquisition-ledger.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">E</span>&nbsp; <span class="chapter-title">Reference Acquisition Ledger</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/F-software.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">F</span>&nbsp; <span class="chapter-title">Software and Computation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/G-build-report.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">G</span>&nbsp; <span class="chapter-title">Build and Verification Report</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#sec-ch15-definition" id="toc-sec-ch15-definition" class="nav-link active" data-scroll-target="#sec-ch15-definition"><span class="header-section-number">15.1</span> Ferguson’s definition</a></li>
+  <li><a href="#sec-ch15-representations" id="toc-sec-ch15-representations" class="nav-link" data-scroll-target="#sec-ch15-representations"><span class="header-section-number">15.2</span> Three representations, and why they are the same object</a>
+  <ul class="collapse">
+  <li><a href="#sec-ch15-stick" id="toc-sec-ch15-stick" class="nav-link" data-scroll-target="#sec-ch15-stick"><span class="header-section-number">15.2.1</span> Stick-breaking</a></li>
+  <li><a href="#sec-ch15-crp" id="toc-sec-ch15-crp" class="nav-link" data-scroll-target="#sec-ch15-crp"><span class="header-section-number">15.2.2</span> The Pólya urn and the restaurant</a></li>
+  </ul></li>
+  <li><a href="#sec-ch15-concentration" id="toc-sec-ch15-concentration" class="nav-link" data-scroll-target="#sec-ch15-concentration"><span class="header-section-number">15.3</span> What <span class="math inline">\(\alpha(\mathcal{X})\)</span> concentrates</a></li>
+  <li><a href="#sec-ch15-mixtures" id="toc-sec-ch15-mixtures" class="nav-link" data-scroll-target="#sec-ch15-mixtures"><span class="header-section-number">15.4</span> From a discrete draw to a continuous <span class="math inline">\(G\)</span></a></li>
+  <li><a href="#sec-ch15-computation" id="toc-sec-ch15-computation" class="nav-link" data-scroll-target="#sec-ch15-computation"><span class="header-section-number">15.5</span> Computation, briefly</a></li>
+  <li><a href="#sec-ch15-elicitation" id="toc-sec-ch15-elicitation" class="nav-link" data-scroll-target="#sec-ch15-elicitation"><span class="header-section-number">15.6</span> Choosing <span class="math inline">\(\alpha\)</span> is not a technicality</a>
+  <ul class="collapse">
+  <li><a href="#sec-ch15-unintended" id="toc-sec-ch15-unintended" class="nav-link" data-scroll-target="#sec-ch15-unintended"><span class="header-section-number">15.6.1</span> The unintended prior</a></li>
+  </ul></li>
+  <li><a href="#sec-ch15-sources" id="toc-sec-ch15-sources" class="nav-link" data-scroll-target="#sec-ch15-sources"><span class="header-section-number">15.7</span> Sources and provenance</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/13-non-normality.html">V — Beyond Normality: Flexible Latent-Trait Distributions</a></li><li class="breadcrumb-item"><a href="../chapters/15-dirichlet-process.html"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">The Dirichlet Process</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span id="sec-ch15" class="quarto-section-identifier"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">The Dirichlet Process</span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>Reviewer 2 raised two specific objections to the manuscript’s treatment of the Dirichlet process: the parameter <span class="math inline">\(\alpha\)</span> is misnamed, and the Chinese restaurant process is introduced with no stated connection to the process it is supposed to represent. Both are symptoms of one thing — the DP treated as a black box — and this chapter opens the box.</p>
+<p>It is the longest chapter in the book, and deliberately self-contained. A reader who accepts <a href="14-flexible-alternatives.html" class="quarto-xref"><span>Chapter 14</span></a>’s conclusion that the DP’s distinguishing feature is <em>not</em> what it can represent but what it does not have to be told is entitled to see exactly what it is told instead.</p>
+<section id="sec-ch15-definition" class="level2" data-number="15.1">
+<h2 data-number="15.1" class="anchored" data-anchor-id="sec-ch15-definition"><span class="header-section-number">15.1</span> Ferguson’s definition</h2>
+<div id="def-dp" class="theorem definition">
+<p><span class="theorem-title"><strong>Definition 15.1</strong></span> <strong>The Dirichlet process.</strong> <em>Restated from Ferguson (1973)</em></p>
+<p>Let <span class="math inline">\((\mathcal{X}, \mathcal{A})\)</span> be a measurable space and <span class="math inline">\(\alpha\)</span> a <strong>finite non-null measure</strong> on it. A stochastic process <span class="math inline">\(P\)</span> indexed by the elements of <span class="math inline">\(\mathcal{A}\)</span> is a Dirichlet process with parameter <span class="math inline">\(\alpha\)</span> if for every measurable partition <span class="math inline">\((A_1,\dots,A_k)\)</span> of <span class="math inline">\(\mathcal{X}\)</span> the random vector <span class="math inline">\((P(A_1),\dots,P(A_k))\)</span> has a Dirichlet distribution with parameter <span class="math inline">\((\alpha(A_1),\dots,\alpha(A_k))\)</span>.</p>
+</div>
+<p>Read the parameter carefully, because this is where R2’s first objection is answered. <strong>Ferguson’s <span class="math inline">\(\alpha\)</span> is a measure, not a number.</strong> It carries two pieces of information at once, and separating them is the whole of the terminology question:</p>
+<p><span id="eq-dp-split"><span class="math display">\[
+\alpha(\cdot) = \underbrace{\alpha(\mathcal{X})}_{\text{total mass}}
+\;\times\;
+\underbrace{\frac{\alpha(\cdot)}{\alpha(\mathcal{X})}}_{\text{base measure } G_0} .
+\tag{15.1}\]</span></span></p>
+<p>The scalar <span class="math inline">\(\alpha(\mathcal{X})\)</span> is what modern usage calls <strong>the concentration parameter</strong> — also the precision or mass parameter. The normalized measure <span class="math inline">\(G_0\)</span> is the <strong>base measure</strong>, and it is the prior mean: <span class="math inline">\(\operatorname{E}[P(A)] = G_0(A)\)</span> for every <span class="math inline">\(A\)</span>. Writing “<span class="math inline">\(\alpha\)</span>” for the scalar is standard and harmless as long as one remembers that in Ferguson it names the whole measure; writing it while calling it something other than a concentration is not, and <a href="#sec-ch15-concentration" class="quarto-xref"><span>Section 15.3</span></a> says exactly what it concentrates.</p>
+<p>Ferguson’s main theorem is conjugacy: if <span class="math inline">\(X_1,\dots,X_n\)</span> is a sample from <span class="math inline">\(P\)</span> and <span class="math inline">\(P \sim \mathrm{DP}(\alpha)\)</span>, then the posterior is <span class="math inline">\(\mathrm{DP}(\alpha + \sum_{i=1}^n \delta_{X_i})\)</span>, where <span class="math inline">\(\delta_x\)</span> gives mass one to <span class="math inline">\(x\)</span>. Every predictive statement below is a corollary of that one line.</p>
+</section>
+<section id="sec-ch15-representations" class="level2" data-number="15.2">
+<h2 data-number="15.2" class="anchored" data-anchor-id="sec-ch15-representations"><span class="header-section-number">15.2</span> Three representations, and why they are the same object</h2>
+<p>The DP is usually met through one of three constructions, and a reader who meets only one will find the others mysterious. <a href="#tbl-dp-representations" class="quarto-xref">Table&nbsp;<span>15.1</span></a> lays them side by side.</p>
+<div class="cell">
+<div id="tbl-dp-representations" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-dp-representations-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;15.1: Four descriptions of one object, and what each makes visible. Source: tables/T-dp-representations.rds.
+</figcaption>
+<div aria-describedby="tbl-dp-representations-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<table class="cell caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 9%">
+<col style="width: 42%">
+<col style="width: 20%">
+<col style="width: 19%">
+<col style="width: 8%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Representation</th>
+<th style="text-align: left;">What it says</th>
+<th style="text-align: left;">What it makes obvious</th>
+<th style="text-align: left;">What it hides</th>
+<th style="text-align: left;">Source</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Ferguson’s definition</td>
+<td style="text-align: left;">for every measurable partition, the vector of probabilities is Dirichlet with parameter <span class="math inline">\((\alpha(A_1),\dots,\alpha(A_k))\)</span></td>
+<td style="text-align: left;">conjugacy: the posterior is <span class="math inline">\(\mathrm{DP}(\alpha+\sum_i\delta_{X_i})\)</span></td>
+<td style="text-align: left;">that draws are discrete; existence needs Kolmogorov</td>
+<td style="text-align: left;">Ferguson (1973)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Stick-breaking</td>
+<td style="text-align: left;"><span class="math inline">\(P=\sum_n p_n \delta_{Y_n}\)</span> with <span class="math inline">\(p_n=\theta_n\prod_{m&lt;n}(1-\theta_m)\)</span>, <span class="math inline">\(\theta_m\sim\mathrm{Beta}(1,\alpha(\mathcal{X}))\)</span>, <span class="math inline">\(Y_n \sim G_0\)</span></td>
+<td style="text-align: left;"><strong>almost-sure discreteness</strong>, and the size of the largest atom</td>
+<td style="text-align: left;">the partition structure</td>
+<td style="text-align: left;">Sethuraman (1994)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Pólya urn / Blackwell–MacQueen</td>
+<td style="text-align: left;">draw <span class="math inline">\(X_n\)</span> from <span class="math inline">\(\alpha+\sum_{i&lt;n}\delta_{X_i}\)</span>, normalized; the empirical measure converges to a discrete <span class="math inline">\(P\)</span> distributed as Ferguson’s</td>
+<td style="text-align: left;">the predictive rule, hence exchangeability and the link to the CRP</td>
+<td style="text-align: left;">that <span class="math inline">\(\alpha\)</span> is a measure and not a number, if written carelessly</td>
+<td style="text-align: left;">Blackwell &amp; MacQueen (1973)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Chinese restaurant process</td>
+<td style="text-align: left;">customer <span class="math inline">\(n\)</span> joins an occupied table with probability proportional to its size, or a new one with probability proportional to <span class="math inline">\(\alpha(\mathcal{X})\)</span></td>
+<td style="text-align: left;">the induced partition, hence <span class="math inline">\(K_J\)</span> and Antoniak’s law</td>
+<td style="text-align: left;">the random measure entirely — this is the level R2 objected to</td>
+<td style="text-align: left;">induced; Antoniak (1974)</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</figure>
+</div>
+</div>
+<section id="sec-ch15-stick" class="level3" data-number="15.2.1">
+<h3 data-number="15.2.1" class="anchored" data-anchor-id="sec-ch15-stick"><span class="header-section-number">15.2.1</span> Stick-breaking</h3>
+<div id="thm-stick" class="theorem">
+<p><span class="theorem-title"><strong>Theorem 15.1</strong></span> <strong>Stick-breaking construction.</strong> <em>Restated from Sethuraman (1994)</em></p>
+<p>Let <span class="math inline">\(\theta_1,\theta_2,\dots\)</span> be i.i.d. <span class="math inline">\(\mathrm{Beta}(1, \alpha(\mathcal{X}))\)</span> and <span class="math inline">\(Y_1,Y_2,\dots\)</span> be i.i.d. <span class="math inline">\(G_0\)</span>, independent of the <span class="math inline">\(\theta\)</span>’s. Put</p>
+<p><span id="eq-stick"><span class="math display">\[
+p_1 = \theta_1, \qquad
+p_n = \theta_n \prod_{m=1}^{n-1}(1-\theta_m), \qquad
+P = \sum_{n=1}^{\infty} p_n \delta_{Y_n} .
+\tag{15.2}\]</span></span></p>
+<p>Then <span class="math inline">\(\sum_n p_n = 1\)</span> almost surely and <span class="math inline">\(P\)</span> is a Dirichlet process with parameter <span class="math inline">\(\alpha\)</span>.</p>
+</div>
+<p>Sethuraman’s paper is a self-contained proof that <a href="#eq-stick" class="quarto-xref">Equation&nbsp;<span>15.2</span></a> has the Dirichlet finite-dimensional marginals (his Theorem 3.4) and the conjugacy property (his Theorem 4.3). The construction is worth more than its proof, because it makes two things visible that Ferguson’s definition conceals.</p>
+<p>The first is <strong>almost-sure discreteness</strong>: <a href="#eq-stick" class="quarto-xref">Equation&nbsp;<span>15.2</span></a> is a countable sum of point masses, so a DP draw is a discrete distribution with probability one. Ferguson gives a separate constructive definition in his § 4 that also shows this, but as Sethuraman notes, “it takes some effort to see that the two definitions are equivalent.”</p>
+<p>The second is the <strong>size of the atoms</strong>, which <a href="#sec-ch15-elicitation" class="quarto-xref"><span>Section 15.6</span></a> shows is the quantity that elicitation silently determines.</p>
+<div id="prp-discrete" class="theorem proposition">
+<p><span class="theorem-title"><strong>Proposition 15.1</strong></span> <strong>A DP draw is discrete.</strong> <em>Restated; immediate from <a href="#thm-stick" class="quarto-xref">Theorem&nbsp;<span>15.1</span></a></em></p>
+<p><span class="math inline">\(P \sim \mathrm{DP}(\alpha)\)</span> puts probability one on the set of discrete probability measures on <span class="math inline">\(\mathcal{X}\)</span>.</p>
+</div>
+<p>This is a fatal defect if the DP is used directly as a prior for a continuous latent trait, and <a href="#sec-ch15-mixtures" class="quarto-xref"><span>Section 15.4</span></a> is the repair.</p>
+</section>
+<section id="sec-ch15-crp" class="level3" data-number="15.2.2">
+<h3 data-number="15.2.2" class="anchored" data-anchor-id="sec-ch15-crp"><span class="header-section-number">15.2.2</span> The Pólya urn and the restaurant</h3>
+<div id="thm-crp" class="theorem">
+<p><span class="theorem-title"><strong>Theorem 15.2</strong></span> <strong>CRP–DP correspondence.</strong> <em>Restated from Blackwell and MacQueen (1973)</em></p>
+<p>Call <span class="math inline">\(\{X_n\}\)</span> a <strong>Pólya sequence</strong> with parameter <span class="math inline">\(\alpha\)</span> if each <span class="math inline">\(X_n\)</span> is drawn from the normalized measure <span class="math inline">\(\alpha + \sum_{i&lt;n}\delta_{X_i}\)</span>. Then the empirical distribution of colours after <span class="math inline">\(n\)</span> draws converges as <span class="math inline">\(n \to \infty\)</span> to a limiting <strong>discrete</strong> distribution <span class="math inline">\(P\)</span>; the law of <span class="math inline">\(P\)</span> is Ferguson’s Dirichlet process with parameter <span class="math inline">\(\alpha\)</span>; and given <span class="math inline">\(P\)</span>, the draws <span class="math inline">\(X_1, X_2, \dots\)</span> are independent with distribution <span class="math inline">\(P\)</span>.</p>
+</div>
+<p>This is the theorem R2 asked for, and it says precisely what the connection is. The Chinese restaurant process is not a separate model, an approximation, or a heuristic. It is <strong>the exchangeable partition structure of a Pólya sequence</strong>, and a Pólya sequence is what a Dirichlet process looks like once the random measure has been integrated out.</p>
+<p>Concretely: since <span class="math inline">\(\alpha = \alpha(\mathcal{X})G_0\)</span> and <span class="math inline">\(G_0\)</span> is nonatomic here, a draw from the normalized <span class="math inline">\(\alpha + \sum_{i&lt;n}\delta_{X_i}\)</span> is a repeat of an earlier value with probability proportional to how many times that value has already occurred, and a fresh draw from <span class="math inline">\(G_0\)</span> with probability proportional to <span class="math inline">\(\alpha(\mathcal{X})\)</span>. Rename the distinct values “tables” and the observations “customers” and that sentence is the restaurant. The metaphor adds nothing and hides the measure, which is why introducing it first — as the manuscript does — invites exactly the objection R2 raised.</p>
+</section>
+</section>
+<section id="sec-ch15-concentration" class="level2" data-number="15.3">
+<h2 data-number="15.3" class="anchored" data-anchor-id="sec-ch15-concentration"><span class="header-section-number">15.3</span> What <span class="math inline">\(\alpha(\mathcal{X})\)</span> concentrates</h2>
+<p>Antoniak <span class="citation" data-cites="antoniak_mixtures_1974">(<a href="#ref-antoniak_mixtures_1974" role="doc-biblioref">1974, sec. 4</a>, pp.&nbsp;1160–1163)</span> works out the consequence of the predictive rule. Let <span class="math inline">\(W_i = 1\)</span> if the <span class="math inline">\(i\)</span>-th draw is a new distinct value. Then</p>
+<p><span id="eq-newtable"><span class="math display">\[
+\Pr(W_i = 1) = \frac{\alpha(\Theta)}{\alpha(\Theta) + i - 1},
+\tag{15.3}\]</span></span></p>
+<p>and <span class="math inline">\(Z_n = \sum_{i \le n} W_i\)</span> is the number of distinct values in the first <span class="math inline">\(n\)</span> draws. Antoniak draws the conclusion that settles the naming question: the rate at which new distinct values appear “depends only on the magnitude of <span class="math inline">\(\alpha(\Theta)\)</span>, and not the shape of <span class="math inline">\(\alpha(\cdot)\)</span>,” while the distinct values themselves are distributed as <span class="math inline">\(G_0 = \alpha(\cdot)/\alpha(\Theta)\)</span>.</p>
+<p><strong>The two arguments of the DP therefore do disjoint jobs.</strong> <span class="math inline">\(G_0\)</span> says where atoms fall; <span class="math inline">\(\alpha(\mathcal{X})\)</span> says how many there are. Calling the second a concentration parameter is not a convention — it is a description.</p>
+<div id="thm-antoniak" class="theorem">
+<p><span class="theorem-title"><strong>Theorem 15.3</strong></span> <strong>The distribution of the number of clusters.</strong> <em>Restated from Antoniak (1974)</em></p>
+<p>If <span class="math inline">\(G_0\)</span> is nonatomic, let <span class="math inline">\(K_J\)</span> be the number of distinct values among <span class="math inline">\(J\)</span> draws. More generally the same formulas count occupied CRP tables, which need not equal distinct values when <span class="math inline">\(G_0\)</span> has atoms.</p>
+<p><span id="eq-antoniak-pmf"><span class="math display">\[
+\Pr(K_J = k) = \frac{|s(J,k)|\,\alpha(\mathcal{X})^k}
+                    {\alpha(\mathcal{X})\,(\alpha(\mathcal{X})+1)\cdots(\alpha(\mathcal{X})+J-1)},
+\tag{15.4}\]</span></span></p>
+<p>where <span class="math inline">\(|s(J,k)|\)</span> are unsigned Stirling numbers of the first kind, and</p>
+<p><span id="eq-antoniak-mean"><span class="math display">\[
+\operatorname{E}[K_J] = \sum_{m=1}^{J}\frac{\alpha(\mathcal{X})}{\alpha(\mathcal{X})+m-1}
+= \alpha(\mathcal{X})\{\psi(\alpha(\mathcal{X})+J) - \psi(\alpha(\mathcal{X}))\}
+\;\approx\; \alpha(\mathcal{X})\log\!\frac{J + \alpha(\mathcal{X})}{\alpha(\mathcal{X})} .
+\tag{15.5}\]</span></span></p>
+<p>Moreover <span class="math inline">\(K_J\)</span> is sufficient for <span class="math inline">\(\alpha(\mathcal{X})\)</span>.</p>
+</div>
+<p><em>Proof of the closed form.</em> Antoniak gives the sum and the logarithmic approximation directly. The digamma expression follows because <span class="math inline">\(\sum_{m=1}^{J} (\alpha+m-1)^{-1} =
+\psi(\alpha+J) - \psi(\alpha)\)</span>. The pmf and its mean are checked numerically in <code>code/R/15-derivation-checks.R</code>. ∎</p>
+<p>Two consequences carry into the design of any application.</p>
+<p><strong>The number of clusters grows like <span class="math inline">\(\log J\)</span>, not like <span class="math inline">\(J\)</span>.</strong> From <a href="#eq-antoniak-mean" class="quarto-xref">Equation&nbsp;<span>15.5</span></a>, ten times as many people buys only about <span class="math inline">\(2.3\,\alpha(\mathcal{X})\)</span> more clusters. A DP is a <em>parsimony</em> prior, which is easy to miss when it is described as “infinite-dimensional.”</p>
+<p><strong><span class="math inline">\(\alpha\)</span> is a strong statement, not a vague one.</strong> At <span class="math inline">\(J = 200\)</span> and <span class="math inline">\(\alpha(\mathcal{X}) = 1\)</span>, <a href="#eq-antoniak-pmf" class="quarto-xref">Equation&nbsp;<span>15.4</span></a> puts a central 95% interval of <span class="math inline">\([2, 10]\)</span> on <span class="math inline">\(K_J\)</span>. Choosing <span class="math inline">\(\alpha\)</span> is choosing a fairly tight prior on the number of subpopulations, and <a href="#fig-k-alpha" class="quarto-xref">Figure&nbsp;<span>15.1</span></a> shows both facts.</p>
+<div id="fig-k-alpha" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-k-alpha-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../figures/F-k-alpha.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-k-alpha-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;15.1: Antoniak’s distribution of the number of occupied clusters. <strong>Left:</strong> the exact prior pmf of <span class="math inline">\(K_J\)</span> at <span class="math inline">\(J = 200\)</span>, computed from unsigned Stirling numbers of the first kind, for three concentrations. The distribution is tight — at <span class="math inline">\(\alpha = 1\)</span> almost all the mass lies between 2 and 10, a central 95% interval — so <span class="math inline">\(\alpha\)</span> is a strong statement, not a vague one. <strong>Right:</strong> <span class="math inline">\(\operatorname{E}[K_J] = \alpha\{\psi(\alpha+J)-\psi(\alpha)\}\)</span> against <span class="math inline">\(J\)</span> on a logarithmic axis, where the curves are straight: the number of clusters grows like <span class="math inline">\(\alpha\log J\)</span>, so ten times the data buys only <span class="math inline">\(\alpha\log 10 \approx 2.3\alpha\)</span> more clusters. Deterministic; no simulation. Generated by code/R/09-figures.R.
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="sec-ch15-mixtures" class="level2" data-number="15.4">
+<h2 data-number="15.4" class="anchored" data-anchor-id="sec-ch15-mixtures"><span class="header-section-number">15.4</span> From a discrete draw to a continuous <span class="math inline">\(G\)</span></h2>
+<p><a href="#prp-discrete" class="quarto-xref">Proposition&nbsp;<span>15.1</span></a> rules out the raw DP as a prior for a latent trait: abilities are continuous, and a prior that puts probability one on discrete distributions would force ties between people who are not tied.</p>
+<p>Lo <span class="citation" data-cites="lo_class_1984">(<a href="#ref-lo_class_1984" role="doc-biblioref">1984</a>)</span> supplies the step that makes the DP usable. Given a positive normalized kernel <span class="math inline">\(K(x,u)\)</span> and a finite measure <span class="math inline">\(\alpha\)</span>, he constructs a random density by <strong>convolving the kernel with a Dirichlet random probability</strong>:</p>
+<p><span id="eq-dpm"><span class="math display">\[
+f(x \mid G) = \int K(x,u)\, G(du), \qquad G \sim \mathrm{DP}(\alpha) ,
+\tag{15.6}\]</span></span></p>
+<p>classifies the posterior of the random density given a sample, and gives the Bayes estimator under squared-error loss. Because <span class="math inline">\(G\)</span> is discrete, <a href="#eq-dpm" class="quarto-xref">Equation&nbsp;<span>15.6</span></a> is a <em>countable mixture</em> — under a normal kernel, a countable mixture of normals with weights from <a href="#eq-stick" class="quarto-xref">Equation&nbsp;<span>15.2</span></a> and locations from <span class="math inline">\(G_0\)</span> — and it is continuous whenever <span class="math inline">\(K\)</span> is.</p>
+<p>This is the object the rest of the book means by “a DPM prior on <span class="math inline">\(G\)</span>,” and its two-line description is worth stating once cleanly. <strong>The Dirichlet process supplies the weights and the locations; the kernel supplies the smoothness.</strong> Lo notes the no-sample Bayes estimator is <span class="math inline">\(\int K(x,u)\,G_0(du)\)</span>, the base measure convolved with the kernel — so with a normal kernel and a normal <span class="math inline">\(G_0\)</span>, the prior mean of the density is itself normal. A DPM prior is therefore <em>centred on</em> the parametric model it generalizes, which is the cleanest possible answer to a reader who asks what is lost if the truth is normal after all. Centred on is the right phrase and the only right phrase: the normal is the prior <em>mean</em>, and normality sits in the support, but no draw from the prior is exactly normal and the DPM is not a model that “contains” the normal model as a fitted special case — a distinction that matters when results under the two priors are compared, and that <a href="16-dpm-priors.html" class="quarto-xref"><span>Chapter 16</span></a> keeps.</p>
+<p><a href="#fig-dp-draws" class="quarto-xref">Figure&nbsp;<span>15.2</span></a> shows both halves of the construction at once — draws of the discrete <span class="math inline">\(G\)</span> at three concentrations, and the continuous densities the kernel makes of them.</p>
+<div id="fig-dp-draws" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-dp-draws-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../figures/F-dp-draws.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-dp-draws-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;15.2: <strong>What the prior actually says G might be.</strong> Top row: twenty-two draws of <span class="math inline">\(G\)</span> from <span class="math inline">\(\mathrm{DP}(\alpha, N(0,1))\)</span> by completed finite stick-breaking at three concentrations, against the base measure (dashed). Every draw is discrete; small <span class="math inline">\(\alpha\)</span> concentrates the mass on a few atoms, large <span class="math inline">\(\alpha\)</span> scatters it until the draws hug the base. Bottom row: nine independent draws of the DPM density of <a href="16-dpm-priors.html#eq-dpm-irt" class="quarto-xref">Equation&nbsp;<span>16.1</span></a>, mixing normal kernels over the package-default base measure of <a href="16-dpm-priors.html#sec-ch16-model" class="quarto-xref"><span>Section 16.2</span></a> (<span class="math inline">\(\mu \sim N(0,2)\)</span>, <span class="math inline">\(\sigma^2 \sim\)</span> Inv-Gamma(2.01, 1.01)); the kernel turns discrete draws into continuous shapes, and the same concentration now governs how many effective components a shape carries. The two rows do not reuse the same atoms or weights. The final stick receives all residual mass (500 atoms above, 300 below), every weight vector sums to one, and kernel scales are drawn without clipping; values above 3 are retained. Seeded illustration; mass diagnostics are frozen in tables/F-dp-draws-summary.rds. Generated by code/R/23-figures-v2-theory.R.
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="sec-ch15-computation" class="level2" data-number="15.5">
+<h2 data-number="15.5" class="anchored" data-anchor-id="sec-ch15-computation"><span class="header-section-number">15.5</span> Computation, briefly</h2>
+<p>Two families of algorithm implement <a href="#eq-dpm" class="quarto-xref">Equation&nbsp;<span>15.6</span></a>, and the difference is which representation they exploit.</p>
+<p><strong>Marginal (collapsed) samplers</strong> integrate <span class="math inline">\(G\)</span> out and work with the Pólya urn predictive rule of <a href="#thm-crp" class="quarto-xref">Theorem&nbsp;<span>15.2</span></a>, updating cluster memberships one at a time. Neal <span class="citation" data-cites="neal_markov_2000">(<a href="#ref-neal_markov_2000" role="doc-biblioref">2000</a>)</span> is the standard catalogue, including the algorithms that handle non-conjugate kernels. <strong>Blocked samplers</strong> truncate <a href="#eq-stick" class="quarto-xref">Equation&nbsp;<span>15.2</span></a> at a finite number of components and sample the weights and locations directly; Ishwaran and Zarepour <span class="citation" data-cites="ishwaran_markov_2000">(<a href="#ref-ishwaran_markov_2000" role="doc-biblioref">2000</a>)</span> study the approximation error this truncation incurs.</p>
+<p>The companion package uses NIMBLE, whose DP machinery is CRP-based, and the details are Appendix F’s. The point for here is that the choice is a choice between the two representations of <a href="#sec-ch15-representations" class="quarto-xref"><span>Section 15.2</span></a> and has no inferential content.</p>
+</section>
+<section id="sec-ch15-elicitation" class="level2" data-number="15.6">
+<h2 data-number="15.6" class="anchored" data-anchor-id="sec-ch15-elicitation"><span class="header-section-number">15.6</span> Choosing <span class="math inline">\(\alpha\)</span> is not a technicality</h2>
+<p>Everything above treats <span class="math inline">\(\alpha(\mathcal{X})\)</span> as given. In practice it is either fixed or given a hyperprior, and individual papers often compare several overlapping strategies. <a href="#tbl-alpha-elicitation" class="quarto-xref">Table&nbsp;<span>15.2</span></a> therefore reports seven source-specific contributions rather than forcing each paper into one exclusive “stance.”</p>
+<div class="cell">
+<div id="tbl-alpha-elicitation" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-alpha-elicitation-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;15.2: Seven source-specific contributions to concentration-parameter elicitation. Rows are not mutually exclusive. Source: tables/T-alpha-elicitation.rds.
+</figcaption>
+<div aria-describedby="tbl-alpha-elicitation-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<table class="cell caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 8%">
+<col style="width: 42%">
+<col style="width: 20%">
+<col style="width: 28%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Source</th>
+<th style="text-align: left;">What the source does</th>
+<th style="text-align: left;">Target or diagnostic</th>
+<th style="text-align: left;">Important limitation</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Paganin et al.&nbsp;(2022)</td>
+<td style="text-align: left;">examines induced <span class="math inline">\(\operatorname{E}[K_N]\)</span> and <span class="math inline">\(\operatorname{Var}(K_N)\)</span>; uses Gamma<span class="math inline">\((2,4)\)</span> in simulation and Gamma<span class="math inline">\((1,3)\)</span> for real data</td>
+<td style="text-align: left;">mean and variance of occupied <span class="math inline">\(K_N\)</span></td>
+<td style="text-align: left;">the paper does not recommend one Gamma prior reused in every setting</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Antonelli et al.&nbsp;(2016)</td>
+<td style="text-align: left;">compares moment matching, diffuse Gamma, KL, fixed-<span class="math inline">\(\alpha\)</span>, empirical-Bayes, and importance-sampling strategies</td>
+<td style="text-align: left;">several direct and induced criteria</td>
+<td style="text-align: left;">the compared strategies are alternatives within one paper, not one diffuse stance</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Lee et al.&nbsp;(2025)</td>
+<td style="text-align: left;">elicits a full distribution for <span class="math inline">\(K\)</span> via a chi-square construction and fits a Gamma prior by Dorazio’s KL method</td>
+<td style="text-align: left;">the complete elicited distribution of <span class="math inline">\(K\)</span></td>
+<td style="text-align: left;">reducing the method to matching <span class="math inline">\(\operatorname{E}[K]\)</span> omits its defining step</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Murugiah &amp; Sweeting (2012)</td>
+<td style="text-align: left;">develops hyperparameter selection with and without subjective information and supplies defaults</td>
+<td style="text-align: left;">subjective and default selection regimes</td>
+<td style="text-align: left;">reducing the framework to sensitivity analysis omits its selection method and defaults</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Dorazio (2009); Rodríguez (2013)</td>
+<td style="text-align: left;">elicits through induced cluster behaviour; derives an objective Ewens Jeffreys prior</td>
+<td style="text-align: left;">partition behaviour or information geometry</td>
+<td style="text-align: left;">Rodríguez’s prior is proper but has <strong>no finite moments</strong></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Vicentini &amp; Jermyn (2025)</td>
+<td style="text-align: left;">specifies <span class="math inline">\(p(\alpha\mid\eta)\)</span> through prior information on meaningful induced quantities</td>
+<td style="text-align: left;">the induced quantity chosen by the analyst</td>
+<td style="text-align: left;">matching one induced quantity can leave others extreme</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Lee (2026)</td>
+<td style="text-align: left;">converts cluster-count beliefs into Gamma hyperpriors by two-stage moment matching; a dual-anchor protocol constrains cluster counts <strong>and</strong> weight concentration jointly</td>
+<td style="text-align: left;"><span class="math inline">\(\operatorname{E}[K_J]\)</span> and the largest-weight exceedance probability, as a pair</td>
+<td style="text-align: left;">the two anchors can conflict, and the protocol resolves the conflict by explicit trade rather than dissolving it</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</figure>
+</div>
+</div>
+<p>The sources differ in both target and method. Paganin et al.&nbsp;examine the induced mean and variance of <span class="math inline">\(K_N\)</span> and use different Gamma priors in their simulation and real-data analyses; they do not advocate one universal reproducibility prior. Antonelli et al. <span class="citation" data-cites="antonelli_mitigating_2016">(<a href="#ref-antonelli_mitigating_2016" role="doc-biblioref">2016</a>)</span> compare moment matching, diffuse Gamma, Kullback–Leibler, fixed-<span class="math inline">\(\alpha\)</span>, empirical-Bayes and importance-sampling strategies. Lee et al. <span class="citation" data-cites="lee_improving_2025">(<a href="#ref-lee_improving_2025" role="doc-biblioref">2025</a>)</span> elicit an entire distribution for <span class="math inline">\(K\)</span> through a chi-square construction and fit a Gamma hyperprior by Dorazio’s KL method, rather than matching only <span class="math inline">\(\operatorname{E}[K_J]\)</span>. Murugiah and Sweeting <span class="citation" data-cites="murugiah_selecting_2012">(<a href="#ref-murugiah_selecting_2012" role="doc-biblioref">2012</a>)</span> develop a selection framework both with and without subjective information and provide defaults. Dorazio <span class="citation" data-cites="dorazio_selecting_2009">(<a href="#ref-dorazio_selecting_2009" role="doc-biblioref">2009</a>)</span> and Rodríguez <span class="citation" data-cites="rodriguez_jeffreys_2013">(<a href="#ref-rodriguez_jeffreys_2013" role="doc-biblioref">2013</a>)</span> supply induced-cluster and objective routes; Rodríguez’s Ewens Jeffreys prior is proper but has <strong>no finite moments</strong>. Vicentini and Jermyn <span class="citation" data-cites="vicentini_prior_2025">(<a href="#ref-vicentini_prior_2025" role="doc-biblioref">2025</a>)</span> pose the current question: specify <span class="math inline">\(p(\alpha\mid\eta)\)</span> through quantities for which “meaningful” prior information can actually be expressed. The design-conditional framework of this research programme is one answer to that question posed as a procedure: state a belief about the number of occupied clusters at the design’s own <span class="math inline">\(J\)</span>, convert it into a Gamma hyperprior on <span class="math inline">\(\alpha\)</span> by two-stage moment matching, and — the step the next subsection motivates — anchor the induced weight behaviour at the same time <span class="citation" data-cites="lee_design-conditional_2026">(<a href="#ref-lee_design-conditional_2026" role="doc-biblioref">Lee 2026a</a>)</span>. The <code>DPprior</code> package implements the framework, and it is the machinery behind the companion simulation’s “focused” and “broad” elicitation arms <span class="citation" data-cites="lee_dpprior_2026">(<a href="#ref-lee_dpprior_2026" role="doc-biblioref">Lee 2026b</a>)</span>.</p>
+<section id="sec-ch15-unintended" class="level3" data-number="15.6.1">
+<h3 data-number="15.6.1" class="anchored" data-anchor-id="sec-ch15-unintended"><span class="header-section-number">15.6.1</span> The unintended prior</h3>
+<p>Vicentini and Jermyn’s framing points at a phenomenon that is easy to demonstrate and easy to miss. <strong>Matching one induced quantity leaves the others unconstrained, and they can come out extreme.</strong></p>
+<p>Take the most defensible elicitation in the table — matching <span class="math inline">\(\operatorname{E}[K_J]\)</span> to an expert’s cluster count. At <span class="math inline">\(J = 200\)</span> and a target of five clusters, <a href="#eq-antoniak-mean" class="quarto-xref">Equation&nbsp;<span>15.5</span></a> gives <span class="math inline">\(\alpha(\mathcal{X}) = 0.80\)</span>. Now ask what that same prior says about the <em>largest</em> stick weight in <a href="#eq-stick" class="quarto-xref">Equation&nbsp;<span>15.2</span></a>. The answer, computed in <a href="#fig-stick-crp" class="quarto-xref">Figure&nbsp;<span>15.3</span></a>, is that its median is <span class="math inline">\(0.66\)</span> and it exceeds <span class="math inline">\(0.5\)</span> with prior probability <span class="math inline">\(0.76\)</span>.</p>
+<p>An analyst who said “I expect about five subpopulations” has therefore also said, without being asked and without noticing, that there is about a 76% chance one subpopulation contains more than half of everybody. At a target of three clusters the median largest weight is <span class="math inline">\(0.86\)</span>.</p>
+<div id="fig-stick-crp" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-stick-crp-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../figures/F-stick-crp.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-stick-crp-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;15.3: <strong>Left:</strong> stick-breaking weights <span class="math inline">\(p_n = \theta_n\prod_{m&lt;n}(1-\theta_m)\)</span> with <span class="math inline">\(\theta_m \sim \mathrm{Beta}(1,\alpha)\)</span>, sorted, at three concentrations. Small <span class="math inline">\(\alpha\)</span> concentrates the population into few components; large <span class="math inline">\(\alpha\)</span> spreads it. <strong>Right:</strong> the prior this induces on the <em>largest</em> weight, at concentrations chosen so that <span class="math inline">\(\operatorname{E}[K_{200}]\)</span> equals 3, 5 and 10 — the quantity an analyst usually elicits. Matching <span class="math inline">\(\operatorname{E}[K_{200}] = 5\)</span> requires <span class="math inline">\(\alpha = 0.80\)</span>, under which the largest component holds a median <span class="math inline">\(66\%\)</span> of the population and exceeds half of it with prior probability <span class="math inline">\(0.76\)</span>. Eliciting a cluster count is therefore also, silently, an assertion about dominance. Seed fixed; illustrative. Generated by code/R/09-figures.R.
+</figcaption>
+</figure>
+</div>
+<p>This is not this book’s discovery and should not be presented as one. It is a known problem with a literature. Greve et al. <span class="citation" data-cites="greve_spying_2022">(<a href="#ref-greve_spying_2022" role="doc-biblioref">2022</a>)</span> identify precisely this as “a major empirical challenge” — characterizing the prior a flexible cluster-count specification induces on the partition — and provide tools for inspecting it. Giordano et al. <span class="citation" data-cites="giordano_evaluating_2022">(<a href="#ref-giordano_evaluating_2022" role="doc-biblioref">2023</a>)</span> make the complementary point that because these models are so flexible “the consequences of prior choices can be opaque,” while prior choice “can have a substantial effect on posterior inferences,” and give a method for quantifying sensitivity to the stick-breaking prior specifically.</p>
+<p>The natural repair, once the phenomenon is named, is to elicit <em>both</em> quantities at once — and that is exactly what the dual-anchor protocol of the design-conditional framework does. One anchor pins the expected cluster count; the second pins the prior probability that the largest weight exceeds a stated threshold, the very quantity <a href="#fig-stick-crp" class="quarto-xref">Figure&nbsp;<span>15.3</span></a> computes and the analyst never meant to assert; the Gamma hyperprior is then chosen to respect both, with the trade between them made explicit when they conflict <span class="citation" data-cites="lee_design-conditional_2026">(<a href="#ref-lee_design-conditional_2026" role="doc-biblioref">Lee 2026a</a>)</span>. The implementation exposes the induced quantity directly — the package function that returns <span class="math inline">\(\Pr(p_{(1)} &gt; t)\)</span> exists precisely so the silent assertion of <a href="#sec-ch15-unintended" class="quarto-xref"><span>Section 15.6.1</span></a> can be read before it is made <span class="citation" data-cites="lee_dpprior_2026">(<a href="#ref-lee_dpprior_2026" role="doc-biblioref">Lee 2026b</a>)</span>. The paper is held here only at abstract-and-framework level, so this chapter uses it for the protocol’s stated design and does not import its simulation findings.</p>
+<p>The honest summary is that the DP removes the requirement to name a component count and replaces it with a requirement to name a concentration, and that the second choice has more consequences than the first advertises. That is still a gain — a posterior over <span class="math inline">\(K\)</span> is worth having, and <a href="14-flexible-alternatives.html" class="quarto-xref"><span>Chapter 14</span></a> explains why; the elicitation machinery above exists to make the trade an informed one rather than an escape.</p>
+<p>Miller and Harrison <span class="citation" data-cites="miller_mixture_2018">(<a href="#ref-miller_mixture_2018" role="doc-biblioref">2018</a>)</span> name the alternative: put a prior directly on the number of components in a finite mixture, which makes the cluster-count prior explicit rather than induced. <a href="14-flexible-alternatives.html" class="quarto-xref"><span>Chapter 14</span></a> is where that comparison belongs, and nothing in this chapter argues that the DP is the only defensible choice.</p>
+</section>
+</section>
+<section id="sec-ch15-sources" class="level2" data-number="15.7">
+<h2 data-number="15.7" class="anchored" data-anchor-id="sec-ch15-sources"><span class="header-section-number">15.7</span> Sources and provenance</h2>
+<p><a href="#def-dp" class="quarto-xref">Definition&nbsp;<span>15.1</span></a> is Ferguson <span class="citation" data-cites="ferguson_bayesian_1973">(<a href="#ref-ferguson_bayesian_1973" role="doc-biblioref">1973</a>)</span>, read directly, from his § 1 summary and § 3; the conjugacy theorem and the description of <span class="math inline">\(\alpha\)</span> as a finite non-null measure are his words. <a href="#eq-dp-split" class="quarto-xref">Equation&nbsp;<span>15.1</span></a> is the standard decomposition and is stated here because the measure-versus-scalar distinction is exactly what R2’s objection turns on.</p>
+<p><a href="#thm-stick" class="quarto-xref">Theorem&nbsp;<span>15.1</span></a> is Sethuraman <span class="citation" data-cites="sethuraman_constructive_1994">(<a href="#ref-sethuraman_constructive_1994" role="doc-biblioref">1994</a>)</span>, read directly: the <span class="math inline">\(\mathrm{Beta}(1,\alpha(\mathcal{X}))\)</span> sticks, the product form, the almost-sure summation to one, and his Theorems 3.4 and 4.3 establishing the Dirichlet marginals and conjugacy. The remark that the equivalence with Ferguson’s § 4 construction “takes some effort to see” is his.</p>
+<p><a href="#thm-crp" class="quarto-xref">Theorem&nbsp;<span>15.2</span></a> is Blackwell and MacQueen <span class="citation" data-cites="blackwell_ferguson_1973">(<a href="#ref-blackwell_ferguson_1973" role="doc-biblioref">1973</a>)</span>, read directly from their abstract and § 1: the extended Pólya urn with a continuum of colours, convergence to a limiting discrete <span class="math inline">\(\mu^*\)</span>, the identification of its law with Ferguson’s, and conditional independence given <span class="math inline">\(\mu^*\)</span>. The reduction of the restaurant metaphor to that theorem is this book’s presentation, not theirs, and it is the answer to R2-4b.</p>
+<p><a href="#thm-antoniak" class="quarto-xref">Theorem&nbsp;<span>15.3</span></a> and <a href="#eq-newtable" class="quarto-xref">Equation&nbsp;<span>15.3</span></a> are Antoniak <span class="citation" data-cites="antoniak_mixtures_1974">(<a href="#ref-antoniak_mixtures_1974" role="doc-biblioref">1974, sec. 4</a>, pp.&nbsp;1160–1163)</span>, read directly: the new-value probability, the sum for <span class="math inline">\(\operatorname{E}(Z_n)\)</span>, the logarithmic approximation, the Stirling-number pmf, and the sufficiency of <span class="math inline">\(Z_n\)</span> for <span class="math inline">\(\alpha(\Theta)\)</span>. The digamma closed form is one line from his sum and is checked numerically rather than taken on trust. The remark that this makes <span class="math inline">\(\alpha\)</span> a <em>parsimony</em> prior is this book’s reading.</p>
+<p><a href="#eq-dpm" class="quarto-xref">Equation&nbsp;<span>15.6</span></a> is Lo <span class="citation" data-cites="lo_class_1984">(<a href="#ref-lo_class_1984" role="doc-biblioref">1984, sec. 2</a>)</span>, read directly, including the no-sample Bayes estimator <span class="math inline">\(\int K(x,u)\,G_0(du)\)</span> from which the “centred on the parametric model” observation follows.</p>
+<p>Computation follows Neal <span class="citation" data-cites="neal_markov_2000">(<a href="#ref-neal_markov_2000" role="doc-biblioref">2000</a>)</span> and Ishwaran and Zarepour <span class="citation" data-cites="ishwaran_markov_2000">(<a href="#ref-ishwaran_markov_2000" role="doc-biblioref">2000</a>)</span> at the level of what each family of algorithm does; no algorithm is reproduced here and none of the book’s claims depends on the details.</p>
+<p>The seven source-specific elicitation contributions are read at the level of each work’s stated aim and summary of the problem; the rows are explicitly nonexclusive. Rodríguez’s <span class="citation" data-cites="rodriguez_jeffreys_2013">(<a href="#ref-rodriguez_jeffreys_2013" role="doc-biblioref">2013</a>)</span> result that the Ewens Jeffreys prior is proper with no finite moments is from his abstract and is quoted because it is the kind of property that is easy to adopt a prior without knowing. The seventh row and the dual-anchor paragraph cite this programme’s design-conditional elicitation paper at the level of its abstract and stated framework <span class="citation" data-cites="lee_design-conditional_2026">(<a href="#ref-lee_design-conditional_2026" role="doc-biblioref">2026a</a>)</span> and its implementation <span class="citation" data-cites="lee_dpprior_2026">(<a href="#ref-lee_dpprior_2026" role="doc-biblioref">2026b</a>)</span>, read from the package source and documentation. No substantive simulation finding from the held paper is used as evidence in this chapter.</p>
+<p><a href="#fig-k-alpha" class="quarto-xref">Figure&nbsp;<span>15.1</span></a> is computed exactly from <a href="#eq-antoniak-pmf" class="quarto-xref">Equation&nbsp;<span>15.4</span></a> on the log scale. <a href="#fig-stick-crp" class="quarto-xref">Figure&nbsp;<span>15.3</span></a>’s right panel is simulated from <a href="#eq-stick" class="quarto-xref">Equation&nbsp;<span>15.2</span></a> with a fixed seed; the medians and exceedance probabilities quoted in <a href="#sec-ch15-unintended" class="quarto-xref"><span>Section 15.6.1</span></a> are from that simulation and are Monte Carlo estimates, not exact values. <a href="#fig-dp-draws" class="quarto-xref">Figure&nbsp;<span>15.2</span></a> is simulated from <a href="#eq-stick" class="quarto-xref">Equation&nbsp;<span>15.2</span></a> and <a href="#eq-dpm" class="quarto-xref">Equation&nbsp;<span>15.6</span></a> with a fixed seed and finite truncation, added in this edition (<code>code/R/23-figures-v2-theory.R</code>); it illustrates the objects and asserts nothing. The generated values are frozen in <code>tables/F-stick-crp-summary.rds</code> with a CSV mirror in <code>tables/supplement/</code>. The phenomenon they illustrate is Greve et al.’s <span class="citation" data-cites="greve_spying_2022">(<a href="#ref-greve_spying_2022" role="doc-biblioref">2022</a>)</span> and Giordano et al.’s <span class="citation" data-cites="giordano_evaluating_2022">(<a href="#ref-giordano_evaluating_2022" role="doc-biblioref">2023</a>)</span>, and is presented as theirs.</p>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-antonelli_mitigating_2016" class="csl-entry" role="listitem">
+Antonelli, Joseph, Lorenzo Trippa, and Sébastien Haneuse. 2016. <span>“Mitigating Bias in Generalized Linear Mixed Models: The Case for <span>Bayesian</span> Nonparametrics.”</span> <em>Statistical Science</em> 31 (1): 80–95. <a href="https://doi.org/10.1214/15-STS533">https://doi.org/10.1214/15-STS533</a>.
+</div>
+<div id="ref-antoniak_mixtures_1974" class="csl-entry" role="listitem">
+Antoniak, Charles E. 1974. <span>“Mixtures of <span>Dirichlet</span> Processes with Applications to <span>Bayesian</span> Nonparametric Problems.”</span> <em>The Annals of Statistics</em> 2 (6): 1152–74. <a href="https://doi.org/10.1214/aos/1176342871">https://doi.org/10.1214/aos/1176342871</a>.
+</div>
+<div id="ref-blackwell_ferguson_1973" class="csl-entry" role="listitem">
+Blackwell, David, and James B. MacQueen. 1973. <span>“<span>Ferguson</span> Distributions via <span>Pólya</span> Urn Schemes.”</span> <em>The Annals of Statistics</em> 1 (2): 353–55. <a href="https://doi.org/10.1214/aos/1176342372">https://doi.org/10.1214/aos/1176342372</a>.
+</div>
+<div id="ref-dorazio_selecting_2009" class="csl-entry" role="listitem">
+Dorazio, Robert M. 2009. <span>“On Selecting a Prior for the Precision Parameter of <span>Dirichlet</span> Process Mixture Models.”</span> <em>Journal of Statistical Planning and Inference</em> 139 (9): 3384–90. <a href="https://doi.org/10.1016/j.jspi.2009.03.009">https://doi.org/10.1016/j.jspi.2009.03.009</a>.
+</div>
+<div id="ref-ferguson_bayesian_1973" class="csl-entry" role="listitem">
+Ferguson, Thomas S. 1973. <span>“A <span>Bayesian</span> Analysis of Some Nonparametric Problems.”</span> <em>The Annals of Statistics</em> 1 (2): 209–30. <a href="https://doi.org/10.1214/aos/1176342360">https://doi.org/10.1214/aos/1176342360</a>.
+</div>
+<div id="ref-giordano_evaluating_2022" class="csl-entry" role="listitem">
+Giordano, Ryan, Runjing Liu, Michael I. Jordan, and Tamara Broderick. 2023. <span>“Evaluating Sensitivity to the Stick-Breaking Prior in <span>Bayesian</span> Nonparametrics (with Discussion).”</span> <em>Bayesian Analysis</em> 18 (1): 287–366. <a href="https://doi.org/10.1214/22-BA1309">https://doi.org/10.1214/22-BA1309</a>.
+</div>
+<div id="ref-greve_spying_2022" class="csl-entry" role="listitem">
+Greve, Jan, Bettina Grün, Gertraud Malsiner-Walli, and Sylvia Frühwirth-Schnatter. 2022. <span>“Spying on the Prior of the Number of Data Clusters and the Partition Distribution in <span>Bayesian</span> Cluster Analysis.”</span> <em>Australian &amp; New Zealand Journal of Statistics</em> 64 (2): 205–29. <a href="https://doi.org/10.1111/anzs.12350">https://doi.org/10.1111/anzs.12350</a>.
+</div>
+<div id="ref-ishwaran_markov_2000" class="csl-entry" role="listitem">
+Ishwaran, H., and M. Zarepour. 2000. <span>“Markov Chain <span>Monte</span> <span>Carlo</span> in Approximate <span>Dirichlet</span> and Beta Two-Parameter Process Hierarchical Models.”</span> <em>Biometrika</em> 87 (2): 371–90. <a href="https://doi.org/10.1093/biomet/87.2.371">https://doi.org/10.1093/biomet/87.2.371</a>.
+</div>
+<div id="ref-lee_design-conditional_2026" class="csl-entry" role="listitem">
+Lee, JoonHo. 2026a. <em>Design-Conditional Prior Elicitation for <span>Dirichlet</span> Process Mixtures: A Unified Framework for Cluster Counts and Weight Control</em>. <span>arXiv</span>; arXiv. <a href="https://doi.org/10.48550/arXiv.2602.06301">https://doi.org/10.48550/arXiv.2602.06301</a>.
+</div>
+<div id="ref-lee_dpprior_2026" class="csl-entry" role="listitem">
+Lee, JoonHo. 2026b. <em><span>DPprior</span>: Principled Prior Elicitation for <span>Dirichlet</span> Process Mixture Models</em>. <a href="https://github.com/joonho112/DPprior">https://github.com/joonho112/DPprior</a>.
+</div>
+<div id="ref-lee_improving_2025" class="csl-entry" role="listitem">
+Lee, JoonHo, Jonathan Che, Sophia Rabe-Hesketh, Avi Feller, and Luke Miratrix. 2025. <span>“Improving the Estimation of Site-Specific Effects and Their Distribution in Multisite Trials.”</span> <em>Journal of Educational and Behavioral Statistics</em> 50 (5): 731–64. <a href="https://doi.org/10.3102/10769986241254286">https://doi.org/10.3102/10769986241254286</a>.
+</div>
+<div id="ref-lo_class_1984" class="csl-entry" role="listitem">
+Lo, Albert Y. 1984. <span>“On a Class of <span>Bayesian</span> Nonparametric Estimates: <span>I</span>. Density Estimates.”</span> <em>The Annals of Statistics</em> 12 (1): 351–57. <a href="https://doi.org/10.1214/aos/1176346412">https://doi.org/10.1214/aos/1176346412</a>.
+</div>
+<div id="ref-miller_mixture_2018" class="csl-entry" role="listitem">
+Miller, Jeffrey W., and Matthew T. Harrison. 2018. <span>“Mixture Models with a Prior on the Number of Components.”</span> <em>Journal of the American Statistical Association</em> 113 (521): 340–56. <a href="https://doi.org/10.1080/01621459.2016.1255636">https://doi.org/10.1080/01621459.2016.1255636</a>.
+</div>
+<div id="ref-murugiah_selecting_2012" class="csl-entry" role="listitem">
+Murugiah, Siva, and Trevor Sweeting. 2012. <span>“Selecting the Precision Parameter Prior in <span>Dirichlet</span> Process Mixture Models.”</span> <em>Journal of Statistical Planning and Inference</em> 142 (7): 1947–59. <a href="https://doi.org/10.1016/j.jspi.2012.02.013">https://doi.org/10.1016/j.jspi.2012.02.013</a>.
+</div>
+<div id="ref-neal_markov_2000" class="csl-entry" role="listitem">
+Neal, Radford M. 2000. <span>“Markov Chain Sampling Methods for <span>Dirichlet</span> Process Mixture Models.”</span> <em>Journal of Computational and Graphical Statistics</em> 9 (2): 249–65. <a href="https://doi.org/10.1080/10618600.2000.10474879">https://doi.org/10.1080/10618600.2000.10474879</a>.
+</div>
+<div id="ref-rodriguez_jeffreys_2013" class="csl-entry" role="listitem">
+Rodríguez, Abel. 2013. <span>“On the <span>Jeffreys</span> Prior for the Multivariate <span>Ewens</span> Distribution.”</span> <em>Statistics &amp; Probability Letters</em> 83 (6): 1539–46. <a href="https://doi.org/10.1016/j.spl.2013.02.014">https://doi.org/10.1016/j.spl.2013.02.014</a>.
+</div>
+<div id="ref-sethuraman_constructive_1994" class="csl-entry" role="listitem">
+Sethuraman, Jayaram. 1994. <span>“A Constructive Definition of <span>Dirichlet</span> Priors.”</span> <em>Statistica Sinica</em> 4 (2): 639–50. <a href="https://www.jstor.org/stable/24305538">https://www.jstor.org/stable/24305538</a>.
+</div>
+<div id="ref-vicentini_prior_2025" class="csl-entry" role="listitem">
+Vicentini, Carlo, and Ian Hyla Jermyn. 2025. <em>Prior Selection for the Precision Parameter of <span>Dirichlet</span> Process Mixtures</em>. <span>arXiv</span>. <a href="https://doi.org/10.48550/arXiv.2502.00864">https://doi.org/10.48550/arXiv.2502.00864</a>.
+</div>
+</div>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../chapters/14-flexible-alternatives.html" class="pagination-link" aria-label="Flexible Parametric and Semiparametric Alternatives">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Flexible Parametric and Semiparametric Alternatives</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../chapters/16-dpm-priors.html" class="pagination-link" aria-label="DPM Priors for Latent Traits">
+        <span class="nav-page-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">DPM Priors for Latent Traits</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

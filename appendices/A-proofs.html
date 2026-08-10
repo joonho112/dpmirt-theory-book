@@ -1,0 +1,1537 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.37">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Appendix A — Proofs – Bayesian Semiparametric Item Response Modelling for Person-Specific Latent Traits</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../appendices/B-crosswalk.html" rel="next">
+<link href="../chapters/29-evidence-settles-reopens.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-5ccb035bea26c1e21f80f44cf7c27909.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>
+.prov { font-size: 0.88em; color: #555; font-style: italic; }
+blockquote.ms { border-left: 3px solid #c0392b; background: #fdf3f2; }
+</style>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../appendices/A-proofs.html">Appendices</a></li><li class="breadcrumb-item"><a href="../appendices/A-proofs.html"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Proofs</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Bayesian Semiparametric Item Response Modelling for Person-Specific Latent Traits</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">About This Book</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">I — Orientation</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/01-the-estimation-problem.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">The Estimation Problem</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/02-notation-and-frameworks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Notation, Terminology, and Two Frameworks</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">II — The Measurement Models</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/03-rasch-and-2pl-foundations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Foundations: the Rasch and 2PL Models</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/04-identification.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Identification</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/05-item-parameter-estimation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Estimating Item Parameters</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/06-person-parameter-estimation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Estimating Person Parameters</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">III — Information, Error, and Reliability</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/07-information-and-error.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Information and Measurement Error</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/08-reliability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Reliability in the Rasch Model</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/09-designing-for-reliability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Designing for a Target Reliability</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">IV — Bayesian Hierarchical Modelling and Shrinkage</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/10-bayesian-hierarchical-rasch.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">The Bayesian Hierarchical Rasch Model</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/11-conditional-posterior-and-shrinkage.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">The Conditional Posterior and Shrinkage</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/12-empirical-bayes-tradition.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Empirical Bayes and the Shrinkage Tradition</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">V — Beyond Normality: Flexible Latent-Trait Distributions</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/13-non-normality.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Non-Normality in Latent Traits</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/14-flexible-alternatives.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Flexible Parametric and Semiparametric Alternatives</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/15-dirichlet-process.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">The Dirichlet Process</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/16-dpm-priors.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">DPM Priors for Latent Traits</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
+ <span class="menu-text">VI — Posterior Summaries and Inferential Goals</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/17-three-goals.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Three Goals, Three Losses</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/18-constrained-bayes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Constrained Bayes</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/19-triple-goal.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Triple-Goal Estimation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/20-ranking-and-classification.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Ranking and Classification</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true">
+ <span class="menu-text">VII — Positioning</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/21-relation-to-lee-et-al.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Relation to Lee et al.&nbsp;(2025)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/22-scope-and-extensions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Scope: Why Rasch, and What Extends</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/23-open-problems.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Open Problems</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true">
+ <span class="menu-text">VIII — What Changes Under the 2PL</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/24-discrimination-and-information.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Discrimination and Information</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/25-reliability-under-2pl.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Reliability Under the Two-Parameter Model</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/26-identification-dpm-2pl.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Identification and the DPM Under the Two-Parameter Model</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true">
+ <span class="menu-text">IX — The Realized Evidence</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/27-what-the-simulation-settled.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">What the Simulation Settled</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/28-what-real-tests-look-like.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">What Real Tests Look Like</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/29-evidence-settles-reopens.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">What the Evidence Settles, and What It Reopens</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-10" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/A-proofs.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Proofs</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/B-crosswalk.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Notation Crosswalk</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/C-corrections.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">C</span>&nbsp; <span class="chapter-title">Corrections to the Submitted Manuscript</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/D-annotated-bibliography.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">D</span>&nbsp; <span class="chapter-title">Annotated Bibliography</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/E-acquisition-ledger.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">E</span>&nbsp; <span class="chapter-title">Reference Acquisition Ledger</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/F-software.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">F</span>&nbsp; <span class="chapter-title">Software and Computation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/G-build-report.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">G</span>&nbsp; <span class="chapter-title">Build and Verification Report</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#sec-appa-index" id="toc-sec-appa-index" class="nav-link active" data-scroll-target="#sec-appa-index"><span class="header-section-number">A.1</span> Index</a></li>
+  <li><a href="#sec-appa-dp" id="toc-sec-appa-dp" class="nav-link" data-scroll-target="#sec-appa-dp"><span class="header-section-number">A.2</span> A.1 The Dirichlet process</a>
+  <ul class="collapse">
+  <li><a href="#sec-appa-stick" id="toc-sec-appa-stick" class="nav-link" data-scroll-target="#sec-appa-stick"><span class="header-section-number">A.2.1</span> A.1.1 Stick-breaking</a></li>
+  <li><a href="#sec-appa-discrete" id="toc-sec-appa-discrete" class="nav-link" data-scroll-target="#sec-appa-discrete"><span class="header-section-number">A.2.2</span> A.1.2 A draw is discrete with probability one</a></li>
+  <li><a href="#sec-appa-crp" id="toc-sec-appa-crp" class="nav-link" data-scroll-target="#sec-appa-crp"><span class="header-section-number">A.2.3</span> A.1.3 The Pólya urn and the CRP</a></li>
+  <li><a href="#sec-appa-antoniak" id="toc-sec-appa-antoniak" class="nav-link" data-scroll-target="#sec-appa-antoniak"><span class="header-section-number">A.2.4</span> A.1.4 Antoniak’s law for the number of occupied clusters</a></li>
+  </ul></li>
+  <li><a href="#sec-appa-partialid" id="toc-sec-appa-partialid" class="nav-link" data-scroll-target="#sec-appa-partialid"><span class="header-section-number">A.3</span> A.2 Identification of <span class="math inline">\(G\)</span> from a finite test</a>
+  <ul class="collapse">
+  <li><a href="#sec-appa-i1" id="toc-sec-appa-i1" class="nav-link" data-scroll-target="#sec-appa-i1"><span class="header-section-number">A.3.1</span> A.2.1 What a finite test identifies</a></li>
+  <li><a href="#sec-appa-dpmconstraint" id="toc-sec-appa-dpmconstraint" class="nav-link" data-scroll-target="#sec-appa-dpmconstraint"><span class="header-section-number">A.3.2</span> A.2.2 A centred base measure does not centre the realized DPM</a></li>
+  </ul></li>
+  <li><a href="#sec-appa-reliability" id="toc-sec-appa-reliability" class="nav-link" data-scroll-target="#sec-appa-reliability"><span class="header-section-number">A.4</span> A.3 Reliability, separation, and the design constant</a>
+  <ul class="collapse">
+  <li><a href="#sec-appa-separation" id="toc-sec-appa-separation" class="nav-link" data-scroll-target="#sec-appa-separation"><span class="header-section-number">A.4.1</span> A.3.1 Separation and strata</a></li>
+  <li><a href="#sec-appa-cstar" id="toc-sec-appa-cstar" class="nav-link" data-scroll-target="#sec-appa-cstar"><span class="header-section-number">A.4.2</span> A.3.2 The design constant, and the condition it needs</a></li>
+  </ul></li>
+  <li><a href="#sec-appa-summaries" id="toc-sec-appa-summaries" class="nav-link" data-scroll-target="#sec-appa-summaries"><span class="header-section-number">A.5</span> A.4 Posterior summaries</a>
+  <ul class="collapse">
+  <li><a href="#sec-appa-rankofmean" id="toc-sec-appa-rankofmean" class="nav-link" data-scroll-target="#sec-appa-rankofmean"><span class="header-section-number">A.5.1</span> A.4.1 Rank of the mean against mean of the rank</a></li>
+  <li><a href="#sec-appa-gr" id="toc-sec-appa-gr" class="nav-link" data-scroll-target="#sec-appa-gr"><span class="header-section-number">A.5.2</span> A.4.2 The triple-goal construction</a></li>
+  </ul></li>
+  <li><a href="#sec-appa-notes" id="toc-sec-appa-notes" class="nav-link" data-scroll-target="#sec-appa-notes"><span class="header-section-number">A.6</span> A.5 What is deliberately not here</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../appendices/A-proofs.html">Appendices</a></li><li class="breadcrumb-item"><a href="../appendices/A-proofs.html"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Proofs</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span id="sec-appendix-a" class="quarto-section-identifier">Appendix A — Proofs</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p><a href="../chapters/02-notation-and-frameworks.html" class="quarto-xref"><span>Chapter 2</span></a> states the rule this appendix implements: proofs run inline where they take less than a page and move here otherwise, and nothing is asserted without either an argument or a source locator. The two alternatives must not be blurred. Reproducing a useful special-case derivation is not the same as reproducing the source theorem that licenses it.</p>
+<p>The index therefore records a <strong>claim-level proof status</strong>. <code>proved-here</code> means the displayed claim is established in this book; <code>partial-derivation</code> means this appendix establishes only the named component and leaves the source theorem at its locator; <code>source-only</code> means the published result is invoked under its stated conditions and no stand-alone proof is claimed here. This appendix improves checkability, but it does not promise to replace every cited proof.</p>
+<section id="sec-appa-index" class="level2" data-number="A.1">
+<h2 data-number="A.1" class="anchored" data-anchor-id="sec-appa-index"><span class="header-section-number">A.1</span> Index</h2>
+<div class="cell">
+<div id="tbl-proof-index" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-proof-index-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;A.1: Every numbered result and where its proof lives. Source: tables/T-proof-index.rds.
+</figcaption>
+<div aria-describedby="tbl-proof-index-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<table class="cell caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 0%">
+<col style="width: 1%">
+<col style="width: 3%">
+<col style="width: 2%">
+<col style="width: 6%">
+<col style="width: 3%">
+<col style="width: 23%">
+<col style="width: 57%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: left;">ID</th>
+<th style="text-align: left;">Result</th>
+<th style="text-align: left;">Provenance</th>
+<th style="text-align: left;">Proof</th>
+<th style="text-align: left;">Proof status</th>
+<th style="text-align: left;">Coverage</th>
+<th style="text-align: left;">Source locator</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">PROP-03-2</td>
+<td style="text-align: left;">prp-nosuff</td>
+<td style="text-align: left;">derived-here</td>
+<td style="text-align: left;">inline, ch.&nbsp;3</td>
+<td style="text-align: left;">proved-here</td>
+<td style="text-align: left;">fixed-known-discrimination factorization and statistic qualification are displayed inline</td>
+<td style="text-align: left;">elementary factorization and definition of a statistic; no originality claim</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">4</td>
+<td style="text-align: left;">PROP-04-2</td>
+<td style="text-align: left;">prp-location</td>
+<td style="text-align: left;">derived-here</td>
+<td style="text-align: left;">inline, ch.&nbsp;4</td>
+<td style="text-align: left;">proved-here</td>
+<td style="text-align: left;">one-line location-orbit algebra</td>
+<td style="text-align: left;">elementary inline algebra; no originality claim</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">5</td>
+<td style="text-align: left;">PROP-04-3</td>
+<td style="text-align: left;">prp-scale</td>
+<td style="text-align: left;">derived-here</td>
+<td style="text-align: left;">inline, ch.&nbsp;4</td>
+<td style="text-align: left;">proved-here</td>
+<td style="text-align: left;">scale-orbit algebra</td>
+<td style="text-align: left;">elementary inline algebra; no originality claim. Consistent with San Martin (2016, Table 8.1)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">10</td>
+<td style="text-align: left;">PROP-06-2</td>
+<td style="text-align: left;">prp-plugin</td>
+<td style="text-align: left;">derived-here</td>
+<td style="text-align: left;">inline, ch.&nbsp;6</td>
+<td style="text-align: left;">proved-here</td>
+<td style="text-align: left;">implicit-function and delta-method derivation</td>
+<td style="text-align: left;">first-order implicit-function/delta-method derivation; no magnitude claim from scoring-sample P alone</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">11</td>
+<td style="text-align: left;">PROP-07-1</td>
+<td style="text-align: left;">prp-msem-jensen</td>
+<td style="text-align: left;">derived-here</td>
+<td style="text-align: left;">inline, ch.&nbsp;7</td>
+<td style="text-align: left;">proved-here</td>
+<td style="text-align: left;">Jensen argument</td>
+<td style="text-align: left;">elementary concavity argument; no originality claim</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">12</td>
+<td style="text-align: left;">PROP-08-1</td>
+<td style="text-align: left;">prp-mean-weight</td>
+<td style="text-align: left;">derived-here</td>
+<td style="text-align: left;">inline, ch.&nbsp;8</td>
+<td style="text-align: left;">proved-here</td>
+<td style="text-align: left;">convexity argument</td>
+<td style="text-align: left;">elementary convexity; corresponds to Appendix C draft (C.23)-(C.24); no originality claim</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">15</td>
+<td style="text-align: left;">PROP-09-1</td>
+<td style="text-align: left;">prp-cstar</td>
+<td style="text-align: left;">restated</td>
+<td style="text-align: left;">Appendix A A.3.2</td>
+<td style="text-align: left;">proved-here</td>
+<td style="text-align: left;">fixed-item discrimination-multiplier ordering under unique increasing branches</td>
+<td style="text-align: left;">vignettes/theory-reliability.Rmd Corollary 1; the non-monotonicity caveat is the package’s own wording and is preserved</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">16</td>
+<td style="text-align: left;">PROP-10-1</td>
+<td style="text-align: left;">prp-joint-posterior</td>
+<td style="text-align: left;">adapted</td>
+<td style="text-align: left;">inline, ch.&nbsp;10</td>
+<td style="text-align: left;">proved-here</td>
+<td style="text-align: left;">displayed posterior factorization for the book model</td>
+<td style="text-align: left;">ch.&nbsp;2 sec.&nbsp;2.1 eqs. 2.1-2.2 give the person/item conditional-independence factorizations; adapted here to the four-level centered-item model</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">17</td>
+<td style="text-align: left;">PROP-10-2</td>
+<td style="text-align: left;">prp-centered-item</td>
+<td style="text-align: left;">derived-here</td>
+<td style="text-align: left;">inline, ch.&nbsp;10</td>
+<td style="text-align: left;">proved-here</td>
+<td style="text-align: left;">centering-matrix covariance algebra</td>
+<td style="text-align: left;">elementary linear algebra on the centering matrix; checked numerically; no originality claim</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">19</td>
+<td style="text-align: left;">PROP-11-3</td>
+<td style="text-align: left;">prp-underdispersion</td>
+<td style="text-align: left;">adapted</td>
+<td style="text-align: left;">inline, ch.&nbsp;11</td>
+<td style="text-align: left;">proved-here</td>
+<td style="text-align: left;">law-of-total-variance proof and constant-error specialization</td>
+<td style="text-align: left;">sec.&nbsp;2.1 gives the Gaussian ensemble under-dispersion and moment repair; the general law-of-total-variance identity and constant-error specialization are proved inline</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">20</td>
+<td style="text-align: left;">PROP-12-3</td>
+<td style="text-align: left;">prp-rank-inconsistency</td>
+<td style="text-align: left;">adapted</td>
+<td style="text-align: left;">inline, ch.&nbsp;12</td>
+<td style="text-align: left;">proved-here</td>
+<td style="text-align: left;">Rasch and fixed-known-2PL MLR exception is proved; generic warning is sourced</td>
+<td style="text-align: left;">sec.&nbsp;1 gives the generic warning and Appendix A the stochastic-order exception; Shen and Louis (1998) Theorem 2 corroborates the exception; the Rasch/known-2PL monotone-likelihood-ratio verification is inline</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">21</td>
+<td style="text-align: left;">PROP-13-1</td>
+<td style="text-align: left;">prp-sumscore</td>
+<td style="text-align: left;">derived-here</td>
+<td style="text-align: left;">inline, ch.&nbsp;13</td>
+<td style="text-align: left;">proved-here</td>
+<td style="text-align: left;">finite-grid Poisson-binomial exhibits with frozen verification</td>
+<td style="text-align: left;">exact Poisson-binomial recursion plus 4,001-point fixed-grid quadrature on [-12,12]; the structural dependence of score shape on G and item design is not claimed as original</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">26</td>
+<td style="text-align: left;">PROP-15-5</td>
+<td style="text-align: left;">prp-discrete</td>
+<td style="text-align: left;">restated</td>
+<td style="text-align: left;">Appendix A A.1.2</td>
+<td style="text-align: left;">proved-here</td>
+<td style="text-align: left;">immediate from the stick-breaking representation</td>
+<td style="text-align: left;">immediate from the stick-breaking form; Ferguson sec.&nbsp;4 gives an independent construction</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">27</td>
+<td style="text-align: left;">PROP-16-1</td>
+<td style="text-align: left;">prp-semi-location</td>
+<td style="text-align: left;">adapted</td>
+<td style="text-align: left;">inline, ch.&nbsp;16</td>
+<td style="text-align: left;">proved-here</td>
+<td style="text-align: left;">shift-orbit proof</td>
+<td style="text-align: left;">sec.&nbsp;1 identification problem, adapted with the explicit shift orbit from Appendix F sec.&nbsp;F.2.2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">28</td>
+<td style="text-align: left;">PROP-16-2</td>
+<td style="text-align: left;">prp-semi-scale</td>
+<td style="text-align: left;">adapted</td>
+<td style="text-align: left;">inline, ch.&nbsp;16</td>
+<td style="text-align: left;">proved-here</td>
+<td style="text-align: left;">Rasch/2PL scale-orbit argument</td>
+<td style="text-align: left;">secs. 8.4-8.7 and Table 8.1 for the Rasch/2PL scale distinction; Appendix F sec.&nbsp;F.2.3 and inline push-forward extend it to G</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">29</td>
+<td style="text-align: left;">PROP-16-3</td>
+<td style="text-align: left;">prp-dpm-constraint</td>
+<td style="text-align: left;">adapted</td>
+<td style="text-align: left;">Appendix A A.2.2</td>
+<td style="text-align: left;">proved-here</td>
+<td style="text-align: left;">finite positive base-variance assumptions and realized-mean variance identity</td>
+<td style="text-align: left;">sec.&nbsp;1 supports the ordinary-base-centering statement; the chapter explicitly does not generalize it to every constrained or transformed nonparametric prior</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">31</td>
+<td style="text-align: left;">PROP-17-1</td>
+<td style="text-align: left;">prp-pm-bayes</td>
+<td style="text-align: left;">restated</td>
+<td style="text-align: left;">inline, ch.&nbsp;17</td>
+<td style="text-align: left;">proved-here</td>
+<td style="text-align: left;">posterior-risk decomposition</td>
+<td style="text-align: left;">sec.&nbsp;2, read directly; the decomposition including the irreducible posterior-variance term is theirs; source lambda_p is translated to registered v_p under TD-3</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">35</td>
+<td style="text-align: left;">PROP-18-2</td>
+<td style="text-align: left;">prp-cb-affine</td>
+<td style="text-align: left;">adapted</td>
+<td style="text-align: left;">inline, ch.&nbsp;18</td>
+<td style="text-align: left;">proved-here</td>
+<td style="text-align: left;">positive-affine invariance algebra</td>
+<td style="text-align: left;">sec.&nbsp;3 p.&nbsp;459 states rank invariance; the standardized-moment and shape statements are the book’s elementary positive-affine extension</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">37</td>
+<td style="text-align: left;">PROP-19-2</td>
+<td style="text-align: left;">prp-gr-edf</td>
+<td style="text-align: left;">restated</td>
+<td style="text-align: left;">inline, ch.&nbsp;19</td>
+<td style="text-align: left;">proved-here</td>
+<td style="text-align: left;">permutation preserves the discrete empirical CDF</td>
+<td style="text-align: left;">sec.&nbsp;2.4 p.&nbsp;459; the permutation argument is exact, while the explicit tie-block completion and verification are supplied here</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">38</td>
+<td style="text-align: left;">PROP-19-3</td>
+<td style="text-align: left;">prp-gr-regret</td>
+<td style="text-align: left;">restated</td>
+<td style="text-align: left;">inline, ch.&nbsp;19</td>
+<td style="text-align: left;">proved-here</td>
+<td style="text-align: left;">actual-permutation regret identity and conditional sorted form</td>
+<td style="text-align: left;">sec.&nbsp;4.2 eq. (14) p.&nbsp;462 gives the sorted form after adopting posterior-mean ranks, which the source says agree with optimal ranks for a wide class; the book states the actual-permutation identity first and checks both cases in V8</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">40</td>
+<td style="text-align: left;">PROP-26-1</td>
+<td style="text-align: left;">prp-2pl-pattern-id</td>
+<td style="text-align: left;">derived-here</td>
+<td style="text-align: left;">inline, ch.&nbsp;26</td>
+<td style="text-align: left;">proved-here</td>
+<td style="text-align: left;">finite response-pattern normalization and explicit K by K+1 null-space construction of two observationally equivalent mixing distributions</td>
+<td style="text-align: left;">finite response alphabet and a K by K+1 null-space construction with K=2^I; no originality claim; the free-item sharp analogue is explicitly not asserted</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">THM-03-1</td>
+<td style="text-align: left;">thm-suff</td>
+<td style="text-align: left;">restated</td>
+<td style="text-align: left;">inline, ch.&nbsp;3</td>
+<td style="text-align: left;">proved-here</td>
+<td style="text-align: left;">Rasch factorization and sufficiency argument are displayed inline</td>
+<td style="text-align: left;">secs. 2.4.1 and 2.4.3; direct attribution to Debelak et al.&nbsp;(2022), not Andersen (1970)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">6</td>
+<td style="text-align: left;">THM-04-4F</td>
+<td style="text-align: left;">thm-equiv-fixed</td>
+<td style="text-align: left;">derived-here</td>
+<td style="text-align: left;">inline, ch.&nbsp;4</td>
+<td style="text-align: left;">proved-here</td>
+<td style="text-align: left;">fixed-effects orbit proof</td>
+<td style="text-align: left;">elementary orbit algebra; no originality claim; fixed-effects scope</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">7</td>
+<td style="text-align: left;">THM-04-5R</td>
+<td style="text-align: left;">thm-equiv-random</td>
+<td style="text-align: left;">derived-here</td>
+<td style="text-align: left;">inline, ch.&nbsp;4</td>
+<td style="text-align: left;">proved-here</td>
+<td style="text-align: left;">random-effects change-of-variable proof</td>
+<td style="text-align: left;">change-of-variable proof; no originality claim; random-effects scope</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">14</td>
+<td style="text-align: left;">THM-08-3</td>
+<td style="text-align: left;">thm-jensen-sandwich</td>
+<td style="text-align: left;">adapted</td>
+<td style="text-align: left;">inline, ch.&nbsp;8</td>
+<td style="text-align: left;">proved-here</td>
+<td style="text-align: left;">three-term Jensen adaptation is proved inline</td>
+<td style="text-align: left;">vignettes/theory-reliability.Rmd Theorem 1 gives only the outer inequality; the placement of rho_Theta between the two and the organized three-term proof are this book’s Jensen adaptation</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">18</td>
+<td style="text-align: left;">THM-11-1</td>
+<td style="text-align: left;">thm-eap-shrinkage</td>
+<td style="text-align: left;">adapted</td>
+<td style="text-align: left;">inline, ch.&nbsp;11</td>
+<td style="text-align: left;">proved-here</td>
+<td style="text-align: left;">normal-working-model completing-the-square proof</td>
+<td style="text-align: left;">sec.&nbsp;2.1 Gaussian compound model; adapted to the IRT normal-working likelihood and proved inline by completing the square</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">25</td>
+<td style="text-align: left;">THM-15-4</td>
+<td style="text-align: left;">thm-antoniak</td>
+<td style="text-align: left;">restated</td>
+<td style="text-align: left;">Appendix A A.1.4; inline summary ch.&nbsp;15</td>
+<td style="text-align: left;">proved-here</td>
+<td style="text-align: left;">pmf, expectation, nonatomic qualification, and partition-model sufficiency are proved</td>
+<td style="text-align: left;">sec.&nbsp;4, printed pp.&nbsp;1160-1163; the digamma closed form is one line from his sum and is verified numerically in V8</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">33</td>
+<td style="text-align: left;">THM-17-3</td>
+<td style="text-align: left;">thm-incompatible</td>
+<td style="text-align: left;">adapted</td>
+<td style="text-align: left;">inline, ch.&nbsp;17</td>
+<td style="text-align: left;">proved-here</td>
+<td style="text-align: left;">explicit nondegenerate two-posterior counterexample with frozen values</td>
+<td style="text-align: left;">secs. 2.1-2.4 supply the three Bayes actions and Theorem 1’s midpoint-quantile ISEL solution; Paddock et al.&nbsp;abstract/sec.&nbsp;2.1 supplies the general incompatibility motivation; the narrower existence statement and correctly computed normal example are this book’s and checked against a frozen table in V8</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">34</td>
+<td style="text-align: left;">THM-18-1</td>
+<td style="text-align: left;">thm-cb</td>
+<td style="text-align: left;">adapted</td>
+<td style="text-align: left;">inline, ch.&nbsp;18</td>
+<td style="text-align: left;">proved-here</td>
+<td style="text-align: left;">book specialization and existence boundary are derived from the sourced general rule</td>
+<td style="text-align: left;">Theorem 1 and proof pp.&nbsp;534-535 give the general rule; Remarks 1-2 give inflation and nonexistence conditions; V8 checks the independent-posterior form, its exact equality to the package expression through R’s P-1 sample-variance denominator, and the omitted cross-person covariance term</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">13</td>
+<td style="text-align: left;">PROP-08-2</td>
+<td style="text-align: left;">prp-separation</td>
+<td style="text-align: left;">restated</td>
+<td style="text-align: left;">Appendix A A.3.1</td>
+<td style="text-align: left;">partial-derivation</td>
+<td style="text-align: left;">separation identity is proved; strata convention remains source-only</td>
+<td style="text-align: left;">sec.&nbsp;5.5; read directly at intake, C-002 and C-003 confirm the manuscript attribution</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">30</td>
+<td style="text-align: left;">PROP-16-4</td>
+<td style="text-align: left;">prp-partial-id</td>
+<td style="text-align: left;">restated</td>
+<td style="text-align: left;">Appendix A A.2.1</td>
+<td style="text-align: left;">partial-derivation</td>
+<td style="text-align: left;">pattern factorization and algebraic identity are proved; source inversion theorem remains source-only</td>
+<td style="text-align: left;">Theorem 5 and expression (11), not Theorem 3 as the Appendix F draft states (see C-014); Theorem 6 gives the asymptotic conditions; no equivalence with a selected pair’s total-variation separation is claimed</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">32</td>
+<td style="text-align: left;">PROP-17-2</td>
+<td style="text-align: left;">prp-rank-of-mean</td>
+<td style="text-align: left;">restated</td>
+<td style="text-align: left;">Appendix A A.4.1</td>
+<td style="text-align: left;">partial-derivation</td>
+<td style="text-align: left;">value distinction is proved; stochastic-order conclusion invokes Shen-Louis Theorem 2</td>
+<td style="text-align: left;">sec.&nbsp;2.1 p.&nbsp;457 gives the expected-rank action and its generally noninteger values; sec.&nbsp;3 Theorem 2 p.&nbsp;459 gives induced-order agreement under stochastic ordering; Goldstein &amp; Spiegelhalter (1996) supplies the rank-uncertainty context</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">39</td>
+<td style="text-align: left;">PROP-20-1</td>
+<td style="text-align: left;">prp-rank-reliability</td>
+<td style="text-align: left;">adapted</td>
+<td style="text-align: left;">inline, ch.&nbsp;20</td>
+<td style="text-align: left;">partial-derivation</td>
+<td style="text-align: left;">Gaussian source statement plus independently computed matched-reliability Rasch grid</td>
+<td style="text-align: left;">sec.&nbsp;2 gives the Gaussian statement under its model conditions; the Rasch calculation uses full-support midpoint-quantile quadrature, common-wbar interpolation, a frozen 400-versus-800-node convergence receipt, and a unit-variance logistic heavy-tail working shape in code/R/02-rank-concordance.R and tables/F-rank-reliability-*.rds</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">23</td>
+<td style="text-align: left;">THM-15-2</td>
+<td style="text-align: left;">thm-stick</td>
+<td style="text-align: left;">restated</td>
+<td style="text-align: left;">Appendix A A.1.1</td>
+<td style="text-align: left;">partial-derivation</td>
+<td style="text-align: left;">weight sum, expected weights, and remainder are proved; DP finite-dimensional law remains source-only</td>
+<td style="text-align: left;">sec.&nbsp;1 construction; Theorems 3.4 and 4.3 for the Dirichlet marginals and conjugacy</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">24</td>
+<td style="text-align: left;">THM-15-3</td>
+<td style="text-align: left;">thm-crp</td>
+<td style="text-align: left;">restated</td>
+<td style="text-align: left;">Appendix A A.1.3</td>
+<td style="text-align: left;">partial-derivation</td>
+<td style="text-align: left;">partition rule is derived; martingale convergence and DP limit remain source-only</td>
+<td style="text-align: left;">abstract and sec.&nbsp;1; the reduction of the restaurant metaphor to this theorem is this book’s presentation and answers R2-4b</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">36</td>
+<td style="text-align: left;">THM-19-1</td>
+<td style="text-align: left;">thm-gr</td>
+<td style="text-align: left;">restated</td>
+<td style="text-align: left;">Appendix A A.4.2</td>
+<td style="text-align: left;">partial-derivation</td>
+<td style="text-align: left;">loss targets and discrete/continuous EDF distinction are derived; source construction remains attributed</td>
+<td style="text-align: left;">sec.&nbsp;2.1 p.&nbsp;457 gives expected ranks; sec.&nbsp;2.3 pp.&nbsp;457-458 gives ISEL and midpoint quantiles; sec.&nbsp;2.4 pp.&nbsp;458-459 gives the three-step construction and optimal assignment; uniform randomization within exact tie blocks is the book’s exchangeability-preserving completion</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">3</td>
+<td style="text-align: left;">DEF-04-1</td>
+<td style="text-align: left;">def-ident</td>
+<td style="text-align: left;">restated</td>
+<td style="text-align: left;">source locator only</td>
+<td style="text-align: left;">source-only</td>
+<td style="text-align: left;">definition is restated from the registered locator</td>
+<td style="text-align: left;">sec.&nbsp;8.2.2 (p.&nbsp;131)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">22</td>
+<td style="text-align: left;">DEF-15-1</td>
+<td style="text-align: left;">def-dp</td>
+<td style="text-align: left;">restated</td>
+<td style="text-align: left;">source locator only</td>
+<td style="text-align: left;">source-only</td>
+<td style="text-align: left;">Ferguson finite-dimensional definition; no Appendix A proof is claimed</td>
+<td style="text-align: left;">secs. 1 and 3; alpha is a MEASURE, whose total mass is the concentration and whose normalization is the base measure</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">8</td>
+<td style="text-align: left;">THM-05-1</td>
+<td style="text-align: left;">thm-neyman-scott</td>
+<td style="text-align: left;">restated</td>
+<td style="text-align: left;">source locator only</td>
+<td style="text-align: left;">source-only</td>
+<td style="text-align: left;">Haberman/Andersen theorem is stated with conditions; published proof is not reproduced</td>
+<td style="text-align: left;">sec.&nbsp;9.2.1 (pp.&nbsp;~152-154), reporting Andersen (1973, pp.&nbsp;66-69)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">9</td>
+<td style="text-align: left;">THM-06-1</td>
+<td style="text-align: left;">thm-warm</td>
+<td style="text-align: left;">restated</td>
+<td style="text-align: left;">source locator only</td>
+<td style="text-align: left;">source-only</td>
+<td style="text-align: left;">Warm theorem and assumptions are restated at the registered locator</td>
+<td style="text-align: left;">eqs. (6)-(10) and theorem, pp.&nbsp;430-432; Appendix assumptions and separate variance proof, pp.&nbsp;444-448</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</figure>
+</div>
+</div>
+<p>Two things are worth reading off this table. Every result tagged <strong>derived-here</strong> has a <code>proved-here</code> argument. Restated or adapted results can be <code>proved-here</code>, <code>partial-derivation</code>, or <code>source-only</code>; none of those labels is an originality claim.</p>
+</section>
+<section id="sec-appa-dp" class="level2" data-number="A.2">
+<h2 data-number="A.2" class="anchored" data-anchor-id="sec-appa-dp"><span class="header-section-number">A.2</span> A.1 The Dirichlet process</h2>
+<p><a href="../chapters/15-dirichlet-process.html" class="quarto-xref"><span>Chapter 15</span></a> defines the process and states three structural results from their sources. The arguments are short enough to give in full, and giving them makes Part V self-contained.</p>
+<section id="sec-appa-stick" class="level3" data-number="A.2.1">
+<h3 data-number="A.2.1" class="anchored" data-anchor-id="sec-appa-stick"><span class="header-section-number">A.2.1</span> A.1.1 Stick-breaking</h3>
+<p><strong>Source result</strong> (<a href="../chapters/15-dirichlet-process.html#thm-stick" class="quarto-xref">Theorem&nbsp;<span>15.1</span></a>, <em>restated from Sethuraman 1994</em>). Let <span class="math inline">\(V_1, V_2, \dots\)</span> be i.i.d. <span class="math inline">\(\mathrm{Beta}(1,\alpha)\)</span>, let <span class="math inline">\(\phi_1, \phi_2, \dots\)</span> be i.i.d. from the normalized base measure <span class="math inline">\(\bar G_0\)</span> and independent of the <span class="math inline">\(V\)</span>’s, and set</p>
+<p><span class="math display">\[p_n = V_n \prod_{\ell &lt; n} (1 - V_\ell), \qquad
+P = \sum_{n=1}^{\infty} p_n \delta_{\phi_n} .\]</span></p>
+<p>Then <span class="math inline">\(P \sim \mathrm{DP}(\alpha \bar G_0)\)</span>.</p>
+<p><strong>Proof status: partial derivation.</strong> The two weight facts used later are proved below. The finite-dimensional Dirichlet law of <span class="math inline">\(P\)</span> is Sethuraman’s theorem and remains source-only.</p>
+<p><em>Proof of the two facts the chapter uses.</em> The weights sum to one almost surely. Writing <span class="math inline">\(R_N = \prod_{\ell \le N}(1 - V_\ell)\)</span> for the unbroken remainder after <span class="math inline">\(N\)</span> breaks, induction on the definition gives <span class="math inline">\(\sum_{n \le N} p_n = 1 - R_N\)</span>. Since the <span class="math inline">\(V_\ell\)</span> are i.i.d. with <span class="math inline">\(\operatorname{E}[\log(1-V_\ell)] = \int_0^1 \log(1-v)\,\alpha(1-v)^{\alpha-1}\,dv
+= -1/\alpha\)</span>, which is a strictly negative finite constant, <span class="math inline">\(\log R_N\)</span> is a random walk with negative drift and <span class="math inline">\(R_N \to 0\)</span> almost surely. Hence <span class="math inline">\(\sum_n p_n = 1\)</span>.</p>
+<p>The mean weight sequence is geometric. <span class="math inline">\(\operatorname{E}[V_n] = 1/(1+\alpha)\)</span> and <span class="math inline">\(\operatorname{E}[1 - V_\ell] = \alpha/(1+\alpha)\)</span>, and independence across <span class="math inline">\(\ell\)</span> gives</p>
+<p><span class="math display">\[\operatorname{E}[p_n] = \frac{1}{1+\alpha}\left(\frac{\alpha}{1+\alpha}\right)^{n-1}
+= \frac{\alpha^{n-1}}{(1+\alpha)^n} .\]</span></p>
+<p>So the expected weights decay geometrically at rate <span class="math inline">\(\alpha/(1+\alpha)\)</span>, and the expected mass left after <span class="math inline">\(N\)</span> atoms is <span class="math inline">\((\alpha/(1+\alpha))^N\)</span>, which is the truncation bound <a href="../chapters/15-dirichlet-process.html" class="quarto-xref"><span>Chapter 15</span></a> uses. <code>V8</code> checks all three statements numerically (<code>THM-15-2</code>, <code>THM-15-2b</code>, <code>THM-15-2c</code>).</p>
+<p>That the resulting <span class="math inline">\(P\)</span> has Dirichlet finite-dimensional distributions is Sethuraman’s theorem and is not reproved here; the locator is in the index. □</p>
+</section>
+<section id="sec-appa-discrete" class="level3" data-number="A.2.2">
+<h3 data-number="A.2.2" class="anchored" data-anchor-id="sec-appa-discrete"><span class="header-section-number">A.2.2</span> A.1.2 A draw is discrete with probability one</h3>
+<p><strong>Claim</strong> (<a href="../chapters/15-dirichlet-process.html#prp-discrete" class="quarto-xref">Proposition&nbsp;<span>15.1</span></a>, <em>restated; immediate from <a href="../chapters/15-dirichlet-process.html#thm-stick" class="quarto-xref">Theorem&nbsp;<span>15.1</span></a></em>).</p>
+<p><em>Proof.</em> By A.1.1 the random measure is <span class="math inline">\(\sum_n p_n \delta_{\phi_n}\)</span> with <span class="math inline">\(\sum_n p_n = 1\)</span> almost surely. A countable convex combination of point masses is a discrete measure. The conclusion holds <strong>however smooth <span class="math inline">\(\bar G_0\)</span> is</strong>: continuity of the base measure controls where the atoms fall, not whether there are atoms. That is the fact <a href="../chapters/16-dpm-priors.html" class="quarto-xref"><span>Chapter 16</span></a> needs when it warns that a DPM’s mixing distribution is discrete even under a Gaussian base. □</p>
+</section>
+<section id="sec-appa-crp" class="level3" data-number="A.2.3">
+<h3 data-number="A.2.3" class="anchored" data-anchor-id="sec-appa-crp"><span class="header-section-number">A.2.3</span> A.1.3 The Pólya urn and the CRP</h3>
+<p><strong>Source result</strong> (<a href="../chapters/15-dirichlet-process.html#thm-crp" class="quarto-xref">Theorem&nbsp;<span>15.2</span></a>, <em>restated from Blackwell and MacQueen 1973</em>). If <span class="math inline">\(\theta_1, \theta_2, \dots\)</span> follow the Pólya urn scheme</p>
+<p><span class="math display">\[\theta_{n+1} \mid \theta_1, \dots, \theta_n \;\sim\;
+\frac{\alpha}{\alpha + n}\,\bar G_0 + \frac{1}{\alpha + n}\sum_{i \le n} \delta_{\theta_i},\]</span></p>
+<p>then the empirical measure converges almost surely to a discrete random measure <span class="math inline">\(P\)</span>, and <span class="math inline">\(P \sim \mathrm{DP}(\alpha \bar G_0)\)</span> with the <span class="math inline">\(\theta\)</span>’s i.i.d. <span class="math inline">\(P\)</span> given <span class="math inline">\(P\)</span>.</p>
+<p><strong>Condition for the chapter’s distinct-value reading.</strong> The seating partition exists for any base measure. Identifying “a new table” with “a new observed value” additionally requires <span class="math inline">\(\bar G_0\)</span> to be nonatomic; otherwise a fresh base-measure draw can coincide with a value already observed.</p>
+<p><em>Proof of the partition statement the book uses.</em> Read the scheme as a seating rule. Draw <span class="math inline">\(n+1\)</span> joins an existing cluster of size <span class="math inline">\(m_k\)</span> with probability <span class="math inline">\(m_k/(\alpha+n)\)</span> and starts a new one with probability <span class="math inline">\(\alpha/(\alpha+n)\)</span>. The induced distribution on partitions is therefore exchangeable and depends on the labels only through the cluster sizes — the Chinese restaurant process. Marginalizing the urn over the <span class="math inline">\(\phi\)</span>’s in A.1.1 gives the same partition law, which is the correspondence <a href="../chapters/15-dirichlet-process.html" class="quarto-xref"><span>Chapter 15</span></a> uses to move between the two representations. The almost-sure convergence and the identification of the limit as a DP are Blackwell and MacQueen’s martingale argument, whose locator is in the index. □</p>
+</section>
+<section id="sec-appa-antoniak" class="level3" data-number="A.2.4">
+<h3 data-number="A.2.4" class="anchored" data-anchor-id="sec-appa-antoniak"><span class="header-section-number">A.2.4</span> A.1.4 Antoniak’s law for the number of occupied clusters</h3>
+<p><strong>Claim</strong> (used in <a href="../chapters/15-dirichlet-process.html" class="quarto-xref"><span>Chapter 15</span></a> and <a href="../chapters/16-dpm-priors.html" class="quarto-xref"><span>Chapter 16</span></a>). Under the CRP with concentration <span class="math inline">\(\alpha\)</span>, the number <span class="math inline">\(K_J\)</span> of occupied tables among <span class="math inline">\(J\)</span> draws has</p>
+<p><span class="math display">\[
+\Pr(K_J=k\mid\alpha)=
+\frac{|s(J,k)|\alpha^k}{(\alpha)_J},
+\qquad (\alpha)_J=\alpha(\alpha+1)\cdots(\alpha+J-1),
+\]</span></p>
+<p>and</p>
+<p><span class="math display">\[\operatorname{E}[K_J \mid \alpha] = \sum_{j=0}^{J-1} \frac{\alpha}{\alpha + j}
+= \alpha\left[\psi(\alpha + J) - \psi(\alpha)\right],\]</span></p>
+<p>where <span class="math inline">\(\psi\)</span> is the digamma function. If <span class="math inline">\(\bar G_0\)</span> is nonatomic, occupied tables and distinct observed values coincide. Moreover, for fixed <span class="math inline">\(J\)</span>, <span class="math inline">\(K_J\)</span> is sufficient for <span class="math inline">\(\alpha\)</span> in the induced partition model.</p>
+<p><em>Proof.</em> Let <span class="math inline">\(B_j\)</span> indicate that draw <span class="math inline">\(j\)</span> starts a new table, <span class="math inline">\(j = 1, \dots, J\)</span>, with <span class="math inline">\(B_1 = 1\)</span>. By the seating rule of A.1.3, <span class="math inline">\(\Pr(B_{j+1} = 1 \mid \text{first } j) =
+\alpha/(\alpha + j)\)</span>, which does <strong>not</strong> depend on the realized partition. So the <span class="math inline">\(B\)</span>’s are independent Bernoulli variables. Their probability-generating function is</p>
+<p><span class="math display">\[
+\operatorname{E}[t^{K_J}\mid\alpha]
+=\prod_{j=0}^{J-1}\frac{\alpha t+j}{\alpha+j}
+=\frac{\sum_{k=1}^{J}|s(J,k)|(\alpha t)^k}{(\alpha)_J},
+\]</span></p>
+<p>where the last equality is the rising-factorial expansion for the unsigned Stirling numbers of the first kind. Extracting the coefficient of <span class="math inline">\(t^k\)</span> gives the pmf. Also <span class="math inline">\(K_J=\sum_j B_j\)</span> gives the expectation, and <span class="math inline">\(\psi(x+1)-\psi(x)=1/x\)</span> gives the digamma form.</p>
+<p>For sufficiency, the CRP probability of a particular partition with block sizes <span class="math inline">\(n_1,\ldots,n_k\)</span> is</p>
+<p><span class="math display">\[
+\frac{\alpha^k}{(\alpha)_J}\prod_{h=1}^{k}(n_h-1)!.
+\]</span></p>
+<p>Its dependence on <span class="math inline">\(\alpha\)</span> is only through <span class="math inline">\(k=K_J\)</span>, so the factorization criterion makes <span class="math inline">\(K_J\)</span> sufficient for <span class="math inline">\(\alpha\)</span> in this partition model. □</p>
+<p>The independence is the step worth noticing: it is what makes <span class="math inline">\(\operatorname{E}[K_J]\)</span> available in closed form, and it is why the elicitation of <a href="../chapters/15-dirichlet-process.html" class="quarto-xref"><span>Chapter 15</span></a> can invert the relation to choose a prior on <span class="math inline">\(\alpha\)</span> from a belief about <span class="math inline">\(K\)</span>. <code>V8</code> checks the identity and the elicitation against it (<code>THM-15-4</code>, <code>THM-15-4b</code>, <code>THM-15-4c</code>).</p>
+</section>
+</section>
+<section id="sec-appa-partialid" class="level2" data-number="A.3">
+<h2 data-number="A.3" class="anchored" data-anchor-id="sec-appa-partialid"><span class="header-section-number">A.3</span> A.2 Identification of <span class="math inline">\(G\)</span> from a finite test</h2>
+<section id="sec-appa-i1" class="level3" data-number="A.3.1">
+<h3 data-number="A.3.1" class="anchored" data-anchor-id="sec-appa-i1"><span class="header-section-number">A.3.1</span> A.2.1 What a finite test identifies</h3>
+<p><strong>Claim</strong> (<a href="../chapters/16-dpm-priors.html#prp-partial-id" class="quarto-xref">Proposition&nbsp;<span>16.4</span></a>, <em>restated from San Martín et al.&nbsp;2011, Theorem 5</em>). Under the source’s anchor-item and availability conditions for the semiparametric Rasch model, the observable law is generated by the item parameters and the following <span class="math inline">\(I+1\)</span> displayed basic integral evaluations of <span class="math inline">\(G\)</span>.</p>
+<p><em>Argument.</em> The observable is the distribution of the response vector <span class="math inline">\(\mathbf{U} \in \{0,1\}^I\)</span>, which is <span class="math inline">\(2^I\)</span> probabilities summing to one. Under local independence and the Rasch form, the probability of any pattern with total score <span class="math inline">\(r\)</span> is</p>
+<p><span class="math display">\[\Pr(\mathbf{U} = \mathbf{u}) = \int \prod_{i} \frac{e^{u_i(\theta - \beta_i)}}
+{1 + e^{\theta - \beta_i}} \, dG(\theta),\]</span></p>
+<p>Writing <span class="math inline">\(r=\sum_i u_i\)</span>, the pattern probability equals <span class="math inline">\(\exp(-\sum_i u_i\beta_i)\mu_r\)</span>, so the whole observable law is a function of the item parameters and of the <span class="math inline">\(I+1\)</span> evaluations</p>
+<p><span class="math display">\[\mu_r = \int \frac{e^{r\theta}}{\prod_i (1 + e^{\theta - \beta_i})}\, dG(\theta),
+\qquad r = 0, 1, \dots, I,\]</span></p>
+<p>one for each attainable total score. These evaluations are not unconstrained independent coordinates. Summing all pattern probabilities gives the identity</p>
+<p><span class="math display">\[
+\sum_{r=0}^{I}e_r(e^{-\beta_1},\ldots,e^{-\beta_I})\mu_r=1,
+\]</span></p>
+<p>where <span class="math inline">\(e_r\)</span> is the <span class="math inline">\(r\)</span>th elementary symmetric polynomial. Two latent distributions producing the same displayed evaluations are observationally equivalent. San Martín et al. invert the observable map under their source conditions; this argument establishes the factorization and identity, not an independent-dimension or universal “no more” claim.</p>
+<p>The full inversion under the anchor restriction is their Theorem 5 and remains source-only. Their Theorem 3 concerns the Rasch <strong>Poisson counts</strong> model and gives full identification of <span class="math inline">\(\beta\)</span> and <span class="math inline">\(G\)</span> with at least two probes; conflating the two is the manuscript error recorded as <code>C-014</code>. □</p>
+</section>
+<section id="sec-appa-dpmconstraint" class="level3" data-number="A.3.2">
+<h3 data-number="A.3.2" class="anchored" data-anchor-id="sec-appa-dpmconstraint"><span class="header-section-number">A.3.2</span> A.2.2 A centred base measure does not centre the realized DPM</h3>
+<p><strong>Claim</strong> (<a href="../chapters/16-dpm-priors.html#prp-dpm-constraint" class="quarto-xref">Proposition&nbsp;<span>16.3</span></a>, <em>adapted from San Martín et al.&nbsp;2011</em>). If <span class="math inline">\(G \sim
+\mathrm{DP}(\alpha G_0)\)</span>, <span class="math inline">\(\int \theta \, dG_0(\theta) = 0\)</span>, and <span class="math inline">\(0&lt;\operatorname{Var}_{G_0}(\theta)&lt;\infty\)</span>, then the realized mean <span class="math inline">\(M_G=\int\theta\,dG(\theta)\)</span> is nondegenerate, with</p>
+<p><span class="math display">\[
+\operatorname{E}(M_G)=0,
+\qquad
+\operatorname{Var}(M_G)=\frac{\operatorname{Var}_{G_0}(\theta)}{1+\alpha}.
+\]</span></p>
+<p><em>Proof.</em> By A.1.1, <span class="math inline">\(\int \theta\,dG(\theta) = \sum_n p_n \phi_n\)</span> with the <span class="math inline">\(\phi_n\)</span> i.i.d. from <span class="math inline">\(\bar G_0\)</span> and the <span class="math inline">\(p_n\)</span> the stick-breaking weights, independent of them. Conditional on the weights, this is a weighted sum of mean-zero draws, so its conditional mean is zero and its conditional variance is <span class="math inline">\(\sigma^2_{G_0} \sum_n p_n^2\)</span>, which is finite and strictly positive under the stated assumption because the weights sum to one. The realized mean is therefore a non-degenerate mean-zero random variable, not the constant zero.</p>
+<p>Two consequences the book uses. Centring the <em>base measure</em> is not the same restriction as centring the <em>realized</em> distribution, so a location constraint imposed on the base does not identify the model; and <span class="math inline">\(\operatorname{E}[\sum_n p_n^2] = 1/(1+\alpha)\)</span> gives the displayed unconditional variance. Thus the discrepancy shrinks as <span class="math inline">\(\alpha\)</span> grows and is largest exactly where the prior is most flexible. □</p>
+</section>
+</section>
+<section id="sec-appa-reliability" class="level2" data-number="A.4">
+<h2 data-number="A.4" class="anchored" data-anchor-id="sec-appa-reliability"><span class="header-section-number">A.4</span> A.3 Reliability, separation, and the design constant</h2>
+<section id="sec-appa-separation" class="level3" data-number="A.4.1">
+<h3 data-number="A.4.1" class="anchored" data-anchor-id="sec-appa-separation"><span class="header-section-number">A.4.1</span> A.3.1 Separation and strata</h3>
+<p><strong>Claim</strong> (<a href="../chapters/08-reliability.html#prp-separation" class="quarto-xref">Proposition&nbsp;<span>8.2</span></a>, <em>restated from Wright and Masters 1982, § 5.5</em>). With <span class="math inline">\(\bar w = \sigma^2/(\sigma^2 + \mathrm{MSEM})\)</span>, the person separation index and the number of strata are</p>
+<p><span class="math display">\[S = \frac{\sigma}{\mathrm{RMSEM}} = \sqrt{\frac{\bar w}{1 - \bar w}},
+\qquad H = \frac{4S + 1}{3} .\]</span></p>
+<p><em>Proof of the separation identity.</em> <span class="math inline">\(\bar w/(1-\bar w) = \sigma^2/\mathrm{MSEM}\)</span>, and taking square roots gives <span class="math inline">\(S = \sigma/\mathrm{RMSEM}\)</span>.</p>
+<p><strong>The strata formula is not derived here, and Wright and Masters do not derive it either.</strong> They state <span class="math inline">\(H = (4G+1)/3\)</span> for both the item and the person index and give the convention it encodes — statistically distinct strata have centres <strong>three calibration or measurement errors apart</strong> — without showing where the constants come from. That convention is the substantive content, it is what the manuscript had used without a source, and it is recorded as <code>C-003</code>. This book restates the formula on their authority; a reader wanting the constants justified will not find it in the source, and inventing a derivation here would misrepresent what is known.</p>
+<p>This is the identity that exposes <code>C-001</code>. Computing <span class="math inline">\(S\)</span> from a <em>rounded</em> RMSEM rather than from the exact target reliability is what produces the manuscript’s <span class="math inline">\(1.3\)</span>, <span class="math inline">\(1.4\)</span> and <span class="math inline">\(3.3\)</span> where the exact column is <span class="math inline">\(1.0\)</span>, <span class="math inline">\(1.2\)</span>, <span class="math inline">\(1.5\)</span>, <span class="math inline">\(2.0\)</span>, <span class="math inline">\(3.0\)</span>. <code>V8</code> checks both readings (<code>PROP-08-2</code>, <code>C-001</code>, <code>C-001b</code>). □</p>
+</section>
+<section id="sec-appa-cstar" class="level3" data-number="A.4.2">
+<h3 data-number="A.4.2" class="anchored" data-anchor-id="sec-appa-cstar"><span class="header-section-number">A.4.2</span> A.3.2 The design constant, and the condition it needs</h3>
+<p><strong>Claim</strong> (<a href="../chapters/09-designing-for-reliability.html#prp-cstar" class="quarto-xref">Proposition&nbsp;<span>9.1</span></a>, deferred from <a href="../chapters/09-designing-for-reliability.html" class="quarto-xref"><span>Chapter 9</span></a>). Fix the item count, difficulties, baseline discriminations, and population distribution. Let <span class="math inline">\(c&gt;0\)</span> multiply every discrimination, and suppose both reliability functions have unique strictly increasing branches through the target. The discrimination multiplier required under the MSEM definition is at least the multiplier required under the average-information definition.</p>
+<p><em>Proof.</em> At a fixed value of the discrimination multiplier <span class="math inline">\(c\)</span>, let <span class="math inline">\(\mathcal{J}_c(\theta)\)</span> be the information computed with both the <span class="math inline">\(c\)</span>-scaled slopes and the resulting <span class="math inline">\(c\)</span>-dependent response probabilities. MSEM is the mean of the conditional error variances, <span class="math inline">\(\operatorname{E}_\theta[1/\mathcal{J}_c(\theta)]\)</span>; the average-information summary is the reciprocal of the mean information, <span class="math inline">\(1/\operatorname{E}_\theta[\mathcal{J}_c(\theta)]\)</span>. Since <span class="math inline">\(x \mapsto 1/x\)</span> is strictly convex on <span class="math inline">\((0,\infty)\)</span>, Jensen gives</p>
+<p><span class="math display">\[\operatorname{E}_\theta\!\left[\frac{1}{\mathcal{J}_c(\theta)}\right] \;\ge\;
+\frac{1}{\operatorname{E}_\theta[\mathcal{J}_c(\theta)]},\]</span></p>
+<p>with equality if and only if <span class="math inline">\(\mathcal{J}_c(\theta)\)</span> is constant in <span class="math inline">\(\theta\)</span>. So the MSEM error is the larger and the MSEM reliability is no larger at every common <span class="math inline">\(c\)</span>. On the assumed unique increasing branches, the inverse image of a common target is therefore reached no earlier by <span class="math inline">\(\bar w(c)\)</span> than by <span class="math inline">\(\tilde\rho(c)\)</span>, so <span class="math inline">\(c^\star_{\bar w}\ge c^\star_{\tilde\rho}\)</span>. The strictness of the inequality away from constant information is why the two definitions diverge exactly in the item-response setting, where information depends on <span class="math inline">\(\theta\)</span> by construction (<a href="../chapters/07-information-and-error.html" class="quarto-xref"><span>Chapter 7</span></a>).</p>
+<p>The uniqueness condition is not cosmetic: without a single strictly increasing branch the inverse image is not a point and “the required discrimination multiplier” is not well defined. <code>V8</code> checks the inequality and, separately, that scaled 2PL information is <em>not</em> obtained by freezing the response probabilities (<code>PROP-09-1</code>, <code>PROP-09-1b</code>). □</p>
+</section>
+</section>
+<section id="sec-appa-summaries" class="level2" data-number="A.5">
+<h2 data-number="A.5" class="anchored" data-anchor-id="sec-appa-summaries"><span class="header-section-number">A.5</span> A.4 Posterior summaries</h2>
+<section id="sec-appa-rankofmean" class="level3" data-number="A.5.1">
+<h3 data-number="A.5.1" class="anchored" data-anchor-id="sec-appa-rankofmean"><span class="header-section-number">A.5.1</span> A.4.1 Rank of the mean against mean of the rank</h3>
+<p><strong>Claim</strong> (<a href="../chapters/17-three-goals.html#prp-rank-of-mean" class="quarto-xref">Proposition&nbsp;<span>17.2</span></a>, <em>restated from Shen and Louis 1998</em>). The rank of the posterior mean and the posterior mean of the rank differ in <strong>value</strong> in general, and differ in <strong>ordering</strong> only outside stochastically ordered regimes.</p>
+<p><em>Proof.</em> For the value statement, the expected rank of unit <span class="math inline">\(k\)</span> is <span class="math inline">\(\bar R_k = \sum_q \Pr(\theta_q \le \theta_k \mid \mathbf{u})\)</span>, which for independent posteriors is a sum of <span class="math inline">\(K\)</span> probabilities and takes values in <span class="math inline">\([1, K]\)</span> on a continuous scale, while <span class="math inline">\(\operatorname{rank}(\eta_k)\)</span> is an integer in <span class="math inline">\(\{1, \dots, K\}\)</span>. They are different objects and coincide only by accident.</p>
+<p>For the ordering statement, the tempting term-by-term comparison of the self and cross summands is false. The valid result is Shen and Louis’s Theorem 2: under their stochastic ordering condition, posterior means, expected ranks, and the relevant rank summaries induce the same order. That published theorem is invoked at its locator rather than replaced by the invalid summand argument. The converse fails: two normals with different variances are <strong>not</strong> stochastically ordered, their standardized arguments cross, and the expected-rank ordering can then disagree with the ordering of the means.</p>
+<p><a href="../chapters/12-empirical-bayes-tradition.html" class="quarto-xref"><span>Chapter 12</span></a> supplies the case that matters for this book. In a common-form Rasch model the posterior depends on the data only through the total score and the family is ordered in it, so the regime is the stochastically ordered one and the orderings agree — which is why the correction recorded there withdrew an earlier claim that differential shrinkage reorders. □</p>
+</section>
+<section id="sec-appa-gr" class="level3" data-number="A.5.2">
+<h3 data-number="A.5.2" class="anchored" data-anchor-id="sec-appa-gr"><span class="header-section-number">A.5.2</span> A.4.2 The triple-goal construction</h3>
+<p><strong>Claim</strong> (<a href="../chapters/19-triple-goal.html#thm-gr" class="quarto-xref">Theorem&nbsp;<span>19.1</span></a>, <em>restated from Shen and Louis 1998, §§ 2.1, 2.3, 2.4</em>). The triple-goal estimator is built in three steps: form <span class="math inline">\(\bar G_K(t) = K^{-1}\sum_k
+\Pr(\theta_k \le t \mid \mathbf{u})\)</span> and take its <span class="math inline">\(K\)</span> midpoint quantiles <span class="math inline">\(\hat U_j =
+\bar G_K^{-1}\!\left(\frac{2j-1}{2K}\right)\)</span>; compute expected ranks <span class="math inline">\(\bar R_k\)</span> and discretize them to integer ranks <span class="math inline">\(\hat R_k\)</span>; and set <span class="math inline">\(\hat\theta_k = \hat U_{\hat R_k}\)</span>.</p>
+<p><em>What each step optimizes.</em> Step 1: the unrestricted pointwise squared-error Bayes action for the ensemble EDF is the continuous posterior-mean function <span class="math inline">\(\bar G_K\)</span>. When the action is restricted to empirical CDFs with <span class="math inline">\(K\)</span> equal masses, the ISEL-optimal discrete action is <span class="math inline">\(\hat G_K\)</span>, whose atoms are the midpoint quantiles <span class="math inline">\(\hat U_j\)</span> of <span class="math inline">\(\bar G_K\)</span>. In general <span class="math inline">\(\hat G_K\ne\bar G_K\)</span>; discretization approximates the continuous Bayes action and does not carry it exactly. Step 2: the expected rank minimizes squared-error rank loss, by the same posterior-mean argument applied to <span class="math inline">\(R_k\)</span>; the source construction converts those real-valued actions to a permutation. Step 3 assigns the ordered atoms by that expected-rank permutation. Separately, the rearrangement inequality says the coordinate-SEL-minimizing permutation pairs the ordered atoms with the ordered posterior means. These are the same assignment only when the expected-rank order and posterior-mean order agree.</p>
+<p>Two things follow, both used in <a href="../chapters/19-triple-goal.html" class="quarto-xref"><span>Chapter 19</span></a>. Every permitted step-3 assignment is a permutation of the atoms and therefore carries the <strong>discrete action <span class="math inline">\(\hat G_K\)</span></strong> exactly. It does not carry the continuous <span class="math inline">\(\bar G_K\)</span> exactly. And <span class="math inline">\(\bar G_K(t)\)</span> is a <em>probability</em> — an average of <span class="math inline">\(K\)</span> posterior probabilities — not a trait estimate. □</p>
+</section>
+</section>
+<section id="sec-appa-notes" class="level2" data-number="A.6">
+<h2 data-number="A.6" class="anchored" data-anchor-id="sec-appa-notes"><span class="header-section-number">A.6</span> A.5 What is deliberately not here</h2>
+<p>The proofs of Sethuraman’s finite-dimensional DP theorem, Blackwell and MacQueen’s martingale convergence, San Martín et al.’s inversion theorem, Ghosh’s general constrained-Bayes theorem, and Shen and Louis’s stochastic-order theorem are not reproduced. Each remains <code>source-only</code> at the locator in the claim-level inventory. What is established above is narrower: the weight identities, partition/Antoniak algebra, finite-test factorization and identity, realized-DP mean variance, reliability ordering at common discrimination scale, and the correct distinction among <span class="math inline">\(\bar G_K\)</span>, <span class="math inline">\(\hat G_K\)</span>, rank loss, and conditional coordinate-SEL assignment.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../chapters/29-evidence-settles-reopens.html" class="pagination-link" aria-label="What the Evidence Settles, and What It Reopens">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">What the Evidence Settles, and What It Reopens</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../appendices/B-crosswalk.html" class="pagination-link" aria-label="Notation Crosswalk">
+        <span class="nav-page-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Notation Crosswalk</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

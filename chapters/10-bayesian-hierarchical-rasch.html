@@ -1,0 +1,1182 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.37">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>10&nbsp; The Bayesian Hierarchical Rasch Model – Bayesian Semiparametric Item Response Modelling for Person-Specific Latent Traits</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../chapters/11-conditional-posterior-and-shrinkage.html" rel="next">
+<link href="../chapters/09-designing-for-reliability.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-5ccb035bea26c1e21f80f44cf7c27909.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>
+.prov { font-size: 0.88em; color: #555; font-style: italic; }
+blockquote.ms { border-left: 3px solid #c0392b; background: #fdf3f2; }
+</style>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/10-bayesian-hierarchical-rasch.html">IV — Bayesian Hierarchical Modelling and Shrinkage</a></li><li class="breadcrumb-item"><a href="../chapters/10-bayesian-hierarchical-rasch.html"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">The Bayesian Hierarchical Rasch Model</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Bayesian Semiparametric Item Response Modelling for Person-Specific Latent Traits</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">About This Book</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">I — Orientation</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/01-the-estimation-problem.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">The Estimation Problem</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/02-notation-and-frameworks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Notation, Terminology, and Two Frameworks</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">II — The Measurement Models</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/03-rasch-and-2pl-foundations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Foundations: the Rasch and 2PL Models</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/04-identification.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Identification</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/05-item-parameter-estimation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Estimating Item Parameters</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/06-person-parameter-estimation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Estimating Person Parameters</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">III — Information, Error, and Reliability</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/07-information-and-error.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Information and Measurement Error</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/08-reliability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Reliability in the Rasch Model</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/09-designing-for-reliability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Designing for a Target Reliability</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">IV — Bayesian Hierarchical Modelling and Shrinkage</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/10-bayesian-hierarchical-rasch.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">The Bayesian Hierarchical Rasch Model</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/11-conditional-posterior-and-shrinkage.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">The Conditional Posterior and Shrinkage</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/12-empirical-bayes-tradition.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Empirical Bayes and the Shrinkage Tradition</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">V — Beyond Normality: Flexible Latent-Trait Distributions</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/13-non-normality.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Non-Normality in Latent Traits</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/14-flexible-alternatives.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Flexible Parametric and Semiparametric Alternatives</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/15-dirichlet-process.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">The Dirichlet Process</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/16-dpm-priors.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">DPM Priors for Latent Traits</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
+ <span class="menu-text">VI — Posterior Summaries and Inferential Goals</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/17-three-goals.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Three Goals, Three Losses</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/18-constrained-bayes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Constrained Bayes</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/19-triple-goal.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Triple-Goal Estimation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/20-ranking-and-classification.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Ranking and Classification</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true">
+ <span class="menu-text">VII — Positioning</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/21-relation-to-lee-et-al.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Relation to Lee et al.&nbsp;(2025)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/22-scope-and-extensions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Scope: Why Rasch, and What Extends</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/23-open-problems.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Open Problems</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true">
+ <span class="menu-text">VIII — What Changes Under the 2PL</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/24-discrimination-and-information.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Discrimination and Information</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/25-reliability-under-2pl.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Reliability Under the Two-Parameter Model</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/26-identification-dpm-2pl.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Identification and the DPM Under the Two-Parameter Model</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true">
+ <span class="menu-text">IX — The Realized Evidence</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/27-what-the-simulation-settled.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">What the Simulation Settled</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/28-what-real-tests-look-like.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">What Real Tests Look Like</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/29-evidence-settles-reopens.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">What the Evidence Settles, and What It Reopens</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-10" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/A-proofs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Proofs</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/B-crosswalk.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Notation Crosswalk</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/C-corrections.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">C</span>&nbsp; <span class="chapter-title">Corrections to the Submitted Manuscript</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/D-annotated-bibliography.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">D</span>&nbsp; <span class="chapter-title">Annotated Bibliography</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/E-acquisition-ledger.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">E</span>&nbsp; <span class="chapter-title">Reference Acquisition Ledger</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/F-software.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">F</span>&nbsp; <span class="chapter-title">Software and Computation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/G-build-report.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">G</span>&nbsp; <span class="chapter-title">Build and Verification Report</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#sec-ch10-levels" id="toc-sec-ch10-levels" class="nav-link active" data-scroll-target="#sec-ch10-levels"><span class="header-section-number">10.1</span> Four levels, and what is actually at each one</a></li>
+  <li><a href="#sec-ch10-item-prior" id="toc-sec-ch10-item-prior" class="nav-link" data-scroll-target="#sec-ch10-item-prior"><span class="header-section-number">10.2</span> The item prior is not the one usually written down</a></li>
+  <li><a href="#sec-ch10-posterior" id="toc-sec-ch10-posterior" class="nav-link" data-scroll-target="#sec-ch10-posterior"><span class="header-section-number">10.3</span> The joint posterior</a></li>
+  <li><a href="#sec-ch10-hyperpriors" id="toc-sec-ch10-hyperpriors" class="nav-link" data-scroll-target="#sec-ch10-hyperpriors"><span class="header-section-number">10.4</span> Hyperpriors, and what is known about choosing them</a></li>
+  <li><a href="#sec-ch10-parallel" id="toc-sec-ch10-parallel" class="nav-link" data-scroll-target="#sec-ch10-parallel"><span class="header-section-number">10.5</span> A prior and a population distribution are still not the same thing</a></li>
+  <li><a href="#sec-ch10-why-bayes" id="toc-sec-ch10-why-bayes" class="nav-link" data-scroll-target="#sec-ch10-why-bayes"><span class="header-section-number">10.6</span> Why the Bayesian formulation, specifically</a></li>
+  <li><a href="#sec-ch10-computation" id="toc-sec-ch10-computation" class="nav-link" data-scroll-target="#sec-ch10-computation"><span class="header-section-number">10.7</span> Computation, briefly</a></li>
+  <li><a href="#sec-ch10-sources" id="toc-sec-ch10-sources" class="nav-link" data-scroll-target="#sec-ch10-sources"><span class="header-section-number">10.8</span> Sources and provenance</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/10-bayesian-hierarchical-rasch.html">IV — Bayesian Hierarchical Modelling and Shrinkage</a></li><li class="breadcrumb-item"><a href="../chapters/10-bayesian-hierarchical-rasch.html"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">The Bayesian Hierarchical Rasch Model</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span id="sec-ch10" class="quarto-section-identifier"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">The Bayesian Hierarchical Rasch Model</span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>Parts II and III treated the item and person parameters as things to be estimated, and the population distribution <span class="math inline">\(G\)</span> as either a device for eliminating incidental parameters (<a href="05-item-parameter-estimation.html#sec-ch05-mml" class="quarto-xref"><span>Section 5.3</span></a>) or a source of shrinkage (<a href="06-person-parameter-estimation.html#sec-ch06-family" class="quarto-xref"><span>Section 6.1</span></a>). This part writes the model that holds all of it together, and it does so for a specific reason: the argument of this research programme is about the <em>shape</em> of <span class="math inline">\(G\)</span>, and a hierarchical Bayesian formulation is the framework in which that shape can be given a prior and learned. Everything in Part V depends on the model stated here.</p>
+<p>The chapter is deliberately concrete. It states the model the companion software actually fits, read from its source, rather than a textbook idealization — and where the two differ, it says so.</p>
+<section id="sec-ch10-levels" class="level2" data-number="10.1">
+<h2 data-number="10.1" class="anchored" data-anchor-id="sec-ch10-levels"><span class="header-section-number">10.1</span> Four levels, and what is actually at each one</h2>
+<p>The phrase “second stage,” which the manuscript uses, is a source of avoidable confusion: different literatures count stages differently. The level vocabulary of <a href="02-notation-and-frameworks.html#sec-ch02-levels" class="quarto-xref"><span>Section 2.5</span></a> is used instead.</p>
+<p><strong>Level 1, the measurement model.</strong> Conditional on <span class="math inline">\(\theta_p\)</span> and <span class="math inline">\(\boldsymbol\beta\)</span>, responses are independent Bernoulli variables with the Rasch probability of <a href="03-rasch-and-2pl-foundations.html#eq-rasch" class="quarto-xref">Equation&nbsp;<span>3.2</span></a>:</p>
+<p><span id="eq-level1"><span class="math display">\[
+U_{pi} \mid \theta_p, \beta_i \;\stackrel{\text{ind}}{\sim}\;
+\operatorname{Bernoulli}(\pi_{pi}), \qquad
+\operatorname{logit}(\pi_{pi}) = \theta_p - \beta_i .
+\tag{10.1}\]</span></span></p>
+<p>This is the only level that touches the data, and it carries the local-independence assumption of <a href="03-rasch-and-2pl-foundations.html#sec-ch03-lsi" class="quarto-xref"><span>Section 3.2</span></a>.</p>
+<p><strong>Level 2, the persons.</strong> <span class="math inline">\(\theta_p \mid G \stackrel{\text{iid}}{\sim} G\)</span>. Under the parametric specification <span class="math inline">\(G = N(\mu_\theta, \sigma^2_\theta)\)</span>; under the semiparametric one, <span class="math inline">\(G\)</span> is itself given a prior, which is <a href="16-dpm-priors.html" class="quarto-xref"><span>Chapter 16</span></a>. Level 2 is where the entire book turns, and stating it as <span class="math inline">\(\theta_p \sim G\)</span> rather than <span class="math inline">\(\theta_p \sim N(\cdot)\)</span> is the whole of the generalization.</p>
+<p><strong>Level 3, the items.</strong> The item difficulties are given a common distribution as well. This is where the implemented model and the drafted appendix part company, and <a href="#sec-ch10-item-prior" class="quarto-xref"><span>Section 10.2</span></a> takes it up separately because the difference is not cosmetic.</p>
+<p><strong>Level 4, the hyperpriors.</strong> Priors on whatever remains free at level 2 and level 3. <a href="#sec-ch10-hyperpriors" class="quarto-xref"><span>Section 10.4</span></a> reports what these actually are and what is known about the choice.</p>
+</section>
+<section id="sec-ch10-item-prior" class="level2" data-number="10.2">
+<h2 data-number="10.2" class="anchored" data-anchor-id="sec-ch10-item-prior"><span class="header-section-number">10.2</span> The item prior is not the one usually written down</h2>
+<p>The Appendix D draft specifies level 3 as <span class="math inline">\(\beta_i \mid \mu_\beta, \sigma^2_\beta
+\stackrel{\text{iid}}{\sim} N(\mu_\beta, \sigma^2_\beta)\)</span> with a flat prior on <span class="math inline">\(\mu_\beta\)</span> and an inverse-<span class="math inline">\(\chi^2\)</span> prior on <span class="math inline">\(\sigma^2_\beta\)</span>. The fitted model does something else. Read from the model code, the Rasch specification under item-centred identification is</p>
+<p><span id="eq-item-centered"><span class="math display">\[
+\tilde\beta_i \stackrel{\text{iid}}{\sim} N(0, \sigma^2_\beta),
+\qquad
+\beta_i = \tilde\beta_i - \frac{1}{I}\sum_{j=1}^{I}\tilde\beta_j ,
+\qquad \sigma^2_\beta = 3 \text{ fixed},
+\tag{10.2}\]</span></span></p>
+<p>with no <span class="math inline">\(\mu_\beta\)</span> anywhere and no hyperprior on <span class="math inline">\(\sigma^2_\beta\)</span>. The centering is the identification device of <a href="04-identification.html#sec-ch04-constraints" class="quarto-xref"><span>Section 4.5</span></a> imposed inside the sampler rather than after it, and it makes the free item mean unnecessary — which is why the model does not have one.</p>
+<p>The prior on <span class="math inline">\(\boldsymbol\beta\)</span> that this induces is worth writing out, because it is not what <a href="#eq-item-centered" class="quarto-xref">Equation&nbsp;<span>10.2</span></a> looks like it is.</p>
+<div id="prp-centered-item" class="theorem proposition">
+<p><span class="theorem-title"><strong>Proposition 10.1</strong></span> <strong>The induced item prior is singular, and its marginal variance is not <span class="math inline">\(\sigma^2_\beta\)</span>.</strong> <em>Derived here; no originality claim</em></p>
+<p>With <span class="math inline">\(\tilde{\boldsymbol\beta} \sim N(\mathbf{0}, \sigma^2_\beta \mathbf{I}_I)\)</span> and <span class="math inline">\(\boldsymbol\beta = (\mathbf{I}_I - I^{-1}\mathbf{1}\mathbf{1}^{\top})
+\tilde{\boldsymbol\beta}\)</span>, the induced law of <span class="math inline">\(\boldsymbol\beta\)</span> is Gaussian with mean zero, covariance <span class="math inline">\(\sigma^2_\beta(\mathbf{I}_I - I^{-1}\mathbf{1}\mathbf{1}^{\top})\)</span>, and rank <span class="math inline">\(I-1\)</span>. In particular</p>
+<p><span id="eq-centered-moments"><span class="math display">\[
+\operatorname{Var}(\beta_i) = \sigma^2_\beta\!\left(1 - \frac{1}{I}\right),
+\qquad
+\operatorname{Cov}(\beta_i, \beta_j) = -\frac{\sigma^2_\beta}{I},
+\qquad
+\operatorname{Cor}(\beta_i, \beta_j) = -\frac{1}{I-1}
+\tag{10.3}\]</span></span></p>
+<p>for <span class="math inline">\(i \ne j\)</span>, and <span class="math inline">\(\sum_i \beta_i = 0\)</span> almost surely.</p>
+</div>
+<p><em>Proof.</em> The centering matrix <span class="math inline">\(\mathbf{C} = \mathbf{I}_I - I^{-1}\mathbf{1}\mathbf{1}
+^{\top}\)</span> is symmetric and idempotent with rank <span class="math inline">\(I-1\)</span>, so <span class="math inline">\(\boldsymbol\beta = \mathbf{C}
+\tilde{\boldsymbol\beta}\)</span> is Gaussian with covariance <span class="math inline">\(\sigma^2_\beta \mathbf{C}
+\mathbf{C}^{\top} = \sigma^2_\beta\mathbf{C}\)</span>. Reading off the diagonal and off-diagonal entries of <span class="math inline">\(\mathbf{C}\)</span> gives <a href="#eq-centered-moments" class="quarto-xref">Equation&nbsp;<span>10.3</span></a>, and <span class="math inline">\(\mathbf{1}^{\top}\mathbf{C} =
+\mathbf{0}\)</span> gives the sum constraint. ∎</p>
+<p>Three consequences follow, and the first two are practical.</p>
+<p><strong>Setting <span class="math inline">\(\sigma^2_\beta\)</span> does not set the item variance.</strong> At <span class="math inline">\(I = 12\)</span> and <span class="math inline">\(\sigma^2_\beta = 3\)</span>, each <span class="math inline">\(\beta_i\)</span> has prior variance <span class="math inline">\(2.75\)</span>, not <span class="math inline">\(3\)</span>. The discrepancy is <span class="math inline">\(O(I^{-1})\)</span> and negligible on long tests, but it is a real bias on the short tests that <a href="09-designing-for-reliability.html#sec-ch09-table2" class="quarto-xref"><span>Section 9.4</span></a> shows this programme uses at low reliability, and anyone eliciting <span class="math inline">\(\sigma^2_\beta\)</span> from a belief about item spread should divide accordingly.</p>
+<p><strong>The difficulties are negatively correlated a priori.</strong> The correlation <span class="math inline">\(-1/(I-1)\)</span> is small but structural: it is the price of the constraint, and it says that the prior carries information about item <em>differences</em> and none at all about their common level. That is exactly right, because the common level is not identified (<a href="04-identification.html#prp-location" class="quarto-xref">Proposition&nbsp;<span>4.1</span></a>), and it is a clean illustration of the general point that a constraint is a choice of representative from an orbit rather than an assumption about the world.</p>
+<p><strong>The prior is improper in no direction and degenerate in one.</strong> The induced law lives on the <span class="math inline">\((I-1)\)</span>-dimensional sum-to-zero hyperplane. There is no flat prior anywhere in the model, which matters for the propriety questions <a href="#sec-ch10-hyperpriors" class="quarto-xref"><span>Section 10.4</span></a> raises.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>The appendix and the implementation describe different models
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The Appendix D draft’s level 3 has a free item mean <span class="math inline">\(\mu_\beta\)</span> with a flat prior and a hyperprior on <span class="math inline">\(\sigma^2_\beta\)</span>. The fitted model has neither: the mean is removed by centering and the variance is fixed at 3. The drafted specification is strictly more general than the one that produced the results.</p>
+<p>Neither is wrong as a model. What is wrong is describing one and fitting the other, and the appendix should be brought into line with <a href="#eq-item-centered" class="quarto-xref">Equation&nbsp;<span>10.2</span></a> before it is published. Logged as <code>C-013</code>.</p>
+</div>
+</div>
+</section>
+<section id="sec-ch10-posterior" class="level2" data-number="10.3">
+<h2 data-number="10.3" class="anchored" data-anchor-id="sec-ch10-posterior"><span class="header-section-number">10.3</span> The joint posterior</h2>
+<p>With the levels in place the posterior factors in the only way it can.</p>
+<div id="prp-joint-posterior" class="theorem proposition">
+<p><span class="theorem-title"><strong>Proposition 10.2</strong></span> <strong>Joint posterior factorization.</strong> <em>Adapted from Fox (2010, ch.&nbsp;2, § 2.1)</em></p>
+<p><span id="eq-joint-posterior"><span class="math display">\[
+p(\boldsymbol\theta, \boldsymbol\beta, \boldsymbol\psi \mid \mathbf{u})
+\;\propto\;
+\underbrace{\textstyle\prod_{p}\prod_{i} \pi_{pi}^{u_{pi}}(1-\pi_{pi})^{1-u_{pi}}}
+           _{\text{level 1}}
+\;\cdot\;
+\underbrace{\textstyle\prod_{p} g(\theta_p \mid \boldsymbol\psi_\theta)}_{\text{level 2}}
+\;\cdot\;
+\underbrace{p(\boldsymbol\beta \mid \boldsymbol\psi_\beta)}_{\text{level 3}}
+\;\cdot\;
+\underbrace{p(\boldsymbol\psi)}_{\text{level 4}} ,
+\tag{10.4}\]</span></span></p>
+<p>where <span class="math inline">\(\boldsymbol\psi = (\boldsymbol\psi_\theta, \boldsymbol\psi_\beta)\)</span> collects the hyperparameters and the level-4 term factors further under prior independence.</p>
+</div>
+<p><em>Proof.</em> Bayes’s rule applied to the joint density, which factors as stated because each level is conditionally independent of everything above it given its own parents. ∎</p>
+<p>Two features of <a href="#eq-joint-posterior" class="quarto-xref">Equation&nbsp;<span>10.4</span></a> earn their keep later. The level-2 term is the <em>only</em> place <span class="math inline">\(G\)</span> enters, so replacing a normal <span class="math inline">\(G\)</span> by a Dirichlet process mixture changes one factor and leaves the rest of the model untouched — that modularity is why the semiparametric extension of <a href="16-dpm-priors.html" class="quarto-xref"><span>Chapter 16</span></a> is an extension rather than a rewrite. And the level-3 term does <strong>not</strong> factor over items under <a href="#eq-item-centered" class="quarto-xref">Equation&nbsp;<span>10.2</span></a>, because <a href="#prp-centered-item" class="quarto-xref">Proposition&nbsp;<span>10.1</span></a> makes the <span class="math inline">\(\beta_i\)</span> dependent; writing it as <span class="math inline">\(\prod_i p(\beta_i)\)</span>, as the Appendix D draft does, is correct for the drafted model and false for the fitted one.</p>
+</section>
+<section id="sec-ch10-hyperpriors" class="level2" data-number="10.4">
+<h2 data-number="10.4" class="anchored" data-anchor-id="sec-ch10-hyperpriors"><span class="header-section-number">10.4</span> Hyperpriors, and what is known about choosing them</h2>
+<p>The implemented defaults, read from the model code, are</p>
+<p><span id="eq-hyperpriors"><span class="math display">\[
+\mu_\theta \sim N(0, 3), \qquad
+\sigma^2_\theta \sim \text{Inv-Gamma}(2.01, 1.01) .
+\tag{10.5}\]</span></span></p>
+<p>The second is worth a moment. An inverse-gamma with shape <span class="math inline">\(a\)</span> and scale <span class="math inline">\(b\)</span> has mean <span class="math inline">\(b/(a-1)\)</span> and finite variance only for <span class="math inline">\(a &gt; 2\)</span>. At <span class="math inline">\((2.01, 1.01)\)</span> the mean is exactly <span class="math inline">\(1.0\)</span> and the variance is <span class="math inline">\(100\)</span>. Fixing Rasch discriminations at one defines the unit; it does <strong>not</strong> fix the population variance after location anchoring. The value one is therefore substantive prior centring, not an identification constraint. The default is proper and heavy-tailed, but its suitability must be checked by prior-predictive or sensitivity analysis rather than inferred from identification.</p>
+<p>It is also not the specification the standard warning is about.</p>
+<div class="callout callout-style-simple callout-note">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-body-container">
+<div class="ms">
+<p><strong>What the inverse-gamma pathology does and does not say here.</strong> Gelman <span class="citation" data-cites="gelman_prior_2006">(<a href="#ref-gelman_prior_2006" role="doc-biblioref">2006, secs. 2.1–2.2</a>)</span> shows that the inverse-gamma<span class="math inline">\((\epsilon, \epsilon)\)</span> family — the <span class="math inline">\(\text{IG}(0.001, 0.001)\)</span> that older software offered as “noninformative” — has <em>no proper limiting posterior</em> as <span class="math inline">\(\epsilon \to 0\)</span>, so inferences remain sensitive to <span class="math inline">\(\epsilon\)</span> and it “cannot simply be comfortably set to a low value.” Elsewhere in the paper Gelman develops uniform and half-<span class="math inline">\(t\)</span> alternatives on the standard-deviation scale; that recommendation is not attributed to §§ 2.1–2.2.</p>
+<p>Two things follow for this model. The default <a href="#eq-hyperpriors" class="quarto-xref">Equation&nbsp;<span>10.5</span></a> is <em>not</em> of the <span class="math inline">\((\epsilon,\epsilon)\)</span> form and does not inherit the pathology. And the “groups” at level 2 are persons, of which there are hundreds or thousands, so the regime where the choice dominates — few groups, group-level variance near zero — is not the regime this programme works in. The warning is real and is aimed elsewhere; repeating it here without that qualification would be citation by topic adjacency rather than by content (R1).</p>
+</div>
+</div>
+</div>
+</div>
+<p>The prior on <span class="math inline">\(\sigma^2_\theta\)</span> does still matter in one place this book cares about. It sets the shrinkage weight of <a href="02-notation-and-frameworks.html#eq-shrinkage-weight" class="quarto-xref">Equation&nbsp;<span>2.2</span></a>, hence the reliability of <a href="08-reliability.html#sec-ch08-shrinkage" class="quarto-xref"><span>Section 8.4</span></a>, and under a semiparametric <span class="math inline">\(G\)</span> its role is taken over by the base-measure and concentration hyperparameters of <a href="15-dirichlet-process.html" class="quarto-xref"><span>Chapter 15</span></a>, where the sensitivity is larger and less well understood.</p>
+</section>
+<section id="sec-ch10-parallel" class="level2" data-number="10.5">
+<h2 data-number="10.5" class="anchored" data-anchor-id="sec-ch10-parallel"><span class="header-section-number">10.5</span> A prior and a population distribution are still not the same thing</h2>
+<p><a href="02-notation-and-frameworks.html#sec-ch02-frameworks" class="quarto-xref"><span>Section 2.4</span></a> laid out the parallel and <a href="#tbl-frameworks-ch10" class="quarto-xref">Table&nbsp;<span>10.1</span></a> repeats it, because this is the chapter where the temptation to collapse the two is strongest.</p>
+<div class="cell">
+<div id="tbl-frameworks-ch10" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-frameworks-ch10-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;10.1: The role of <span class="math inline">\(G\)</span> in the two frameworks, repeated from <a href="02-notation-and-frameworks.html#sec-ch02-frameworks" class="quarto-xref"><span>Section 2.4</span></a>. Source: tables/T-frameworks.rds.
+</figcaption>
+<div aria-describedby="tbl-frameworks-ch10-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<table class="cell caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 16%">
+<col style="width: 43%">
+<col style="width: 40%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Question</th>
+<th style="text-align: left;">Frequentist (MML)</th>
+<th style="text-align: left;">Bayesian (hierarchical)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">What is <span class="math inline">\(G\)</span>?</td>
+<td style="text-align: left;">A population distribution: the law of <span class="math inline">\(\theta\)</span> in the population persons were sampled from</td>
+<td style="text-align: left;">A prior for <span class="math inline">\(\theta_p\)</span> — but a <em>hierarchical</em> one, which is why the distinction is subtle</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Are the <span class="math inline">\(\theta_p\)</span> random?</td>
+<td style="text-align: left;">Yes — random effects, integrated out</td>
+<td style="text-align: left;">Yes — assigned a prior</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Are the <span class="math inline">\(\beta_i\)</span> random?</td>
+<td style="text-align: left;">No — fixed structural parameters, no distribution assigned</td>
+<td style="text-align: left;">Yes — assigned a prior, which is the extra assumption</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">What is done with <span class="math inline">\(G\)</span>’s parameters?</td>
+<td style="text-align: left;">Estimated by maximising the marginal likelihood</td>
+<td style="text-align: left;">Assigned hyperpriors and integrated over</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">How is <span class="math inline">\(G\)</span> relaxed?</td>
+<td style="text-align: left;">Nonparametric MML: estimate <span class="math inline">\(G\)</span> as a discrete or smoothed distribution</td>
+<td style="text-align: left;">Semiparametric priors: a Dirichlet process mixture over <span class="math inline">\(G\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Does shrinkage occur?</td>
+<td style="text-align: left;">Yes — via empirical Bayes, plugging <span class="math inline">\((\hat\mu_\theta,\hat\sigma^2_\theta)\)</span> into the same weight</td>
+<td style="text-align: left;">Yes — the same weight, with hyperparameter uncertainty carried</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</figure>
+</div>
+</div>
+<p>The mathematics is genuinely shared. Marginal maximum likelihood integrates the person likelihood against <span class="math inline">\(g\)</span> (<a href="02-notation-and-frameworks.html#eq-mml" class="quarto-xref">Equation&nbsp;<span>2.1</span></a>); the hierarchical Bayesian model multiplies by the same <span class="math inline">\(g\)</span> at level 2 of <a href="#eq-joint-posterior" class="quarto-xref">Equation&nbsp;<span>10.4</span></a>. MML then maximizes over <span class="math inline">\((\boldsymbol\beta,
+\boldsymbol\psi_\theta)\)</span> while the Bayesian model integrates over them under a hyperprior, and MML is recoverable as the limit of flat hyperpriors with a posterior concentrating at the maximizer.</p>
+<p>What differs is the epistemic status and what follows from it. Under MML the normality of <span class="math inline">\(G\)</span> is a structural claim about a population, assessable by fit and relaxable by nonparametric MML. Under the Bayesian model it is a prior belief, updated by data and relaxable by a nonparametric prior. Reviewer 2 was right that a distributional assumption is not a specifically Bayesian sin; <a href="02-notation-and-frameworks.html#sec-ch02-frameworks" class="quarto-xref"><span>Section 2.4</span></a> says so and this chapter does not retreat from it.</p>
+<p>The honest addition is that <strong>the practical difference is smaller than the rhetorical one</strong>. Both frameworks shrink, both are sensitive to a misspecified <span class="math inline">\(G\)</span> in the same direction, and <a href="12-empirical-bayes-tradition.html" class="quarto-xref"><span>Chapter 12</span></a> shows that the shrinkage phenomenon is a property of the hierarchical structure rather than of the inferential philosophy. What the Bayesian formulation buys is not correctness. It is three specific things.</p>
+</section>
+<section id="sec-ch10-why-bayes" class="level2" data-number="10.6">
+<h2 data-number="10.6" class="anchored" data-anchor-id="sec-ch10-why-bayes"><span class="header-section-number">10.6</span> Why the Bayesian formulation, specifically</h2>
+<p><strong>Uncertainty propagates coherently from items to persons.</strong> This is the argument <a href="06-person-parameter-estimation.html#sec-ch06-plugin" class="quarto-xref"><span>Section 6.5</span></a> set up and <code>C-012</code> recorded. Two-stage practice calibrates items, fixes them at their estimates, and scores persons as though the item parameters were known; <a href="07-information-and-error.html#eq-sem" class="quarto-xref">Equation&nbsp;<span>7.2</span></a> is then a conditional standard error reported as though it were unconditional. Patz and Junker <span class="citation" data-cites="patz_straightforward_1999">(<a href="#ref-patz_straightforward_1999" role="doc-biblioref">1999</a>)</span> state the alternative exactly: MCMC “treat[s] item and subject parameters at the same time,” which “allows us to incorporate standard errors of item estimates into trait inferences, and vice versa.” That is the plug-in gap closed by construction rather than by an extra term, and it is the cleanest argument in the list.</p>
+<p><strong>Small samples.</strong> Where <span class="math inline">\(P\)</span> is small the incidental-parameter difficulty of <a href="05-item-parameter-estimation.html#thm-neyman-scott" class="quarto-xref">Theorem&nbsp;<span>5.1</span></a> is at its worst and the asymptotics of <a href="07-information-and-error.html#eq-sem" class="quarto-xref">Equation&nbsp;<span>7.2</span></a> are least trustworthy. Gilholm et al. <span class="citation" data-cites="gilholm_bayesian_2021">(<a href="#ref-gilholm_bayesian_2021" role="doc-biblioref">2021</a>)</span> fit hierarchical multidimensional IRT to small, sparse samples for exactly this reason, and Fox <span class="citation" data-cites="fox_redefining_2025">(<a href="#ref-fox_redefining_2025" role="doc-biblioref">2025</a>)</span> takes the more radical route of integrating the person factor out analytically to obtain a model that behaves in small samples. Neither is this programme’s setting — the simulation uses hundreds of persons — so the argument is real but is not what carries the case here, and overstating it would be easy.</p>
+<p><strong>The route to a nonparametric <span class="math inline">\(G\)</span>.</strong> This is the argument that actually matters. Under MML, relaxing <span class="math inline">\(G\)</span> means nonparametric maximum likelihood, whose solution is a discrete mixing distribution on finitely many support points — useful, and not a density. Under the hierarchical model, relaxing <span class="math inline">\(G\)</span> means putting a prior on it, and the Dirichlet process mixture of <a href="15-dirichlet-process.html" class="quarto-xref"><span>Chapter 15</span></a> delivers a continuous density with a full posterior over its shape. Since the question this programme asks is what the <em>distribution</em> of latent traits looks like and how well its features are recovered, a framework that yields a posterior over distributions is not a stylistic preference. It is the object of study.</p>
+</section>
+<section id="sec-ch10-computation" class="level2" data-number="10.7">
+<h2 data-number="10.7" class="anchored" data-anchor-id="sec-ch10-computation"><span class="header-section-number">10.7</span> Computation, briefly</h2>
+<p><a href="#eq-joint-posterior" class="quarto-xref">Equation&nbsp;<span>10.4</span></a> has no closed form and is sampled. Four approaches appear in this literature, and the differences among them are not merely tactical.</p>
+<p>Albert <span class="citation" data-cites="albert_bayesian_1992">(<a href="#ref-albert_bayesian_1992" role="doc-biblioref">1992</a>)</span> introduced data augmentation for the normal-ogive model: latent continuous responses are imputed, conditional on which the item parameters have conjugate normal full conditionals, so the whole sampler is Gibbs. It is elegant and it is tied to the probit link. Patz and Junker <span class="citation" data-cites="patz_straightforward_1999">(<a href="#ref-patz_straightforward_1999" role="doc-biblioref">1999</a>)</span> gave the general-purpose alternative — Metropolis-within-Gibbs, which does not require conjugacy and therefore extends to models that have no augmentation trick, which is most of them. Hamiltonian Monte Carlo as implemented in Stan is the modern default for the parametric model <span class="citation" data-cites="burkner_bayesian_2021">(<a href="#ref-burkner_bayesian_2021" role="doc-biblioref">Bürkner 2021</a>)</span>. The semiparametric models of Part V are fitted in NIMBLE, which is what makes the Dirichlet process machinery available at all.</p>
+<p>The identification strategy interacts with the sampler, and <a href="04-identification.html#sec-ch04-constraints" class="quarto-xref"><span>Section 4.5</span></a> already said why: centering inside the sampler (<a href="#eq-item-centered" class="quarto-xref">Equation&nbsp;<span>10.2</span></a>) and rescaling afterwards target the same identified posterior for every location-invariant function, but they present the sampler with different geometry and can differ in efficiency by an order of magnitude. Details are in Appendix F; the point for here is that this is a computational choice with no inferential content, and it should not be mistaken for a modelling one.</p>
+</section>
+<section id="sec-ch10-sources" class="level2" data-number="10.8">
+<h2 data-number="10.8" class="anchored" data-anchor-id="sec-ch10-sources"><span class="header-section-number">10.8</span> Sources and provenance</h2>
+<p>The four-level structure follows the Appendix D draft §§ D.2.1–D.2.5. Fox <span class="citation" data-cites="fox_bayesian_2010">(<a href="#ref-fox_bayesian_2010" role="doc-biblioref">2010</a>, ch.&nbsp;2, § 2.1, eqs. 2.1–2.2)</span> directly gives the conditional- independence factorization for person and item hierarchies; <a href="#prp-joint-posterior" class="quarto-xref">Proposition&nbsp;<span>10.2</span></a> adapts it to the four levels and centred item prior used here. Its inline proof records the algebra; the <code>adapted</code> provenance records the literature source rather than claiming priority.</p>
+<p><a href="#eq-item-centered" class="quarto-xref">Equation&nbsp;<span>10.2</span></a> and <a href="#eq-hyperpriors" class="quarto-xref">Equation&nbsp;<span>10.5</span></a> were read from the companion package’s model source (<code>R/model_spec.R</code>, the item-centred Rasch specification and the default constants), not from its documentation or its vignette, and the discrepancy with the Appendix D draft that <a href="#sec-ch10-item-prior" class="quarto-xref"><span>Section 10.2</span></a> reports was found that way. <a href="#prp-centered-item" class="quarto-xref">Proposition&nbsp;<span>10.1</span></a> is elementary linear algebra, derived here, and was checked numerically before being written.</p>
+<p>The inverse-gamma discussion is Gelman <span class="citation" data-cites="gelman_prior_2006">(<a href="#ref-gelman_prior_2006" role="doc-biblioref">2006, secs. 2.1–2.2</a>)</span>, read directly; the qualification that its regime is small-<span class="math inline">\(J\)</span> and that <a href="#eq-hyperpriors" class="quarto-xref">Equation&nbsp;<span>10.5</span></a> is not of the <span class="math inline">\((\epsilon,\epsilon)\)</span> form is this book’s, and is stated because the citation is otherwise routinely made without it. The moments of <span class="math inline">\(\text{Inv-Gamma}(2.01, 1.01)\)</span> are computed from the standard formulas.</p>
+<p>The uncertainty-propagation argument quotes Patz and Junker <span class="citation" data-cites="patz_straightforward_1999">(<a href="#ref-patz_straightforward_1999" role="doc-biblioref">1999</a>)</span>; the small-sample arguments are Gilholm et al. <span class="citation" data-cites="gilholm_bayesian_2021">(<a href="#ref-gilholm_bayesian_2021" role="doc-biblioref">2021</a>)</span> and Fox <span class="citation" data-cites="fox_redefining_2025">(<a href="#ref-fox_redefining_2025" role="doc-biblioref">2025</a>)</span>, read at the level of their stated aims rather than their derivations, which is all the claim here requires. Albert <span class="citation" data-cites="albert_bayesian_1992">(<a href="#ref-albert_bayesian_1992" role="doc-biblioref">1992</a>)</span> is cited for data augmentation under the normal ogive and Bürkner <span class="citation" data-cites="burkner_bayesian_2021">(<a href="#ref-burkner_bayesian_2021" role="doc-biblioref">2021</a>)</span> for the Stan route.</p>
+<p>The parallel-structure argument of <a href="#sec-ch10-parallel" class="quarto-xref"><span>Section 10.5</span></a> is <a href="02-notation-and-frameworks.html#sec-ch02-frameworks" class="quarto-xref"><span>Section 2.4</span></a> restated with the same sources; the added claim — that the practical difference is smaller than the rhetorical one — is this book’s and is supported in <a href="12-empirical-bayes-tradition.html" class="quarto-xref"><span>Chapter 12</span></a> rather than here.</p>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-albert_bayesian_1992" class="csl-entry" role="listitem">
+Albert, James H. 1992. <span>“Bayesian Estimation of Normal Ogive Item Response Curves Using <span>Gibbs</span> Sampling.”</span> <em>Journal of Educational Statistics</em> 17 (3): 251–69. <a href="https://doi.org/10.3102/10769986017003251">https://doi.org/10.3102/10769986017003251</a>.
+</div>
+<div id="ref-burkner_bayesian_2021" class="csl-entry" role="listitem">
+Bürkner, Paul-Christian. 2021. <span>“Bayesian Item Response Modeling in <em>r</em> with <strong>Brms</strong> and <em>Stan</em>.”</span> <em>Journal of Statistical Software</em> 100 (5). <a href="https://doi.org/10.18637/jss.v100.i05">https://doi.org/10.18637/jss.v100.i05</a>.
+</div>
+<div id="ref-fox_bayesian_2010" class="csl-entry" role="listitem">
+Fox, Jean-Paul. 2010. <em>Bayesian Item Response Modeling: Theory and Applications</em>. Statistics for Social and Behavioral Sciences. Springer.
+</div>
+<div id="ref-fox_redefining_2025" class="csl-entry" role="listitem">
+Fox, Jean-Paul. 2025. <span>“Redefining Item Response Models for Small Samples.”</span> <em>Journal of Educational and Behavioral Statistics</em> 50 (2): 272–95. <a href="https://doi.org/10.3102/10769986241269886">https://doi.org/10.3102/10769986241269886</a>.
+</div>
+<div id="ref-gelman_prior_2006" class="csl-entry" role="listitem">
+Gelman, Andrew. 2006. <span>“Prior Distributions for Variance Parameters in Hierarchical Models (Comment on Article by <span>Browne</span> and <span>Draper</span>).”</span> <em>Bayesian Analysis</em> 1 (3): 515–34. <a href="https://doi.org/10.1214/06-BA117A">https://doi.org/10.1214/06-BA117A</a>.
+</div>
+<div id="ref-gilholm_bayesian_2021" class="csl-entry" role="listitem">
+Gilholm, Patricia, Kerrie Mengersen, and Helen Thompson. 2021. <span>“Bayesian Hierarchical Multidimensional Item Response Modeling of Small Sample, Sparse Data for Personalized Developmental Surveillance.”</span> <em>Educational and Psychological Measurement</em> 81 (5): 936–56. <a href="https://doi.org/10.1177/0013164420987582">https://doi.org/10.1177/0013164420987582</a>.
+</div>
+<div id="ref-patz_straightforward_1999" class="csl-entry" role="listitem">
+Patz, Richard J., and Brian W. Junker. 1999. <span>“A Straightforward Approach to <span>Markov</span> Chain <span>Monte</span> <span>Carlo</span> Methods for Item Response Models.”</span> <em>Journal of Educational and Behavioral Statistics</em> 24 (2): 146–78. <a href="https://doi.org/10.3102/10769986024002146">https://doi.org/10.3102/10769986024002146</a>.
+</div>
+</div>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../chapters/09-designing-for-reliability.html" class="pagination-link" aria-label="Designing for a Target Reliability">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Designing for a Target Reliability</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../chapters/11-conditional-posterior-and-shrinkage.html" class="pagination-link" aria-label="The Conditional Posterior and Shrinkage">
+        <span class="nav-page-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">The Conditional Posterior and Shrinkage</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

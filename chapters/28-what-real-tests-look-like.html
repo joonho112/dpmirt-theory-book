@@ -1,0 +1,1407 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.37">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>28&nbsp; What Real Tests Look Like – Bayesian Semiparametric Item Response Modelling for Person-Specific Latent Traits</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../chapters/29-evidence-settles-reopens.html" rel="next">
+<link href="../chapters/27-what-the-simulation-settled.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-5ccb035bea26c1e21f80f44cf7c27909.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>
+.prov { font-size: 0.88em; color: #555; font-style: italic; }
+blockquote.ms { border-left: 3px solid #c0392b; background: #fdf3f2; }
+</style>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/27-what-the-simulation-settled.html">IX — The Realized Evidence</a></li><li class="breadcrumb-item"><a href="../chapters/28-what-real-tests-look-like.html"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">What Real Tests Look Like</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Bayesian Semiparametric Item Response Modelling for Person-Specific Latent Traits</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">About This Book</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">I — Orientation</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/01-the-estimation-problem.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">The Estimation Problem</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/02-notation-and-frameworks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Notation, Terminology, and Two Frameworks</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">II — The Measurement Models</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/03-rasch-and-2pl-foundations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Foundations: the Rasch and 2PL Models</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/04-identification.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Identification</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/05-item-parameter-estimation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Estimating Item Parameters</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/06-person-parameter-estimation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Estimating Person Parameters</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">III — Information, Error, and Reliability</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/07-information-and-error.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Information and Measurement Error</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/08-reliability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Reliability in the Rasch Model</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/09-designing-for-reliability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Designing for a Target Reliability</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">IV — Bayesian Hierarchical Modelling and Shrinkage</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/10-bayesian-hierarchical-rasch.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">The Bayesian Hierarchical Rasch Model</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/11-conditional-posterior-and-shrinkage.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">The Conditional Posterior and Shrinkage</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/12-empirical-bayes-tradition.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Empirical Bayes and the Shrinkage Tradition</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">V — Beyond Normality: Flexible Latent-Trait Distributions</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/13-non-normality.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Non-Normality in Latent Traits</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/14-flexible-alternatives.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Flexible Parametric and Semiparametric Alternatives</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/15-dirichlet-process.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">The Dirichlet Process</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/16-dpm-priors.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">DPM Priors for Latent Traits</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
+ <span class="menu-text">VI — Posterior Summaries and Inferential Goals</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/17-three-goals.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Three Goals, Three Losses</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/18-constrained-bayes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Constrained Bayes</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/19-triple-goal.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Triple-Goal Estimation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/20-ranking-and-classification.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Ranking and Classification</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true">
+ <span class="menu-text">VII — Positioning</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/21-relation-to-lee-et-al.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Relation to Lee et al.&nbsp;(2025)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/22-scope-and-extensions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Scope: Why Rasch, and What Extends</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/23-open-problems.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Open Problems</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true">
+ <span class="menu-text">VIII — What Changes Under the 2PL</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/24-discrimination-and-information.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Discrimination and Information</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/25-reliability-under-2pl.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Reliability Under the Two-Parameter Model</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/26-identification-dpm-2pl.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Identification and the DPM Under the Two-Parameter Model</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true">
+ <span class="menu-text">IX — The Realized Evidence</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/27-what-the-simulation-settled.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">What the Simulation Settled</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/28-what-real-tests-look-like.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">What Real Tests Look Like</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/29-evidence-settles-reopens.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">What the Evidence Settles, and What It Reopens</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-10" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/A-proofs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Proofs</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/B-crosswalk.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Notation Crosswalk</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/C-corrections.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">C</span>&nbsp; <span class="chapter-title">Corrections to the Submitted Manuscript</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/D-annotated-bibliography.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">D</span>&nbsp; <span class="chapter-title">Annotated Bibliography</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/E-acquisition-ledger.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">E</span>&nbsp; <span class="chapter-title">Reference Acquisition Ledger</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/F-software.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">F</span>&nbsp; <span class="chapter-title">Software and Computation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/G-build-report.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">G</span>&nbsp; <span class="chapter-title">Build and Verification Report</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#sec-ch28-reliability" id="toc-sec-ch28-reliability" class="nav-link active" data-scroll-target="#sec-ch28-reliability"><span class="header-section-number">28.1</span> The reliability real data deliver</a></li>
+  <li><a href="#sec-ch28-shapes" id="toc-sec-ch28-shapes" class="nav-link" data-scroll-target="#sec-ch28-shapes"><span class="header-section-number">28.2</span> The shapes real latent estimates take</a></li>
+  <li><a href="#sec-ch28-floor" id="toc-sec-ch28-floor" class="nav-link" data-scroll-target="#sec-ch28-floor"><span class="header-section-number">28.3</span> Where shape can be seen at all</a></li>
+  <li><a href="#sec-ch28-moves" id="toc-sec-ch28-moves" class="nav-link" data-scroll-target="#sec-ch28-moves"><span class="header-section-number">28.4</span> What moves on real tests</a></li>
+  <li><a href="#sec-ch28-verdict" id="toc-sec-ch28-verdict" class="nav-link" data-scroll-target="#sec-ch28-verdict"><span class="header-section-number">28.5</span> The verdict layer</a></li>
+  <li><a href="#sec-ch28-sources" id="toc-sec-ch28-sources" class="nav-link" data-scroll-target="#sec-ch28-sources"><span class="header-section-number">28.6</span> Sources and provenance</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/27-what-the-simulation-settled.html">IX — The Realized Evidence</a></li><li class="breadcrumb-item"><a href="../chapters/28-what-real-tests-look-like.html"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">What Real Tests Look Like</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span id="sec-ch28" class="quarto-section-identifier"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">What Real Tests Look Like</span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>Three empirical questions ran through this book with placeholders where numbers should be. What reliability do real tests actually deliver (<a href="01-the-estimation-problem.html" class="quarto-xref"><span>Chapter 1</span></a>, <a href="08-reliability.html" class="quarto-xref"><span>Chapter 8</span></a>)? How often are real latent-trait distributions non-normal, and in what way (<a href="13-non-normality.html" class="quarto-xref"><span>Chapter 13</span></a>)? And when the prior and the summary are changed on a real test, what actually moves (<a href="17-three-goals.html" class="quarto-xref"><span>Chapter 17</span></a> through <a href="20-ranking-and-classification.html" class="quarto-xref"><span>Chapter 20</span></a>)? Three studies built alongside this book now answer them at corpus scale: two measurement censuses of the Item Response Warehouse <span class="citation" data-cites="domingue_introduction_2025">(<a href="#ref-domingue_introduction_2025" role="doc-biblioref">Domingue et al. 2025</a>)</span>, and the case-study volume’s thirteen fitted cases <span class="citation" data-cites="lee_casestudy_2026">(<a href="#ref-lee_casestudy_2026" role="doc-biblioref">Lee 2026a</a>)</span>. This chapter reports what they found, under the same rules as <a href="27-what-the-simulation-settled.html" class="quarto-xref"><span>Chapter 27</span></a>: frozen sources, asserted numbers, labels preserved.</p>
+<p>One vocabulary rule needs stating before the case-study results, because this book must not launder a distinction its source is scrupulous about. The case-study volume has no access to truth and therefore issues no correctness claims; its registered vocabulary is that an output <em>differs</em>, <em>moves</em>, <em>reorders</em>, or <em>reclassifies</em> under a method change, with materiality thresholds declared in advance. Which method is <em>better</em> is the simulation’s question (<a href="27-what-the-simulation-settled.html" class="quarto-xref"><span>Chapter 27</span></a>), never the case study’s, and sentences below quoting the case study inherit that grammar.</p>
+<section id="sec-ch28-reliability" class="level2" data-number="28.1">
+<h2 data-number="28.1" class="anchored" data-anchor-id="sec-ch28-reliability"><span class="header-section-number">28.1</span> The reliability real data deliver</h2>
+<p>The Warehouse reliability study applied the same estimators under the same rules to 889 item-response datasets, with no reporting filter and no author discretion, and measured the distribution of marginal reliability that psychological measurement actually produces <span class="citation" data-cites="lee_reliability-distribution_2026">(<a href="#ref-lee_reliability-distribution_2026" role="doc-biblioref">Lee 2026c</a>)</span>.</p>
+<div id="fig-irw-reliability" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-irw-reliability-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../figures/F-irw-reliability.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-irw-reliability-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;28.1: <strong>The reliability real item-response data actually deliver.</strong> Cumulative distributions of marginal reliability in the complete Item Response Warehouse analysis <span class="citation" data-cites="lee_reliability-distribution_2026">(<a href="#ref-lee_reliability-distribution_2026" role="doc-biblioref">Lee 2026c</a>)</span>. The EAP empirical series contains 889 nonmissing estimates (median .859; 30 percent below .80), whereas the WLE separation series contains 879 nonmissing estimates (median .801; 50 percent below .80); dotted verticals mark the .70 and .80 conventions and dashed stems mark the medians. Twenty-one negative separation estimates are drawn at zero. The figure is computed from the frozen complete analysis snapshot used for the 889-dataset manuscript, not from the 879-row public release. Generated by code/R/24-figures-v2-evidence.R.
+</figcaption>
+</figure>
+</div>
+<div class="cell">
+<div id="tbl-irw-reliability" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-irw-reliability-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;28.1: The corpus distribution of marginal reliability across 889 Item Response Warehouse datasets, under the study’s two co-primary definitions. All rows but the last are computed at build time from the study’s frozen complete 889-unit analysis snapshot; the public derived release contains 879 rows because ten source rows cannot be redistributed. The deconvolved row is the study’s own three-level model estimate, carried as published. Source: tables/T-irw-reliability.rds.
+</figcaption>
+<div aria-describedby="tbl-irw-reliability-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<table class="cell caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 39%">
+<col style="width: 29%">
+<col style="width: 30%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Quantity</th>
+<th style="text-align: left;">EAP empirical reliability</th>
+<th style="text-align: left;">WLE separation reliability</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Units</td>
+<td style="text-align: left;">889</td>
+<td style="text-align: left;">879</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Median</td>
+<td style="text-align: left;">0.859</td>
+<td style="text-align: left;">0.801</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Share below .80</td>
+<td style="text-align: left;">30%</td>
+<td style="text-align: left;">50%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Share below .70</td>
+<td style="text-align: left;">14%</td>
+<td style="text-align: left;">27%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Share below .50</td>
+<td style="text-align: left;">3%</td>
+<td style="text-align: left;">10%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">True (deconvolved) share below .80</td>
+<td style="text-align: left;">30.3%</td>
+<td style="text-align: left;">51.8%</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</figure>
+</div>
+</div>
+<p>The 889-versus-879 distinction is provenance, not attrition in the reported analysis. The manuscript analyzes 889 units; the public derived frame omits ten rows whose source licenses do not permit redistribution. This build reads the frozen complete analysis snapshot so that its unit counts and summaries match the manuscript, and separately checks that the public release has 879 rows. The identical 879 in the table’s WLE <code>Units</code> cell is a different count: valid WLE estimates within the complete snapshot, not the public frame’s row count.</p>
+<p>Three of its findings matter here. <strong>Low reliability is common</strong>: even under the lenient definition a third of datasets sit below .80, and under the strict one half do. The design range the companion simulation walks, tiers .5 through .9, is therefore the range practice occupies, not a stress test invented for effect. <strong>The variation is real</strong>: the study’s deconvolution puts estimation noise near one percent of the between-dataset variance, so the spread in <a href="#fig-irw-reliability" class="quarto-xref">Figure&nbsp;<span>28.1</span></a> is a fact about instruments and populations, not about sampling error. <strong>The definition is load-bearing</strong>: across six estimators the pooled coefficient spans .794 to .868 and the sub-.80 share runs from about a quarter to a half, which is <a href="08-reliability.html" class="quarto-xref"><span>Chapter 8</span></a>’s zoo measured in the wild, and <a href="25-reliability-under-2pl.html" class="quarto-xref"><span>Chapter 25</span></a>’s warning given corpus-scale teeth. The study’s design lesson reaches <a href="09-designing-for-reliability.html" class="quarto-xref"><span>Chapter 9</span></a> as well: doubling test length multiplies unreliability by about 0.78 in this corpus, against the 0.56 of the Spearman–Brown idealization — real added items buy roughly half the textbook gain.</p>
+<p>One composition fact deserves preservation because it cuts against an easy assumption: the corpus’s largest datasets are <em>less</em> reliable than its smaller ones, because very large public datasets are disproportionately internet panels and national surveys carrying short embedded scales. Size is not a proxy for measurement quality, in either direction.</p>
+</section>
+<section id="sec-ch28-shapes" class="level2" data-number="28.2">
+<h2 data-number="28.2" class="anchored" data-anchor-id="sec-ch28-shapes"><span class="header-section-number">28.2</span> The shapes real latent estimates take</h2>
+<p><a href="13-non-normality.html" class="quarto-xref"><span>Chapter 13</span></a> closed the sum-score route to latent-shape evidence and named the route that remains: fit a flexible <span class="math inline">\(G\)</span> and look at it, with the caution that the look is only as good as the regularization. The Warehouse shape study executed that route at scale: 504 datasets fitted twice under identical controls, once with a normal latent distribution and once with a flexible one, the two calibrations differing in nothing else <span class="citation" data-cites="lee_theta-nonnormality_2026">(<a href="#ref-lee_theta-nonnormality_2026" role="doc-biblioref">Lee 2026b</a>)</span>.</p>
+<div id="fig-irw-shapes" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-irw-shapes-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../figures/F-irw-shapes.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-irw-shapes-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;28.2: <strong>Estimated latent distributions in real data are routinely non-normal, and the common departure is skew, not bimodality.</strong> Left: the KS distance between each dataset’s flexibly estimated latent distribution and its normal calibration, across the 504 Item Response Warehouse datasets of the corpus study <span class="citation" data-cites="lee_theta-nonnormality_2026">(<a href="#ref-lee_theta-nonnormality_2026" role="doc-biblioref">Lee 2026b</a>)</span>; the median is .109, and the dashed landmarks give the shares beyond ten, fifteen, and twenty cumulative-probability points. Right: the same units by absolute skewness and the dip statistic (axis clipped at six; three units sit beyond it and are shown as triangles at the boundary) - large departures are mostly skewed, and pronounced multimodality is a minority feature (median dip .018), which bears directly on where the bimodal generating conditions of the companion simulation sit relative to practice (<a href="#sec-ch28" class="quarto-xref"><span>Chapter 28</span></a>). Computed from the study’s corrected released frame; the build asserts the published prevalence values before this figure is written. Generated by code/R/24-figures-v2-evidence.R.
+</figcaption>
+</figure>
+</div>
+<div class="cell">
+<div id="tbl-irw-shape" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-irw-shape-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;28.2: Latent-departure prevalence across the 504 analyzed datasets, computed from the study’s corrected released frame at build time. The KS distance is on the cumulative-probability scale: a value of .10 means the flexible estimate places ten points more or less mass below some threshold than the normal calibration does. Source: tables/T-irw-shape.rds.
+</figcaption>
+<div aria-describedby="tbl-irw-shape-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<table class="cell caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Quantity</th>
+<th style="text-align: left;">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Units with a valid shape estimate</td>
+<td style="text-align: left;">504</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Median KS distance from normality</td>
+<td style="text-align: left;">0.109</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Departures of at least .05</td>
+<td style="text-align: left;">440 (87%)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Departures of at least .10</td>
+<td style="text-align: left;">282 (56%)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Departures of at least .15</td>
+<td style="text-align: left;">155 (31%)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Departures of at least .20</td>
+<td style="text-align: left;">93 (18%)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Median absolute skewness</td>
+<td style="text-align: left;">0.799</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Median dip statistic</td>
+<td style="text-align: left;">0.018</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</figure>
+</div>
+</div>
+<p>The headline is that departures are the norm, not the exception: the median dataset’s flexible estimate sits .109 from its normal calibration in cumulative probability, a majority sit beyond .10, and nearly a fifth beyond .20. The morphology matters as much as the prevalence. Large departures are overwhelmingly <em>skew</em> (median absolute skewness .80), while pronounced multimodality is a minority feature (median dip .018). Two consequences for this book’s argument follow. First, <a href="13-non-normality.html" class="quarto-xref"><span>Chapter 13</span></a>’s substantive mechanisms (prevalence skew for symptom traits; mixed populations for multimodality) now have base rates attached: the skew mechanism is everywhere, the mixture mechanism real but rarer. Second, the companion simulation’s sharply bimodal generating condition sits in the <em>tail</em> of practice, not its centre: it is the right stress test for the mechanism the DPM most distinctively repairs, and the wrong picture of the modal dataset, and <a href="27-what-the-simulation-settled.html" class="quarto-xref"><span>Chapter 27</span></a>’s results should be transported with that weighting in mind. The study’s own sensitivity grid supplies the calibration this chapter would otherwise owe: what the flexible calibration changes most is not reliability (median absolute change .002 with items fixed) but item estimates and person scores, with a median 4.8 percent of persons crossing the <span class="math inline">\(|z| = 1\)</span> reference under refitting. The distributional assumption is therefore a reporting-level choice with person-level consequences, unevenly spread across output families. That is <a href="13-non-normality.html#sec-ch13-goal" class="quarto-xref"><span>Section 13.4</span></a>’s prediction structure, observed in real calibrations.</p>
+</section>
+<section id="sec-ch28-floor" class="level2" data-number="28.3">
+<h2 data-number="28.3" class="anchored" data-anchor-id="sec-ch28-floor"><span class="header-section-number">28.3</span> Where shape can be seen at all</h2>
+<p>Both censuses impose a floor of several hundred respondents, and the case-study volume’s null calibration explains why with a result this book adopts as a standing caution.</p>
+<div id="fig-shape-null" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-shape-null-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../figures/F-shape-null.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-shape-null-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;28.3: <strong>Below a few hundred respondents, an estimated latent shape is mostly artefact.</strong> The case-study volume refitted truly normal data at its own cases’ design sizes <span class="citation" data-cites="lee_casestudy_2026">(<a href="#ref-lee_casestudy_2026" role="doc-biblioref">Lee 2026a</a>)</span>: at one hundred respondents and twelve items, 95 percent of replicates show a dip statistic beyond .03 - spurious bimodality - and the refitted estimate sits a median .196 from the normal truth. Adding items does not repair the artefact (open circles), only respondents do, and the transition sits near three to five hundred - which is why the corpus study of <a href="#fig-irw-shapes" class="quarto-xref">Figure&nbsp;<span>28.2</span></a> imposes a 500-respondent floor and why <a href="#sec-ch28" class="quarto-xref"><span>Chapter 28</span></a> treats small-sample shape verdicts as undetermined rather than normal. Read from the case-study volume’s frozen null-calibration table (P1-T6). Generated by code/R/24-figures-v2-evidence.R.
+</figcaption>
+</figure>
+</div>
+<div class="cell">
+<div id="tbl-shape-null" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-shape-null-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;28.3: Refits of truly normal data at case-study design sizes: the spurious-shape floor. More items sharpen the overall KS but do not repair spurious multimodality; only respondents do. Read from the case-study volume’s frozen calibration. Source: tables/T-shape-null.rds.
+</figcaption>
+<div aria-describedby="tbl-shape-null-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<table class="cell caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 14%">
+<col style="width: 12%">
+<col style="width: 42%">
+<col style="width: 31%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: right;">Persons <span class="math inline">\(n\)</span></th>
+<th style="text-align: right;">Items <span class="math inline">\(J\)</span></th>
+<th style="text-align: left;">Median KS under a truly normal <span class="math inline">\(G\)</span></th>
+<th style="text-align: left;">Replicates with dip &gt; .03</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">100</td>
+<td style="text-align: right;">12</td>
+<td style="text-align: left;">0.196</td>
+<td style="text-align: left;">95%</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">100</td>
+<td style="text-align: right;">45</td>
+<td style="text-align: left;">0.120</td>
+<td style="text-align: left;">98%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">200</td>
+<td style="text-align: right;">12</td>
+<td style="text-align: left;">0.146</td>
+<td style="text-align: left;">88%</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">350</td>
+<td style="text-align: right;">12</td>
+<td style="text-align: left;">0.083</td>
+<td style="text-align: left;">42%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">500</td>
+<td style="text-align: right;">12</td>
+<td style="text-align: left;">0.069</td>
+<td style="text-align: left;">30%</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1500</td>
+<td style="text-align: right;">12</td>
+<td style="text-align: left;">0.033</td>
+<td style="text-align: left;">0%</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</figure>
+</div>
+</div>
+<p>At one hundred respondents and twelve items, 95 percent of truly normal replicates show a dip statistic beyond .03, which is spurious bimodality, and the refitted estimate sits a median .196 from its own normal truth, larger than the real-data median departure of <a href="#tbl-irw-shape" class="quarto-xref">Table&nbsp;<span>28.2</span></a>. The artefact is a respondent problem, not an item problem, and it fades only around three to five hundred respondents. The case-study volume draws the operational conclusion, which this book endorses: below the floor, a shape verdict should be <em>undetermined</em>, not <em>normal</em>: the absence of evidence for a departure is mostly the absence of resolution. Six of its thirteen cases change shape classification between item models, which adds <a href="26-identification-dpm-2pl.html" class="quarto-xref"><span>Chapter 26</span></a>’s lesson: the shape being classified is the shape of an estimated, metric-dependent object.</p>
+</section>
+<section id="sec-ch28-moves" class="level2" data-number="28.4">
+<h2 data-number="28.4" class="anchored" data-anchor-id="sec-ch28-moves"><span class="header-section-number">28.4</span> What moves on real tests</h2>
+<p>The case-study volume fitted its thirteen cases under both item models and all three priors, read all three summaries from each fit, and asked, output family by output family against thresholds declared before fitting, what <em>materially</em> differs <span class="citation" data-cites="lee_casestudy_2026">(<a href="#ref-lee_casestudy_2026" role="doc-biblioref">Lee 2026a</a>)</span>.</p>
+<div class="cell">
+<div id="tbl-materiality" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-materiality-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;28.4: The case-study volume’s materiality census: of the 21 placed case-cells in each shape class, how many show a material difference under the prior contrast, by output family. Read from the volume’s frozen census. Source: tables/T-materiality.rds.
+</figcaption>
+<div aria-describedby="tbl-materiality-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<table class="cell caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 13%">
+<col style="width: 12%">
+<col style="width: 20%">
+<col style="width: 25%">
+<col style="width: 10%">
+<col style="width: 17%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Shape class</th>
+<th style="text-align: right;">Case-cells</th>
+<th style="text-align: right;">Individual scores</th>
+<th style="text-align: right;">Reported distribution</th>
+<th style="text-align: right;">Rankings</th>
+<th style="text-align: right;">Tails and cuts</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">bimodal</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">3</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">normal</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">skewed</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">3</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</figure>
+</div>
+</div>
+<p>The following comparison is this book’s descriptive cross-study synthesis, not a preregistered case-study claim. The pattern is the simulation’s convergent twin, reached without truth: the output family where the prior most consistently changes what is reported is the <strong>distribution</strong>, where every bimodal and skewed case-cell is material, while individual scores move materially in only one bimodal cell of seven, and tails at fixed cuts barely move at all. A reader holding <a href="27-what-the-simulation-settled.html" class="quarto-xref"><span>Chapter 27</span></a>’s winner maps beside this census sees the same geometry from two sides: where the simulation says the flexible pipeline is most <em>right</em>, the case study says the choice most <em>matters</em>.</p>
+<p>One of the second edition’s new decompositions cuts against an easy transfer of <a href="27-what-the-simulation-settled.html#sec-ch27-levers" class="quarto-xref"><span>Section 27.3</span></a>, and this book states it rather than smoothing it over. On the sixteen non-normal case-cells, the <em>prior</em> swap displaces the reported distribution at least as much as the <em>summary</em> swap on every one, while the summary swap is the larger mover of individual scores on all ten normal and undetermined cells and clears the distributional materiality threshold on 23 of the 26 cells, including both normal controls, where there is nothing to recover <span class="citation" data-cites="lee_casestudy_2026">(<a href="#ref-lee_casestudy_2026" role="doc-biblioref">Lee 2026a</a>)</span>. This is not a contradiction of the simulation’s lever ordering, because the two volumes measure different things. With truth in hand, <a href="27-what-the-simulation-settled.html#sec-ch27-levers" class="quarto-xref"><span>Section 27.3</span></a> prices which lever <em>improves</em> distribution recovery, and the summary wins; without truth, the case study measures which lever <em>moves</em> what is reported, and movement is not improvement — a summary swap stretches every ensemble, right or wrong. The moderator the case study supplies fits the working model of <a href="11-conditional-posterior-and-shrinkage.html" class="quarto-xref"><span>Chapter 11</span></a>: summary-swap movement falls with reliability (a correlation of <span class="math inline">\(-.59\)</span> with <span class="math inline">\(\bar\rho\)</span>, from 0.118 SD below the .70 tier to 0.044 above .90), and this portfolio lives mostly at high reliability, where the compression the summary repairs is smallest. The reconciliation is the second edition’s own reading, offered with the data that motivate it rather than settled by them; this book carries the displacement facts, the moderator, and the distinction, and leaves the ordering claim where it is licensed — on the losses, in <a href="27-what-the-simulation-settled.html" class="quarto-xref"><span>Chapter 27</span></a>.</p>
+<p>Two further case-study measurements deserve theory-side preservation.</p>
+<div class="cell">
+<div id="tbl-seed-floor" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-seed-floor-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;28.5: Top-decile churn from three sources: re-running the identical method at a new seed, changing the elicitation setting, and changing the prior family. Source: tables/T-seed-floor.rds.
+</figcaption>
+<div aria-describedby="tbl-seed-floor-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<table class="cell caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 4%">
+<col style="width: 16%">
+<col style="width: 41%">
+<col style="width: 37%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: left;">Shape class</th>
+<th style="text-align: left;">Source</th>
+<th style="text-align: left;">Top-decile members changed</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">bimodal</td>
+<td style="text-align: left;">different elicitation setting</td>
+<td style="text-align: left;">6.3%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">3</td>
+<td style="text-align: left;">bimodal</td>
+<td style="text-align: left;">different prior family</td>
+<td style="text-align: left;">10.0%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">bimodal</td>
+<td style="text-align: left;">same method, different seed</td>
+<td style="text-align: left;">6.5%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">6</td>
+<td style="text-align: left;">normal</td>
+<td style="text-align: left;">different elicitation setting</td>
+<td style="text-align: left;">6.0%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">5</td>
+<td style="text-align: left;">normal</td>
+<td style="text-align: left;">different prior family</td>
+<td style="text-align: left;">6.0%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">4</td>
+<td style="text-align: left;">normal</td>
+<td style="text-align: left;">same method, different seed</td>
+<td style="text-align: left;">4.0%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">9</td>
+<td style="text-align: left;">skewed</td>
+<td style="text-align: left;">different elicitation setting</td>
+<td style="text-align: left;">6.0%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">8</td>
+<td style="text-align: left;">skewed</td>
+<td style="text-align: left;">different prior family</td>
+<td style="text-align: left;">4.0%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">7</td>
+<td style="text-align: left;">skewed</td>
+<td style="text-align: left;">same method, different seed</td>
+<td style="text-align: left;">2.0%</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</figure>
+</div>
+</div>
+<p><strong>Selection has a noise floor.</strong> Re-running the <em>same</em> method at a different seed already changes two to nine percent of a top decile, depending on shape class — six and a half on the bimodal cases, four on the normal controls, two on the skewed (the placed classes <a href="#tbl-seed-floor" class="quarto-xref">Table&nbsp;<span>28.5</span></a> displays), and nearly nine on the undetermined cases the second edition adds to the headline; the prior-family contrast adds to that floor rather than creating churn from zero, on bimodal cases the elicitation contrast sits <em>at</em> the floor, indistinguishable from doing nothing. Scope matters for the cellwise maximum: across all 234 stored same-method prior-summary pairs the maximum is 32.35 percent, attained by three C12 fits; in the 26-cell Gaussian + PM subset plotted in the case-study noise-floor figure, the maximum is 28 percent at C4 under Rasch. <a href="#tbl-seed-extrema" class="quarto-xref">Table&nbsp;<span>28.6</span></a> records both denominators. <a href="20-ranking-and-classification.html" class="quarto-xref"><span>Chapter 20</span></a> argued that ranking is a precision problem; here is its Monte Carlo shadow, measured on real posteriors, with the corollary that any selection-sensitivity claim must be quoted net of the floor.</p>
+<div class="cell">
+<div id="tbl-seed-extrema" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-seed-extrema-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;28.6: Worst same-method top-decile churn under the two scopes quoted in the companion record. Churn uses the corrected Jaccard-to-membership conversion. Source: tables/T-seed-extrema.rds.
+</figcaption>
+<div aria-describedby="tbl-seed-extrema-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<table class="cell caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 36%">
+<col style="width: 10%">
+<col style="width: 15%">
+<col style="width: 36%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Scope</th>
+<th style="text-align: right;">Pairs searched</th>
+<th style="text-align: left;">Worst top-decile churn</th>
+<th style="text-align: left;">Maximizing case-cell and method</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">All stored same-method prior-summary pairs</td>
+<td style="text-align: right;">234</td>
+<td style="text-align: left;">32.35%</td>
+<td style="text-align: left;">C12 Rasch, DP(broad) + PM/CB; C12 2PL, DP(broad) + GR</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Gaussian + PM subset plotted in the case-study figure</td>
+<td style="text-align: right;">26</td>
+<td style="text-align: left;">28%</td>
+<td style="text-align: left;">C4 Rasch, Gaussian + PM</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</figure>
+</div>
+</div>
+<p><strong>This portfolio shows a 16/17-item reproducibility split, not a universal minimum.</strong> Across the volume’s 78 replicate pairs, GR estimates failed to reproduce within 0.10 SD on nine of 24 fits with twelve to sixteen items, and on none of 54 fits with seventeen or more. That is a complete separation in this portfolio, not an estimated population threshold, and convergence diagnostics did not flag it: eight of the nine failures had clean <span class="math inline">\(\widehat R\)</span>. The corrected mechanism belongs to <a href="19-triple-goal.html" class="quarto-xref"><span>Chapter 19</span></a>’s rank assignment. The sorted GR mass points remain nearly fixed across refits, but tiny perturbations change near-ranks and reassign people among those mass points; exact posterior-mean ties are too rare to explain the failures. The practical rider is therefore to replicate-seed-audit short tests in portfolios like this one. These 78 fits do not establish a general 17-item floor.</p>
+</section>
+<section id="sec-ch28-verdict" class="level2" data-number="28.5">
+<h2 data-number="28.5" class="anchored" data-anchor-id="sec-ch28-verdict"><span class="header-section-number">28.5</span> The verdict layer</h2>
+<p>The second edition adds an explicitly <strong>unpreregistered</strong> layer the first could not have: it joins each placed case-cell to its matched cell in the simulation’s grid and reads out, per goal, what the volume with truth recommends there <span class="citation" data-cites="lee_casestudy_2026">(<a href="#ref-lee_casestudy_2026" role="doc-biblioref">Lee 2026a</a>)</span>. Twenty-one of the 26 case-cells match a simulation cell. Fifteen land in cells the simulation labels strong wins for the flexible prior on distribution recovery, with KS loss ratios of 0.476 to 0.761 — a quarter to a half of the loss removed on tests like these. Six are flagged, and the second edition insists on keeping the two kinds distinct: five are normal-consistent cells with ratios of 0.988 to 1.041, flags of imprecision around nothing, and one — C12 under the Rasch model — is the substantive caution cell of <a href="27-what-the-simulation-settled.html" class="quarto-xref"><span>Chapter 27</span></a>‘s safety screen. Across the matched cells a GR combination wins the distribution goal in twenty of twenty-one and a PM combination wins individual scores in all twenty-one, which is the winner geometry of <a href="27-what-the-simulation-settled.html" class="quarto-xref"><span>Chapter 27</span></a> landing on real coordinates; and the price of the operational default, Gaussian with posterior means, runs 1.36 to 2.54 times the winning combination’s distributional loss, with a median of 2.08. One label travels with all of this: the layer was assembled after both volumes’ results existed and is not preregistered — it is a join of two frozen records, not a new experiment, and this book quotes it at that strength.</p>
+</section>
+<section id="sec-ch28-sources" class="level2" data-number="28.6">
+<h2 data-number="28.6" class="anchored" data-anchor-id="sec-ch28-sources"><span class="header-section-number">28.6</span> Sources and provenance</h2>
+<p>The reliability census is <span class="citation" data-cites="lee_reliability-distribution_2026">Lee (<a href="#ref-lee_reliability-distribution_2026" role="doc-biblioref">2026c</a>)</span> and is read from its frozen complete 889-unit analysis snapshot; its public derived release has 879 rows because ten cannot be redistributed. The prevalence census is <span class="citation" data-cites="lee_theta-nonnormality_2026">Lee (<a href="#ref-lee_theta-nonnormality_2026" role="doc-biblioref">2026b</a>)</span> and is read from its <em>corrected</em> released frame, which repairs a scale-dependence defect its external review found in the original resampling analysis. The published medians and exceedance counts are asserted by <code>code/R/20-evidence-tables.R</code> before any display is written; the deconvolved shares and the sensitivity-grid values are the studies’ own model-based results, carried as published. The Warehouse itself is <span class="citation" data-cites="domingue_introduction_2025">Domingue et al. (<a href="#ref-domingue_introduction_2025" role="doc-biblioref">2025</a>)</span>. The case-study results — materiality census, null calibration, seed floor, portfolio-specific GR split, shape-class instability, the displacement decomposition, and the verdict layer — are <span class="citation" data-cites="lee_casestudy_2026">Lee (<a href="#ref-lee_casestudy_2026" role="doc-biblioref">2026a</a>)</span>, cited in its second edition, whose analysis layer (the P-series tables and the claim register) remains in the first edition’s repository; this book’s pipeline reads that frozen layer directly (P3-T17, P1-T6, P3-T15, and the replicate-audit records), and the second edition adds no fits and recomputes no frozen number. Quotation follows the volume’s registered consequence vocabulary, with its corrections of record honoured — including the Jaccard-to-membership conversion its corrigendum fixed — and with its own labels preserved: the seed-floor headline widened to two-to-nine percent by the undetermined class, the 32.35-percent all-pairs maximum kept distinct from the plotted Gaussian + PM subset’s 28-percent maximum, the verdict layer marked as unpreregistered, and the displacement-versus-improvement reconciliation attributed to that edition rather than asserted as settled. The cited volume supplies the <em>exploratory</em> cut-score observation E-01 and the frozen 16/17-item counts. The bands-rather-than-exact-ties correction and the near-rank-reassignment mechanism come instead from the second edition’s external-review/correction record, finding F-07; they are not attributed to the case-study book itself. The 16/17 split is quoted only for this 78-fit portfolio. The convergence reading between the two companion volumes in <a href="#sec-ch28-moves" class="quarto-xref"><span>Section 28.4</span></a> is this book’s, and it is a statement about where the evidence agrees, not a new analysis.</p>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-domingue_introduction_2025" class="csl-entry" role="listitem">
+Domingue, Benjamin W., Mika Braginsky, Lucy Caffrey-Maffei, et al. 2025. <span>“An Introduction to the Item Response Warehouse (<span>IRW</span>): <span>A</span> Resource for Enhancing Data Usage in Psychometrics.”</span> <em>Behavior Research Methods</em> 57 (10): 276. <a href="https://doi.org/10.3758/s13428-025-02796-y">https://doi.org/10.3758/s13428-025-02796-y</a>.
+</div>
+<div id="ref-lee_casestudy_2026" class="csl-entry" role="listitem">
+Lee, JoonHo. 2026a. <em>Case Studies of <span>Dirichlet</span> Process Mixture Priors and Goal-Specific Posterior Summaries in <span>Bayesian</span> <span>IRT</span>: Thirteen Real Tests from the <span>Item</span> <span>Response</span> <span>Warehouse</span></em>. Quarto book, The University of Alabama.
+</div>
+<div id="ref-lee_theta-nonnormality_2026" class="csl-entry" role="listitem">
+Lee, JoonHo. 2026b. <span>“How Common Are Estimated Latent-Distribution Departures from Normality? <span>Evidence</span> from 504 Item-Response Data Sets.”</span> Unpublished manuscript.
+</div>
+<div id="ref-lee_reliability-distribution_2026" class="csl-entry" role="listitem">
+Lee, JoonHo. 2026c. <span>“How Reliable Are Psychological Measurements? <span>The</span> Distribution of Marginal Reliability Across 889 Item-Response Datasets.”</span> Unpublished manuscript.
+</div>
+</div>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../chapters/27-what-the-simulation-settled.html" class="pagination-link" aria-label="What the Simulation Settled">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">What the Simulation Settled</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../chapters/29-evidence-settles-reopens.html" class="pagination-link" aria-label="What the Evidence Settles, and What It Reopens">
+        <span class="nav-page-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">What the Evidence Settles, and What It Reopens</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

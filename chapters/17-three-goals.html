@@ -1,0 +1,1217 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.37">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>17&nbsp; Three Goals, Three Losses – Bayesian Semiparametric Item Response Modelling for Person-Specific Latent Traits</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../chapters/18-constrained-bayes.html" rel="next">
+<link href="../chapters/16-dpm-priors.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-5ccb035bea26c1e21f80f44cf7c27909.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>
+.prov { font-size: 0.88em; color: #555; font-style: italic; }
+blockquote.ms { border-left: 3px solid #c0392b; background: #fdf3f2; }
+</style>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/17-three-goals.html">VI — Posterior Summaries and Inferential Goals</a></li><li class="breadcrumb-item"><a href="../chapters/17-three-goals.html"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Three Goals, Three Losses</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Bayesian Semiparametric Item Response Modelling for Person-Specific Latent Traits</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">About This Book</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">I — Orientation</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/01-the-estimation-problem.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">The Estimation Problem</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/02-notation-and-frameworks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Notation, Terminology, and Two Frameworks</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">II — The Measurement Models</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/03-rasch-and-2pl-foundations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Foundations: the Rasch and 2PL Models</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/04-identification.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Identification</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/05-item-parameter-estimation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Estimating Item Parameters</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/06-person-parameter-estimation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Estimating Person Parameters</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">III — Information, Error, and Reliability</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/07-information-and-error.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Information and Measurement Error</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/08-reliability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Reliability in the Rasch Model</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/09-designing-for-reliability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Designing for a Target Reliability</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">IV — Bayesian Hierarchical Modelling and Shrinkage</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/10-bayesian-hierarchical-rasch.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">The Bayesian Hierarchical Rasch Model</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/11-conditional-posterior-and-shrinkage.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">The Conditional Posterior and Shrinkage</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/12-empirical-bayes-tradition.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Empirical Bayes and the Shrinkage Tradition</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">V — Beyond Normality: Flexible Latent-Trait Distributions</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/13-non-normality.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Non-Normality in Latent Traits</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/14-flexible-alternatives.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Flexible Parametric and Semiparametric Alternatives</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/15-dirichlet-process.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">The Dirichlet Process</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/16-dpm-priors.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">DPM Priors for Latent Traits</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
+ <span class="menu-text">VI — Posterior Summaries and Inferential Goals</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/17-three-goals.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Three Goals, Three Losses</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/18-constrained-bayes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Constrained Bayes</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/19-triple-goal.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Triple-Goal Estimation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/20-ranking-and-classification.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Ranking and Classification</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true">
+ <span class="menu-text">VII — Positioning</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/21-relation-to-lee-et-al.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Relation to Lee et al.&nbsp;(2025)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/22-scope-and-extensions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Scope: Why Rasch, and What Extends</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/23-open-problems.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Open Problems</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true">
+ <span class="menu-text">VIII — What Changes Under the 2PL</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/24-discrimination-and-information.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Discrimination and Information</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/25-reliability-under-2pl.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Reliability Under the Two-Parameter Model</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/26-identification-dpm-2pl.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Identification and the DPM Under the Two-Parameter Model</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true">
+ <span class="menu-text">IX — The Realized Evidence</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/27-what-the-simulation-settled.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">What the Simulation Settled</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/28-what-real-tests-look-like.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">What Real Tests Look Like</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/29-evidence-settles-reopens.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">What the Evidence Settles, and What It Reopens</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-10" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/A-proofs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Proofs</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/B-crosswalk.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Notation Crosswalk</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/C-corrections.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">C</span>&nbsp; <span class="chapter-title">Corrections to the Submitted Manuscript</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/D-annotated-bibliography.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">D</span>&nbsp; <span class="chapter-title">Annotated Bibliography</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/E-acquisition-ledger.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">E</span>&nbsp; <span class="chapter-title">Reference Acquisition Ledger</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/F-software.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">F</span>&nbsp; <span class="chapter-title">Software and Computation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/G-build-report.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">G</span>&nbsp; <span class="chapter-title">Build and Verification Report</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#sec-ch17-bayes" id="toc-sec-ch17-bayes" class="nav-link active" data-scroll-target="#sec-ch17-bayes"><span class="header-section-number">17.1</span> Bayes estimators are loss minimizers</a></li>
+  <li><a href="#sec-ch17-individual" id="toc-sec-ch17-individual" class="nav-link" data-scroll-target="#sec-ch17-individual"><span class="header-section-number">17.2</span> Goal 1 — the individual</a></li>
+  <li><a href="#sec-ch17-ranks" id="toc-sec-ch17-ranks" class="nav-link" data-scroll-target="#sec-ch17-ranks"><span class="header-section-number">17.3</span> Goal 2 — the ranks</a></li>
+  <li><a href="#sec-ch17-distribution" id="toc-sec-ch17-distribution" class="nav-link" data-scroll-target="#sec-ch17-distribution"><span class="header-section-number">17.4</span> Goal 3 — the distribution</a></li>
+  <li><a href="#sec-ch17-criteria" id="toc-sec-ch17-criteria" class="nav-link" data-scroll-target="#sec-ch17-criteria"><span class="header-section-number">17.5</span> Names used in empirical comparisons</a></li>
+  <li><a href="#sec-ch17-incompatible" id="toc-sec-ch17-incompatible" class="nav-link" data-scroll-target="#sec-ch17-incompatible"><span class="header-section-number">17.6</span> The three goals can be incompatible</a></li>
+  <li><a href="#sec-ch17-decisions" id="toc-sec-ch17-decisions" class="nav-link" data-scroll-target="#sec-ch17-decisions"><span class="header-section-number">17.7</span> Which decision implies which loss</a></li>
+  <li><a href="#sec-ch17-sources" id="toc-sec-ch17-sources" class="nav-link" data-scroll-target="#sec-ch17-sources"><span class="header-section-number">17.8</span> Sources and provenance</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/17-three-goals.html">VI — Posterior Summaries and Inferential Goals</a></li><li class="breadcrumb-item"><a href="../chapters/17-three-goals.html"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Three Goals, Three Losses</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span id="sec-ch17" class="quarto-section-identifier"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Three Goals, Three Losses</span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>Reviewer 2’s sharpest objection to the manuscript was that its estimators are “reused with limited adaptation.” The answer is that the adaptation is a matter of <strong>which loss function an assessment context implies</strong>, and that argument has to be made rather than asserted. This chapter makes it.</p>
+<p>Everything before this point in the book has been about <em>estimating</em> — how to get <span class="math inline">\(\hat\theta_p\)</span>, how precise it is, what happens when <span class="math inline">\(G\)</span> is misspecified. Part VI asks a prior question: <strong>what are you estimating for?</strong> Three answers recur in assessment, they imply three different losses, and <a href="#thm-incompatible" class="quarto-xref">Theorem&nbsp;<span>17.1</span></a> shows by existence that their Bayes actions need not be representable by one set of person estimates.</p>
+<section id="sec-ch17-bayes" class="level2" data-number="17.1">
+<h2 data-number="17.1" class="anchored" data-anchor-id="sec-ch17-bayes"><span class="header-section-number">17.1</span> Bayes estimators are loss minimizers</h2>
+<p>The general statement is one line. Given a posterior <span class="math inline">\(p(\boldsymbol\theta \mid \mathbf{u})\)</span> and a loss <span class="math inline">\(L(\mathbf{a}, \boldsymbol\theta)\)</span> measuring the cost of taking action <span class="math inline">\(\mathbf{a}\)</span> when the truth is <span class="math inline">\(\boldsymbol\theta\)</span>, the <strong>Bayes action</strong> minimizes the posterior expected loss,</p>
+<p><span id="eq-bayes-action"><span class="math display">\[
+\mathbf{a}^{\star} = \arg\min_{\mathbf{a}}
+\operatorname{E}\!\left[L(\mathbf{a}, \boldsymbol\theta) \mid \mathbf{u}\right] .
+\tag{17.1}\]</span></span></p>
+<p>The posterior is common to all three goals. <strong>The loss is not</strong>, and <a href="#eq-bayes-action" class="quarto-xref">Equation&nbsp;<span>17.1</span></a> is the whole reason a single posterior yields three different answers. A reader who takes “the Bayesian estimate” to be one object has skipped the loss.</p>
+<p>Two consequences frame the chapter. Changing the loss changes the estimator even though nothing about the model or the data has changed — so an estimator cannot be defended without naming the decision it serves. And an estimator that is optimal for one loss is generally <em>not</em> merely worse for another but wrong in a specific, predictable direction, which is what makes the trade-off analysable rather than a matter of taste.</p>
+</section>
+<section id="sec-ch17-individual" class="level2" data-number="17.2">
+<h2 data-number="17.2" class="anchored" data-anchor-id="sec-ch17-individual"><span class="header-section-number">17.2</span> Goal 1 — the individual</h2>
+<p>The first goal is the familiar one: report a number for each person that is close to that person’s ability. The loss is weighted squared error, summed over persons.</p>
+<div id="prp-pm-bayes" class="theorem proposition">
+<p><span class="theorem-title"><strong>Proposition 17.1</strong></span> <strong>The posterior mean is Bayes under squared-error loss.</strong> <em>Restated from Shen and Louis (1998, §§ 2.2, 2.4, pp.&nbsp;457–458)</em></p>
+<p>With <span class="math inline">\(\mathrm{WSEL}(\mathbf{a}, \boldsymbol\theta) = \sum_p w_p (a_p - \theta_p)^2\)</span> and <span class="math inline">\(\eta_p = \operatorname{E}[\theta_p \mid \mathbf{u}]\)</span>, <span class="math inline">\(v_p =
+\operatorname{Var}[\theta_p \mid \mathbf{u}]\)</span>,</p>
+<p><span id="eq-wsel"><span class="math display">\[
+\operatorname{E}[\mathrm{WSEL} \mid \mathbf{u}]
+= \sum_p w_p (a_p - \eta_p)^2 + \sum_p w_p v_p ,
+\tag{17.2}\]</span></span></p>
+<p>so the minimizer is <span class="math inline">\(a_p = \eta_p\)</span> for every <span class="math inline">\(p\)</span> and every weighting, and the residual <span class="math inline">\(\sum_p w_pv_p\)</span> is the irreducible posterior risk. Shen and Louis use a person-indexed lambda for this quantity; this book uses the registered <span class="math inline">\(v_p\)</span> so that <span class="math inline">\(\lambda_i\)</span> remains reserved for 2PL item discrimination (TD-3).</p>
+</div>
+<p><a href="#eq-wsel" class="quarto-xref">Equation&nbsp;<span>17.2</span></a> is worth reading twice, because the decomposition does the argument’s work. The first term is the only part the analyst controls; the second is what the data leave uncertain. <strong>Nothing an estimator does can reduce the second term</strong> — which is why an estimator that improves some other criterion must be paying for it in the first term, and why the size of that payment is a computable quantity rather than a matter of opinion.</p>
+<p>This is the EAP of <a href="11-conditional-posterior-and-shrinkage.html#thm-eap-shrinkage" class="quarto-xref">Theorem&nbsp;<span>11.1</span></a> arriving from the decision side, and it is the estimator the manuscript uses. <a href="11-conditional-posterior-and-shrinkage.html" class="quarto-xref"><span>Chapter 11</span></a> derived it; this chapter says what it is <em>for</em>.</p>
+</section>
+<section id="sec-ch17-ranks" class="level2" data-number="17.3">
+<h2 data-number="17.3" class="anchored" data-anchor-id="sec-ch17-ranks"><span class="header-section-number">17.3</span> Goal 2 — the ranks</h2>
+<p>The second goal reports an ordering or percentile rank: how a class sorts and how uncertain each position is. The parameter of interest is the rank vector <span class="math inline">\(R_p = \sum_q \mathbb{1}\{\theta_q \le \theta_p\}\)</span>, and the natural loss is squared error <em>on ranks</em>, whose Bayes action is <span class="math inline">\(\operatorname{E}[R_p \mid \mathbf{u}]\)</span> — optimally discretized back to a permutation, which is what Shen and Louis <span class="citation" data-cites="shen_triple-goal_1998">(<a href="#ref-shen_triple-goal_1998" role="doc-biblioref">1998</a>, eq. 1)</span> call <span class="math inline">\(\hat R_p\)</span>.</p>
+<div id="prp-rank-of-mean" class="theorem proposition">
+<p><span class="theorem-title"><strong>Proposition 17.2</strong></span> <strong>The rank of the mean is not the mean of the rank.</strong> <em>Restated from Shen and Louis (1998, §§ 2.1, 3) and Goldstein and Spiegelhalter (1996)</em></p>
+<p><span class="math inline">\(\operatorname{rank}(\operatorname{E}[\theta_p \mid \mathbf{u}])\)</span> and <span class="math inline">\(\operatorname{E}[\operatorname{rank}(\theta_p) \mid \mathbf{u}]\)</span> are different functionals, and the second is the Bayes action under rank loss. They differ in <strong>value in general</strong>, because expected ranks are pulled toward the middle of the range; they can agree in deterministic, tied, symmetric, or limiting cases. Whether they differ in <strong>induced ordering</strong> depends on the model.</p>
+</div>
+<p>The value/ordering distinction is the one <a href="12-empirical-bayes-tradition.html#sec-ch12-ranks" class="quarto-xref"><span>Section 12.3.2</span></a> establishes and this chapter must not blur, because the book got it wrong once. Under the common-form Rasch model the posteriors are stochastically ordered in the total score, and Shen and Louis <span class="citation" data-cites="shen_triple-goal_1998">(<a href="#ref-shen_triple-goal_1998" role="doc-biblioref">1998</a>, Theorem 2)</span> then give <span class="math inline">\(R^{*} = R^{\dagger} = \tilde R = \hat R\)</span> up to reversal: every rank procedure induces the same ordering. What still differs is what gets <em>reported</em> — the expected rank of the top scorer is not <span class="math inline">\(P\)</span>, and an interval around it is not degenerate.</p>
+<p>So Goal 2 in this book’s setting is <strong>not</strong> “the ordering is wrong and needs repair.” It is: the ordering is right, the rank <em>values</em> and their uncertainty are not what ranking point estimates suggests, and the regimes where even the ordering fails — different test forms, missing designs, integrated item uncertainty — must be named rather than assumed away. <a href="20-ranking-and-classification.html" class="quarto-xref"><span>Chapter 20</span></a> is where that is developed.</p>
+<p>The clean ordering result has a fixed-known-2PL analogue, but not an unrestricted 2PL analogue. As <a href="03-rasch-and-2pl-foundations.html#prp-nosuff" class="quarto-xref">Proposition&nbsp;<span>3.1</span></a> establishes, conditional on one common set of known discriminations, the 2PL likelihood is a one-parameter exponential family in the weighted score <span class="math inline">\(T_{\boldsymbol\lambda}(\mathbf{u}_p)=\sum_i\lambda_i u_{pi}\)</span>; hence response patterns are monotone-likelihood-ratio ordered by that score, and their posteriors inherit the same stochastic order under a common prior. If discriminations or other item parameters are estimated and their uncertainty is integrated, the ordering statistic itself is no longer fixed. Different forms, missing items, and person-dependent item-parameter posteriors then need a separate ordering argument; this chapter makes no guarantee for those cases.</p>
+</section>
+<section id="sec-ch17-distribution" class="level2" data-number="17.4">
+<h2 data-number="17.4" class="anchored" data-anchor-id="sec-ch17-distribution"><span class="header-section-number">17.4</span> Goal 3 — the distribution</h2>
+<p>The third goal reports a distribution: what fraction of the population is below a cut score, how spread out the class is, whether the trait is bimodal. Shen and Louis <span class="citation" data-cites="shen_triple-goal_1998">(<a href="#ref-shen_triple-goal_1998" role="doc-biblioref">1998, sec. 2</a>)</span> take the target to be the <strong>empirical distribution of the realized parameters</strong>,</p>
+<p><span id="eq-edf-target"><span class="math display">\[
+G_K(t) = \frac{1}{K}\sum_{k} \mathbb{1}\{\theta_k \le t\},
+\tag{17.3}\]</span></span></p>
+<p>and the loss to be integrated squared error, <span class="math inline">\(\mathrm{ISEL}(A, G_K) = \int \{A(t) -
+G_K(t)\}^2\,dt\)</span>. Their Theorem 1 gives the Bayes action: the minimizer of <span class="math inline">\(\operatorname{E}[\mathrm{ISEL} \mid \mathbf{Y}]\)</span> is the posterior expectation of <span class="math inline">\(G_K\)</span>, and if the action is constrained to be a discrete distribution with at most <span class="math inline">\(K\)</span> mass points, the minimizer <span class="math inline">\(\hat G_K\)</span> puts mass <span class="math inline">\(1/K\)</span> at points they characterize explicitly.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span><span class="math inline">\(G_N\)</span> is the realized EDF, not <span class="math inline">\(G\)</span> — R1’s question, answered
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Reviewer 1 wrote, at manuscript p.&nbsp;16 line 32: “I became a bit lost in trying to understand whether the quantity <span class="math inline">\(G_N(t)\)</span> is a rank estimate or a latent trait estimate. It appears to be a mean probability of some type but then the authors describe it as a latent trait estimate.”</p>
+<p>The confusion is the manuscript’s to fix, not the reviewer’s to overcome. <span class="math inline">\(G_N\)</span> is neither a rank estimate nor a latent trait estimate. It is the <strong>empirical distribution function of the <span class="math inline">\(N\)</span> realized abilities in this sample</strong> — <a href="#eq-edf-target" class="quarto-xref">Equation&nbsp;<span>17.3</span></a> with <span class="math inline">\(K = N\)</span> — so it is a random object even given <span class="math inline">\(G\)</span>, and estimating it is a third decision problem alongside estimating the <span class="math inline">\(\theta_p\)</span> and estimating their ranks.</p>
+<p>The distinction that makes it a <em>separate</em> estimand matters and is easy to lose:</p>
+<ul>
+<li><span class="math inline">\(G\)</span> is the population distribution, a fixed unknown (frequentist) or a random measure with a prior (Bayesian). <a href="16-dpm-priors.html" class="quarto-xref"><span>Chapter 16</span></a> says a finite test identifies only <span class="math inline">\(I+1\)</span> of its functionals.</li>
+<li><span class="math inline">\(G_N\)</span> is the EDF of the particular <span class="math inline">\(N\)</span> people who took the test. It converges to <span class="math inline">\(G\)</span> as <span class="math inline">\(N\)</span> grows, but for the <span class="math inline">\(N\)</span> at hand it is a different target, and it is the one a cut-score report is actually about.</li>
+</ul>
+<p>The manuscript targets <span class="math inline">\(G_N\)</span> and the revision should say so in a sentence.</p>
+</div>
+</div>
+</section>
+<section id="sec-ch17-criteria" class="level2" data-number="17.5">
+<h2 data-number="17.5" class="anchored" data-anchor-id="sec-ch17-criteria"><span class="header-section-number">17.5</span> Names used in empirical comparisons</h2>
+<p>The three goals acquire short labels in simulation tables, and those labels should not be left implicit. If <span class="math inline">\(A_p\)</span> estimates the true rank <span class="math inline">\(R_p\)</span> among <span class="math inline">\(P\)</span> units, the mean squared error loss of ranks is</p>
+<p><span class="math display">\[
+\mathrm{MSELR}=\frac{1}{P}\sum_{p=1}^{P}(A_p-R_p)^2.
+\]</span></p>
+<p>The mean squared error loss of percentile ranks rescales both ranks by <span class="math inline">\(P\)</span>,</p>
+<p><span class="math display">\[
+\mathrm{MSELP}=\frac{1}{P}\sum_{p=1}^{P}
+\left(\frac{A_p}{P}-\frac{R_p}{P}\right)^2
+=\frac{1}{P^2}\mathrm{MSELR}.
+\]</span></p>
+<p>MSELP is therefore comparable across settings with different numbers of units in a way the raw-rank scale is not <span class="citation" data-cites="lee_improving_2025">(<a href="#ref-lee_improving_2025" role="doc-biblioref">Lee et al. 2025</a>, eqs. 6–7)</span>. For an estimated EDF <span class="math inline">\(\widehat G_P\)</span> and target EDF <span class="math inline">\(G_P\)</span>, the Kolmogorov–Smirnov distance is</p>
+<p><span class="math display">\[
+\mathrm{KS}(\widehat G_P,G_P)=\sup_t|\widehat G_P(t)-G_P(t)|.
+\]</span></p>
+<p>KS is a supremum diagnostic, whereas ISEL integrates squared discrepancy. Neither rank loss nor an EDF distance is a substitute for individual RMSE; the names simply make the empirical counterparts of the three losses explicit.</p>
+</section>
+<section id="sec-ch17-incompatible" class="level2" data-number="17.6">
+<h2 data-number="17.6" class="anchored" data-anchor-id="sec-ch17-incompatible"><span class="header-section-number">17.6</span> The three goals can be incompatible</h2>
+<p>The paper’s thesis is that the choice among posterior summaries matters. That is currently asserted. The defensible theorem is an existence statement, not a universal boundary on all overlapping posteriors.</p>
+<div id="thm-incompatible" class="theorem">
+<p><span class="theorem-title"><strong>Theorem 17.1</strong></span> <strong>A single trait vector need not minimize all three reporting losses.</strong> <em>Adapted from Shen and Louis (1998, §§ 2.1–2.4); existence proof here</em></p>
+<p>There exist independent, non-degenerate, overlapping posteriors for which no vector of trait values can both be WSEL-optimal person by person and carry the ISEL-optimal <span class="math inline">\(K\)</span>-point distribution. It follows that no such vector can simultaneously attain those two optima and the rank-loss-optimal ordering.</p>
+</div>
+<p><em>Proof.</em> Take <span class="math inline">\(K = 2\)</span> with independent posteriors <span class="math inline">\(N(-0.6, 0.5)\)</span> and <span class="math inline">\(N(0.6, 0.2)\)</span>, where the second normal argument is a variance. The unique WSEL action is the vector of posterior means. Shen and Louis’s Theorem 1 makes the ISEL-optimal equal-mass atoms the .25 and .75 quantiles of</p>
+<p><span class="math display">\[
+\bar G_2(t)=\tfrac12\Pr(\theta_1\le t\mid Y_1)
+             +\tfrac12\Pr(\theta_2\le t\mid Y_2),
+\]</span></p>
+<p>and those atoms differ from the posterior means. Therefore no one trait vector attains both optima, hence none attains all three. ∎</p>
+<div class="cell">
+<div id="tbl-three-goals-counterexample" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-three-goals-counterexample-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;17.1: The chapter-17 existence example. ISEL is evaluated against the posterior mean EDF. Source: tables/T-three-goals-counterexample.rds.
+</figcaption>
+<div aria-describedby="tbl-three-goals-counterexample-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<table class="cell caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 44%">
+<col style="width: 11%">
+<col style="width: 11%">
+<col style="width: 9%">
+<col style="width: 12%">
+<col style="width: 9%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Action</th>
+<th style="text-align: left;">Lower atom</th>
+<th style="text-align: left;">Upper atom</th>
+<th style="text-align: left;">Spread</th>
+<th style="text-align: left;">Excess WSEL</th>
+<th style="text-align: left;">ISEL</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Posterior means (WSEL optimum)</td>
+<td style="text-align: left;">-0.600000</td>
+<td style="text-align: left;">0.600000</td>
+<td style="text-align: left;">1.200000</td>
+<td style="text-align: left;">0.000000</td>
+<td style="text-align: left;">0.059985</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Midpoint quantiles (ISEL optimum)</td>
+<td style="text-align: left;">-0.606198</td>
+<td style="text-align: left;">0.644077</td>
+<td style="text-align: left;">1.250275</td>
+<td style="text-align: left;">0.001981</td>
+<td style="text-align: left;">0.059486</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Order-statistic means (not ISEL-optimal)</td>
+<td style="text-align: left;">-0.628435</td>
+<td style="text-align: left;">0.628435</td>
+<td style="text-align: left;">1.256871</td>
+<td style="text-align: left;">0.001617</td>
+<td style="text-align: left;">0.059621</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</figure>
+</div>
+</div>
+<p>The third row is included to prevent the original error from returning: posterior expectations of the order statistics optimize a different ordered-location criterion, not Shen and Louis’s ISEL. In this example the ISEL action is more spread than the posterior means, but <a href="#thm-incompatible" class="quarto-xref">Theorem&nbsp;<span>17.1</span></a> does <strong>not</strong> make that direction universal. Some non-degenerate, overlapping posterior configurations make the midpoint quantiles coincide with the means; the theorem claims existence of conflict, not a degenerate-only equality boundary. How often, and how expensively, the conflict is realized at practical designs is an empirical question the theorem cannot answer — and now has a grid-scoped answer. The companion simulation’s pooled H7 contrast prices the trade in the theorem’s direction; the separate descriptive point census finds that direction at 239 of 240 condition-by-prior points, with one boundary-near KS exception (<a href="27-what-the-simulation-settled.html" class="quarto-xref"><span>Chapter 27</span></a>). The existence result stays an existence result; what changed is that the conflict has been priced without turning the grid into a universal theorem.</p>
+<p>Shen and Louis <span class="citation" data-cites="shen_triple-goal_1998">(<a href="#ref-shen_triple-goal_1998" role="doc-biblioref">1998, sec. 3</a>, p.&nbsp;459)</span> add the fact that determines the shape of Part VI: <strong>the ranks of the constrained-Bayes estimates are always identical to the ranks of the posterior means</strong>, because CB is a positive affine transformation of them. So a spread repair cannot by itself be a rank repair. Their triple-goal construction is a three-stage compromise targeted to the distributional and rank goals — estimate the EDF, minimize a rank loss, then assign the <span class="math inline">\(k\)</span>-th ranked unit the <span class="math inline">\(\hat R_k\)</span>-th mass point of <span class="math inline">\(\hat G_K\)</span> — rather than assuming all three unconstrained optima coincide. Its coordinate squared-error placement interpretation needs the rank-agreement condition stated in <a href="19-triple-goal.html#sec-ch19-properties" class="quarto-xref"><span>Section 19.3</span></a>. <a href="18-constrained-bayes.html" class="quarto-xref"><span>Chapter 18</span></a> and <a href="19-triple-goal.html" class="quarto-xref"><span>Chapter 19</span></a> are those two routes.</p>
+</section>
+<section id="sec-ch17-decisions" class="level2" data-number="17.7">
+<h2 data-number="17.7" class="anchored" data-anchor-id="sec-ch17-decisions"><span class="header-section-number">17.7</span> Which decision implies which loss</h2>
+<p>The formalism is only useful if a practitioner can tell which case they are in.</p>
+<p><strong>Squared-error loss on individuals</strong> is implied when a number attaches to a person and is acted on person by person: a placement decision, a diagnosis, an individual growth report. The cost of error is borne by that person and does not depend on anyone else’s estimate.</p>
+<p><strong>Rank loss</strong> is implied when the reported action is the ordering or the ranks themselves and the trait scale is incidental: a published ordering, percentile-rank report, or league table. Goldstein and Spiegelhalter <span class="citation" data-cites="goldstein_league_1996">(<a href="#ref-goldstein_league_1996" role="doc-biblioref">1996</a>)</span> show why the uncertainty must travel with the ranking; <a href="20-ranking-and-classification.html" class="quarto-xref"><span>Chapter 20</span></a> develops the decision problem.</p>
+<p>Top-<span class="math inline">\(k\)</span> allocation and classification below a substantive cut are related but different actions. A fixed-cardinality selection loss must price which units are included, while a threshold-classification loss must price false negatives against false positives. Neither is implied merely by writing down squared error on rank values.</p>
+<p><strong>Integrated squared error on the EDF</strong> is implied when the report is about the <em>collection</em>: the proportion below a cut score, the spread of a class, whether a distribution is bimodal, an estimated variance component. <a href="01-the-estimation-problem.html" class="quarto-xref"><span>Chapter 1</span></a> opened with this case because it is the one where using the wrong estimator produces an answer that is confidently and systematically wrong rather than merely noisy.</p>
+<p><a href="#tbl-goals" class="quarto-xref">Table&nbsp;<span>17.2</span></a> collects the three.</p>
+<div class="cell">
+<div id="tbl-goals" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-goals-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;17.2: Three goals, three losses, three Bayes actions. Source: tables/T-goals.rds.
+</figcaption>
+<div aria-describedby="tbl-goals-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<table class="cell caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 4%">
+<col style="width: 20%">
+<col style="width: 10%">
+<col style="width: 18%">
+<col style="width: 15%">
+<col style="width: 30%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Goal</th>
+<th style="text-align: left;">Estimand</th>
+<th style="text-align: left;">Loss</th>
+<th style="text-align: left;">Bayes action</th>
+<th style="text-align: left;">Decision it serves</th>
+<th style="text-align: left;">What it gets wrong elsewhere</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">The individual</td>
+<td style="text-align: left;"><span class="math inline">\(\theta_p\)</span>, person by person</td>
+<td style="text-align: left;"><span class="math inline">\(\sum_p w_p(a_p-\theta_p)^2\)</span> (WSEL)</td>
+<td style="text-align: left;">posterior mean <span class="math inline">\(\eta_p\)</span></td>
+<td style="text-align: left;">person-specific point reports under numeric error costs</td>
+<td style="text-align: left;">the ensemble can be under-dispersed; the exact <span class="math inline">\(\sqrt{\bar w}\)</span> ratio needs the constant-error Gaussian model</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">The ranks</td>
+<td style="text-align: left;"><span class="math inline">\(R_p=\sum_q \mathbb{1}\{\theta_q\le\theta_p\}\)</span></td>
+<td style="text-align: left;">squared error on ranks</td>
+<td style="text-align: left;"><span class="math inline">\(\hat R_p\)</span>, the discretized <span class="math inline">\(\operatorname{E}[R_p\mid\mathbf u]\)</span></td>
+<td style="text-align: left;">rank or percentile reporting; a published ordering</td>
+<td style="text-align: left;">it is not a threshold-classification rule; rank values still carry uncertainty</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">The distribution</td>
+<td style="text-align: left;"><span class="math inline">\(G_N(t)=N^{-1}\sum_p \mathbb{1}\{\theta_p\le t\}\)</span>, the <strong>realized</strong> EDF</td>
+<td style="text-align: left;"><span class="math inline">\(\int\{A(t)-G_N(t)\}^2\,dt\)</span> (ISEL)</td>
+<td style="text-align: left;"><span class="math inline">\(\hat G_N\)</span>, discrete with mass <span class="math inline">\(1/N\)</span></td>
+<td style="text-align: left;">realized-ensemble proportions, spread, modality</td>
+<td style="text-align: left;">the induced person values are generally not WSEL-optimal</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</figure>
+</div>
+</div>
+<p>The table deliberately keeps classification out of the rank row. <a href="20-ranking-and-classification.html" class="quarto-xref"><span>Chapter 20</span></a> shows that a rank estimator can be Bayes-optimal for rank loss and still be the wrong classifier.</p>
+<p>A single assessment programme often needs all three at once, from one calibration. That is not a contradiction; it is the reason <a href="#thm-incompatible" class="quarto-xref">Theorem&nbsp;<span>17.1</span></a> has to be stated. <strong>The estimates should differ because the questions differ</strong>, and reporting one vector of numbers for all three purposes is the practice this book’s Part VI exists to interrogate.</p>
+</section>
+<section id="sec-ch17-sources" class="level2" data-number="17.8">
+<h2 data-number="17.8" class="anchored" data-anchor-id="sec-ch17-sources"><span class="header-section-number">17.8</span> Sources and provenance</h2>
+<p><a href="#eq-bayes-action" class="quarto-xref">Equation&nbsp;<span>17.1</span></a> is standard Bayesian decision theory and is restated without attribution to a particular text.</p>
+<p><a href="#prp-pm-bayes" class="quarto-xref">Proposition&nbsp;<span>17.1</span></a> is Shen and Louis <span class="citation" data-cites="shen_triple-goal_1998">(<a href="#ref-shen_triple-goal_1998" role="doc-biblioref">1998, sec. 2</a>)</span>, read directly; the decomposition <a href="#eq-wsel" class="quarto-xref">Equation&nbsp;<span>17.2</span></a> including the irreducible <span class="math inline">\(\sum_p w_pv_p\)</span> term is theirs. <a href="#eq-edf-target" class="quarto-xref">Equation&nbsp;<span>17.3</span></a>, the ISEL loss, and the Theorem 1 characterization of its minimizer are from their § 2.3, pp.&nbsp;457–458, read directly. The rank-loss action <span class="math inline">\(\hat R_p\)</span> is their equation (1) in § 2.1, and the CB rank-invariance fact quoted in <a href="#sec-ch17-incompatible" class="quarto-xref"><span>Section 17.6</span></a> is their § 3, p.&nbsp;459.</p>
+<p><a href="#prp-rank-of-mean" class="quarto-xref">Proposition&nbsp;<span>17.2</span></a> is restated from Shen and Louis <span class="citation" data-cites="shen_triple-goal_1998">(<a href="#ref-shen_triple-goal_1998" role="doc-biblioref">1998, secs. 2.1, 3</a>)</span> together with Goldstein and Spiegelhalter <span class="citation" data-cites="goldstein_league_1996">(<a href="#ref-goldstein_league_1996" role="doc-biblioref">1996</a>)</span>. <strong>Its statement is deliberately split into value and ordering</strong>, because an earlier draft of this book asserted that differential shrinkage reorders posterior means in the common-form Rasch model, and that is false: Shen and Louis’s Theorem 2 and Laird and Louis’s <span class="citation" data-cites="laird_empirical_1989">(<a href="#ref-laird_empirical_1989" role="doc-biblioref">1989</a>, Appendix A)</span> Theorem A give coincidence of the rank procedures under stochastic ordering, which <a href="12-empirical-bayes-tradition.html#sec-ch12-ranks" class="quarto-xref"><span>Section 12.3.2</span></a> shows the Rasch total-score posterior satisfies. The correction is recorded in the project’s step logs.</p>
+<p><a href="#thm-incompatible" class="quarto-xref">Theorem&nbsp;<span>17.1</span></a> is adapted. Paddock et al. <span class="citation" data-cites="paddock_flexible_2006">(<a href="#ref-paddock_flexible_2006" role="doc-biblioref">2006</a>, abstract and § 2.1)</span> state the general motivation that no single estimate is optimal for all three goals, and Shen and Louis supply each Bayes action. Neither source states the false universal condition that an earlier version of this chapter attached to that motivation. The narrower existence result and its normal example are this book’s; the midpoint-quantile identities and direct ISEL comparison are checked in <code>code/R/15-derivation-checks.R</code> and frozen in <code>tables/T-three-goals-counterexample.rds</code>.</p>
+<p>R1’s question about <span class="math inline">\(G_N\)</span> is quoted verbatim from the reviewer comments at manuscript p.&nbsp;16 line 32. The reading of <span class="math inline">\(G_N\)</span> as the realized EDF follows from <a href="#eq-edf-target" class="quarto-xref">Equation&nbsp;<span>17.3</span></a>; that the manuscript should say so explicitly is this book’s recommendation and is logged for the revision.</p>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-goldstein_league_1996" class="csl-entry" role="listitem">
+Goldstein, Harvey, and David J. Spiegelhalter. 1996. <span>“League Tables and Their Limitations: Statistical Issues in Comparisons of Institutional Performance.”</span> <em>Journal of the Royal Statistical Society Series A: Statistics in Society</em> 159 (3): 385–443. <a href="https://doi.org/10.2307/2983325">https://doi.org/10.2307/2983325</a>.
+</div>
+<div id="ref-laird_empirical_1989" class="csl-entry" role="listitem">
+Laird, Nan M., and Thomas A. Louis. 1989. <span>“Empirical <span>Bayes</span> Ranking Methods.”</span> <em>Journal of Educational Statistics</em> 14 (1): 29–46. <a href="https://doi.org/10.3102/10769986014001029">https://doi.org/10.3102/10769986014001029</a>.
+</div>
+<div id="ref-lee_improving_2025" class="csl-entry" role="listitem">
+Lee, JoonHo, Jonathan Che, Sophia Rabe-Hesketh, Avi Feller, and Luke Miratrix. 2025. <span>“Improving the Estimation of Site-Specific Effects and Their Distribution in Multisite Trials.”</span> <em>Journal of Educational and Behavioral Statistics</em> 50 (5): 731–64. <a href="https://doi.org/10.3102/10769986241254286">https://doi.org/10.3102/10769986241254286</a>.
+</div>
+<div id="ref-paddock_flexible_2006" class="csl-entry" role="listitem">
+Paddock, Susan M., Greg Ridgeway, Rongheng Lin, and Thomas A. Louis. 2006. <span>“Flexible Distributions for Triple-Goal Estimates in Two-Stage Hierarchical Models.”</span> <em>Computational Statistics &amp; Data Analysis</em> 50 (11): 3243–62. <a href="https://doi.org/10.1016/j.csda.2005.05.008">https://doi.org/10.1016/j.csda.2005.05.008</a>.
+</div>
+<div id="ref-shen_triple-goal_1998" class="csl-entry" role="listitem">
+Shen, Wei, and Thomas A. Louis. 1998. <span>“Triple-Goal Estimates in Two-Stage Hierarchical Models.”</span> <em>Journal of the Royal Statistical Society: Series B (Statistical Methodology)</em> 60 (2): 455–71. <a href="https://doi.org/10.1111/1467-9868.00135">https://doi.org/10.1111/1467-9868.00135</a>.
+</div>
+</div>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../chapters/16-dpm-priors.html" class="pagination-link" aria-label="DPM Priors for Latent Traits">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">DPM Priors for Latent Traits</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../chapters/18-constrained-bayes.html" class="pagination-link" aria-label="Constrained Bayes">
+        <span class="nav-page-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Constrained Bayes</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

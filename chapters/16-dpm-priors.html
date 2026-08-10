@@ -1,0 +1,1129 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.37">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>16&nbsp; DPM Priors for Latent Traits – Bayesian Semiparametric Item Response Modelling for Person-Specific Latent Traits</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../chapters/17-three-goals.html" rel="next">
+<link href="../chapters/15-dirichlet-process.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-5ccb035bea26c1e21f80f44cf7c27909.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>
+.prov { font-size: 0.88em; color: #555; font-style: italic; }
+blockquote.ms { border-left: 3px solid #c0392b; background: #fdf3f2; }
+</style>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/13-non-normality.html">V — Beyond Normality: Flexible Latent-Trait Distributions</a></li><li class="breadcrumb-item"><a href="../chapters/16-dpm-priors.html"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">DPM Priors for Latent Traits</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Bayesian Semiparametric Item Response Modelling for Person-Specific Latent Traits</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">About This Book</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">I — Orientation</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/01-the-estimation-problem.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">The Estimation Problem</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/02-notation-and-frameworks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Notation, Terminology, and Two Frameworks</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">II — The Measurement Models</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/03-rasch-and-2pl-foundations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Foundations: the Rasch and 2PL Models</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/04-identification.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Identification</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/05-item-parameter-estimation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Estimating Item Parameters</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/06-person-parameter-estimation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Estimating Person Parameters</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">III — Information, Error, and Reliability</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/07-information-and-error.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Information and Measurement Error</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/08-reliability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Reliability in the Rasch Model</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/09-designing-for-reliability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Designing for a Target Reliability</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">IV — Bayesian Hierarchical Modelling and Shrinkage</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/10-bayesian-hierarchical-rasch.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">The Bayesian Hierarchical Rasch Model</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/11-conditional-posterior-and-shrinkage.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">The Conditional Posterior and Shrinkage</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/12-empirical-bayes-tradition.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Empirical Bayes and the Shrinkage Tradition</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">V — Beyond Normality: Flexible Latent-Trait Distributions</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/13-non-normality.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Non-Normality in Latent Traits</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/14-flexible-alternatives.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Flexible Parametric and Semiparametric Alternatives</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/15-dirichlet-process.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">The Dirichlet Process</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/16-dpm-priors.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">DPM Priors for Latent Traits</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
+ <span class="menu-text">VI — Posterior Summaries and Inferential Goals</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/17-three-goals.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Three Goals, Three Losses</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/18-constrained-bayes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Constrained Bayes</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/19-triple-goal.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Triple-Goal Estimation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/20-ranking-and-classification.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Ranking and Classification</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true">
+ <span class="menu-text">VII — Positioning</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/21-relation-to-lee-et-al.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Relation to Lee et al.&nbsp;(2025)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/22-scope-and-extensions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Scope: Why Rasch, and What Extends</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/23-open-problems.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Open Problems</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true">
+ <span class="menu-text">VIII — What Changes Under the 2PL</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/24-discrimination-and-information.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Discrimination and Information</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/25-reliability-under-2pl.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Reliability Under the Two-Parameter Model</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/26-identification-dpm-2pl.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Identification and the DPM Under the Two-Parameter Model</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true">
+ <span class="menu-text">IX — The Realized Evidence</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/27-what-the-simulation-settled.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">What the Simulation Settled</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/28-what-real-tests-look-like.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">What Real Tests Look Like</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/29-evidence-settles-reopens.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">What the Evidence Settles, and What It Reopens</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-10" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/A-proofs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Proofs</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/B-crosswalk.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Notation Crosswalk</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/C-corrections.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">C</span>&nbsp; <span class="chapter-title">Corrections to the Submitted Manuscript</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/D-annotated-bibliography.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">D</span>&nbsp; <span class="chapter-title">Annotated Bibliography</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/E-acquisition-ledger.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">E</span>&nbsp; <span class="chapter-title">Reference Acquisition Ledger</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/F-software.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">F</span>&nbsp; <span class="chapter-title">Software and Computation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/G-build-report.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">G</span>&nbsp; <span class="chapter-title">Build and Verification Report</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#sec-ch16-genealogy" id="toc-sec-ch16-genealogy" class="nav-link active" data-scroll-target="#sec-ch16-genealogy"><span class="header-section-number">16.1</span> The genealogy of DP-IRT</a></li>
+  <li><a href="#sec-ch16-model" id="toc-sec-ch16-model" class="nav-link" data-scroll-target="#sec-ch16-model"><span class="header-section-number">16.2</span> The model as used here</a></li>
+  <li><a href="#sec-ch16-identification" id="toc-sec-ch16-identification" class="nav-link" data-scroll-target="#sec-ch16-identification"><span class="header-section-number">16.3</span> Identification in the semiparametric model</a>
+  <ul class="collapse">
+  <li><a href="#sec-ch16-location" id="toc-sec-ch16-location" class="nav-link" data-scroll-target="#sec-ch16-location"><span class="header-section-number">16.3.1</span> Location indeterminacy persists, and is now shared</a></li>
+  <li><a href="#sec-ch16-scale" id="toc-sec-ch16-scale" class="nav-link" data-scroll-target="#sec-ch16-scale"><span class="header-section-number">16.3.2</span> There is still no scale indeterminacy</a></li>
+  <li><a href="#sec-ch16-inadmissible" id="toc-sec-ch16-inadmissible" class="nav-link" data-scroll-target="#sec-ch16-inadmissible"><span class="header-section-number">16.3.3</span> What zero-centering the base measure does not do</a></li>
+  <li><a href="#sec-ch16-partial" id="toc-sec-ch16-partial" class="nav-link" data-scroll-target="#sec-ch16-partial"><span class="header-section-number">16.3.4</span> What a finite test identifies about <span class="math inline">\(G\)</span></a></li>
+  </ul></li>
+  <li><a href="#sec-ch16-tradeoffs" id="toc-sec-ch16-tradeoffs" class="nav-link" data-scroll-target="#sec-ch16-tradeoffs"><span class="header-section-number">16.4</span> What the DPM buys, and what it costs</a></li>
+  <li><a href="#sec-ch16-sources" id="toc-sec-ch16-sources" class="nav-link" data-scroll-target="#sec-ch16-sources"><span class="header-section-number">16.5</span> Sources and provenance</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/13-non-normality.html">V — Beyond Normality: Flexible Latent-Trait Distributions</a></li><li class="breadcrumb-item"><a href="../chapters/16-dpm-priors.html"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">DPM Priors for Latent Traits</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span id="sec-ch16" class="quarto-section-identifier"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">DPM Priors for Latent Traits</span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p><a href="15-dirichlet-process.html" class="quarto-xref"><span>Chapter 15</span></a> built the Dirichlet process as an object in its own right. This chapter puts it where this research programme puts it — on the latent trait distribution of a Rasch model — and then confronts the question that placement raises. Reviewer 2 asked about identifiability. <a href="04-identification.html" class="quarto-xref"><span>Chapter 4</span></a> answered the parametric half. This is the semiparametric half, and it is harder, because the thing that has to be identified is no longer a vector.</p>
+<p>The chapter’s conclusion is not that the semiparametric model is identified. Under the anchored Rasch conditions, it is that the observable law is generated by <strong>the <span class="math inline">\(I+1\)</span> displayed integral evaluations of <span class="math inline">\(G\)</span></strong>, subject to their identities. This is a theorem rather than a limitation of any particular estimator, but it is not a claim that those values are unconstrained independent dimensions or that no equivalent generating set can be written. It changes how a recovered latent distribution should be read.</p>
+<section id="sec-ch16-genealogy" class="level2" data-number="16.1">
+<h2 data-number="16.1" class="anchored" data-anchor-id="sec-ch16-genealogy"><span class="header-section-number">16.1</span> The genealogy of DP-IRT</h2>
+<p>Putting a nonparametric prior on the ability distribution of an IRT model is about twenty years old and has been proposed several times for different reasons.</p>
+<p>Duncan and MacEachern <span class="citation" data-cites="duncan_nonparametric_2008">(<a href="#ref-duncan_nonparametric_2008" role="doc-biblioref">2008</a>)</span> give the nonparametric-Bayes treatment of the ability distribution in the item-response setting. Miyazaki and Hoshino <span class="citation" data-cites="miyazaki_bayesian_2009">(<a href="#ref-miyazaki_bayesian_2009" role="doc-biblioref">2009</a>)</span> attack a different target with the same tool: their concern is that logistic and normal-ogive item characteristic curves admit “only limited patterns of shapes,” so the model may not fit, and their semiparametric construction relaxes the <em>item</em> side rather than the person side. San Martín et al. <span class="citation" data-cites="sanmartin_bayesian_2011">(<a href="#ref-sanmartin_bayesian_2011" role="doc-biblioref">2011</a>)</span> are the identification paper and are the source <a href="#sec-ch16-identification" class="quarto-xref"><span>Section 16.3</span></a> rests on. Paganin et al. <span class="citation" data-cites="paganin_computational_2022">(<a href="#ref-paganin_computational_2022" role="doc-biblioref">2022</a>)</span> are the computational and practical reference. The companion package draws on that parameterization, but its current defaults must be read from package source rather than attributed wholesale to the paper.</p>
+<p>Two works named in this book’s plan carry no claim here: Karabatsos (2016), whose identity in the manuscript’s reference list is still unconfirmed and which is not held, and Hu et al. <span class="citation" data-cites="hu_nonparametric_2020">(<a href="#ref-hu_nonparametric_2020" role="doc-biblioref">2020</a>)</span>, which is held in this book’s libraries but has not been read at a locator for this chapter. They are named so that a reader who knows them can see they are undigested rather than dismissed.</p>
+<p>What the genealogy shows is that “DP prior on <span class="math inline">\(G\)</span>” is not one idea. It is at least three: relax the ability distribution, relax the item curves, or study what either relaxation does to identification. This book does the first and cares about the third.</p>
+</section>
+<section id="sec-ch16-model" class="level2" data-number="16.2">
+<h2 data-number="16.2" class="anchored" data-anchor-id="sec-ch16-model"><span class="header-section-number">16.2</span> The model as used here</h2>
+<p>The measurement model is unchanged from <a href="10-bayesian-hierarchical-rasch.html#eq-level1" class="quarto-xref">Equation&nbsp;<span>10.1</span></a>. Level 2 is replaced.</p>
+<p><span id="eq-dpm-irt"><span class="math display">\[
+\theta_p \mid G \stackrel{\text{iid}}{\sim} G,
+\qquad
+G(\cdot) = \int N(\cdot \mid \mu, \sigma^2)\, dF(\mu, \sigma^2),
+\qquad
+F \sim \mathrm{DP}(\alpha, H_0) .
+\tag{16.1}\]</span></span></p>
+<p>This is Lo’s construction <a href="15-dirichlet-process.html#eq-dpm" class="quarto-xref">Equation&nbsp;<span>15.6</span></a> with a normal kernel: the Dirichlet process supplies a discrete mixing measure over kernel parameters, and the kernel smooths it into a continuous density. <a href="15-dirichlet-process.html#prp-discrete" class="quarto-xref">Proposition&nbsp;<span>15.1</span></a> is why the mixture is necessary rather than decorative.</p>
+<p>Read from the companion package’s own specification, the base measure is <span class="math inline">\(H_0 = N(0, \sigma^2_\mu) \times \text{Inv-Gamma}(\nu_1, \nu_2)\)</span> with package defaults <span class="math inline">\(\sigma^2_\mu = 2\)</span>, <span class="math inline">\(\nu_1 = 2.01\)</span>, <span class="math inline">\(\nu_2 = 1.01\)</span>. The package’s own reproduction vignette uses <span class="math inline">\(\sigma^2_\mu=3\)</span> for the Paganin specification, so the value 2 is a package default rather than a paper-level attribution. As in <a href="10-bayesian-hierarchical-rasch.html#sec-ch10-hyperpriors" class="quarto-xref"><span>Section 10.4</span></a>, <span class="math inline">\(\nu_1\)</span> just above 2 puts the cluster-variance prior at <span class="math inline">\(\operatorname{E}[\tilde\sigma^2] = \nu_2/(\nu_1 - 1) \approx 1\)</span> with a heavy tail.</p>
+<p>Equivalently, in the CRP representation of <a href="15-dirichlet-process.html#thm-crp" class="quarto-xref">Theorem&nbsp;<span>15.2</span></a>, each person carries a cluster label <span class="math inline">\(z_p\)</span> with <span class="math inline">\(\mathbf{z} \sim \mathrm{CRP}(\alpha, P)\)</span> and <span class="math inline">\(\theta_p \mid z_p \sim N(\tilde\mu_{z_p}, \tilde\sigma^2_{z_p})\)</span>. This is what the package actually samples, and <a href="15-dirichlet-process.html#thm-crp" class="quarto-xref">Theorem&nbsp;<span>15.2</span></a> is the guarantee that it is the same model as <a href="#eq-dpm-irt" class="quarto-xref">Equation&nbsp;<span>16.1</span></a> rather than an approximation to it. The finite truncation at <span class="math inline">\(M\)</span> components in a blocked sampler <em>is</em> an approximation, and Ishwaran and Zarepour <span class="citation" data-cites="ishwaran_markov_2000">(<a href="#ref-ishwaran_markov_2000" role="doc-biblioref">2000</a>)</span> study what it costs. In the companion simulation’s production run the cost was monitored rather than assumed: a guard on the truncation bound fired in five of 4,800 DP fits, and none of the run’s convergence exceptions traced to it <span class="citation" data-cites="lee_simulation_2026">(<a href="#ref-lee_simulation_2026" role="doc-biblioref">Lee 2026</a>)</span> — evidence about this design’s operating range, not a general license.</p>
+<div class="callout callout-style-simple callout-note">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-body-container">
+<div class="ms">
+<p><strong>The base measure is a prior on cluster locations, not on <span class="math inline">\(\theta\)</span>.</strong> This is the most common misreading of <a href="#eq-dpm-irt" class="quarto-xref">Equation&nbsp;<span>16.1</span></a>, and it inverts the model’s meaning. <span class="math inline">\(H_0\)</span> says where <em>mixture components</em> sit; <span class="math inline">\(G\)</span> is what the components add up to. Setting <span class="math inline">\(H_0\)</span>’s mean to zero centres the components a priori and does <strong>not</strong> centre <span class="math inline">\(G\)</span> — as <a href="#sec-ch16-identification" class="quarto-xref"><span>Section 16.3</span></a> shows, that failure is not a numerical nuisance but the reason one identification strategy is unavailable. Nor does <span class="math inline">\(\sigma^2_\mu = 2\)</span> say the latent trait has variance 2: it says cluster <em>centres</em> are dispersed with variance 2, and the variance of <span class="math inline">\(G\)</span> combines that dispersion with the within-cluster variances and the weights.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="sec-ch16-identification" class="level2" data-number="16.3">
+<h2 data-number="16.3" class="anchored" data-anchor-id="sec-ch16-identification"><span class="header-section-number">16.3</span> Identification in the semiparametric model</h2>
+<p>The structure to be identified is now the pair <span class="math inline">\(S = (\boldsymbol\beta, G)\)</span>, and the model is identified if the map from <span class="math inline">\(S\)</span> to the distribution of the observed responses is injective — <a href="04-identification.html#def-ident" class="quarto-xref">Definition&nbsp;<span>4.1</span></a>, with <span class="math inline">\(G\)</span> in place of a parameter vector.</p>
+<section id="sec-ch16-location" class="level3" data-number="16.3.1">
+<h3 data-number="16.3.1" class="anchored" data-anchor-id="sec-ch16-location"><span class="header-section-number">16.3.1</span> Location indeterminacy persists, and is now shared</h3>
+<div id="prp-semi-location" class="theorem proposition">
+<p><span class="theorem-title"><strong>Proposition 16.1</strong></span> <strong>Location indeterminacy in the semiparametric model.</strong> <em>Adapted from San Martín et al. (2011, § 1) and Appendix F § F.2</em></p>
+<p>For any <span class="math inline">\(c \in \mathbb{R}\)</span> the structure <span class="math inline">\(S = (\boldsymbol\beta, G)\)</span> is observationally equivalent to <span class="math inline">\(T_c(S) = (\boldsymbol\beta + c\mathbf{1}, G_{+c})\)</span>, where <span class="math inline">\(G_{+c}\)</span> is <span class="math inline">\(G\)</span> shifted by <span class="math inline">\(c\)</span>. The semiparametric Rasch model is therefore not identified without a location restriction.</p>
+</div>
+<p>Nothing here is new relative to <a href="04-identification.html#prp-location" class="quarto-xref">Proposition&nbsp;<span>4.1</span></a>; what is new is <em>where the indeterminacy lives</em>. In the parametric model it was shared between <span class="math inline">\(\boldsymbol\beta\)</span> and the scalar <span class="math inline">\(\mu_\theta\)</span>. Here it is shared between <span class="math inline">\(\boldsymbol\beta\)</span> and the <strong>location of an infinite-dimensional object</strong>, and that is what makes one of the three identification strategies—the shortcut of centring only the DPM base measure—insufficient on its own.</p>
+</section>
+<section id="sec-ch16-scale" class="level3" data-number="16.3.2">
+<h3 data-number="16.3.2" class="anchored" data-anchor-id="sec-ch16-scale"><span class="header-section-number">16.3.2</span> There is still no scale indeterminacy</h3>
+<div id="prp-semi-scale" class="theorem proposition">
+<p><span class="theorem-title"><strong>Proposition 16.2</strong></span> <strong>Absence of scale indeterminacy.</strong> <em>Adapted from <a href="04-identification.html#prp-scale" class="quarto-xref">Proposition&nbsp;<span>4.2</span></a>, San Martín (2016, §§ 8.4–8.7), and Appendix F § F.2.3</em></p>
+<p>Under the Rasch model the discriminations are fixed at unity, so a rescaling <span class="math inline">\(\theta \mapsto a\theta\)</span>, <span class="math inline">\(\beta \mapsto a\beta\)</span> changes the linear predictor from <span class="math inline">\(\theta - \beta\)</span> to <span class="math inline">\(a(\theta - \beta)\)</span> and hence changes the response probabilities. One constraint therefore suffices.</p>
+</div>
+<p>This carries over from <a href="04-identification.html#sec-ch04-scale" class="quarto-xref"><span>Section 4.3</span></a> unchanged, and it is the reason the semiparametric <em>Rasch</em> model is tractable at all. Under the 2PL it fails, and the failure is worse here than it was in <a href="04-identification.html" class="quarto-xref"><span>Chapter 4</span></a>: the scale indeterminacy becomes an indeterminacy in <strong>the scale of <span class="math inline">\(G\)</span> itself</strong>. A recovered <span class="math inline">\(G\)</span> whose scale is not pinned is not a distribution of abilities; it is an equivalence class of them, and its variance, its quantiles and its tail probabilities are all unidentified. The broad title carries the 2PL as a bounded extension from a Rasch-centred spine, and here is the one place where the two models genuinely diverge in kind rather than in degree.</p>
+<p>For the 2PL, the observational orbit may be written with <span class="math inline">\(a&gt;0\)</span> as</p>
+<p><span id="eq-2pl-scale-orbit"><span class="math display">\[
+\theta_p^* = a(\theta_p-c),\qquad
+\beta_i^* = a(\beta_i-c),\qquad
+\lambda_i^* = \lambda_i/a,
+\tag{16.2}\]</span></span></p>
+<p>with <span class="math inline">\(G^*\)</span> the push-forward of <span class="math inline">\(G\)</span> under <span class="math inline">\(\theta\mapsto a(\theta-c)\)</span>. Location and scale functionals of <span class="math inline">\(G\)</span> are meaningful only after choosing one representative of this orbit. This book uses item centring for Rasch results. For 2PL distributional functionals in Part VI, every posterior draw must be reported after the same declared affine normalization (for example, centred item difficulties plus a product-of-discriminations scale condition, or an explicitly equivalent draw-wise transformation). Quantiles and tail cutoffs must be transformed with the draw; otherwise they refer to different scales. No finite-item semiparametric 2PL identification theorem is claimed here (<code>C-010</code>). <a href="26-identification-dpm-2pl.html" class="quarto-xref"><span>Chapter 26</span></a> takes the two-parameter case up in its own right: the constraint pair the companion software actually imposes, what it pins and what it merely names, and why the finite-item result of <a href="#sec-ch16-partial" class="quarto-xref"><span>Section 16.3.4</span></a> does not extend by analogy.</p>
+</section>
+<section id="sec-ch16-inadmissible" class="level3" data-number="16.3.3">
+<h3 data-number="16.3.3" class="anchored" data-anchor-id="sec-ch16-inadmissible"><span class="header-section-number">16.3.3</span> What zero-centering the base measure does not do</h3>
+<p><a href="04-identification.html#sec-ch04-constraints" class="quarto-xref"><span>Section 4.5</span></a> listed three broad ways to choose a representative of the location orbit: constrain the abilities, constrain the items, or transform posterior draws. The ordinary unconstrained DPM construction used by the companion package rules out one naive implementation of the first strategy; it does not rule out every constrained nonparametric prior.</p>
+<div id="prp-dpm-constraint" class="theorem proposition">
+<p><span class="theorem-title"><strong>Proposition 16.3</strong></span> <strong>A centred base measure does not centre each realized DPM.</strong> <em>Adapted from San Martín et al.&nbsp;(2011, § 1)</em></p>
+<p>In the ordinary DPM construction <a href="#eq-dpm-irt" class="quarto-xref">Equation&nbsp;<span>16.1</span></a>, centring the base measure <span class="math inline">\(H_0\)</span> at zero fixes the prior <em>expectation</em> of <span class="math inline">\(G\)</span> but does not impose <span class="math inline">\(\operatorname{E}_G[\theta]=0\)</span> on every realization. A realized random <span class="math inline">\(G\)</span> has an almost surely non-zero mean unless the construction or its draws are additionally constrained or transformed.</p>
+</div>
+<p>San Martín et al. <span class="citation" data-cites="sanmartin_bayesian_2011">(<a href="#ref-sanmartin_bayesian_2011" role="doc-biblioref">2011, sec. 1</a>)</span> state exactly this for the general nonparametric random-effects setting: with <span class="math inline">\(G_0 = N(0,\sigma^2)\)</span> the marginal centring <span class="math inline">\(\operatorname{E}(\theta_i \mid \sigma^2) = 0\)</span> holds, yet “the random distribution <span class="math inline">\(G\)</span> has an almost sure (a.s.) non-zero mean,” and this “leads to an identification problem yielding biased inferences for the fixed effects.”</p>
+<p>The proposition is deliberately narrow. Symmetric or otherwise constrained random measures, dependent atom/weight constructions, and draw-wise recentering or standardizing can support functional restrictions. A translation of every draw relocates <span class="math inline">\(G\)</span> without changing its shape; a scale transformation changes the numerical scale and must carry quantiles and cutoffs with it. These alternatives define different parameterizations or priors and require their own posterior justification, but their existence refutes a universal impossibility claim.</p>
+<p>Item-centring is therefore the companion package’s chosen Rasch parameterization, not the only mathematically available option. Read from its source, the package does not merely default to it: it <strong>refuses</strong> the combination, erroring on <code>constrained_ability</code> with a DPM prior on the ground that constraining <span class="math inline">\(\theta \sim N(0,1)\)</span> defeats the purpose of the prior. <a href="#prp-dpm-constraint" class="quarto-xref">Proposition&nbsp;<span>16.3</span></a> is enforced in code, not left to the analyst.</p>
+<p>The same source illustrates <a href="#sec-ch16-scale" class="quarto-xref"><span>Section 16.3.2</span></a> from the implementation side. The package’s default identification is <code>constrained_item</code> for the Rasch model and <strong><code>unconstrained</code></strong> for the 2PL and 3PL — because under those models one location constraint does not suffice, and the scale has to be fixed by post-hoc rescaling instead. Its correctness is elementary: if <span class="math inline">\(\boldsymbol\beta\)</span> and <span class="math inline">\(\boldsymbol\beta + c\mathbf{1}\)</span> both sum to zero then <span class="math inline">\(Ic = 0\)</span>, so <span class="math inline">\(c = 0\)</span>. It constrains only the parametric component and leaves <span class="math inline">\(G\)</span> entirely free, which is exactly what a semiparametric model wants.</p>
+</section>
+<section id="sec-ch16-partial" class="level3" data-number="16.3.4">
+<h3 data-number="16.3.4" class="anchored" data-anchor-id="sec-ch16-partial"><span class="header-section-number">16.3.4</span> What a finite test identifies about <span class="math inline">\(G\)</span></h3>
+<p>Even with the location pinned, <span class="math inline">\(G\)</span> is not identified. This is the result the chapter is built around.</p>
+<div id="prp-partial-id" class="theorem proposition">
+<p><span class="theorem-title"><strong>Proposition 16.4</strong></span> <strong>Partial identifiability of <span class="math inline">\(G\)</span>.</strong> <em>Restated from San Martín et al.&nbsp;(2011, Theorem 5)</em></p>
+<p>For the semiparametric Rasch model with <span class="math inline">\(I\)</span> items, the item parameters and the <span class="math inline">\(I+1\)</span> basic scalar functionals of <span class="math inline">\(G\)</span> below are Bayesian-identified <strong>if and only if</strong> one item parameter is almost surely constant, provided at least two items are available. With <span class="math inline">\(\beta_1 = 0\)</span> a.s. the identified functionals are</p>
+<p><span id="eq-identified-functionals"><span class="math display">\[
+\xi_G(k) = \int_{\mathbb{R}}
+\frac{e^{k\theta}}{(1+e^{\theta})\prod_{j \ge 2}(1+e^{\theta-\beta_j})}\, dG(\theta),
+\qquad k = 0, 1, \dots, I .
+\tag{16.3}\]</span></span></p>
+<p>Full identification of <span class="math inline">\(G\)</span> requires <span class="math inline">\(I \to \infty\)</span>, under conditions given in their Theorem 6.</p>
+</div>
+<p>Three readings of <a href="#prp-partial-id" class="quarto-xref">Proposition&nbsp;<span>16.4</span></a>, each of which changes something.</p>
+<p><strong>It is a Laplace transform, not a set of moments.</strong> San Martín et al.&nbsp;observe that with <span class="math inline">\(d\widetilde G(\theta) = dG(\theta)/\prod_j(1+e^{\theta-\beta_j})\)</span>, <a href="#eq-identified-functionals" class="quarto-xref">Equation&nbsp;<span>16.3</span></a> becomes <span class="math inline">\(\xi_G(k) = \int e^{k\theta}\,d\widetilde G(\theta)\)</span> — the Laplace transform of a <em>tilted</em> version of <span class="math inline">\(G\)</span>, evaluated at the integers <span class="math inline">\(0,\dots,I\)</span>. What a test pins down is a finite number of samples of a transform of a reweighted <span class="math inline">\(G\)</span>, and the weighting is by the test itself.</p>
+<p><strong>It is related to, but not the same as, the sum-score examples of <a href="13-non-normality.html" class="quarto-xref"><span>Chapter 13</span></a>.</strong> San Martín et al.&nbsp;note that “the well known conditional sufficiency of the total score for the ability parameters in the conditional [Rasch model] is inherited to the marginal model. Given the item parameters, the total score is sufficient for <span class="math inline">\(G\)</span>.” So <a href="03-rasch-and-2pl-foundations.html#thm-suff" class="quarto-xref">Theorem&nbsp;<span>3.1</span></a> propagates: the sum-score distribution carries all likelihood information about <span class="math inline">\(G\)</span>, and <a href="#prp-partial-id" class="quarto-xref">Proposition&nbsp;<span>16.4</span></a> supplies <span class="math inline">\(I+1\)</span> basic scalar generators for it. <a href="13-non-normality.html#prp-sumscore" class="quarto-xref">Proposition&nbsp;<span>13.1</span></a> instead gives a design-specific <em>weak-separation</em> example: on six items the two score distributions are different but only 0.035 apart in total variation, so unlimited persons would distinguish them even at fixed <span class="math inline">\(I\)</span>. Partial identification guarantees that other distinct <span class="math inline">\(G\)</span>’s share the identified functionals; it does not say that this selected pair does. Nor is the TV sequence in <a href="13-non-normality.html#sec-ch13-tv" class="quarto-xref"><span>Section 13.2.1</span></a> determined by the number <span class="math inline">\(I+1\)</span> alone: it also changes with the test kernel and item design.</p>
+<p><strong>It is a caution about reading a recovered EDF.</strong> San Martín et al.&nbsp;put it more sharply than this book would have dared: the need for an asymptotic experiment “jeopardizes the empirical meaning of a Bayesian nonparametric formulation of the model under a finite number of items.” A posterior over <span class="math inline">\(G\)</span> from a 25-item test is a posterior, and it is honest, but the data constrain 26 functionals and the prior supplies the rest of the shape. That is not an argument against the method; it is the reason the method needs a <em>prior</em> rather than only a likelihood, and it is why <a href="15-dirichlet-process.html#sec-ch15-elicitation" class="quarto-xref"><span>Section 15.6</span></a> matters more here than it would in a parametric model.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>The Appendix F draft cites the wrong theorem
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Appendix F § F.4 attributes the partial-identifiability result to San Martín et al. (2011, <strong>Theorem 3</strong>). Read directly, their Theorem 3 is about the semiparametric <strong>Rasch Poisson Counts Model</strong> — a different model — and it gives <em>full</em> identification of <span class="math inline">\(\boldsymbol\beta\)</span> and <span class="math inline">\(G\)</span> with at least two probes <strong>together with</strong> one of the theorem’s identifying restrictions: an anchored item parameter, known mean of <span class="math inline">\(G\)</span>, or known quantile. The binary Rasch result is <strong>Theorem 5</strong>, and it is the one quoted in <a href="#prp-partial-id" class="quarto-xref">Proposition&nbsp;<span>16.4</span></a>.</p>
+<p>The functional form the appendix writes is right, and so is the count <span class="math inline">\(I+1\)</span>; the attribution is not, and the theorem it names says close to the opposite for a different model. The appendix also states the restriction as sum-to-zero centring, whereas Theorem 5 is stated — as an <em>if and only if</em> — with one item parameter almost surely constant. Logged as <code>C-014</code>.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="sec-ch16-tradeoffs" class="level2" data-number="16.4">
+<h2 data-number="16.4" class="anchored" data-anchor-id="sec-ch16-tradeoffs"><span class="header-section-number">16.4</span> What the DPM buys, and what it costs</h2>
+<p><a href="14-flexible-alternatives.html" class="quarto-xref"><span>Chapter 14</span></a> placed the DPM among the flexible-<span class="math inline">\(G\)</span> families. With <a href="15-dirichlet-process.html" class="quarto-xref"><span>Chapter 15</span></a> and this chapter in hand the entry can be filled in properly.</p>
+<p><strong>What it buys.</strong> A posterior over <span class="math inline">\(G\)</span> rather than an estimate of it, so every identified or prior-regularized functional in Part VI inherits posterior uncertainty. No finite population component count must be fixed; the DPM instead induces a posterior over the finite-sample occupied partition count <span class="math inline">\(K\)</span>, which is not the same estimand as a true mixture order. Modularity: only the level-2 term of <a href="10-bayesian-hierarchical-rasch.html#eq-joint-posterior" class="quarto-xref">Equation&nbsp;<span>10.4</span></a> changes, so everything derived in Parts II–IV survives unaltered. Lo’s no-sample estimator (<a href="15-dirichlet-process.html#sec-ch15-mixtures" class="quarto-xref"><span>Section 15.4</span></a>) also shows that the <em>prior mean density</em> equals the base-kernel mixture; with a normal base this centres prior expectation on a normal density. That fact alone does not establish low frequentist or predictive cost when the truth is normal.</p>
+<p><a href="#fig-dpm-fit" class="quarto-xref">Figure&nbsp;<span>16.1</span></a> shows the representational half of this on one dataset, and nothing else.</p>
+<div id="fig-dpm-fit" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-dpm-fit-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../figures/F-dpm-fit.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-dpm-fit-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;16.1: A Dirichlet process mixture and a Gaussian Rasch model, both item-centred, fitted to one simulated dataset of 400 persons and 25 items with a bimodal generating <span class="math inline">\(G\)</span>. <strong>This figure is about representational capacity, in the same sense as <a href="14-flexible-alternatives.html#fig-flexible-g" class="quarto-xref">Figure&nbsp;<span>14.1</span></a>: it shows what each prior <em>can</em> express, not how either performs.</strong> No performance claim is made from it and none should be read out of it; the companion simulation study owns that question. <strong>Left:</strong> the generating density, the DPM posterior mean, and the Gaussian model’s posterior mean. The DPM expresses two modes; the Gaussian family cannot express more than one at any parameter value. The shaded band is the pointwise 5th–95th percentile across posterior draws of the realized-partition mixture density — a posterior summary of that density, not a credible band for a Dirichlet-process functional. <strong>Right:</strong> the exact prior-predictive pmf of the occupied-cluster count <span class="math inline">\(K\)</span>, obtained by integrating Antoniak’s law over the <span class="math inline">\(\mathrm{Gamma}(1,3)\)</span> prior on <span class="math inline">\(\alpha\)</span>, against its posterior. They differ by 0.36 in total variation: the prior places 0.32 on a single cluster and the posterior places 0.00. The data move <span class="math inline">\(K\)</span> substantially. Note also that <span class="math inline">\(K\)</span> is the occupied-partition count at this sample size, not the order of a true mixture, and <a href="#prp-partial-id" class="quarto-xref">Proposition&nbsp;<span>16.4</span></a> concerns functionals of <span class="math inline">\(G\)</span> rather than either. Seed 2026; regenerate with code/R/16-dpm-fit-artifact.R.
+</figcaption>
+</figure>
+</div>
+<p>Two things about how that figure may be used. It is a <strong>capacity</strong> demonstration of the same kind as <a href="14-flexible-alternatives.html#fig-flexible-g" class="quarto-xref">Figure&nbsp;<span>14.1</span></a> — the Gaussian family cannot express two modes at any parameter value, and the DPM can — and it carries no performance claim, because a single dataset cannot support one and because performance is the companion book’s question (<a href="#sec-ch16-tradeoffs" class="quarto-xref"><span>Section 16.4</span></a>). And its right-hand panel is in the chapter as a correction: an earlier version of this book compared the posterior on <span class="math inline">\(K\)</span> against the wrong prior quantity and concluded that the data had barely moved it. Integrating Antoniak’s law properly over the <span class="math inline">\(\mathrm{Gamma}(1,3)\)</span> prior gives the opposite — a total variation of <span class="math inline">\(0.36\)</span>, with the prior placing a third of its mass on a single cluster and the posterior placing none. What survives of the original point is only the narrow one: <span class="math inline">\(K\)</span> is an occupied-partition count at this sample size, not a mixture order, and <a href="#prp-partial-id" class="quarto-xref">Proposition&nbsp;<span>16.4</span></a> concerns neither.</p>
+<p><strong>What it costs.</strong> MCMC rather than EM, with the mixing and convergence questions that brings. Prior sensitivity through <span class="math inline">\(\alpha\)</span>, which <a href="15-dirichlet-process.html#sec-ch15-unintended" class="quarto-xref"><span>Section 15.6.1</span></a> showed is larger and less transparent than it appears. The need to choose and document a constrained or transformed representative of the location/scale orbit. And a residual discreteness: <a href="#eq-dpm-irt" class="quarto-xref">Equation&nbsp;<span>16.1</span></a> is continuous because the kernel is, but the mixing measure is a countable set of atoms, and with a small <span class="math inline">\(\alpha\)</span> and few persons the recovered density can inherit visible lumps from the mixing measure rather than from the population.</p>
+<p>One cost the literature has measured rather than argued: Paddock et al. <span class="citation" data-cites="paddock_flexible_2006">(<a href="#ref-paddock_flexible_2006" role="doc-biblioref">2006</a>)</span> report that a nonparametric population model “pays very little in efficiency when a parametric population distribution” is adequate, so the insurance is cheap — but also that when the truth is bimodal and the data informative, their nonparametric models attain <em>lower</em> squared-error loss for the unit parameters and <em>larger</em> integrated squared error for <span class="math inline">\(G\)</span> than the parametric ones <span class="citation" data-cites="paddock_flexible_2006">(<a href="#ref-paddock_flexible_2006" role="doc-biblioref">2006, sec. 4.2.2.1</a>)</span>. Flexibility is not uniformly better, and this book does not claim it is.</p>
+<p><strong>What it does not buy</strong> is identification. <a href="#prp-partial-id" class="quarto-xref">Proposition&nbsp;<span>16.4</span></a> is a statement about the model, not about the prior, and no prior repairs it. What a good prior does is make the unidentified part of <span class="math inline">\(G\)</span> depend on a defensible assumption instead of an accidental one.</p>
+<p>The empirical size of those gains and costs belongs to the companion simulation book. This theory chapter therefore does not use a realized DPM fit as evidence for <a href="#prp-partial-id" class="quarto-xref">Proposition&nbsp;<span>16.4</span></a>, does not compare a posterior occupied-cluster distribution with its prior, and does not report a recovered density band. Any such fit must reconstruct draws of the DP mixing measure (including weight uncertainty and residual base mass), report convergence diagnostics, and compare the full prior-predictive and posterior <span class="math inline">\(K\)</span> distributions. Those are empirical validation requirements, not consequences of partial identification.</p>
+</section>
+<section id="sec-ch16-sources" class="level2" data-number="16.5">
+<h2 data-number="16.5" class="anchored" data-anchor-id="sec-ch16-sources"><span class="header-section-number">16.5</span> Sources and provenance</h2>
+<p><a href="#eq-dpm-irt" class="quarto-xref">Equation&nbsp;<span>16.1</span></a>, the base measure and its default hyperparameters, the CRP representation and the truncation were read from the companion package’s own model specification and theory vignette, not from its documentation. The package source sets <span class="math inline">\((\sigma^2_\mu,\nu_1,\nu_2)=(2,2.01,1.01)\)</span>; its reproduction vignette uses <span class="math inline">\(\sigma^2_\mu=3\)</span> for Paganin et al. <span class="citation" data-cites="paganin_computational_2022">(<a href="#ref-paganin_computational_2022" role="doc-biblioref">2022</a>)</span>, so the current package default is reported without claiming exact inheritance.</p>
+<p><a href="#prp-semi-location" class="quarto-xref">Proposition&nbsp;<span>16.1</span></a> and <a href="#prp-semi-scale" class="quarto-xref">Proposition&nbsp;<span>16.2</span></a> adapt the Appendix F draft §§ F.2.2–F.2.3. The location argument is also the identification problem stated by San Martín et al. <span class="citation" data-cites="sanmartin_bayesian_2011">(<a href="#ref-sanmartin_bayesian_2011" role="doc-biblioref">2011, sec. 1</a>)</span>. The Rasch/2PL scale distinction follows San Martín <span class="citation" data-cites="sanmartin_identification_2016">(<a href="#ref-sanmartin_identification_2016" role="doc-biblioref">2016, secs. 8.4–8.7</a> and Table 8.1)</span>, with <span class="math inline">\(G\)</span> carried by the draw-wise push-forward in <a href="#eq-2pl-scale-orbit" class="quarto-xref">Equation&nbsp;<span>16.2</span></a>.</p>
+<p><a href="#prp-dpm-constraint" class="quarto-xref">Proposition&nbsp;<span>16.3</span></a> is adapted. The technical core — that centring <span class="math inline">\(H_0\)</span> leaves an ordinary unconstrained <span class="math inline">\(G\)</span> with an almost surely non-zero mean, and that this produces an identification problem with biased inferences — is San Martín et al. <span class="citation" data-cites="sanmartin_bayesian_2011">(<a href="#ref-sanmartin_bayesian_2011" role="doc-biblioref">2011, sec. 1</a>)</span>, read directly. The appendix routes the same point through Yang and Dunson (2010) via Paganin et al. <span class="citation" data-cites="paganin_computational_2022">(<a href="#ref-paganin_computational_2022" role="doc-biblioref">2022, sec. 2.3</a>)</span>; neither of those is quoted here because the primary states it. The chapter does not generalize this construction-specific statement to every constrained or transformed nonparametric prior.</p>
+<p><a href="#prp-partial-id" class="quarto-xref">Proposition&nbsp;<span>16.4</span></a> is San Martín et al. <span class="citation" data-cites="sanmartin_bayesian_2011">(<a href="#ref-sanmartin_bayesian_2011" role="doc-biblioref">2011</a>, Theorem 5)</span>, read directly, together with the expression-(11) form of the identified functionals, the Laplace-transform interpretation, the total-score sufficiency remark, and their warning about the empirical meaning of the finite-item case — all quoted from their § 4. Their Theorem 6 supplies the asymptotic conditions. The connection to <a href="13-non-normality.html#prp-sumscore" class="quarto-xref">Proposition&nbsp;<span>13.1</span></a> is limited to the common total-score reduction; weak separation of a selected pair and nonidentification are kept distinct.</p>
+<p><code>C-014</code> is logged against the Appendix F draft and is the second citation-locator defect this book has found in the drafted appendices, after <code>C-013</code>. Both were found the same way: by opening the cited source instead of the citing draft.</p>
+<p>Karabatsos (2016) is not held and its identity remains unconfirmed; Hu et al. <span class="citation" data-cites="hu_nonparametric_2020">(<a href="#ref-hu_nonparametric_2020" role="doc-biblioref">2020</a>)</span> is held but unread at a locator for this chapter. Nothing here depends on either. The truncation-guard count in <a href="#sec-ch16-model" class="quarto-xref"><span>Section 16.2</span></a> is the companion simulation’s frozen diagnostic, quoted as published <span class="citation" data-cites="lee_simulation_2026">(<a href="#ref-lee_simulation_2026" role="doc-biblioref">Lee 2026</a>)</span>.</p>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-duncan_nonparametric_2008" class="csl-entry" role="listitem">
+Duncan, Kristin A, and Steven N MacEachern. 2008. <span>“Nonparametric <span>Bayesian</span> Modelling for Item Response.”</span> <em>Statistical Modelling</em> 8 (1): 41–66. <a href="https://doi.org/10.1177/1471082X0700800104">https://doi.org/10.1177/1471082X0700800104</a>.
+</div>
+<div id="ref-hu_nonparametric_2020" class="csl-entry" role="listitem">
+Hu, Guanyu, Zhihua Ma, and Insu Paek. 2020. <em>A Nonparametric <span>Bayesian</span> Item Response Modeling Approach for Clustering Items and Individuals Simultaneously</em>. <span>arXiv</span>; arXiv. <a href="https://doi.org/10.1080/10485252.2024.2354841">https://doi.org/10.1080/10485252.2024.2354841</a>.
+</div>
+<div id="ref-ishwaran_markov_2000" class="csl-entry" role="listitem">
+Ishwaran, H., and M. Zarepour. 2000. <span>“Markov Chain <span>Monte</span> <span>Carlo</span> in Approximate <span>Dirichlet</span> and Beta Two-Parameter Process Hierarchical Models.”</span> <em>Biometrika</em> 87 (2): 371–90. <a href="https://doi.org/10.1093/biomet/87.2.371">https://doi.org/10.1093/biomet/87.2.371</a>.
+</div>
+<div id="ref-lee_simulation_2026" class="csl-entry" role="listitem">
+Lee, JoonHo. 2026. <em>A Simulation Study of <span>Dirichlet</span> Process Mixture Priors and Goal-Specific Posterior Summaries in <span>Bayesian</span> <span>IRT</span></em>. Quarto book, The University of Alabama.
+</div>
+<div id="ref-miyazaki_bayesian_2009" class="csl-entry" role="listitem">
+Miyazaki, Kei, and Takahiro Hoshino. 2009. <span>“A <span>Bayesian</span> Semiparametric Item Response Model with <span>Dirichlet</span> Process Priors.”</span> <em>Psychometrika</em> 74 (3): 375–93. <a href="https://doi.org/10.1007/s11336-008-9108-6">https://doi.org/10.1007/s11336-008-9108-6</a>.
+</div>
+<div id="ref-paddock_flexible_2006" class="csl-entry" role="listitem">
+Paddock, Susan M., Greg Ridgeway, Rongheng Lin, and Thomas A. Louis. 2006. <span>“Flexible Distributions for Triple-Goal Estimates in Two-Stage Hierarchical Models.”</span> <em>Computational Statistics &amp; Data Analysis</em> 50 (11): 3243–62. <a href="https://doi.org/10.1016/j.csda.2005.05.008">https://doi.org/10.1016/j.csda.2005.05.008</a>.
+</div>
+<div id="ref-paganin_computational_2022" class="csl-entry" role="listitem">
+Paganin, Sally, Christopher J. Paciorek, Claudia Wehrhahn, Abel Rodríguez, Sophia Rabe-Hesketh, and Perry de Valpine. 2022. <span>“Computational Strategies and Estimation Performance with <span>Bayesian</span> Semiparametric Item Response Theory Models.”</span> <em>Journal of Educational and Behavioral Statistics</em>, 10769986221136105. <a href="https://doi.org/10.3102/10769986221136105">https://doi.org/10.3102/10769986221136105</a>.
+</div>
+<div id="ref-sanmartin_identification_2016" class="csl-entry" role="listitem">
+San Martín, Ernesto. 2016. <span>“Identification of Item Response Theory Models.”</span> Chap. 8 in <em>Handbook of Item Response Theory, Volume Two: Statistical Tools</em>, edited by Wim J. van der Linden. Chapman; Hall/CRC. <a href="https://doi.org/10.1201/b19166-8">https://doi.org/10.1201/b19166-8</a>.
+</div>
+<div id="ref-sanmartin_bayesian_2011" class="csl-entry" role="listitem">
+San Martín, Ernesto, Alejandro Jara, Jean-Marie Rolin, and Michel Mouchart. 2011. <span>“On the <span>Bayesian</span> Nonparametric Generalization of <span>IRT</span>-Type Models.”</span> <em>Psychometrika</em> 76 (3): 385–409. <a href="https://doi.org/10.1007/s11336-011-9213-9">https://doi.org/10.1007/s11336-011-9213-9</a>.
+</div>
+</div>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../chapters/15-dirichlet-process.html" class="pagination-link" aria-label="The Dirichlet Process">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">The Dirichlet Process</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../chapters/17-three-goals.html" class="pagination-link" aria-label="Three Goals, Three Losses">
+        <span class="nav-page-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Three Goals, Three Losses</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

@@ -1,0 +1,1269 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.37">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>25&nbsp; Reliability Under the Two-Parameter Model – Bayesian Semiparametric Item Response Modelling for Person-Specific Latent Traits</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../chapters/26-identification-dpm-2pl.html" rel="next">
+<link href="../chapters/24-discrimination-and-information.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-5ccb035bea26c1e21f80f44cf7c27909.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>
+.prov { font-size: 0.88em; color: #555; font-style: italic; }
+blockquote.ms { border-left: 3px solid #c0392b; background: #fdf3f2; }
+</style>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/24-discrimination-and-information.html">VIII — What Changes Under the 2PL</a></li><li class="breadcrumb-item"><a href="../chapters/25-reliability-under-2pl.html"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Reliability Under the Two-Parameter Model</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Bayesian Semiparametric Item Response Modelling for Person-Specific Latent Traits</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">About This Book</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">I — Orientation</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/01-the-estimation-problem.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">The Estimation Problem</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/02-notation-and-frameworks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Notation, Terminology, and Two Frameworks</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">II — The Measurement Models</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/03-rasch-and-2pl-foundations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Foundations: the Rasch and 2PL Models</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/04-identification.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Identification</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/05-item-parameter-estimation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Estimating Item Parameters</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/06-person-parameter-estimation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Estimating Person Parameters</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">III — Information, Error, and Reliability</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/07-information-and-error.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Information and Measurement Error</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/08-reliability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Reliability in the Rasch Model</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/09-designing-for-reliability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Designing for a Target Reliability</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">IV — Bayesian Hierarchical Modelling and Shrinkage</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/10-bayesian-hierarchical-rasch.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">The Bayesian Hierarchical Rasch Model</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/11-conditional-posterior-and-shrinkage.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">The Conditional Posterior and Shrinkage</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/12-empirical-bayes-tradition.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Empirical Bayes and the Shrinkage Tradition</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">V — Beyond Normality: Flexible Latent-Trait Distributions</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/13-non-normality.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Non-Normality in Latent Traits</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/14-flexible-alternatives.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Flexible Parametric and Semiparametric Alternatives</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/15-dirichlet-process.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">The Dirichlet Process</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/16-dpm-priors.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">DPM Priors for Latent Traits</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
+ <span class="menu-text">VI — Posterior Summaries and Inferential Goals</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/17-three-goals.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Three Goals, Three Losses</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/18-constrained-bayes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Constrained Bayes</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/19-triple-goal.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Triple-Goal Estimation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/20-ranking-and-classification.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Ranking and Classification</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true">
+ <span class="menu-text">VII — Positioning</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/21-relation-to-lee-et-al.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Relation to Lee et al.&nbsp;(2025)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/22-scope-and-extensions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Scope: Why Rasch, and What Extends</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/23-open-problems.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Open Problems</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true">
+ <span class="menu-text">VIII — What Changes Under the 2PL</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/24-discrimination-and-information.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Discrimination and Information</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/25-reliability-under-2pl.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Reliability Under the Two-Parameter Model</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/26-identification-dpm-2pl.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Identification and the DPM Under the Two-Parameter Model</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true">
+ <span class="menu-text">IX — The Realized Evidence</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/27-what-the-simulation-settled.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">What the Simulation Settled</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/28-what-real-tests-look-like.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">What Real Tests Look Like</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/29-evidence-settles-reopens.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">What the Evidence Settles, and What It Reopens</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-10" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/A-proofs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Proofs</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/B-crosswalk.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Notation Crosswalk</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/C-corrections.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">C</span>&nbsp; <span class="chapter-title">Corrections to the Submitted Manuscript</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/D-annotated-bibliography.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">D</span>&nbsp; <span class="chapter-title">Annotated Bibliography</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/E-acquisition-ledger.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">E</span>&nbsp; <span class="chapter-title">Reference Acquisition Ledger</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/F-software.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">F</span>&nbsp; <span class="chapter-title">Software and Computation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendices/G-build-report.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">G</span>&nbsp; <span class="chapter-title">Build and Verification Report</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#sec-ch25-zoo" id="toc-sec-ch25-zoo" class="nav-link active" data-scroll-target="#sec-ch25-zoo"><span class="header-section-number">25.1</span> The zoo, revisited where it bites</a></li>
+  <li><a href="#sec-ch25-real" id="toc-sec-ch25-real" class="nav-link" data-scroll-target="#sec-ch25-real"><span class="header-section-number">25.2</span> Thirteen real tests, two catalogue summaries each</a></li>
+  <li><a href="#sec-ch25-ladder" id="toc-sec-ch25-ladder" class="nav-link" data-scroll-target="#sec-ch25-ladder"><span class="header-section-number">25.3</span> What the simulation’s ladder actually manipulated</a></li>
+  <li><a href="#sec-ch25-sources" id="toc-sec-ch25-sources" class="nav-link" data-scroll-target="#sec-ch25-sources"><span class="header-section-number">25.4</span> Sources and provenance</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/24-discrimination-and-information.html">VIII — What Changes Under the 2PL</a></li><li class="breadcrumb-item"><a href="../chapters/25-reliability-under-2pl.html"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Reliability Under the Two-Parameter Model</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span id="sec-ch25" class="quarto-section-identifier"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Reliability Under the Two-Parameter Model</span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p><a href="08-reliability.html" class="quarto-xref"><span>Chapter 8</span></a> made one claim repeatedly: a reliability coefficient is a functional of the design and the population, every coefficient in circulation is the same ratio with different estimates plugged in, and the choice among them matters exactly as much as information varies over the population. Under the Rasch model that variation is bounded, because items differ only in placement, and the chapter could treat the disagreements among functionals as a caution. Under the 2PL the caution becomes the story. Discrimination heterogeneity is precisely a machine for making information uneven (<a href="24-discrimination-and-information.html" class="quarto-xref"><span>Chapter 24</span></a>), and uneven information is precisely the condition under which the members of the reliability zoo part company.</p>
+<p>This chapter states the mechanism and shows it in a stylized pair of tests. It then asks how two operational catalogue coefficients move across thirteen real tests, without treating that catalogue as a same-fit demonstration of the stylized mechanism, and records two facts about the reliability ladder that the evidence chapters depend on.</p>
+<section id="sec-ch25-zoo" class="level2" data-number="25.1">
+<h2 data-number="25.1" class="anchored" data-anchor-id="sec-ch25-zoo"><span class="header-section-number">25.1</span> The zoo, revisited where it bites</h2>
+<p>Recall the two population functionals of <a href="08-reliability.html#eq-functionals" class="quarto-xref">Equation&nbsp;<span>8.13</span></a>: the MSEM form <span class="math inline">\(\bar\rho\)</span>, which averages error variance <span class="math inline">\(1/\mathcal{J}(\theta)\)</span> over <span class="math inline">\(G\)</span> and then forms the ratio, and the average-information form <span class="math inline">\(\tilde\rho\)</span>, which averages <span class="math inline">\(\mathcal{J}\)</span> first. <a href="08-reliability.html#thm-jensen-sandwich" class="quarto-xref">Theorem&nbsp;<span>8.1</span></a> orders them, <span class="math inline">\(\tilde\rho \ge \bar\rho\)</span>, with equality only when information is constant over the population. A Rasch test can hold the gap modest. A 2PL test with concentrated discriminations drives it wide, because <span class="math inline">\(1/\mathcal{J}\)</span> explodes in the information deserts that concentration creates while <span class="math inline">\(\operatorname{E}[\mathcal{J}]\)</span> barely notices them.</p>
+<p>Alongside these sits the EAP-variance form, the variance of the posterior means relative to the trait variance (<a href="08-reliability.html#sec-ch08-functionals" class="quarto-xref"><span>Section 8.6</span></a>). It is computed from realized posteriors. It should not be conflated with every coefficient that fitted software calls “marginal reliability”: in particular, <code>mirt::marginal_rxx</code> integrates a pointwise information ratio and does not compute the variance of EAPs or average posterior variances. A test that concentrates information under the population mass can nevertheless score well by the EAP-variance functional while scoring badly by the MSEM functional, and the two can move in opposite directions when the model family changes.</p>
+<p><a href="#fig-rel-functionals" class="quarto-xref">Figure&nbsp;<span>25.1</span></a> exhibits the mechanism in its pure form: two sixteen-item tests with identical difficulties, one uniform, one an information tower, for which the MSEM functional prefers the uniform test by a wide margin while the EAP-variance functional prefers the tower.</p>
+<div id="fig-rel-functionals" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-rel-functionals-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../figures/F-rel-functionals.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-rel-functionals-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;25.1: <strong>A stylized existence construction, not a reconstruction of a case-study fit.</strong> The uniform-discrimination test and information-tower test have the same sixteen difficulties; six central items form the tower. The tower is resource-confounded rather than equal-budget: its <span class="math inline">\(\sum_i\lambda_i^2\)</span> is 73.984 versus 16.000, a 4.624-fold ratio. Panel (b) shows the integrand <span class="math inline">\(1/\mathcal{J}\)</span> on a log scale. Exact quadrature gives the MSEM functional <span class="math inline">\(\bar\rho\)</span>, and a seeded 4{,}000-person posterior computation gives the EAP-variance functional; the two functionals order these chosen tests oppositely. This demonstrates possibility; it does not establish why either column of the real-test catalogue moves. Values and construction diagnostics are frozen in tables/F-rel-functionals-summary.rds. Generated by code/R/23-figures-v2-theory.R.
+</figcaption>
+</figure>
+</div>
+<p>Neither functional is wrong. Both average with respect to a population <span class="math inline">\(G\)</span>, but they assemble uncertainty differently: <span class="math inline">\(\bar\rho\)</span> first uses inverse information as an error-variance approximation, whereas the EAP-variance form uses the spread of the exact posterior means under the fitted scoring model. The 2PL manufactures designs for which those operations give different answers. The practical rule this book keeps returning to gains a clause: a reliability number needs its coefficient named, and under the 2PL it also needs the model family named, because the family is part of what the coefficient is measuring.</p>
+</section>
+<section id="sec-ch25-real" class="level2" data-number="25.2">
+<h2 data-number="25.2" class="anchored" data-anchor-id="sec-ch25-real"><span class="header-section-number">25.2</span> Thirteen real tests, two catalogue summaries each</h2>
+<p>The case-study volume fitted every one of its thirteen Item Response Warehouse cases under both item models and placed two coefficients beside each other <span class="citation" data-cites="lee_casestudy_2026">(<a href="#ref-lee_casestudy_2026" role="doc-biblioref">Lee 2026b</a>)</span>. The first is <code>mirt::marginal_rxx</code> from the Gaussian <code>mirt</code> fit, an information-ratio coefficient rather than a posterior-variance or EAP-variance coefficient. The second is the MSEM functional <span class="math inline">\(\bar\rho\)</span> of <a href="08-reliability.html#eq-functionals" class="quarto-xref">Equation&nbsp;<span>8.13</span></a>, evaluated from the separate empirical-histogram fit. The two columns use the same response matrix within a case, but not the same fitted object or the same functional. <a href="#fig-c4-reversal" class="quarto-xref">Figure&nbsp;<span>25.2</span></a> displays the full descriptive catalogue, and <a href="#tbl-rel-gaps" class="quarto-xref">Table&nbsp;<span>25.1</span></a> carries the values.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-c4-reversal" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-c4-reversal-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="25-reliability-under-2pl_files/figure-html/fig-c4-reversal-1.png" class="img-fluid figure-img" width="806">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-c4-reversal-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;25.2: <strong>Two catalogue coefficients can disagree about the direction of a Rasch-to-2PL change.</strong> Each horizontal arrow runs from a case’s Rasch value to its 2PL value. The left panel is <code>mirt::marginal_rxx</code> from each Gaussian fit; the right is <span class="math inline">\(\bar\rho\)</span> from each separate empirical-histogram fit. They agree in direction in six of thirteen cases, and C4 moves by roughly half a point in opposite directions. These are coefficients on identical responses but from distinct fitted objects, so the display is a catalogue discrepancy, not a same-fit causal diagnosis. Values are read from the first-edition repository’s frozen P1-T2 analysis table; the cited case-study edition adds no fits or recomputed values <span class="citation" data-cites="lee_casestudy_2026">(<a href="#ref-lee_casestudy_2026" role="doc-biblioref">Lee 2026b</a>)</span>.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div id="tbl-rel-gaps" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-rel-gaps-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;25.1: Two catalogue coefficients on the thirteen case-study tests, under both item models. The mirt marginal column is computed from the Gaussian fit; the MSEM column is computed from the separate empirical-histogram fit. The final column asks whether they agree about the direction of the Rasch-to-2PL change. Source: tables/T-rel-gaps.rds. Frozen from the case-study analysis layer’s P1-T2 catalogue.
+</figcaption>
+<div aria-describedby="tbl-rel-gaps-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<table class="cell caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 5%">
+<col style="width: 21%">
+<col style="width: 19%">
+<col style="width: 18%">
+<col style="width: 16%">
+<col style="width: 19%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Case</th>
+<th style="text-align: left;">mirt marginal, Rasch</th>
+<th style="text-align: left;">mirt marginal, 2PL</th>
+<th style="text-align: left;"><span class="math inline">\(\bar\rho\)</span>, Rasch</th>
+<th style="text-align: left;"><span class="math inline">\(\bar\rho\)</span>, 2PL</th>
+<th style="text-align: left;">Gaps agree in sign</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">C1</td>
+<td style="text-align: left;">0.847</td>
+<td style="text-align: left;">0.861</td>
+<td style="text-align: left;">0.840</td>
+<td style="text-align: left;">0.860</td>
+<td style="text-align: left;">yes</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">C10</td>
+<td style="text-align: left;">0.683</td>
+<td style="text-align: left;">0.874</td>
+<td style="text-align: left;">0.847</td>
+<td style="text-align: left;">0.849</td>
+<td style="text-align: left;">yes</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">C11</td>
+<td style="text-align: left;">0.653</td>
+<td style="text-align: left;">0.893</td>
+<td style="text-align: left;">0.889</td>
+<td style="text-align: left;">0.893</td>
+<td style="text-align: left;">yes</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">C12</td>
+<td style="text-align: left;">0.516</td>
+<td style="text-align: left;">0.730</td>
+<td style="text-align: left;">0.425</td>
+<td style="text-align: left;">0.561</td>
+<td style="text-align: left;">yes</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">C13</td>
+<td style="text-align: left;">0.706</td>
+<td style="text-align: left;">0.706</td>
+<td style="text-align: left;">0.651</td>
+<td style="text-align: left;">0.654</td>
+<td style="text-align: left;">no</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">C2</td>
+<td style="text-align: left;">0.493</td>
+<td style="text-align: left;">0.792</td>
+<td style="text-align: left;">0.764</td>
+<td style="text-align: left;">0.730</td>
+<td style="text-align: left;">no</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">C3</td>
+<td style="text-align: left;">0.535</td>
+<td style="text-align: left;">0.949</td>
+<td style="text-align: left;">0.946</td>
+<td style="text-align: left;">0.933</td>
+<td style="text-align: left;">no</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">C4</td>
+<td style="text-align: left;">0.296</td>
+<td style="text-align: left;">0.778</td>
+<td style="text-align: left;">0.772</td>
+<td style="text-align: left;">0.261</td>
+<td style="text-align: left;">no</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">C5</td>
+<td style="text-align: left;">0.814</td>
+<td style="text-align: left;">0.884</td>
+<td style="text-align: left;">0.868</td>
+<td style="text-align: left;">0.878</td>
+<td style="text-align: left;">yes</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">C6</td>
+<td style="text-align: left;">0.607</td>
+<td style="text-align: left;">0.724</td>
+<td style="text-align: left;">0.703</td>
+<td style="text-align: left;">0.709</td>
+<td style="text-align: left;">yes</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">C7</td>
+<td style="text-align: left;">0.957</td>
+<td style="text-align: left;">0.785</td>
+<td style="text-align: left;">0.657</td>
+<td style="text-align: left;">0.844</td>
+<td style="text-align: left;">no</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">C8</td>
+<td style="text-align: left;">0.701</td>
+<td style="text-align: left;">0.929</td>
+<td style="text-align: left;">0.876</td>
+<td style="text-align: left;">0.868</td>
+<td style="text-align: left;">no</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">C9</td>
+<td style="text-align: left;">0.396</td>
+<td style="text-align: left;">0.890</td>
+<td style="text-align: left;">0.899</td>
+<td style="text-align: left;">0.731</td>
+<td style="text-align: left;">no</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</figure>
+</div>
+</div>
+<p>Two features deserve the reader’s pause. The first is how often the arrows disagree: the two catalogue columns agree about the direction of the item-model change in only six of the thirteen cases. At the portfolio level the median Rasch-to-2PL gap is <span class="math inline">\(+0.215\)</span> for <code>mirt::marginal_rxx</code> against <span class="math inline">\(+0.004\)</span> for the empirical-histogram MSEM functional. Those medians describe the catalogue; they do not isolate a coefficient effect because the fitted population model changes with the column. The second feature is case C4, a sixteen-item vocabulary checklist administered alongside a conspiracist-belief scale. Its Gaussian-fit <code>mirt::marginal_rxx</code> rises from .30 to .78 when the 2PL replaces the Rasch model, while the empirical-histogram MSEM functional falls from .77 to .26. The responses are the same, but the coefficient and fitted object are not. The magnitude makes the discrepancy important; it does not by itself show that the information-tower mechanism in <a href="#fig-rel-functionals" class="quarto-xref">Figure&nbsp;<span>25.1</span></a> caused it. Establishing that claim would require evaluating both target functionals on the same fitted item parameters and the same <span class="math inline">\(G\)</span>.</p>
+<p>The lesson is not that one column of <a href="#tbl-rel-gaps" class="quarto-xref">Table&nbsp;<span>25.1</span></a> is the true reliability. It is that “is the 2PL more reliable than the Rasch model here?” is not a well-posed question until the coefficient, fitted population model, and averaging distribution are named. That is <a href="08-reliability.html" class="quarto-xref"><span>Chapter 8</span></a>’s claim returned with real data attached; the present catalogue does not separate those ingredients.</p>
+<p>The corpus-scale version of the same lesson comes from the reliability study of the Item Response Warehouse, whose complete analysis corpus contains 889 datasets. Across six estimators its reported pooled coefficients span .794 to .868, and its estimated share below the .80 convention runs from roughly a quarter to a half <span class="citation" data-cites="lee_reliability-distribution_2026">(<a href="#ref-lee_reliability-distribution_2026" role="doc-biblioref">Lee 2026c</a>)</span>. The complete 889-row per-unit snapshot used by this book’s evidence pipeline is a frozen analysis artifact, not the public replication frame: the latter contains 879 rows because ten datasets are withheld. The quoted span and sub-.80 range are the manuscript’s full-corpus results, not a recomputation from the public 879-row file. <a href="28-what-real-tests-look-like.html" class="quarto-xref"><span>Chapter 28</span></a> takes up the study properly; here the result shows that definition-sensitive reliability is not confined to one small case portfolio.</p>
+</section>
+<section id="sec-ch25-ladder" class="level2" data-number="25.3">
+<h2 data-number="25.3" class="anchored" data-anchor-id="sec-ch25-ladder"><span class="header-section-number">25.3</span> What the simulation’s ladder actually manipulated</h2>
+<p>The evidence chapters read results off a design in which reliability is a manipulated factor, so this book must say precisely what the manipulation was. Two facts matter, and both are read from the simulation volume’s frozen design tables rather than from its prose <span class="citation" data-cites="lee_simulation_2026">(<a href="#ref-lee_simulation_2026" role="doc-biblioref">Lee 2026a</a>)</span>.</p>
+<p><strong>The operational coefficient is the information approximation.</strong> The ladder targets <span class="math inline">\(\bar\rho\)</span> in the form <span class="math inline">\(\sigma^2_\theta / \{\sigma^2_\theta + \operatorname{E}_G[1/\mathcal{J}(\theta)]\}\)</span> — the population MSEM functional of <a href="08-reliability.html#eq-wbar" class="quarto-xref">Equation&nbsp;<span>8.10</span></a> with information standing in for estimator error variance. <a href="07-information-and-error.html" class="quarto-xref"><span>Chapter 7</span></a> was explicit that information omits calibration uncertainty and model error, and <a href="07-information-and-error.html#prp-msem-jensen" class="quarto-xref">Proposition&nbsp;<span>7.1</span></a> separates this average from its companion; the ladder’s “reliability” is therefore a specific, computable functional, not a claim about any realized coefficient a fitted run would report. The distinction did no harm in the design, since achieved and target values agree to three decimals, but a reader who carries <a href="08-reliability.html" class="quarto-xref"><span>Chapter 8</span></a>’s vocabulary should know which member of the zoo the design axis is.</p>
+<p><strong>The instrument was length <em>and</em> a discrimination multiplier.</strong> Each cell of the ladder was calibrated by choosing a test length and, jointly, a global multiplier <span class="math inline">\(c^*\)</span> applied to the form’s discriminations: the scale lever of <a href="09-designing-for-reliability.html#sec-ch09-levers" class="quarto-xref"><span>Section 9.3</span></a> and <a href="09-designing-for-reliability.html#prp-cstar" class="quarto-xref">Proposition&nbsp;<span>9.1</span></a>, exercised in production. <a href="#tbl-ladder-v2" class="quarto-xref">Table&nbsp;<span>25.2</span></a> displays the realized ladder with the multiplier column intact.</p>
+<div class="cell">
+<div id="tbl-ladder-v2" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-ladder-v2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;25.2: The companion simulation’s realized reliability ladder: mean achieved reliability, mean calibrated test length, and the mean calibrated discrimination multiplier <span class="math inline">\(c^*\)</span>, by item-model family and target tier. Read from the simulation volume’s frozen rollup. Source: tables/T-ladder-v2.rds.
+</figcaption>
+<div aria-describedby="tbl-ladder-v2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<table class="cell caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 6%">
+<col style="width: 19%">
+<col style="width: 17%">
+<col style="width: 14%">
+<col style="width: 42%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Model</th>
+<th style="text-align: left;">Target <span class="math inline">\(\bar\rho\)</span></th>
+<th style="text-align: left;">Achieved (mean)</th>
+<th style="text-align: left;">Items (mean)</th>
+<th style="text-align: left;">Discrimination multiplier <span class="math inline">\(c^*\)</span> (mean)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">2PL</td>
+<td style="text-align: left;">0.5</td>
+<td style="text-align: left;">0.500</td>
+<td style="text-align: left;">7.4</td>
+<td style="text-align: left;">0.966</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2PL</td>
+<td style="text-align: left;">0.6</td>
+<td style="text-align: left;">0.600</td>
+<td style="text-align: left;">10.8</td>
+<td style="text-align: left;">0.885</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2PL</td>
+<td style="text-align: left;">0.7</td>
+<td style="text-align: left;">0.700</td>
+<td style="text-align: left;">16.4</td>
+<td style="text-align: left;">0.887</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2PL</td>
+<td style="text-align: left;">0.8</td>
+<td style="text-align: left;">0.800</td>
+<td style="text-align: left;">28.0</td>
+<td style="text-align: left;">0.919</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2PL</td>
+<td style="text-align: left;">0.9</td>
+<td style="text-align: left;">0.900</td>
+<td style="text-align: left;">62.2</td>
+<td style="text-align: left;">0.927</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Rasch</td>
+<td style="text-align: left;">0.5</td>
+<td style="text-align: left;">0.500</td>
+<td style="text-align: left;">8.0</td>
+<td style="text-align: left;">0.946</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Rasch</td>
+<td style="text-align: left;">0.6</td>
+<td style="text-align: left;">0.600</td>
+<td style="text-align: left;">12.0</td>
+<td style="text-align: left;">0.910</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Rasch</td>
+<td style="text-align: left;">0.7</td>
+<td style="text-align: left;">0.700</td>
+<td style="text-align: left;">18.0</td>
+<td style="text-align: left;">0.924</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Rasch</td>
+<td style="text-align: left;">0.8</td>
+<td style="text-align: left;">0.800</td>
+<td style="text-align: left;">31.0</td>
+<td style="text-align: left;">0.916</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Rasch</td>
+<td style="text-align: left;">0.9</td>
+<td style="text-align: left;">0.900</td>
+<td style="text-align: left;">68.2</td>
+<td style="text-align: left;">0.918</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</figure>
+</div>
+</div>
+<p>The multipliers are not decoration: they range over roughly 0.79 to 1.09 across cells, and they are how the calibration hit its targets to within 0.003 at every tier. The consequence for interpretation is the one <a href="09-designing-for-reliability.html#sec-ch09-table2" class="quarto-xref"><span>Section 9.4</span></a> already taught for the manuscript’s own Table 2, now applied to the companion study: reliability was set <em>through</em> the design, so the ladder’s axis is a bundle, length and discrimination scale moving together, and any statement of the form “the effect of reliability” is a statement about that bundle. The simulation volume’s own regression diagnostic makes the entanglement concrete: achieved reliability and log test length correlate at .98 across its estimation rows, and a model asking the two to speak separately returns a variance inflation factor above thirty <span class="citation" data-cites="lee_simulation_2026">(<a href="#ref-lee_simulation_2026" role="doc-biblioref">Lee 2026a</a>)</span>. Nothing is wrong with the bundle as a design; things would be wrong with reading it as a partial derivative. The open design that <em>would</em> separate the levers, varying discrimination at fixed length, is recorded as unfinished business in <a href="29-evidence-settles-reopens.html" class="quarto-xref"><span>Chapter 29</span></a>.</p>
+</section>
+<section id="sec-ch25-sources" class="level2" data-number="25.4">
+<h2 data-number="25.4" class="anchored" data-anchor-id="sec-ch25-sources"><span class="header-section-number">25.4</span> Sources and provenance</h2>
+<p>The two population functionals, their Jensen ordering, the EAP-variance coefficient, and the source reading of <code>mirt::marginal_rxx</code> are <a href="08-reliability.html" class="quarto-xref"><span>Chapter 8</span></a>’s; nothing in <a href="#sec-ch25-zoo" class="quarto-xref"><span>Section 25.1</span></a> modifies them. <a href="#fig-rel-functionals" class="quarto-xref">Figure&nbsp;<span>25.1</span></a> is computed for this chapter (exact quadrature for <span class="math inline">\(\bar\rho\)</span>; a seeded 4,000-person computation for the EAP-variance functional; values frozen in <code>tables/F-rel-functionals-summary.rds</code>) and its design is stylized, chosen to show that reversal is possible rather than to reproduce any case-study fit.</p>
+<p><a href="#tbl-rel-gaps" class="quarto-xref">Table&nbsp;<span>25.1</span></a> and <a href="#fig-c4-reversal" class="quarto-xref">Figure&nbsp;<span>25.2</span></a> are read from the case-study analysis layer’s frozen P1-T2 catalogue <span class="citation" data-cites="lee_casestudy_2026">(<a href="#ref-lee_casestudy_2026" role="doc-biblioref">Lee 2026b</a>)</span>. The citation names the second edition, which added no fits and recomputed no frozen values; this book reads the P1-T2 table from the first-edition repository. Its left column calls <code>mirt::marginal_rxx(fp$gauss)</code>; its right column evaluates <code>rho_bar_eh</code> from <code>fp$eh</code>. Thus response data and item-model label are matched, while fitted object and functional differ. The C4 values quoted in prose are asserted against that table by the build before either display is written. The corpus span .794 to .868 and the definition-dependent sub-.80 shares are the Item Response Warehouse reliability study’s full-889-dataset manuscript results <span class="citation" data-cites="lee_reliability-distribution_2026">(<a href="#ref-lee_reliability-distribution_2026" role="doc-biblioref">Lee 2026c</a>)</span>, read from manuscript v3 dated 2026-08-06. The evidence pipeline’s complete 889-row snapshot is distinct from the public 879-row replication frame; <a href="28-what-real-tests-look-like.html" class="quarto-xref"><span>Chapter 28</span></a> gives the study design and fuller provenance.</p>
+<p>The ladder facts are the simulation volume’s frozen rollup, surfaced here as <a href="#tbl-ladder-v2" class="quarto-xref">Table&nbsp;<span>25.2</span></a> with the same assertions <span class="citation" data-cites="lee_simulation_2026">(<a href="#ref-lee_simulation_2026" role="doc-biblioref">Lee 2026a</a>)</span>; the correlation .98 and the variance inflation factor are that volume’s own published diagnostics, quoted as published. The reading of the ladder as a bundle is this book’s, and is the same reading <a href="09-designing-for-reliability.html#sec-ch09-table2" class="quarto-xref"><span>Section 9.4</span></a> gave the manuscript’s design; the underlying scale-lever result is <a href="09-designing-for-reliability.html#prp-cstar" class="quarto-xref">Proposition&nbsp;<span>9.1</span></a>, restated from the reliability-targeting package <span class="citation" data-cites="lee_irtsimrel_2026">(<a href="#ref-lee_irtsimrel_2026" role="doc-biblioref">Lee 2026d</a>)</span>, whose companion paper develops the calibration algorithms themselves <span class="citation" data-cites="lee_reliability-targeted_2026">(<a href="#ref-lee_reliability-targeted_2026" role="doc-biblioref">Lee 2026e</a>)</span>.</p>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-lee_simulation_2026" class="csl-entry" role="listitem">
+Lee, JoonHo. 2026a. <em>A Simulation Study of <span>Dirichlet</span> Process Mixture Priors and Goal-Specific Posterior Summaries in <span>Bayesian</span> <span>IRT</span></em>. Quarto book, The University of Alabama.
+</div>
+<div id="ref-lee_casestudy_2026" class="csl-entry" role="listitem">
+Lee, JoonHo. 2026b. <em>Case Studies of <span>Dirichlet</span> Process Mixture Priors and Goal-Specific Posterior Summaries in <span>Bayesian</span> <span>IRT</span>: Thirteen Real Tests from the <span>Item</span> <span>Response</span> <span>Warehouse</span></em>. Quarto book, The University of Alabama.
+</div>
+<div id="ref-lee_reliability-distribution_2026" class="csl-entry" role="listitem">
+Lee, JoonHo. 2026c. <span>“How Reliable Are Psychological Measurements? <span>The</span> Distribution of Marginal Reliability Across 889 Item-Response Datasets.”</span> Unpublished manuscript.
+</div>
+<div id="ref-lee_irtsimrel_2026" class="csl-entry" role="listitem">
+Lee, JoonHo. 2026d. <em><span>IRTsimrel</span>: Reliability-Targeted Simulation for Item Response Data</em>. <a href="https://github.com/joonho112/IRTsimrel">https://github.com/joonho112/IRTsimrel</a>.
+</div>
+<div id="ref-lee_reliability-targeted_2026" class="csl-entry" role="listitem">
+Lee, JoonHo. 2026e. <em>Reliability-Targeted Simulation of Item Response Data: Solving the Inverse Design Problem</em>. <span>arXiv</span>; arXiv. <a href="https://doi.org/10.48550/arXiv.2512.16012">https://doi.org/10.48550/arXiv.2512.16012</a>.
+</div>
+</div>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../chapters/24-discrimination-and-information.html" class="pagination-link" aria-label="Discrimination and Information">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Discrimination and Information</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../chapters/26-identification-dpm-2pl.html" class="pagination-link" aria-label="Identification and the DPM Under the Two-Parameter Model">
+        <span class="nav-page-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Identification and the DPM Under the Two-Parameter Model</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
