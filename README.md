@@ -82,12 +82,17 @@ design. The verifier outputs from the release build are included under
 
 Environment: R 4.6.0, Quarto 1.9.x.
 
-## Companion volumes
+## The three volumes
 
-This is the **theory** volume of a three-volume project. The simulation volume
-owns realized outcomes under known truth; the case-study volume owns what
-changes on real tests and issues no correctness claims of its own. Where this
-book cites either, it names the volume and the frozen artifact it read.
+This project is published as three linked volumes. Each stands on its own; read
+together they separate what is *true of a model*, what is *true in a study*, and
+what *changes on a real test*.
+
+| Volume | What it owns |
+|---|---|
+| **Theory** *(this repository)* | The mathematics and its sources: the measurement models, identification, reliability, shrinkage, DP mixture priors, and why three inferential goals imply three posterior summaries |
+| [Simulation study](https://joonho112.github.io/dpmirt-simulation-study/) | Realized outcomes under known truth: the preregistered design grid, the confirmatory record, Monte Carlo error, and the gate verdicts |
+| [Case studies](https://joonho112.github.io/dpmirt-case-studies/) | What changes on real tests: thirteen Item Response Warehouse cases under both item models, reported as consequence rather than correctness |
 
 ## Citing
 

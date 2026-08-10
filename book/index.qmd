@@ -30,8 +30,8 @@ Four documents divide the work, and it helps to know which is authority for what
 | | Question it answers | Authority for |
 |---|---|---|
 | **This book** | What is the mathematics, and who established it? | Definitions, classical results, identification, the literature genealogy, decision-theoretic justifications |
-| The simulation volume [@lee_simulation_2026] | What did we run, and what did it show? | The design grid, realized values, Monte Carlo error, gate verdicts, results |
-| The case-study volume [@lee_casestudy_2026] | What changes on real tests? | Thirteen Item Response Warehouse cases, both item models, consequence and transfer — with no correctness claims of its own |
+| [The simulation volume](https://joonho112.github.io/dpmirt-simulation-study/) [@lee_simulation_2026] | What did we run, and what did it show? | The design grid, realized values, Monte Carlo error, gate verdicts, results |
+| [The case-study volume](https://joonho112.github.io/dpmirt-case-studies/) [@lee_casestudy_2026] | What changes on real tests? | Thirteen Item Response Warehouse cases, both item models, consequence and transfer — with no correctness claims of its own |
 | The manuscript | What is the contribution? | The paper's claims, and nothing else |
 
 Around these sit the software the models are fitted with — `DPMirt`
