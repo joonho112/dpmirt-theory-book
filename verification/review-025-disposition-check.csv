@@ -1,0 +1,7 @@
+"check","observed","expected","passed"
+"exact inventory","34","34 ordered IDs",TRUE
+"original blockers","27","27",TRUE
+"valid dispositions","ACCEPTED_RISK; FIXED; REFRAMED","FIXED; REFRAMED; ACCEPTED_RISK",TRUE
+"blocking accepted risks","0","0",TRUE
+"release blockers open","0","0",TRUE
+"nonblank evidence fields","0","0",TRUE

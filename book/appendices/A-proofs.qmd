@@ -1,0 +1,346 @@
+# Proofs {#sec-appendix-a}
+
+```{r}
+#| label: setup-appa
+#| include: false
+tbl <- function(id) readRDS(file.path("..", "..", "tables", paste0(id, ".rds")))
+```
+
+@sec-ch02 states the rule this appendix implements: proofs run inline where they take less
+than a page and move here otherwise, and nothing is asserted without either an argument or a
+source locator. The two alternatives must not be blurred. Reproducing a useful special-case
+derivation is not the same as reproducing the source theorem that licenses it.
+
+The index therefore records a **claim-level proof status**. `proved-here` means the displayed
+claim is established in this book; `partial-derivation` means this appendix establishes only
+the named component and leaves the source theorem at its locator; `source-only` means the
+published result is invoked under its stated conditions and no stand-alone proof is claimed
+here. This appendix improves checkability, but it does not promise to replace every cited
+proof.
+
+## Index {#sec-appa-index}
+
+```{r}
+#| label: tbl-proof-index
+#| tbl-cap: "Every numbered result and where its proof lives. Source: tables/T-proof-index.rds."
+#| echo: false
+knitr::kable(tbl("T-proof-index"))
+```
+
+Two things are worth reading off this table. Every result tagged **derived-here** has a
+`proved-here` argument. Restated or adapted results can be `proved-here`,
+`partial-derivation`, or `source-only`; none of those labels is an originality claim.
+
+## A.1 The Dirichlet process {#sec-appa-dp}
+
+@sec-ch15 defines the process and states three structural results from their sources. The
+arguments are short enough to give in full, and giving them makes Part V self-contained.
+
+### A.1.1 Stick-breaking {#sec-appa-stick}
+
+**Source result** (@thm-stick, *restated from Sethuraman 1994*). Let $V_1, V_2, \dots$ be i.i.d.
+$\mathrm{Beta}(1,\alpha)$, let $\phi_1, \phi_2, \dots$ be i.i.d. from the normalized base
+measure $\bar G_0$ and independent of the $V$'s, and set
+
+$$p_n = V_n \prod_{\ell < n} (1 - V_\ell), \qquad
+P = \sum_{n=1}^{\infty} p_n \delta_{\phi_n} .$$
+
+Then $P \sim \mathrm{DP}(\alpha \bar G_0)$.
+
+**Proof status: partial derivation.** The two weight facts used later are proved below. The
+finite-dimensional Dirichlet law of $P$ is Sethuraman's theorem and remains source-only.
+
+*Proof of the two facts the chapter uses.* The weights sum to one almost surely. Writing
+$R_N = \prod_{\ell \le N}(1 - V_\ell)$ for the unbroken remainder after $N$ breaks, induction
+on the definition gives $\sum_{n \le N} p_n = 1 - R_N$. Since the $V_\ell$ are i.i.d. with
+$\operatorname{E}[\log(1-V_\ell)] = \int_0^1 \log(1-v)\,\alpha(1-v)^{\alpha-1}\,dv
+= -1/\alpha$, which is a strictly negative finite constant, $\log R_N$ is a random walk with negative drift and
+$R_N \to 0$ almost surely. Hence $\sum_n p_n = 1$.
+
+The mean weight sequence is geometric. $\operatorname{E}[V_n] = 1/(1+\alpha)$ and
+$\operatorname{E}[1 - V_\ell] = \alpha/(1+\alpha)$, and independence across $\ell$ gives
+
+$$\operatorname{E}[p_n] = \frac{1}{1+\alpha}\left(\frac{\alpha}{1+\alpha}\right)^{n-1}
+= \frac{\alpha^{n-1}}{(1+\alpha)^n} .$$
+
+So the expected weights decay geometrically at rate $\alpha/(1+\alpha)$, and the expected
+mass left after $N$ atoms is $(\alpha/(1+\alpha))^N$, which is the truncation bound
+@sec-ch15 uses. `V8` checks all three statements numerically (`THM-15-2`, `THM-15-2b`,
+`THM-15-2c`).
+
+That the resulting $P$ has Dirichlet finite-dimensional distributions is Sethuraman's
+theorem and is not reproved here; the locator is in the index. □
+
+### A.1.2 A draw is discrete with probability one {#sec-appa-discrete}
+
+**Claim** (@prp-discrete, *restated; immediate from @thm-stick*).
+
+*Proof.* By A.1.1 the random measure is $\sum_n p_n \delta_{\phi_n}$ with $\sum_n p_n = 1$
+almost surely. A countable convex combination of point masses is a discrete measure. The
+conclusion holds **however smooth $\bar G_0$ is**: continuity of the base measure controls
+where the atoms fall, not whether there are atoms. That is the fact @sec-ch16 needs when it
+warns that a DPM's mixing distribution is discrete even under a Gaussian base. □
+
+### A.1.3 The Pólya urn and the CRP {#sec-appa-crp}
+
+**Source result** (@thm-crp, *restated from Blackwell and MacQueen 1973*). If
+$\theta_1, \theta_2, \dots$ follow the Pólya urn scheme
+
+$$\theta_{n+1} \mid \theta_1, \dots, \theta_n \;\sim\;
+\frac{\alpha}{\alpha + n}\,\bar G_0 + \frac{1}{\alpha + n}\sum_{i \le n} \delta_{\theta_i},$$
+
+then the empirical measure converges almost surely to a discrete random measure $P$, and
+$P \sim \mathrm{DP}(\alpha \bar G_0)$ with the $\theta$'s i.i.d. $P$ given $P$.
+
+**Condition for the chapter's distinct-value reading.** The seating partition exists for
+any base measure. Identifying “a new table” with “a new observed value” additionally requires
+$\bar G_0$ to be nonatomic; otherwise a fresh base-measure draw can coincide with a value
+already observed.
+
+*Proof of the partition statement the book uses.* Read the scheme as a seating rule. Draw
+$n+1$ joins an existing cluster of size $m_k$ with probability $m_k/(\alpha+n)$ and starts a
+new one with probability $\alpha/(\alpha+n)$. The induced distribution on partitions is
+therefore exchangeable and depends on the labels only through the cluster sizes — the
+Chinese restaurant process. Marginalizing the urn over the $\phi$'s in A.1.1 gives the same
+partition law, which is the correspondence @sec-ch15 uses to move between the two
+representations. The almost-sure convergence and the identification of the limit as a DP are
+Blackwell and MacQueen's martingale argument, whose locator is in the index. □
+
+### A.1.4 Antoniak's law for the number of occupied clusters {#sec-appa-antoniak}
+
+**Claim** (used in @sec-ch15 and @sec-ch16). Under the CRP with concentration $\alpha$, the
+number $K_J$ of occupied tables among $J$ draws has
+
+$$
+\Pr(K_J=k\mid\alpha)=
+\frac{|s(J,k)|\alpha^k}{(\alpha)_J},
+\qquad (\alpha)_J=\alpha(\alpha+1)\cdots(\alpha+J-1),
+$$
+
+and
+
+$$\operatorname{E}[K_J \mid \alpha] = \sum_{j=0}^{J-1} \frac{\alpha}{\alpha + j}
+= \alpha\left[\psi(\alpha + J) - \psi(\alpha)\right],$$
+
+where $\psi$ is the digamma function. If $\bar G_0$ is nonatomic, occupied tables and
+distinct observed values coincide. Moreover, for fixed $J$, $K_J$ is sufficient for
+$\alpha$ in the induced partition model.
+
+*Proof.* Let $B_j$ indicate that draw $j$ starts a new table, $j = 1, \dots, J$, with
+$B_1 = 1$. By the seating rule of A.1.3, $\Pr(B_{j+1} = 1 \mid \text{first } j) =
+\alpha/(\alpha + j)$, which does **not** depend on the realized partition. So the $B$'s are
+independent Bernoulli variables. Their probability-generating function is
+
+$$
+\operatorname{E}[t^{K_J}\mid\alpha]
+=\prod_{j=0}^{J-1}\frac{\alpha t+j}{\alpha+j}
+=\frac{\sum_{k=1}^{J}|s(J,k)|(\alpha t)^k}{(\alpha)_J},
+$$
+
+where the last equality is the rising-factorial expansion for the unsigned Stirling
+numbers of the first kind. Extracting the coefficient of $t^k$ gives the pmf. Also
+$K_J=\sum_j B_j$ gives the expectation, and $\psi(x+1)-\psi(x)=1/x$ gives the digamma form.
+
+For sufficiency, the CRP probability of a particular partition with block sizes
+$n_1,\ldots,n_k$ is
+
+$$
+\frac{\alpha^k}{(\alpha)_J}\prod_{h=1}^{k}(n_h-1)!.
+$$
+
+Its dependence on $\alpha$ is only through $k=K_J$, so the factorization criterion makes
+$K_J$ sufficient for $\alpha$ in this partition model. □
+
+The independence is the step worth noticing: it is what makes $\operatorname{E}[K_J]$
+available in closed form, and it is why the elicitation of @sec-ch15 can invert the
+relation to choose a prior on $\alpha$ from a belief about $K$. `V8` checks the identity and
+the elicitation against it (`THM-15-4`, `THM-15-4b`, `THM-15-4c`).
+
+## A.2 Identification of $G$ from a finite test {#sec-appa-partialid}
+
+### A.2.1 What a finite test identifies {#sec-appa-i1}
+
+**Claim** (@prp-partial-id, *restated from San Martín et al. 2011, Theorem 5*). Under the
+source's anchor-item and availability conditions for the semiparametric Rasch model, the
+observable law is generated by the item parameters and the following $I+1$ displayed basic
+integral evaluations of $G$.
+
+*Argument.* The observable is the distribution of the response vector
+$\mathbf{U} \in \{0,1\}^I$, which is $2^I$ probabilities summing to one. Under local
+independence and the Rasch form, the probability of any pattern with total score $r$ is
+
+$$\Pr(\mathbf{U} = \mathbf{u}) = \int \prod_{i} \frac{e^{u_i(\theta - \beta_i)}}
+{1 + e^{\theta - \beta_i}} \, dG(\theta),$$
+
+Writing $r=\sum_i u_i$, the pattern probability equals
+$\exp(-\sum_i u_i\beta_i)\mu_r$, so the whole observable law is a function of the item
+parameters and of the $I+1$ evaluations
+
+$$\mu_r = \int \frac{e^{r\theta}}{\prod_i (1 + e^{\theta - \beta_i})}\, dG(\theta),
+\qquad r = 0, 1, \dots, I,$$
+
+one for each attainable total score. These evaluations are not unconstrained independent
+coordinates. Summing all pattern probabilities gives the identity
+
+$$
+\sum_{r=0}^{I}e_r(e^{-\beta_1},\ldots,e^{-\beta_I})\mu_r=1,
+$$
+
+where $e_r$ is the $r$th elementary symmetric polynomial. Two latent distributions
+producing the same displayed evaluations are observationally equivalent. San Martín et al.
+invert the observable map under their source conditions; this argument establishes the
+factorization and identity, not an independent-dimension or universal “no more” claim.
+
+The full inversion under the anchor restriction is their Theorem 5 and remains source-only.
+Their Theorem 3
+concerns the Rasch **Poisson counts** model and gives full identification of $\beta$ and $G$
+with at least two probes; conflating the two is the manuscript error recorded as `C-014`. □
+
+### A.2.2 A centred base measure does not centre the realized DPM {#sec-appa-dpmconstraint}
+
+**Claim** (@prp-dpm-constraint, *adapted from San Martín et al. 2011*). If $G \sim
+\mathrm{DP}(\alpha G_0)$, $\int \theta \, dG_0(\theta) = 0$, and
+$0<\operatorname{Var}_{G_0}(\theta)<\infty$, then the realized mean
+$M_G=\int\theta\,dG(\theta)$ is nondegenerate, with
+
+$$
+\operatorname{E}(M_G)=0,
+\qquad
+\operatorname{Var}(M_G)=\frac{\operatorname{Var}_{G_0}(\theta)}{1+\alpha}.
+$$
+
+*Proof.* By A.1.1, $\int \theta\,dG(\theta) = \sum_n p_n \phi_n$ with the $\phi_n$ i.i.d.
+from $\bar G_0$ and the $p_n$ the stick-breaking weights, independent of them. Conditional on
+the weights, this is a weighted sum of mean-zero draws, so its conditional mean is zero and
+its conditional variance is $\sigma^2_{G_0} \sum_n p_n^2$, which is finite and strictly
+positive under the stated assumption because the weights sum to one. The realized mean is therefore a non-degenerate
+mean-zero random variable, not the constant zero.
+
+Two consequences the book uses. Centring the *base measure* is not the same restriction as
+centring the *realized* distribution, so a location constraint imposed on the base does not
+identify the model; and $\operatorname{E}[\sum_n p_n^2] = 1/(1+\alpha)$ gives the displayed
+unconditional variance. Thus the discrepancy shrinks as $\alpha$ grows and is largest
+exactly where the prior is most flexible. □
+
+## A.3 Reliability, separation, and the design constant {#sec-appa-reliability}
+
+### A.3.1 Separation and strata {#sec-appa-separation}
+
+**Claim** (@prp-separation, *restated from Wright and Masters 1982, § 5.5*). With
+$\bar w = \sigma^2/(\sigma^2 + \mathrm{MSEM})$, the person separation index and the number of
+strata are
+
+$$S = \frac{\sigma}{\mathrm{RMSEM}} = \sqrt{\frac{\bar w}{1 - \bar w}},
+\qquad H = \frac{4S + 1}{3} .$$
+
+*Proof of the separation identity.* $\bar w/(1-\bar w) = \sigma^2/\mathrm{MSEM}$, and
+taking square roots gives $S = \sigma/\mathrm{RMSEM}$.
+
+**The strata formula is not derived here, and Wright and Masters do not derive it either.**
+They state $H = (4G+1)/3$ for both the item and the person index and give the convention it
+encodes — statistically distinct strata have centres **three calibration or measurement
+errors apart** — without showing where the constants come from. That convention is the
+substantive content, it is what the manuscript had used without a source, and it is recorded
+as `C-003`. This book restates the formula on their authority; a reader wanting the constants
+justified will not find it in the source, and inventing a derivation here would misrepresent
+what is known.
+
+This is the identity that exposes `C-001`. Computing $S$ from a *rounded* RMSEM rather than
+from the exact target reliability is what produces the manuscript's $1.3$, $1.4$ and $3.3$
+where the exact column is $1.0$, $1.2$, $1.5$, $2.0$, $3.0$. `V8` checks both readings
+(`PROP-08-2`, `C-001`, `C-001b`). □
+
+### A.3.2 The design constant, and the condition it needs {#sec-appa-cstar}
+
+**Claim** (@prp-cstar, deferred from @sec-ch09). Fix the item count, difficulties, baseline
+discriminations, and population distribution. Let $c>0$ multiply every discrimination, and
+suppose both reliability functions have unique strictly increasing branches through the
+target. The discrimination multiplier required under the MSEM definition is at least the
+multiplier required under the average-information definition.
+
+*Proof.* At a fixed value of the discrimination multiplier $c$, let
+$\mathcal{J}_c(\theta)$ be the information computed with both the $c$-scaled slopes and the
+resulting $c$-dependent response probabilities. MSEM is the mean of the
+conditional error variances, $\operatorname{E}_\theta[1/\mathcal{J}_c(\theta)]$; the
+average-information summary is the reciprocal of the mean information,
+$1/\operatorname{E}_\theta[\mathcal{J}_c(\theta)]$. Since $x \mapsto 1/x$ is strictly convex on
+$(0,\infty)$, Jensen gives
+
+$$\operatorname{E}_\theta\!\left[\frac{1}{\mathcal{J}_c(\theta)}\right] \;\ge\;
+\frac{1}{\operatorname{E}_\theta[\mathcal{J}_c(\theta)]},$$
+
+with equality if and only if $\mathcal{J}_c(\theta)$ is constant in $\theta$. So the MSEM
+error is the larger and the MSEM reliability is no larger at every common $c$. On the
+assumed unique increasing branches, the inverse image of a common target is therefore
+reached no earlier by $\bar w(c)$ than by $\tilde\rho(c)$, so
+$c^\star_{\bar w}\ge c^\star_{\tilde\rho}$. The strictness of the inequality away from constant information is why
+the two definitions diverge exactly in the item-response setting, where information depends
+on $\theta$ by construction (@sec-ch07).
+
+The uniqueness condition is not cosmetic: without a single strictly increasing branch the
+inverse image is not a point and “the required discrimination multiplier” is not well defined. `V8`
+checks the inequality and, separately, that scaled 2PL information is *not* obtained by
+freezing the response probabilities (`PROP-09-1`, `PROP-09-1b`). □
+
+## A.4 Posterior summaries {#sec-appa-summaries}
+
+### A.4.1 Rank of the mean against mean of the rank {#sec-appa-rankofmean}
+
+**Claim** (@prp-rank-of-mean, *restated from Shen and Louis 1998*). The rank of the posterior
+mean and the posterior mean of the rank differ in **value** in general, and differ in
+**ordering** only outside stochastically ordered regimes.
+
+*Proof.* For the value statement, the expected rank of unit $k$ is
+$\bar R_k = \sum_q \Pr(\theta_q \le \theta_k \mid \mathbf{u})$, which for independent
+posteriors is a sum of $K$ probabilities and takes values in $[1, K]$ on a continuous scale,
+while $\operatorname{rank}(\eta_k)$ is an integer in $\{1, \dots, K\}$. They are different
+objects and coincide only by accident.
+
+For the ordering statement, the tempting term-by-term comparison of the self and cross
+summands is false. The valid result is Shen and Louis's Theorem 2: under their stochastic
+ordering condition, posterior means, expected ranks, and the relevant rank summaries induce
+the same order. That published theorem is invoked at its locator rather than replaced by the
+invalid summand argument. The converse fails: two normals with different variances are
+**not** stochastically ordered, their standardized arguments cross, and the expected-rank
+ordering can then disagree with the ordering of the means.
+
+@sec-ch12 supplies the case that matters for this book. In a common-form Rasch model the
+posterior depends on the data only through the total score and the family is ordered in it,
+so the regime is the stochastically ordered one and the orderings agree — which is why the
+correction recorded there withdrew an earlier claim that differential shrinkage reorders. □
+
+### A.4.2 The triple-goal construction {#sec-appa-gr}
+
+**Claim** (@thm-gr, *restated from Shen and Louis 1998, §§ 2.1, 2.3, 2.4*). The triple-goal
+estimator is built in three steps: form $\bar G_K(t) = K^{-1}\sum_k
+\Pr(\theta_k \le t \mid \mathbf{u})$ and take its $K$ midpoint quantiles $\hat U_j =
+\bar G_K^{-1}\!\left(\frac{2j-1}{2K}\right)$; compute expected ranks $\bar R_k$ and
+discretize them to integer ranks $\hat R_k$; and set $\hat\theta_k = \hat U_{\hat R_k}$.
+
+*What each step optimizes.* Step 1: the unrestricted pointwise squared-error Bayes action for
+the ensemble EDF is the continuous posterior-mean function $\bar G_K$. When the action is
+restricted to empirical CDFs with $K$ equal masses, the ISEL-optimal discrete action is
+$\hat G_K$, whose atoms are the midpoint quantiles $\hat U_j$ of $\bar G_K$. In general
+$\hat G_K\ne\bar G_K$; discretization approximates the continuous Bayes action and does not
+carry it exactly. Step 2: the expected rank minimizes squared-error rank loss, by the same
+posterior-mean argument applied to $R_k$; the source construction converts those real-valued
+actions to a permutation. Step 3 assigns the ordered atoms by that expected-rank permutation.
+Separately, the rearrangement inequality says the coordinate-SEL-minimizing permutation pairs
+the ordered atoms with the ordered posterior means. These are the same assignment only when
+the expected-rank order and posterior-mean order agree.
+
+Two things follow, both used in @sec-ch19. Every permitted step-3 assignment is a permutation
+of the atoms and therefore carries the **discrete action $\hat G_K$** exactly. It does not
+carry the continuous $\bar G_K$ exactly. And $\bar G_K(t)$ is a *probability* — an average
+of $K$ posterior probabilities — not a trait estimate. □
+
+## A.5 What is deliberately not here {#sec-appa-notes}
+
+The proofs of Sethuraman's finite-dimensional DP theorem, Blackwell and MacQueen's martingale
+convergence, San Martín et al.'s inversion theorem, Ghosh's general constrained-Bayes theorem,
+and Shen and Louis's stochastic-order theorem are not reproduced. Each remains `source-only`
+at the locator in the claim-level inventory. What is established above is narrower: the
+weight identities, partition/Antoniak algebra, finite-test factorization and identity,
+realized-DP mean variance, reliability ordering at common discrimination scale, and the
+correct distinction among $\bar G_K$, $\hat G_K$, rank loss, and conditional coordinate-SEL
+assignment.

@@ -1,0 +1,2 @@
+"construction","signal_mean","signal_variance","component_location","component_sd","measurement_error_variance","signal_reliability","working_prior_variance","posterior_weight","posterior_variance","posterior_mean_ensemble_variance","cb_factor","cb_target_variance","cb_ensemble_variance","true_modes","posterior_mean_modes","cb_modes"
+"chapter CB; independent-posterior population limit",0,1,0.943858356366017,0.330350424728106,1,0.5,1,0.5,0.5,0.5,1.4142135623731,1,1,2,1,1

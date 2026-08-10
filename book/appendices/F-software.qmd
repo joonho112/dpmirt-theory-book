@@ -1,0 +1,126 @@
+# Software and Computation {#sec-appendix-f}
+
+This appendix orients rather than instructs. The Associate Editor's third demand asked for a
+worked code example, and decision `OQ-1` placed it in the companion repository
+`DPMirt-case-study/`, not here. What follows says what each piece of software does, where its
+documentation is, and — more usefully — the two places where a default choice inside the
+software is a modelling decision that this book has an opinion about.
+
+Everything below was read from the packages' `DESCRIPTION`, `NAMESPACE` and source on
+2026-08-05. Package documentation sits at the bottom of this book's authority order
+(@sec-ch02), so nothing here is used to support a claim in the body.
+
+## The three project packages {#sec-appf-project}
+
+**`DPMirt`** (version 0.2.0) is the fitting package [@lee_dpmirt_2026]. Its own
+description states what it
+covers: Bayesian semiparametric IRT with Dirichlet process mixture priors via NIMBLE,
+supporting Rasch, 2PL and 3PL models under both Normal and DPM latent-trait priors, and
+providing posterior mean, constrained Bayes and triple-goal summaries. It exposes 26
+functions, organized around a **compile-once, sample-many** workflow: `dpmirt_compile()` builds
+and compiles the NIMBLE model, `dpmirt()` fits, and `dpmirt_draws()`, `dpmirt_estimates()`,
+`dpmirt_loss()` and `dpmirt_diagnostics()` read the result. `nimble` (≥ 1.0.0) is a hard
+dependency; the model is not portable to another sampler without rewriting it.
+
+**`IRTsimrel`** (version 0.2.0) is the design package, and it is the one that makes
+@sec-ch09's argument operational [@lee_irtsimrel_2026]. Its title is "Reliability-Targeted
+Simulation for Item
+Response Data," and its exported API is built around solving for a design that hits a target
+reliability: `eqc_calibrate()`, `spc_calibrate()` and `sac_calibrate()` are three calibration
+routes, `compute_rho_bar()`, `compute_rho_tilde()` and `compute_rho_both()` compute the
+competing coefficients @sec-ch08 distinguishes, and `check_feasibility()` and `rho_curve()`
+say whether a target is reachable at all. The calibration algorithms themselves are
+developed in the package's companion paper [@lee_reliability-targeted_2026].
+
+That the package computes $\bar\rho$ and $\tilde\rho$ **separately** is worth noticing here:
+it is the software counterpart of @thm-jensen-sandwich, and a design calibrated to one is not
+calibrated to the other.
+
+**`DPprior`** (version 1.1.0) is a separate package, not vendored, that performs the
+$\alpha$-elicitation of @sec-ch15 — choosing a Gamma hyperprior for the concentration
+parameter from a belief about the number of clusters, with the dual-anchor extension
+that constrains the induced weight behaviour at the same time
+[@lee_dpprior_2026; @lee_design-conditional_2026]. One implementation bound belongs on
+the record because the case-study volume met it in production: the package's Antoniak
+tabulation currently stops at $J = 500$ persons, so every elicitation in that volume ran
+at $n \le 500$ (@sec-ch29).
+
+## Two defaults that are modelling decisions {#sec-appf-defaults}
+
+### The $\alpha$ prior falls back silently in substance {#sec-appf-alpha}
+
+`DPprior` is a **`Suggests`** dependency of `DPMirt`, not a requirement. Reading
+`R/alpha_prior.R`, when the package is absent `dpmirt_alpha_prior()` emits a message and
+**falls back to Gamma(1, 3), Paganin et al.'s default**.
+
+The fallback is announced, so nothing is hidden. But the two paths are not the same modelling
+decision. The elicited prior encodes a belief about $K$ and inverts Antoniak's law to reach
+$\alpha$ (@sec-appa-antoniak); the fallback encodes someone else's default at a different
+sample size. @sec-ch16's realized fit is one instance of how far prior and posterior on $K$
+can sit apart, and @sec-ch23 records the interaction between the $\alpha$ prior and the
+identification convention as unresolved. **A reader reproducing this work should check which
+of the two paths ran**, because the message is easy to lose in MCMC output.
+
+When `mu_K` is not supplied the elicitation itself defaults to
+$\max(3, \lceil \log N \rceil)$ clusters — a rule of thumb, not a result.
+
+### The item prior is centred and its variance is fixed {#sec-appf-itemprior}
+
+`DPMirt`'s implemented item prior is `beta.tmp[i] ~ N(0, sigma2_beta)` with
+`beta = beta.tmp - mean(beta.tmp)` and `sigma2_beta` **fixed at 3**. There is no $\mu_\beta$
+parameter and no hyperprior on the item variance.
+
+This matters twice over. The centring is the identification constraint of @sec-ch04 as
+actually implemented — @prp-centered-item works out what a centred item prior is as a
+distribution — and the fixed variance means the item side carries no learned dispersion. It
+also matters because the submitted manuscript's Appendix D describes a *different* prior, with
+a flat $\mu_\beta$ and an inverse-$\chi^2$ hyperprior. That is correction `C-013`, and the
+ruling was that the appendix follows the implemented model, since every number the paper
+reports came from it.
+
+## External software {#sec-appf-external}
+
+**NIMBLE** is the sampler `DPMirt` compiles to, and its DP machinery is what makes the
+semiparametric prior tractable. Documentation: <https://r-nimble.org>.
+
+**TAM** is used by `IRTsimrel` for the validation path — `TAM::tam.mml()` and
+`TAM::tam.mml.2pl()` fit the reference model and `TAM::tam.wle()` produces the weighted
+likelihood estimates that @sec-ch06 discusses. It is the independent check that a simulated
+design behaves as intended, not part of the DPM fitting path.
+
+**Stan** and **brms** are not used by any package in this project. They are named here only
+because a reader coming from the Bayesian IRT literature will expect them, and because
+@sec-ch10 mentions HMC as the alternative to NIMBLE's samplers for this model class.
+
+## Where the worked example lives {#sec-appf-example}
+
+Decision `OQ-1` assigned the Associate Editor's code example to the case-study
+repository, so this appendix does not carry one. In the first edition of this book
+this section reported an empty scaffold; that report is superseded twice over.
+**The case-study volume is complete and now stands in its second edition**
+[@lee_casestudy_2026]: nineteen chapters and four appendices over thirteen Item
+Response Warehouse cases, each fitted under both item models and all three
+latent-trait priors (78 production fits, replicated in full at a second seed), with
+the three posterior summaries of @sec-ch17 read from every fit, materiality
+thresholds declared before fitting, a frozen claim register with its corrections on
+the record, and a verdict layer joining each case-cell to its matched simulation
+cell. The second edition rewrote the reader-facing volume; it added no fits and
+recomputed no frozen number, and its analysis layer — the P-series tables, the
+manifest, the run records — remains in the first edition's repository at
+`DPMirt-case-study/`, which is what this book's evidence pipeline reads. The five
+acceptance criteria this appendix used to list are met in the volume's own
+appendices, and `OQ-6` is closed; the claim-map rows AE-03 and R2-05 move to
+`addressed` on that basis, which decision `(a7)` records. What this book takes from
+the volume — and the vocabulary rules under which it takes it — is @sec-ch28's
+business.
+
+A reader who wants to run the machinery today has a better starting point than this appendix:
+`DPMirt`'s own vignettes, at <https://joonho112.github.io/DPMirt/>.
+
+## What this appendix does not do {#sec-appf-limits}
+
+It does not benchmark, compare run times, or recommend one sampler over another. It does not
+report what any of this software produced when run — that is the companion simulation study's
+authority, and @sec-ch21 and @sec-ch23 draw the same line. And it does not certify that the
+package versions named above are the ones used for the manuscript's results; the reproduction
+record for that belongs with the simulation study's own build report.

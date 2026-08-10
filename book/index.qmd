@@ -1,0 +1,152 @@
+# About This Book {#sec-index-about .unnumbered}
+
+```{r}
+#| label: setup-index
+#| include: false
+front_tbl <- function(id) readRDS(file.path("..", "tables", paste0(id, ".rds")))
+front_build <- front_tbl("T-build-report")
+front_tiers <- front_tbl("T-bib-tiers")
+front_verifiers <- front_tbl("T-verifiers")
+front_assets <- read.csv(file.path("..", "refs", "asset-index.csv"),
+                         stringsAsFactors = FALSE)
+front_value <- function(q) front_build$Value[front_build$Quantity == q]
+front_tier <- function(q) front_tiers$Entries[front_tiers$Tier == q]
+front_n_pdf <- sum(front_assets$pdf %in% TRUE)
+front_n_ocr <- sum(front_assets$ocr %in% TRUE)
+```
+
+This is the theory-and-literature companion to *Targeting Toward Inferential Goals in
+Bayesian Item Response Models for Estimating Person-Specific Latent Traits*. The
+manuscript was submitted under a Rasch-only title; its revision extends selected
+questions to the two-parameter model, and the title here follows that broader umbrella.
+The umbrella is **Rasch-centred**, not a claim of parallel depth across the two models:
+Parts I--VII form the theory spine, and Part VIII is a focused 2PL extension
+of the mechanisms for which free discriminations materially change the argument. The
+book sets out the mathematics that paper rests on, traces each result to the work that
+established it, and says plainly where the paper's own statements need correcting.
+
+Four documents divide the work, and it helps to know which is authority for what.
+
+| | Question it answers | Authority for |
+|---|---|---|
+| **This book** | What is the mathematics, and who established it? | Definitions, classical results, identification, the literature genealogy, decision-theoretic justifications |
+| The simulation volume [@lee_simulation_2026] | What did we run, and what did it show? | The design grid, realized values, Monte Carlo error, gate verdicts, results |
+| The case-study volume [@lee_casestudy_2026] | What changes on real tests? | Thirteen Item Response Warehouse cases, both item models, consequence and transfer — with no correctness claims of its own |
+| The manuscript | What is the contribution? | The paper's claims, and nothing else |
+
+Around these sit the software the models are fitted with — `DPMirt`
+[@lee_dpmirt_2026], `DPprior` [@lee_dpprior_2026], and `IRTsimrel`
+[@lee_irtsimrel_2026] — the two methods papers the packages implement
+[@lee_reliability-targeted_2026; @lee_design-conditional_2026], and two corpus
+studies of the Item Response Warehouse that measure what real tests look like: one
+of reliability across 889 datasets [@lee_reliability-distribution_2026] and one of
+latent-distribution shape across 504 [@lee_theta-nonnormality_2026]. Where a chapter
+leans on any of them, it says so in its provenance section.
+
+The book has three evidence zones, not a blanket simulation-independence rule.
+
+| Zone | Role | Boundary rule |
+|---|---|---|
+| **Parts I--VII** | Rasch-centred theory spine | Definitions, mechanisms, sourced results, and derivations lead. A realized companion result may enter only as a registered, explicitly attributed inset; it does not become a premise of the theory. |
+| **Part VIII** | Focused 2PL extension | Develops the information, reliability, and identification changes created by free discriminations. Its realized simulation and case-study passages are explicitly labelled empirical insets and remain bounded by their source designs. |
+| **Part IX** | Evidence synthesis | Reads the companion volumes' realized results back into the theory. Frozen-source assertions and confirmatory/exploratory labels govern every imported result. |
+
+This zoning admits the empirical crossings that are already useful in earlier chapters
+without pretending that Parts I--VIII would stand unchanged if the studies had never
+been run. The cross-book register records each crossing and the claim boundary it must
+keep.
+
+## Who this is for, and three ways in
+
+**A practitioner** deciding how to score a short test: @sec-ch01 for the problem,
+@sec-ch08 for what reliability means and which coefficient answers which question,
+@sec-ch17 for why one set of scores cannot serve every purpose, @sec-ch20 for ranking
+and cut-scores, @sec-ch25 for what changes when items are allowed to differ in
+discrimination, and @sec-ch27 and @sec-ch28 for what the simulation and the real-test
+corpus actually found.
+
+**A methodologist** assessing the work: Parts II through VI in order, followed by the
+focused 2PL sensitivity route in Part VIII (@sec-ch24 through @sec-ch26). The claim-level
+index in @sec-appendix-a distinguishes `proved-here`, `partial-derivation`, and
+`source-only`; nothing is asserted without an argument or a source locator.
+
+**A reviewer checking a specific point**: @sec-appendix-c lists every place the
+submitted manuscript is wrong, imprecise, or merely unclear, with the section that
+fixes it.
+
+## How to read a numbered result
+
+Every definition, theorem, proposition, lemma, and corollary carries a provenance tag:
+
+> **Theorem 8.3** (Jensen gap) · *restated from* Lee (2026, Prop. 2)
+
+*Restated* — established in the cited source, reproduced here, possibly in different
+notation. *Adapted* — established there for a different setting, modified here, with the
+modification stated. *Derived here; no originality claim* — proved in this text without
+claiming that the result is new to the literature.
+
+An explicit novelty or priority claim would require a separate prior-art search. None of
+the current `derived-here` tags makes such a claim.
+
+Restated and adapted numbered results carry a page-, section-, equation-, or
+theorem-level locator, and V1 requires a locator-read source for every one of them.
+Independent literature is `primary-read`; this programme's own directly inspected books,
+manuscripts, packages, code, and tables are `programme-artifact-read`. The latter tier
+establishes fidelity to the named artifact, not independent corroboration.
+
+**Narrative citations are held to a weaker standard, and the tier says which is which.**
+A source tagged `primary-held` was available but has not been read at a locator for this
+book. Such a source may be named in the text — to point at a literature or credit a
+lineage — but it carries no numbered result and no equation-level attribution.
+**The gap is disclosed, not hidden**, and @sec-appendix-d separately annotates
+`r front_tier("primary-read")` independent reads and
+`r front_tier("programme-artifact-read")` programme-artifact reads.
+
+## What the sources are, and what they are not
+
+The recursive source inventory spans nine reference libraries: `r front_n_pdf` PDFs and
+`r front_n_ocr` Markdown sidecars representing `r nrow(front_assets)` indexed assets. The
+bibliography contains `r front_value("Bibliography entries")` entries:
+`r front_tier("primary-read")` `primary-read`,
+`r front_tier("programme-artifact-read")` `programme-artifact-read`, `r front_tier("primary-held")`
+`primary-held`, and `r front_tier("secondary")` `secondary`.
+
+Parts II through IV were seeded by six appendix drafts written during the manuscript's
+first revision. Those drafts were machine-generated by four different models and never
+reconciled with one another. **They carry no citation authority here.** Every statement
+taken from them has been re-derived or re-verified against the source named in the
+chapter's provenance section, and the audit that established which of their claims were
+unsourced — 64 of 106 numbered results under the corrected paired-block audit — is
+recorded in the build log. Saying this is
+not modesty; it is the same standard the book applies to everything else it cites.
+
+## Reproducing this book
+
+```bash
+Rscript code/R/14-build-all.R
+```
+
+This command harvests and validates the bibliography, regenerates tables and figures,
+renders the book, and runs `r nrow(front_verifiers)` verifiers (V1–V9) together with
+`r front_value("Claim-level checkers (beyond V1--V9)")` claim-level checkers, including
+`r front_value("Numerical checks (V8)")` numerical checks in V8. Chapters read only frozen
+tables under `tables/` and figures under `book/figures/`. They compute nothing.
+
+**What that machinery does and does not guarantee is worth stating exactly, because
+an earlier edition of this page overstated it.** Every table and figure is generated by
+a script in `code/R/` and regenerated on every build, so a displayed artifact cannot
+drift from the code that made it. Prose, however, is written by hand. Where a sentence
+in Part IX quotes a companion volume, the binding is not the rendering pipeline but
+`manifest/evidence-claim-register.csv`, which records
+`r front_value("Audited evidence claims")` imported claims with their chapter, line,
+source edition, snapshot locator and field.
+`r front_value("  of which independently recomputed")` of those are recomputed from the
+frozen store at build time and fail the build on divergence; the rest are registered
+for audit without being executed. @sec-appg-claim-checks gives the full contract. The
+discipline exists because a hand-copied number goes stale silently, and this project has
+been bitten by exactly that — including once in the edition before this one.
+
+The registers that make the provenance checkable are under `manifest/`: every numbered
+result, every notation symbol, every declared restatement from the companion volume,
+every reviewer comment and the section that answers it, and the running list of
+corrections to the manuscript.

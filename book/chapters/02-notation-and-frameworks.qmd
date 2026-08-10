@@ -1,0 +1,257 @@
+# Notation, Terminology, and Two Frameworks {#sec-ch02}
+
+```{r}
+#| label: setup-ch02
+#| include: false
+tbl <- function(id) readRDS(file.path("..", "..", "tables", paste0(id, ".rds")))
+```
+
+A reader who opens this book at chapter 8 and finds $\bar w$ needs to know what it
+means, and a reader who moves between this book and the manuscript it stands behind
+needs to know where the two differ. This chapter fixes both. It also settles a
+vocabulary dispute that turns out not to be about vocabulary: whether the assumption
+$\theta_p \sim G$ is a *prior* or a *population distribution*, and what follows from
+the answer.
+
+## The data {#sec-ch02-data}
+
+A test of $I$ items is administered to $P$ persons. Write $p = 1,\dots,P$ for persons
+and $i = 1,\dots,I$ for items. The response of person $p$ to item $i$ is a random
+variable $U_{pi} \in \{0,1\}$, with $1$ denoting a correct response or an endorsement;
+its realization is $u_{pi}$. Capitals denote random variables and lowercase their
+realizations, and the distinction is held throughout: it is the difference between
+$\operatorname{Var}(U_{pi})$, a property of the model, and the observed $u_{pi}$, a
+number.
+
+Two collections of responses matter, and they are not interchangeable. The
+**within-person response vector**
+
+$$
+\mathbf{u}_p = (u_{p1}, \dots, u_{pI})^\top \in \{0,1\}^I
+$$
+
+collects one person's responses across items, and it is the object every ability
+estimator in this book takes as input. The **item response vector**
+$\mathbf{u}^i = (u_{1i},\dots,u_{Pi})^\top$ collects one item's responses across
+persons, and it is what item calibration consumes. Their margins are the **person total
+score** $r_p = \sum_i u_{pi}$ and the **item total score** $c_i = \sum_p u_{pi}$. Whether
+$r_p$ carries all the information about $\theta_p$ that the data contain is not a
+notational question but a modelling one, and @sec-ch03 shows that the answer separates
+the Rasch model from the 2PL.
+
+::: {.callout-note appearance="simple"}
+::: {.ms}
+**What the submitted manuscript says.** The manuscript writes $\mathbf{u}_p$ in its
+central equations without ever defining it, which Reviewer 2 flagged. It also writes
+responses as $y_{ip}$, with the item index first. This book uses $u_{pi}$, person index
+first, matching the person-major layout of a response matrix and the convention of the
+appendix drafts that seed @sec-ch03 through @sec-ch11.
+:::
+:::
+
+## Notation {#sec-ch02-notation}
+
+@tbl-notation is the master table. It is generated from
+`manifest/notation-register.csv`, which the build lints every chapter against: a symbol
+that appears in a numbered equation but not in the register fails check V3.
+
+```{r}
+#| label: tbl-notation
+#| tbl-cap: "Master notation. Source: tables/T-notation.rds."
+#| echo: false
+knitr::kable(tbl("T-notation"))
+```
+
+Four choices in that table depart from the manuscript, and each is deliberate.
+
+**$P$ for persons, $N$ for the design.** The manuscript uses $N$ for the number of
+examinees. This book reserves $N$ for the simulation-design sample size that the
+companion volume varies, and writes $P$ for the index bound, so that a statement made
+across the two books is unambiguous about which quantity it means. In a realized design
+cell with no exclusions or missing persons, $P=N$; $N$ names the planned design factor
+and $P$ names the number of response vectors actually analyzed.
+
+**One symbol for information.** Information is $\mathcal{J}(\theta)$ everywhere. The
+manuscript's text alternates between $\mathcal{J}$ and $\mathcal{I}$ within a single
+paragraph, and the appendix drafts use $\mathcal{I}$ exclusively; the simulation-study
+book uses $\mathcal{J}$. Cross-book consistency decides it.
+
+**$\boldsymbol\delta = (\mu_\theta, \sigma^2_\theta)^\top$, with an equals sign.** The
+manuscript writes $\{\mu_\theta,\sigma^2_\theta\} \in \delta$, which says the
+hyperparameters are *elements of* $\boldsymbol\delta$ rather than *being*
+$\boldsymbol\delta$. Reviewer 2 was right to correct it.
+
+**Posterior variance is $v_p$, not a person-indexed lambda.** Shen and Louis, whose
+estimators @sec-ch18 and @sec-ch19 develop, use the latter convention for the posterior
+variance of $\theta_p$. This book carries the 2PL alongside the Rasch model, so
+$\lambda_i$ is the item discrimination on most of the pages where that source symbol
+would appear. Rather than
+subscript-disambiguate a Greek letter across two hundred pages, the posterior variance
+becomes $v_p$. The departure is restated at its first use in @sec-ch11 and @sec-ch18 and
+recorded in the crosswalk of @sec-appendix-b.
+
+**$\bar w$ is a reliability coefficient, not the mean of $w_p$.** The overbar is
+historical notation inherited from the manuscript and Wright and Masters, not an
+averaging operator. This book uses $P^{-1}\sum_p w_p$ when it means the average
+shrinkage weight. The two quantities coincide only under constant conditional error;
+@sec-ch08 states the approximation and its Jensen direction.
+
+## Two models, and what separates them {#sec-ch02-models}
+
+The book carries the Rasch model and the two-parameter logistic model together. Writing
+$\pi_{pi} = \Pr(U_{pi} = 1 \mid \theta_p, \beta_i, \lambda_i)$, the 2PL is
+
+$$
+\operatorname{logit}(\pi_{pi}) = \lambda_i(\theta_p - \beta_i),
+$$
+
+and the Rasch model is the special case $\lambda_i \equiv 1$. Almost everything in this
+book holds for both. Three things do not, and they are worth naming here because they
+organize several later chapters:
+
+1. **Sufficiency.** Under the Rasch model $r_p$ is sufficient for $\theta_p$. Under the
+   2PL weighted score $\sum_i \lambda_i u_{pi}$ is sufficient only conditional on fixed,
+   known discriminations. With unknown $\boldsymbol\lambda$ it is parameter-indexed and
+   is not an observed statistic available for Rasch-style conditioning (@sec-ch03).
+2. **Conditional maximum likelihood.** Ordinary Rasch CML conditions on person totals to
+   eliminate the person parameters. The 2PL has no analogous parameter-free total-score
+   reduction, so this exact Rasch construction does not carry over (@sec-ch05). This
+   matters because Rasch CML assumes nothing about $G$ and therefore provides a reference
+   point for measuring the effect of a distributional assumption.
+3. **Scale.** The Rasch model has a location indeterminacy and no scale indeterminacy;
+   the 2PL has both. The 2PL therefore needs two identifying constraints where the Rasch
+   model needs one, and the second constraint pins the scale of $G$ itself (@sec-ch04,
+   @sec-ch16).
+
+These three properties make the Rasch model useful for isolating the effect of assuming
+a shape for $G$. They are substantive restrictions, not an appeal to tradition.
+
+## A distributional assumption is not the same thing as a prior {#sec-ch02-frameworks}
+
+The manuscript's exposition moves from maximum likelihood to Bayesian estimation without
+saying why, and in doing so leaves the impression that assuming $\theta_p \sim
+N(\mu_\theta,\sigma^2_\theta)$ is something Bayesians do and frequentists do not.
+Reviewer 2 objected, and the objection is correct.
+
+Joint maximum likelihood treats the $\theta_p$ as fixed incidental parameters, and
+Rasch CML conditions them away; neither method needs a population distribution $G$.
+Marginal maximum likelihood and hierarchical Bayes do require one. In MML the person
+parameters are integrated out against $G$,
+
+$$
+L_M(\boldsymbol\beta, G \mid \mathbf{u}) = \prod_{p=1}^{P} \int
+  L(\theta, \boldsymbol\beta \mid \mathbf{u}_p)\, dG(\theta),
+$$ {#eq-mml}
+
+and without that assumption this marginal likelihood is undefined. Within MML the
+assumption is not optional and it is not Bayesian; it is what makes that formulation
+work. What *is* distinctively Bayesian in the comparison below is the second assumption
+— a prior on the item parameters. Under this book's item-centering convention it is
+implemented through iid Gaussian auxiliaries that are mean-centered to form
+$\boldsymbol\beta$; the resulting constrained difficulties are dependent. MML does not
+make this prior assumption, treating $\boldsymbol\beta$ as fixed structural parameters.
+
+@tbl-frameworks sets the two side by side.
+
+```{r}
+#| label: tbl-frameworks
+#| tbl-cap: "The role of $G$ in the two frameworks. Source: tables/T-frameworks.rds."
+#| echo: false
+knitr::kable(tbl("T-frameworks"))
+```
+
+Read down the columns and the practical difference is smaller than the rhetorical one.
+The functional form of $G$ is identical; the marginal likelihood @eq-mml is the same
+integral the Bayesian model computes. What differs is what happens next: MML maximizes
+over $(\boldsymbol\beta, \mu_\theta, \sigma^2_\theta)$ and reports point estimates,
+while the Bayesian model assigns hyperpriors and integrates. MML is the limiting case of
+the hierarchical model as the hyperpriors flatten and the hyperparameter posteriors
+concentrate.
+
+The consequence for this book is that **"assuming normality" is a modelling choice, not
+a Bayesian sin** — and, more usefully, that the ways of relaxing it run in parallel. The
+frequentist route replaces the parametric $G$ with a nonparametric maximum-likelihood
+estimate of the mixing distribution; the Bayesian route replaces it with a prior over
+distributions. @sec-ch14 traces the first and @sec-ch15 develops the second, and reading
+them as two answers to one question is the correct way to read them.
+
+Shrinkage follows from the hierarchy, not from the framework. Under either, the estimate
+of $\theta_p$ borrows from the population: with a Gaussian $G$ the posterior mean is a
+weighted average of the within-person estimate and $\mu_\theta$, with weight
+
+$$
+w_p = \frac{\sigma^2_\theta}{\sigma^2_\theta + \operatorname{se}(\hat\theta_p)^2}.
+$$ {#eq-shrinkage-weight}
+
+Frequentist empirical Bayes computes the same weight from MML point estimates.
+@sec-ch11 derives @eq-shrinkage-weight and @sec-ch12 places it in the tradition it comes
+from; what matters here is only that the hierarchical structure, and not the choice of
+framework, is what produces it.
+
+## Levels, not stages {#sec-ch02-levels}
+
+The manuscript describes its model in terms of a "first stage" and a "second stage."
+Reviewer 2 called the usage non-standard, and it is worse than non-standard: it is
+ambiguous, because the same word is the ordinary name for the steps of a two-step
+estimation procedure — calibrate the items, then score the persons. A reader cannot tell
+whether "second stage" names a layer of the model or a step of the fitting.
+
+This book writes **levels** and reserves the word for model architecture.
+
+```{r}
+#| label: tbl-levels
+#| tbl-cap: "Level vocabulary. Source: tables/T-levels.rds."
+#| echo: false
+knitr::kable(tbl("T-levels"))
+```
+
+Under this vocabulary, MML followed by ability estimation is two *stages of estimation*
+applied to a model with two *levels*, and saying so is not a quibble — @sec-ch06 shows
+that the properties of the resulting ability estimate depend on exactly this
+distinction, because the second stage treats a quantity estimated in the first as
+though it were known.
+
+## Conventions {#sec-ch02-conventions}
+
+**Numbered results.** Definitions, theorems, propositions, lemmas, and corollaries are
+numbered by chapter and carry a provenance tag in the header:
+
+> **Theorem 8.3** (Jensen gap) · *restated from* Lee (2026, Prop. 2)
+
+*Restated* means the result is established in the cited source and reproduced here,
+possibly in different notation. *Adapted* means it is established there for a different
+setting and modified here, and the modification is stated. *This book's derivation*
+means a search for prior art was run and logged and found none — a claim about the
+literature, which fails the same way a citation does, and which the reader should
+therefore treat as the least secure of the three.
+
+Every numbered result carries a page- or theorem-level locator to its source. A result
+cited without one has not been checked, and the build refuses to release with any such
+citation outstanding.
+
+**Proof coverage** is claim-level. Short arguments run inline; longer book-supplied
+arguments move to @sec-appendix-a; published theorems not reproduced here remain
+`source-only` at a precise locator. The Appendix A index distinguishes these from partial
+derivations, so a locator is never described as though it were a stand-alone proof.
+
+**Cross-references** to the companion volume are spelled out — *DPMirt Simulation
+Study*, ch. 04 § 3 — rather than given as a bare pointer, so that a printed copy of
+this book remains usable.
+
+## Sources and provenance {#sec-ch02-sources}
+
+The data-structure notation and the level vocabulary of @sec-ch02-levels follow the
+Appendix A draft prepared for the APM revision (§§ A.2, A.4.3, A.5), which in turn
+follows @fox_bayesian_2010 and @debelak_introduction_2022 for the hierarchical framing
+and @gelman_bayesian_2013 for the level terminology. That draft carries no citation
+authority in this book — it is machine-generated and unreconciled — and every statement
+taken from it has been re-derived or checked against the source named here.
+
+The parallel between the marginal likelihood and the hierarchical model in
+@sec-ch02-frameworks restates @bock_marginal_1981 for the frequentist side and
+@fox_bayesian_2010 for the Bayesian, and follows the Appendix D draft (§ D.5) in
+setting them against each other. The observation that MML is the flat-hyperprior limit
+of the hierarchical model is standard and is stated here without novelty claim.
+
+The notation departures are this book's own decisions, recorded in
+`manifest/notation-register.csv` with the collision each resolves.

@@ -1,0 +1,8 @@
+"Model family","Sufficient statistic for the person","Distribution-free item calibration","What must be constrained","Shrinkage and summary arguments","Do CB and GR apply?","What is identified about the latent distribution"
+"Rasch (1PL)","Yes --- the number correct","CML","Location","Hold","Yes","$I+1$ functionals of $G$ from $I$ items"
+"2PL","No --- the weighted score depends on the unknown discriminations","None","Location and scale","Hold","Yes","Open --- the semiparametric 2PL is unsolved"
+"Partial credit (PCM)","**Yes** --- the total count of completed steps","CML","Location","Hold","Yes","Open in this book"
+"Generalized partial credit (GPCM)","No --- the slope $a_j$ enters the exponent","None","Location and scale","Hold","Yes","Open in this book"
+"Graded response (GRM)","**No** --- the form prevents separation even with no discrimination parameter","None","Location and scale","Hold","Yes","Open in this book"
+"MIRT","A vector score, only under equal discriminations within dimension","None","Location, scale, and rotation","Coordinatewise precedents exist; a joint transformation-aware action remains open","Coordinatewise **yes**; a canonical joint action is open","Open; recovery of item--trait structure generally degrades under non-normality, with method-specific exceptions"
+"Restricted latent class (CDM/DCM)","Not applicable --- the latent variable is a discrete profile","Not applicable","The design matrix, not the scale","A bounded discrete analogue exists, but the estimands and actions differ","No direct unordered-profile action supplied; an analogue is open","Known items: grouped equivalence-class masses; unknown items: only under C1/C2 or adjusted-$\Gamma$ conditions"

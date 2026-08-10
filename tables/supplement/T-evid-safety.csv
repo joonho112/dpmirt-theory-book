@@ -1,0 +1,8 @@
+"Condition","MSEL ratio","95% CI","Label"
+"2PL, $N = 500$, $\bar\rho = 0.5$, bimodal","1.138","[1.115, 1.162]","block"
+"2PL, $N = 200$, $\bar\rho = 0.5$, bimodal","1.122","[1.095, 1.149]","block"
+"Rasch, $N = 200$, $\bar\rho = 0.5$, bimodal","1.094","[1.048, 1.136]","caution"
+"2PL, $N = 200$, $\bar\rho = 0.6$, bimodal","1.092","[1.070, 1.116]","caution"
+"Rasch, $N = 500$, $\bar\rho = 0.5$, bimodal","1.076","[1.059, 1.093]","caution"
+"2PL, $N = 500$, $\bar\rho = 0.6$, bimodal","1.072","[1.059, 1.084]","caution"
+"Rasch, $N = 200$, $\bar\rho = 0.6$, bimodal","1.052","[1.030, 1.077]","caution"

@@ -1,0 +1,170 @@
+# Annotated Bibliography {#sec-appendix-d}
+
+```{r}
+#| label: setup-appd
+#| include: false
+tbl <- function(id) readRDS(file.path("..", "..", "tables", paste0(id, ".rds")))
+ab <- tbl("T-annotated-bib")
+tr <- tbl("T-bib-tiers")
+n_independent <- tr$Entries[tr$Tier == "primary-read"]
+n_programme <- tr$Entries[tr$Tier == "programme-artifact-read"]
+n_read <- n_independent + n_programme
+n_all  <- sum(tr$Entries)
+unbound <- ab[ab$Evidence == "none", , drop = FALSE]
+n_unbound <- nrow(unbound)
+unbound_names <- if (n_unbound) paste(unbound$Source, collapse = ", ") else "none"
+cv <- read.csv(file.path("..", "..", "manifest", "citation-verification.csv"),
+               stringsAsFactors = FALSE, check.names = FALSE)
+n_cv <- nrow(cv)
+n_loc <- sum(cv$level == "locator")
+n_corr <- sum(grepl("CORRECTION", cv$verdict))
+```
+
+An annotated bibliography is a document made **entirely** of claims about sources. That is
+the exact class of claim four external review cycles found errors in — a theorem attributed
+to the wrong number, an absence certified in a paper whose discussion states the opposite, a
+condition dropped from a proposition. So this appendix is scoped by a number rather than by a
+plan.
+
+**`r n_read` of `r n_all` bibliography entries were opened at a locator and are annotated:**
+`r n_independent` `primary-read` works from the independent literature and `r n_programme`
+`programme-artifact-read` works produced by this research programme. The second count is
+deliberately separate. Reading this programme's own book, manuscript, package, code, or frozen
+table can establish what that artifact says or does; it cannot supply independent corroboration.
+The rest are held, or cited as secondary treatments, and the register says which.
+
+Nothing below is written from memory. Each annotation is assembled by
+`code/R/17-annotated-bibliography.R` from what the project has **already verified** about
+that source — a semantic receipt, a numbered result sourced to it, a correction it grounds,
+a citation verification recorded at a locator, a bounded narrative receipt, or a programme
+artifact receipt — and the `Evidence` column names which. The `Tier` and `Authority` columns
+prevent a programme artifact from being displayed as independent literature.
+
+Citation verification is the narrowest evidence route for an external source.
+`manifest/citation-verification.csv` records what happened when a citation was checked
+against the source itself: which sites were involved, which file was opened, what was found
+there, and on what date. Only rows marked `level = locator` **and** confirmed at that
+locator are admitted as evidence here. Rows marked `ATTRIBUTION SOUND` compared a title and
+its distinctive terms against the citing claim without opening a passage; they are refused,
+and the sources they cover stay `primary-held`, so they never reach this appendix at all.
+
+That register also carries the checks that did **not** come out clean. Of `r n_cv` checks,
+`r n_loc` were made at a locator and **`r n_corr` of those forced a correction to this
+book** — a rate worth stating, because it is the argument for doing the checks at all. They
+were not all the same kind of error:
+
+- **A locator that points at the wrong page.** van der Ark (2025) was cited in @sec-ch08 at
+  two page numbers and both were one page late — the Lord and Novick lower-bound result is
+  on p. 1679, not p. 1680, and the $\lambda_3 = \alpha$ identity is in § 3.7 on p. 1686, not
+  p. 1687, where an unrelated simulation section begins. The content was exactly as
+  described; only the locators were wrong.
+- **A number that was not the source's number.** @sec-ch01 gave a Grade 9 battery as
+  reliable at ".83 to .92 overall"; Abedi's Table 9 runs .80 to .92, a bound that excluded
+  four of seven subscales. The corrected figures make the point better, since the table also
+  gives .53 to .83 for English language learners.
+- **A claim stronger than the source's.** @sec-ch08 put Hussey et al.'s excess of $\alpha$
+  values "just above" $.70$; they locate it *at* $.70$, which is also their title.
+- **A citation the source does not support at all.** @sec-ch08 grouped Cronbach and
+  Shavelson (2004) with Sijtsma as making the point about Nunnally's threshold. A full-text
+  scan finds no occurrence of *Nunnally*, *.70*, or *threshold* anywhere in it.
+- **An attribution to the wrong work by the right author.** @sec-ch12 credited the held
+  Robbins reprint with the compound-decision framing; that phrase appears in it only in its
+  reference list, pointing at a different paper.
+- **A disclaimer that was itself wrong.** @sec-ch08 declined to give a page for
+  @eq-alpha because "the held copy is unpaginated OCR". The held copy is a clean paginated
+  scan and the equation is Cronbach's (2) on p. 299.
+
+Only the first of those six is the error a careless reader would predict. The rest are
+failures of *what was claimed*, not of where it was looked for, and none would have been
+caught by any check short of opening the source.
+
+**One thing is deliberately *not* an evidence type.** `manifest/citation-context-match.csv`
+records, for 66 narrative citations, which page of a PDF shares the most words with the
+citing sentence. Review 021 used that table to promote 60 sources to `primary-read`; the
+promotion was reverted, because keyword overlap is not reading — several matches landed on
+OCR noise, and one covered a source this book cites at equation level. The table survives
+as a navigation aid for whoever reads those sources next, it declares `is_reading = NO` on
+every row, and `V1` refuses to let it claim otherwise.
+
+## What the tiers mean {#sec-appd-tiers}
+
+```{r}
+#| label: tbl-bib-tiers
+#| tbl-cap: "The bibliography by verification tier. Source: tables/T-bib-tiers.rds."
+#| echo: false
+knitr::kable(tr)
+```
+
+`primary-held` is not a criticism of a source; it is a statement about this book. It means the
+work is in one of the nine reference libraries and was available, but no claim here rests on
+having read it at a locator. Where such a work is named in the text, the convention
+(@sec-ch21, @sec-ch22) is to name it without an `@` citation and say that what was read is
+another author's use of it.
+
+`programme-artifact-read` is a different statement: the artifact was opened directly, but it
+belongs to the same research programme. Its receipt must state both what was checked and the
+authority boundary. It may establish cross-book or code-to-prose fidelity; it may not be counted
+as independent confirmation.
+
+The `r n_read` annotated below are the sources and programme artifacts this book reads directly.
+
+## The annotations {#sec-appd-entries}
+
+Ordered by the literature group each belongs to, which is assigned by the first chapter that
+cites it rather than by judgement. `What was verified` is the receipt's own text where one
+exists, so it records what was checked, not what the source is generally about.
+
+```{r}
+#| label: appd-entries
+#| echo: false
+#| results: asis
+for (g in unique(ab$Group)) {
+  cat(sprintf("\n### %s {#sec-appd-%s}\n\n", g,
+              tolower(gsub("[^a-z]+", "-", tolower(g)))))
+  sub <- ab[ab$Group == g, , drop = FALSE]
+  for (i in seq_len(nrow(sub))) {
+    r <- sub[i, ]
+    cat(sprintf("**%s.** *%s*\n\n", r$Source, r$Title))
+    cat(sprintf("> %s\n\n", gsub("\n", " ", r$`What was verified`)))
+    cat(sprintf("*%s · %s · cited in ch. %s · read at %s · %s · read on %s*\n\n",
+                r$Tier, r$Authority, r$`Cited in`, r$At, r$Evidence, r$`Read on`))
+  }
+}
+```
+
+## What this appendix exposes {#sec-appd-gaps}
+
+Generating rather than writing it surfaced two things worth stating plainly.
+
+**`r n_unbound` locator-read annotations are unbound (`r unbound_names`).** This is an
+executable release condition, not an aspiration: the generator stops if a locator-read entry
+lacks a receipt. The inherited six were resolved without inventing evidence. Lo (1984) now has
+a bounded Chapter 15 narrative receipt. Five programme-owned works that already had direct
+artifact reads now carry programme receipts, and all eight programme-owned reads are classified
+under the separate `programme-artifact-read` tier.
+
+Conoyer's correction binding remains explicit as well: corrections join through the
+bibliography's `verified_claims`, rather than by searching a prose locator for a BibTeX key.
+
+**The annotations are uneven in length, and the unevenness is informative.** Sources with long
+entries are those whose receipts record several distinct verified claims — Lee et al. (2025),
+Masters (1982), Gu and Xu (2020). Sources with a one-line entry supply a single result. The
+length of an annotation therefore measures how much of this book rests on that source, which
+is more useful than a uniform paragraph would be.
+
+## What is deliberately not here {#sec-appd-limits}
+
+**No evaluations.** This appendix does not say whether a source is good, influential, or
+superseded. It says what was read in it and where. A judgement about a literature would need a
+survey this book has not conducted, and @sec-ch23 records where that absence matters.
+
+**No entries for the `r tr$Entries[tr$Tier == "primary-held"]` held-but-unread works.** Listing
+them by title would fill pages and make none of them checkable. They are in
+`refs/references.bib` with their tier, and `code/R/03-citation-check.R` refuses any numbered
+result that cites one as though it had been read. The same checker validates every programme
+receipt, narrative receipt, date, bibliography key, and `verified_claims` binding.
+
+**No reading plan.** Which of the held works should be read next is a question about the next
+piece of research, not about this book. The live, owner-assigned acquisition debt is shown
+separately in @sec-appendix-e; an entry there is a request to acquire or disambiguate a work,
+not evidence that it has been read.

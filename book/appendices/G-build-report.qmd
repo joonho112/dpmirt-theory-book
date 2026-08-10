@@ -1,0 +1,209 @@
+# Build and Verification Report {#sec-appendix-g}
+
+```{r}
+#| label: setup-appg
+#| include: false
+tbl <- function(id) readRDS(file.path("..", "..", "tables", paste0(id, ".rds")))
+bld <- tbl("T-build-report")
+ver <- tbl("T-verifiers")
+bootstrap <- identical(Sys.getenv("DPMIRT_APPENDIX_G_BOOTSTRAP"), "1")
+val <- function(q) {
+  z <- bld$Value[bld$Quantity == q]
+  if (!length(z) && bootstrap) "pending" else z
+}
+if (bootstrap && !"Current output" %in% names(ver) &&
+    "Output file" %in% names(ver))
+  names(ver)[names(ver) == "Output file"] <- "Current output"
+if (bootstrap && !"Run token" %in% names(ver)) ver$`Run token` <- "bootstrap-pending"
+if (!"Current output" %in% names(ver)) stop("T-verifiers lacks current output names")
+if (!"Run token" %in% names(ver)) stop("T-verifiers lacks the current-run token")
+run_tokens <- unique(ver$`Run token`)
+if (length(run_tokens) != 1L || !nzchar(run_tokens))
+  stop("T-verifiers does not bind all V1--V9 rows to one run token")
+run_token <- run_tokens[[1]]
+ver_view <- ver[, c("Verifier", "Current output", "Issues", "Advisories"), drop = FALSE]
+## The claim-level table is written by the same generator as the two above; on the
+## bootstrap pass it does not exist yet, and the report pass is what readers see.
+claim_checks <- tryCatch(tbl("T-claim-checks"), error = function(e) NULL)
+if (is.null(claim_checks)) {
+  if (!bootstrap) stop("T-claim-checks is required for the report pass")
+  claim_checks <- data.frame(Checker = "pending", `What it audits` = "pending",
+                             `Current output` = "pending", Checks = NA_integer_,
+                             `Negative fixtures` = NA_integer_, Issues = NA_integer_,
+                             check.names = FALSE)
+}
+```
+
+## The current release receipt {#sec-appg-summary}
+
+**This report is current-run evidence, not an inventory of whatever happened to be
+left in `verification/`.** The release driver bound
+`r val("Current-run verifier output receipts")` required V1--V9 outputs to build token
+`r run_token`; every receipt matched that token, byte count, and SHA-256 before these
+tables were frozen. The current issue total is `r sum(ver$Issues)`; V9 separately has
+`r sum(ver$Advisories)` lexical coverage advisories, which are intentionally
+non-blocking.
+
+`code/R/16b-build-report.R` refuses to generate this appendix if a required output is
+missing, unreadable, named differently from the contract, receipted under another run,
+or changed after its receipt was written. Three safe mutation fixtures establish the
+negative cases: a zero-row issue file with an old token, a receipted zero-row file
+changed afterward, and a missing required output. A zero therefore means “the named
+current-run check passed,” not “a file was absent” and not “an older empty CSV survived.”
+
+## What the book contains {#sec-appg-contents}
+
+```{r}
+#| label: tbl-build-report
+#| tbl-cap: "Contents and provenance counts, read from current registers. Source: tables/T-build-report.rds."
+#| echo: false
+knitr::kable(bld)
+```
+
+Three rows carry the discipline the rest of the book rests on.
+
+**`r val("Numbered results")` numbered results, of which `r val("  of which derived-here")`
+are `derived-here`.** The convention (@sec-ch02) is that this tag asserts no priority,
+and V7 applies a lexical guard to the prose around each such result. @sec-appendix-a
+records the proof status and location for every numbered result.
+
+**The `r val("Bibliography entries")` bibliography entries include
+`r val("  of which primary-read (independent)")` independent `primary-read` sources
+and `r val("  of which programme-artifact-read")` `programme-artifact-read`
+sources.** Both tiers require a bounded receipt, but they carry different authority.
+The first records a locator read in the independent literature. The second records a
+direct inspection of this research programme's own book, manuscript, package, code, or
+frozen table and establishes fidelity to that artifact, not independent corroboration.
+
+**`r val("Corrections to the manuscript")` corrections, `r val("  of which carry an author ruling")`
+with an author ruling.** @sec-appendix-c is generated from the same correction register.
+
+## All nine verdicts come from this run {#sec-appg-verifiers}
+
+```{r}
+#| label: tbl-verifiers
+#| tbl-cap: "V1--V9 current outputs and verdict counts. Every underlying row in T-verifiers carries the single run token printed above. Source: tables/T-verifiers.rds."
+#| echo: false
+knitr::kable(ver_view)
+```
+
+`code/R/14-build-all.R` is the release driver. At build start it removes only direct
+regular entries under this repository's `verification/` directory and refuses to
+continue if that target resolves elsewhere or contains a directory that would require
+recursive deletion. It then creates a new token. Consequently, a verifier cannot be
+satisfied by a prior run's output.
+
+V1 and V2 share `code/R/03-citation-check.R`, but their current output contracts are
+different. V1 writes `citation-check.csv`, `result-check.csv`, the legacy-named
+`part-vi-source-receipt-check.csv` (now populated from every registered part receipt),
+`annotation-evidence-check.csv`, and `narrative-citation-check.csv`. The annotation
+check binds the separate programme-artifact and bounded narrative receipt registers;
+it does not collapse programme evidence into independent literature. V2 currently has
+no standalone issue CSV; its receipt is the captured `v1-v2-citation-anchor.log`, whose
+unique `parity issues` verdict is parsed by the report. The obsolete
+`narrative-citation-audit-check.csv` and `result-anchor-check.csv` names are neither read
+nor receipted.
+
+The enforced capability of each verifier is narrower than its label:
+
+| | Blocking capability |
+|---|---|
+| **V1** | Missing bibliography keys; invalid result provenance/source locators; required semantic-receipt coverage; separate programme-artifact and bounded narrative receipt schemas/authority; held-source read-claim violations; and the current narrative-citation tier constraints |
+| **V2** | Text/register anchor parity, uniqueness, and chapter/file agreement, reported by the combined V1/V2 run log |
+| **V3** | The registered lexical domain of Greek/styled symbols, bare uppercase Latin symbols, indexed lowercase Latin symbols, and exact collision targets; ordinary local lowercase calculus dummies remain outside its scope |
+| **V4** | Registered cross-book boundary mentions, real heading anchors outside fenced code, and declared boundary contracts |
+| **V5** | Reviewer-inventory/claim-map coverage and valid evidence anchors for addressed or partially addressed rows |
+| **V6** | Rendered cross-references and citations, result anchors, manual-number duplication, figure/sidecar/generator bindings, required generated artifacts, selected front-matter count parity, and source-newer-than-render staleness |
+| **V7** | Surviving verification markers and lexical novelty language around results registered as `derived-here`; it is not a prior-art search |
+| **V8** | The registered numerical checks plus coverage of every `derived-here` result by at least one mapped check |
+| **V9** | Required specification artifacts, appendix/answer bindings, and recorded departures; its contents-keyword coverage remains advisory rather than semantic proof |
+
+## Four claim-level checkers sit outside V1--V9 {#sec-appg-claim-checks}
+
+The nine verifiers audit the repository: keys resolve, anchors match, registers
+parse, artifacts exist. **None of them reads a sentence and asks whether the
+number in it is true.** An external review of this edition found exactly that gap, and the
+checkers below were added to close the part of it that can be automated.
+
+```{r}
+#| label: tbl-claim-checks
+#| tbl-cap: "Claim-level checkers added after external review, with their current outputs and verdict counts. An unrejected negative fixture counts as an issue. Source: tables/T-claim-checks.rds."
+#| echo: false
+knitr::kable(claim_checks)
+```
+
+The contract they enforce is narrower than the phrase *every number is checked*
+would suggest, and stating it precisely matters more than stating it warmly.
+`r val("Audited evidence claims")` claims imported from the companion volumes
+are entered in `manifest/evidence-claim-register.csv` with their chapter, line,
+source edition, snapshot locator, and field. Of those,
+`r val("  of which independently recomputed")` are recomputed from the frozen
+store at build time and fail the build on divergence; the remainder are
+**registered but not executed** — their source and value are on the record and
+auditable by hand, which is a weaker guarantee and is labelled as one in the
+register's own `assertion_mode` column. `r val("Negative fixtures rejected")`
+negative fixtures confirm that the executable half rejects the mutations it is
+supposed to reject rather than passing everything put in front of it.
+
+Two limits follow, and a reader should hold both. Prose sentences in Part IX are
+written by hand, not generated from the store, so the register is what binds them
+to a source, not the rendering pipeline. And a registered-but-not-executed row
+certifies that someone looked, not that a machine re-derived.
+
+## How the release sequence closes the stale-report loop {#sec-appg-method}
+
+The driver first regenerates bibliography, tables, figures, and non-V1--V9 evidence
+checks, then performs a bootstrap Quarto render so V6 has a complete rendered tree to
+inspect. V1--V9 run in order. A verifier receives its current-run receipt only after a
+zero exit and after every output in its explicit contract exists; the receipt records
+the script, filename, token, byte count, SHA-256, completion time, and exit status.
+
+Only after all nine verifier receipts exist does `code/R/16b-build-report.R` generate
+`T-build-report` and `T-verifiers`. Quarto then renders the current-run report. Because
+that render changes the HTML tree, V6 runs once more against the final render and its
+receipt is replaced under the same token. A validation-only report pass recomputes both
+tables and requires exact equality with the frozen rendered inputs without rewriting
+them and making the render stale again.
+
+This sequence is the release gate implemented by `code/R/14-build-all.R`; it is not a
+restriction on Quarto itself. A user can still run `quarto render book` directly, but
+that command alone creates no current-run receipt and is not a certified release build.
+
+## Numerical checks are corroboration, not proof {#sec-appg-checks}
+
+V8 ran `r val("Numerical checks (V8)")` checks and recorded
+`r val("  of which failed")` failed calculations. Its separate coverage output also
+requires every result registered as `derived-here` to map to at least one nonblank
+check ID.
+
+These checks corroborate implementations and worked algebra. They are not proofs.
+@sec-appendix-a records mathematical arguments and source status; a numerical check can
+still encode the same misunderstanding as the prose it was intended to test.
+
+## Reproducing a certified release {#sec-appg-repro}
+
+```bash
+Rscript code/R/14-build-all.R
+```
+
+The command intentionally replaces prior regular files under `verification/`, creates
+a fresh run token, regenerates the current outputs, performs both renders and the final
+V6 pass, and finishes with receipt/hash validation. Session information and the run
+token are written to `verification/session-info.txt`; the normalized receipt ledger is
+`verification/verifier-run-receipts.csv`.
+
+## Limits and maintenance rule {#sec-appg-limits}
+
+This machinery does not certify that the book is substantively correct, that every
+citation says what the prose claims, that the lexical screens cover every possible
+wording, or that every prose number is generated. It certifies the narrower properties
+listed above and that the displayed V1--V9 verdicts come from the exact files receipted
+for one build run. Source reading and external review remain necessary; the project's
+review record, held with the working repository rather than the published release,
+carries that evidence.
+
+When a verifier begins or stops writing an output, both explicit contracts in
+`code/R/14-build-all.R` and `code/R/16b-build-report.R` must change together. The next
+release must then pass the full driver and all three stale/missing-output mutation
+fixtures. This duplicated contract is deliberate: the producer and the report consumer
+must agree before Appendix G can be regenerated.

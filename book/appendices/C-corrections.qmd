@@ -1,0 +1,116 @@
+# Corrections to the Submitted Manuscript {#sec-appendix-c}
+
+```{r}
+#| label: setup-appc
+#| include: false
+tbl <- function(id) readRDS(file.path("..", "..", "tables", paste0(id, ".rds")))
+cx  <- tbl("T-corrections")
+cxi <- tbl("T-corrections-index")
+```
+
+This appendix is the revision's worklist. It collects every place where writing this book
+required going back to a primary source and finding that the submitted manuscript —
+APM-25-04-056, *Targeting Toward Inferential Goals in Bayesian Rasch Models for Estimating
+Person-Specific Latent Traits* — says something wrong, imprecise, or merely unclear.
+
+It exists because the book was written under a rule stated in the front matter: a claim enters
+only when the source that established it has been read at the locator cited, not when the
+manuscript's or a reviewer's summary of it has been read. Applying that rule produced
+findings. Rather than fix them silently in the book and leave the paper unchanged, each
+one is recorded here with the source consulted, so the revision can be worked through
+entry by entry and the response letter can point at specific text.
+
+## What counts as an entry, and what the severities mean
+
+An entry is **not** a difference of emphasis or a place where the manuscript is terser
+than the book. It is a statement whose truth value or attribution changes once the source
+is opened.
+
+| Severity | Meaning | Count |
+|---|---|---|
+| **moderate** | A substantive statement is wrong, or a citation attributes a result to a source that does not contain it. Fixing it changes what the paper claims | `r sum(cx$Severity == "moderate")` |
+| **minor** | A number, a formula, or a piece of wording is wrong or imprecise, but the surrounding argument survives the fix | `r sum(cx$Severity == "minor")` |
+| **none** | Checked against the primary source and found **sound**. Recorded so the revision does not spend effort re-verifying, and so a reviewer can see the check was made | `r sum(cx$Severity == "none")` |
+
+The `none` rows are not padding. Three of them are places where an earlier draft of this
+appendix asserted an error that a second reading withdrew; keeping them makes the audit
+trail honest and stops the same false alarm from being raised twice. `C-007` is the
+clearest case — a first pass mixed rows and units and produced a correction that was
+itself wrong.
+
+`r sum(cx$ID %in% c("C-010", "C-002", "C-003"))` entries are limitations rather than
+errors: `C-010` records that the semiparametric
+**2PL** identification problem is open, which the manuscript does not disclose, and
+`C-002` and `C-003` record provenance that was previously unchecked and is now sourced.
+
+## Index
+
+```{r}
+#| label: tbl-corrections-index
+#| tbl-cap: "Every correction, ordered by severity then chapter. Source: tables/T-corrections-index.rds."
+#| echo: false
+knitr::kable(cxi)
+```
+
+Where an entry required a decision that only the author could make — because more than one
+fix was defensible — the ruling and its date are recorded with the entry.
+`r sum(cxi$Ruled != "—")` entries carry rulings; the rest have a single defensible fix and
+needed none.
+
+## The entries
+
+Each entry gives, in order: where in the manuscript, what it says, why that is wrong (or
+why it is sound), the source consulted at its locator, what the revision should do, and
+the author's ruling.
+
+```{r}
+#| label: appc-entries
+#| echo: false
+#| results: asis
+for (i in seq_len(nrow(cx))) {
+  r <- cx[i, ]
+  cat(sprintf("\n### %s — %s {#sec-appc-%s}\n\n",
+              r$ID, r$`Where in the manuscript`, tolower(r$ID)))
+  cat(sprintf("*Severity: **%s**. Treated in %s of this book.*\n\n",
+              r$Severity, paste0("ch. ", r$`Book chapter`)))
+  cat("> ", gsub("\n", " ", r$`What it says`), "\n\n", sep = "")
+  cat("**Why that is wrong.** ", gsub("\n", " ", r$`Why that is wrong`), "\n\n", sep = "")
+  cat("**Source consulted.** ", gsub("\n", " ", r$`Source consulted`), "\n\n", sep = "")
+  cat("**What the revision should do.** ", gsub("\n", " ", r$`What the revision should do`),
+      "\n\n", sep = "")
+  cat("**Author ruling.** ", gsub("\n", " ", r$`Author ruling`), "\n\n", sep = "")
+}
+```
+
+## What is not here {#sec-appc-not-here}
+
+Three classes of thing are deliberately absent.
+
+**Results.** No entry concerns whether a simulated condition came out one way or another.
+That boundary is the companion simulation study's, and this book does not cross it; the
+front matter sets out which document is authority for what.
+
+**Presentation.** Places where the manuscript would read better are not corrections. The
+three that came out of Part VI and were ratified for the revision are recorded in
+`DECISIONS.md` rather than here: naming $G_N$ as the realized empirical distribution
+(@sec-ch17), stating that $\bar G_N$ is a probability rather than a trait estimate
+(@sec-ch19), and saying in one sentence that test length was the instrument by which
+reliability was set rather than a crossed design factor (@sec-ch09).
+
+**Errors in this book.** They exist, and external review found them. They are recorded
+in the project's step logs, which are not part of the published release, rather than
+here, because this appendix is about the manuscript. The distinction matters for one reason worth stating plainly: several of the
+corrections above were found only because a check was written that *could* fail, and the
+same discipline applied to the book's own prose refuted claims this book had made. An
+appendix that listed only the manuscript's errors would misrepresent where the errors were.
+
+## Using this appendix for the response letter
+
+The entries map onto the reviewers' comments unevenly. `C-009` is the substance of the
+answer to Reviewer 2's third comment and should be quoted in the response, not merely
+fixed in the text: the identification warrant the manuscript implicitly claims is narrower
+than stated, and saying so is stronger than defending the wider claim. `C-014` and `C-010`
+both bear on Reviewer 2's identifiability question and are best answered together, since
+one is a misattributed theorem and the other an undisclosed open problem in the same
+literature. `C-008` is a reference-list repair that Reviewer 2's overlap comment makes
+conspicuous. The remaining entries are text repairs that need no comment in the letter.

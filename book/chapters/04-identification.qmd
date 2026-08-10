@@ -1,0 +1,328 @@
+# Identification {#sec-ch04}
+
+```{r}
+#| label: setup-ch04
+#| include: false
+tbl <- function(id) readRDS(file.path("..", "..", "tables", paste0(id, ".rds")))
+```
+
+Reviewer 2 wrote that the Rasch model is not identifiable without constraints, that the
+usual $\theta_p \sim N(0,1)$ fixes location and scale, and that a model estimating the
+mean and variance of the latent distribution — or replacing it with a Dirichlet process
+mixture — needs additional constraints that the manuscript never states. The objection is
+correct as an objection. It is also, as this chapter shows, based on a picture of the
+problem that the identification literature does not support in one important parametric
+case: when the shape of the random-effects distribution is known and only its scale is
+unknown, the Rasch scale is **identified from the data**, not fixed by convention. This
+does not extend to an unknown semiparametric $G$, whose finite-item identification failure
+is more specific than "needs more constraints."
+
+Getting this right matters beyond answering a review. A model that is not identified does
+not estimate what a paper says it estimates, and a recovered distribution $G$ that is
+only partially identified supports only some of the statements one might want to make
+about it. @sec-ch16 returns to the semiparametric case with the Dirichlet process in
+hand; this chapter establishes what identification is and settles the parametric models.
+
+## What identification is {#sec-ch04-what}
+
+A statistical model attaches to each parameter value $\boldsymbol\alpha \in A$ a sampling
+distribution $P\{\cdot\,;\boldsymbol\alpha\}$ over the observable data.
+
+::: {#def-ident}
+**Identification.** *Restated from* San Martín (2016, § 8.2.2)
+
+The parameter $\boldsymbol\alpha$ is **identified by the observations** if the map
+$\boldsymbol\alpha \mapsto P\{\cdot\,;\boldsymbol\alpha\}$ is injective: for
+$\boldsymbol\alpha, \boldsymbol\alpha' \in A$,
+
+$$
+P\{E;\boldsymbol\alpha\} = P\{E;\boldsymbol\alpha'\}
+\ \text{ for every event } E
+\quad\Longrightarrow\quad
+\boldsymbol\alpha = \boldsymbol\alpha' .
+$$ {#eq-identification}
+:::
+
+Identification is a property of the model rather than of a realized sample.
+@eq-identification quantifies
+over sampling distributions, not over data sets. San Martín, following Koopmans, puts
+the point sharply: exact knowledge of the family of sampling distributions cannot be
+derived from any finite number of observations, and is "the limit approachable but not
+attainable by extended observation." Hypothesising that knowledge anyway is what
+separates the problems of statistical inference, which arise from the variability of
+finite samples, from the problems of identification, which are the limits inference
+cannot pass *even with infinite data*.
+
+There is always some function of the
+parameters that indexes the sampling distributions one-to-one; the identification
+question is whether the parameters one wants are a bijective function of it. This is not
+a technicality but the method of proof: San Martín's results are obtained by
+constructing the identified parametrization first and then asking what restrictions make
+the parameters of interest recoverable from it. The consequence is stated in his
+discussion and is worth carrying: the restrictions so obtained are **necessary as well as
+sufficient**, which is more than a convention-based argument can deliver.
+
+## Location {#sec-ch04-location}
+
+Take the Rasch model @eq-rasch, and add a constant to every person and every item.
+
+::: {#prp-location}
+**Location indeterminacy.** *Derived here; no originality claim*
+
+For any $c \in \mathbb{R}$, the parameter values $(\theta_p + c, \beta_i + c)$ and
+$(\theta_p, \beta_i)$ induce the same sampling distribution.
+:::
+
+*Proof.* $(\theta_p + c) - (\beta_i + c) = \theta_p - \beta_i$, so every $\pi_{pi}$ is
+unchanged; by local independence the distribution of $\mathbf{U}$ is a function of the
+$\pi_{pi}$ alone. ∎
+
+The proof is one line and the content is not: the data cannot distinguish "everyone is
+one logit more able and every item one logit harder" from the original, because the
+model only ever speaks about differences. Fixing the origin is a choice of unit, like
+choosing where zero sits on a temperature scale.
+
+## Scale {#sec-ch04-scale}
+
+The Rasch and 2PL models differ in their scale orbit, which determines the restrictions
+needed in the rest of Part II.
+
+::: {#prp-scale}
+**Scale indeterminacy in the 2PL, and its absence in the Rasch model.**
+*Derived here; no originality claim*
+
+Under the 2PL, for any $c > 0$ the values $(c\theta_p,\, \lambda_i/c,\, c\beta_i)$ induce
+the same sampling distribution as $(\theta_p, \lambda_i, \beta_i)$. Under the Rasch
+model, where $\lambda_i \equiv 1$ is fixed, no such transformation exists.
+:::
+
+*Proof.* $(\lambda_i/c)(c\theta_p - c\beta_i) = \lambda_i(\theta_p - \beta_i)$. Under the
+Rasch model the same rescaling would require $\lambda_i \mapsto 1/c$, which leaves the
+model unless $c = 1$. ∎
+
+So the 2PL has a two-dimensional indeterminacy and the Rasch model a one-dimensional
+one. The 2PL needs two restrictions where the Rasch model needs one, and — this is the
+part that matters later — the second restriction is what pins the *scale on which $G$
+lives*. Under the Rasch model the unit is fixed by the model itself, which is why the
+variance of $G$ can be a free parameter with a meaning; under the 2PL a convention has to
+supply it. @sec-ch16 shows what that costs when $G$ is nonparametric.
+
+## What actually needs restricting, and when {#sec-ch04-table}
+
+The usual account — "we set $\theta_p \sim N(0,1)$ to fix location and scale" — treats
+the two indeterminacies as a single problem to be solved by fiat. The identification
+results do not support that reading. What must be restricted depends on **how the person
+parameters are specified**, and in one case of practical importance the answer is
+*nothing*.
+
+```{r}
+#| label: tbl-identification
+#| tbl-cap: "What must be restricted, by specification and model. Source: tables/T-identification.rds."
+#| echo: false
+knitr::kable(tbl("T-identification"))
+```
+
+Read the rows in order.
+
+**Fixed effects.** The $\theta_p$ are $P$ unknown parameters. The identified
+parametrization is $\{F(\theta_p - \beta_i)\}$, identified because each $U_{pi}$ is
+Bernoulli and the $U_{pi}$ are mutually independent; the parameters of interest are
+recovered from it once one item is used as the origin. The Rasch model needs
+$\beta_1 = 0$; the 2PL needs $\beta_1 = 0$ and $\lambda_1 = 1$.
+
+**Random effects, a known shape $G$ up to scale.** Here $\theta_p=\sigma X_p$, where the
+$X_p$ are i.i.d. from a fixed, known distribution $G$ with its origin and unit fixed, and
+the parameters of interest are $(\boldsymbol\beta,\sigma)$. Under the regularity
+conditions in San Martín (2016, § 8.5.1), the Rasch model needs no additional restriction.
+For each item, the marginal probability $\delta_i=\Pr\{U_{pi}=1\}$ is identified, and
+
+$$
+p(\sigma,\beta)=\int F(\sigma x-\beta)\,G(dx)
+$$
+
+is continuous and strictly decreasing in $\beta$. Thus $\beta_i$ is determined by
+$(\sigma,\delta_i)$. Substitution into the bivariate probability
+$\delta_{12}=\Pr\{U_{p1}=1,U_{p2}=1\}$ produces a map of $\sigma$ that San Martín proves
+is continuous and **strictly increasing** when $I\ge2$. Its inverse identifies $\sigma$,
+after which the item difficulties are identified.
+
+This is a theorem about a fixed known shape with one unknown scale parameter. It does not
+identify the variance of an arbitrary unknown $G$, and it does not justify treating a
+Dirichlet-process-mixture variance as data-identified.
+
+**Random effects, $G$ with free location and scale.** Now $\mu$ is free as well, and one
+restriction is needed to place the origin: $\beta_1 = 0$ for the Rasch model,
+$\beta_1 = 0$ and $\lambda_1 = 1$ for the 2PL, which additionally requires $I \ge 3$.
+
+::: {.callout-note appearance="simple"}
+::: {.ms}
+**What the submitted manuscript says.** The manuscript does not discuss identification,
+and Reviewer 2 is right that it should. But the reviewer's own framing — that
+$\theta_p \sim N(0,1)$ is "typically used to fix the location and scale of the latent
+trait", so that estimating $\mu_\theta$ and $\sigma^2_\theta$ leaves the model
+unidentified — is also not what the results say.
+
+Setting $\sigma^2_\theta=1$ in the known-shape random-effects Rasch family does not remove
+an indeterminacy; in that family $\sigma$ is identified by the strictly monotone
+bivariate-probability map. It instead restricts an identified parameter and can
+misspecify the family. For an unknown semiparametric $G$, however, finite-item data do not
+identify the full distribution or its variance. The revision must state which of these
+two models it means before making a scale claim.
+:::
+:::
+
+## Location constraints act on different models {#sec-ch04-constraints}
+
+Several location conventions are used, but they do not all constrain the same statistical
+object. The fixed-effects likelihood contains realized person parameters; the marginal
+random-effects likelihood contains their distribution $G$ instead.
+
+::: {#thm-equiv-fixed}
+**Fixed-effects location orbit.** *Derived here; no originality claim*
+
+In the fixed-effects Rasch likelihood, the transformations
+$(\boldsymbol\theta,\boldsymbol\beta)\mapsto
+(\boldsymbol\theta+c\mathbf1_P,\boldsymbol\beta+c\mathbf1_I)$ form a location orbit.
+Each of $\beta_1=0$, $\sum_i\beta_i=0$, and $\sum_p\theta_p=0$ selects exactly one member
+of that orbit. The selected likelihood, fitted probabilities, and within-person or
+within-item differences are invariant across the three representatives.
+:::
+
+*Proof.* Substituting the orbit into each constraint gives one linear equation in $c$
+with a unique solution. @prp-location makes the likelihood constant on the orbit, and
+all within-type differences cancel $c$. ∎
+
+::: {#thm-equiv-random}
+**Random-effects location orbit.** *Derived here; no originality claim*
+
+Let $G_c$ be the law of $\Theta+c$ when $\Theta\sim G$. In the marginal Rasch model,
+$(\boldsymbol\beta,G)$ and $(\boldsymbol\beta+c\mathbf1_I,G_c)$ induce the same response
+distribution. An item anchor, item centering, or a finite shift-equivariant location
+constraint on $G$ selects one representative. The realized constraint
+$\sum_p\theta_p=0$ is not a constraint on this marginal parameter orbit.
+:::
+
+*Proof.* After the change of variable $t=\theta+c$, every term depends on
+$t-(\beta_i+c)=\theta-\beta_i$, so the marginal response probabilities are unchanged.
+The first three constraints again determine one $c$ when their location functionals
+exist. The realized sum is a function of latent draws, not of $(\boldsymbol\beta,G)$, and
+therefore does not select a marginal-model parameter. ∎
+
+These likelihood equivalences do not make prior or posterior models interchangeable. A
+prior must either be transformed with the orbit or deliberately select a representative;
+holding a different prior fixed can change posterior geometry and summaries even when
+the likelihood quotient is the same.
+
+**Interpretation of the recovered $G$.** Fixing $\mu_\theta = 0$ makes the person
+distribution centred *by construction*, so its estimated mean carries no information.
+Fixing $\sum_i \beta_i = 0$ leaves $\mu_\theta$ free and estimable, and it is then a
+statement about where this population sits relative to this item set. If the recovered
+distribution is the object of interest — and in this book it usually is — the second is
+the informative choice.
+
+**Posterior geometry.** A sum-to-zero constraint on items is compatible with a free
+population location. Imposing a realized person-centering constraint inside a model that
+also assigns a population distribution changes the latent-draw model and can create a
+redundancy with its location hyperparameter.
+
+A constraint has to be representable in the model as specified. A Dirichlet process
+prior on $G$ cannot be made to satisfy
+$\sum_p \theta_p = 0$, because the $\theta_p$ are exchangeable draws and the constraint
+is a property of the realized set. @sec-ch16 makes this precise; it is the reason the
+companion simulation constrains items rather than abilities.
+
+## A proper posterior is not identification {#sec-ch04-bayes}
+
+If the joint prior is proper and the likelihood is integrable under it, the posterior is
+proper even when the likelihood has an unidentified direction. It may have a mean, a
+variance, and a credible interval, and none of that establishes identification. Conditional
+on an identified likelihood orbit, the posterior distribution along the orbit is
+proportional to the corresponding conditional prior because the likelihood is constant
+there. The data may still inform identified combinations, so the marginal posterior of an
+unidentified coordinate need not literally equal its marginal prior when the prior couples
+the two directions.
+
+Diagnostics do not catch this problem reliably: a
+model with a proper prior on an unidentified direction can converge cleanly. Moreover, the
+conditional credible interval along an unidentified orbit is prior-driven; it should not
+be presented as information supplied by the observations.
+
+The defensible options are to impose a constraint that selects an identified
+representative, or to sample a deliberately expanded model and report only invariant,
+identified functionals after rescaling. Both require the transformation, prior, and
+reported estimand to be explicit. A proper prior can regularize or select a convention;
+it cannot by itself prove that the likelihood identifies the selected coordinate.
+
+## Two results that should be better known {#sec-ch04-heuristics}
+
+San Martín's discussion closes with two remarks that bear directly on how this literature
+is usually written, and both are stated here because the manuscript, like most papers,
+implicitly assumes the opposite of the first.
+
+**Fixed-effects identification does not imply random-effects identification.** There is a
+heuristic in the psychometric literature that it does — San Martín attributes the rule to
+Adams et al. (1997) and Adams and Wu (2007) — and the results summarized in
+@tbl-identification refute it: the two specifications require different restrictions,
+and neither set follows from the other. By extension the heuristic fails for
+semiparametric versions too. Since almost every applied paper reasons about
+identification informally, and informally usually means by this heuristic, the point
+deserves more circulation than it has.
+
+**Identification analysis presumes the model is true, which makes it a design
+requirement.** An identification restriction is not only a statement about parameters; it
+is sometimes a statement about what the test must contain. San Martín's example is the
+1PL-G model, whose identification requires a guessing parameter fixed at zero — which
+means the instrument must include an item nobody can get right by guessing. A model
+should be applied to data that, *by design*, satisfies its identification restrictions,
+and that is a fact about test construction rather than about estimation.
+
+## What is coming, and what is open {#sec-ch04-forward}
+
+The semiparametric case — $G$ itself an unknown parameter — is the one this book's
+subject requires, and it is deferred to @sec-ch16 because it needs the Dirichlet process
+first. Under the anchored Rasch model, the item parameters and $I+1$ response-score
+functionals of $G$ are identified from the response-pattern distribution, but the full
+$G$ is **not**. Its variance is not generally among the identified finite-item
+functionals, so later reliability claims cannot silently substitute a recovered DPM
+variance for an identified population quantity.
+
+One caveat belongs here rather than there, because it qualifies this book's whole scope.
+Under TD-3 this book carries the 2PL, and the companion simulation fits Dirichlet process
+mixtures under both models. **The identification of the semiparametric 2PL is an open
+problem**; San Martín's Table 8.1 marks it with question marks and his discussion says so
+directly. Accordingly, every DPM×2PL analysis in this project must pre-specify its location
+and scale constraints, label distributional recovery as convention-dependent and
+exploratory, and report sensitivity to alternative valid rescalings. Reliability must be
+defined as an invariant response-distribution functional or explicitly labelled as a
+convention-dependent parameter summary. No 2PL DPM result is called identified unless a
+separate theorem establishes it.
+
+@sec-ch26 returns to this boundary after the Rasch semiparametric result is in hand. It
+states the 2PL location-scale orbit, the software's constraint pair, and exactly why the
+finite-item Rasch theorem is not extended by analogy.
+
+## Sources and provenance {#sec-ch04-sources}
+
+This chapter is built on San Martín's [-@sanmartin_identification_2016] chapter in the
+*Handbook of Item Response Theory*, which is the reference treatment: @def-ident is his
+§ 8.2.2, the fixed-effects results are § 8.4, the random-effects results including the
+$\sigma$-from-bivariate-probabilities argument are § 8.5.1, @tbl-identification condenses
+his Table 8.1, and the two remarks of @sec-ch04-heuristics are his § 8.7. The
+epistemological framing of identification as a limit not attainable by extended
+observation is Koopmans's, quoted there.
+
+@prp-location, @prp-scale, @thm-equiv-fixed, and @thm-equiv-random are elementary orbit
+arguments derived here without originality claims. San Martín establishes identification
+under specific fixed- and random-effects restrictions; he does not state the former
+four-way theorem that an earlier version of this chapter attributed to him. The split
+above keeps conditional fixed-effects likelihood, marginal random-effects likelihood,
+and prior/posterior models distinct.
+
+The semiparametric results previewed in @sec-ch04-forward are San Martín et al.
+[-@sanmartin_bayesian_2011], reported in San Martín (2016, § 8.6) as his Theorems 8.4 and
+8.5; @sec-ch16 takes them from the primary source.
+
+@sec-ch04-bayes is standard and is stated without novelty claim. Its claims are
+conditional on a proper joint prior and a finite prior predictive normalizing constant;
+the orbit statement is about the conditional prior along a flat likelihood direction,
+not an unconditional identity between marginal prior and posterior distributions.

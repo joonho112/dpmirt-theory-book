@@ -1,0 +1,330 @@
+# Three Goals, Three Losses {#sec-ch17}
+
+```{r}
+#| label: setup-ch17
+#| include: false
+tbl <- function(id) readRDS(file.path("..", "..", "tables", paste0(id, ".rds")))
+cx17 <- tbl("T-three-goals-counterexample")
+```
+
+Reviewer 2's sharpest objection to the manuscript was that its estimators are "reused with
+limited adaptation." The answer is that the adaptation is a matter of **which loss
+function an assessment context implies**, and that argument has to be made rather than
+asserted. This chapter makes it.
+
+Everything before this point in the book has been about *estimating* — how to get
+$\hat\theta_p$, how precise it is, what happens when $G$ is misspecified. Part VI asks a
+prior question: **what are you estimating for?** Three answers recur in assessment, they
+imply three different losses, and @thm-incompatible shows by existence that their Bayes
+actions need not be representable by one set of person estimates.
+
+## Bayes estimators are loss minimizers {#sec-ch17-bayes}
+
+The general statement is one line. Given a posterior $p(\boldsymbol\theta \mid \mathbf{u})$
+and a loss $L(\mathbf{a}, \boldsymbol\theta)$ measuring the cost of taking action
+$\mathbf{a}$ when the truth is $\boldsymbol\theta$, the **Bayes action** minimizes the
+posterior expected loss,
+
+$$
+\mathbf{a}^{\star} = \arg\min_{\mathbf{a}}
+\operatorname{E}\!\left[L(\mathbf{a}, \boldsymbol\theta) \mid \mathbf{u}\right] .
+$$ {#eq-bayes-action}
+
+The posterior is common to all three goals. **The loss is not**, and @eq-bayes-action is
+the whole reason a single posterior yields three different answers. A reader who takes
+"the Bayesian estimate" to be one object has skipped the loss.
+
+Two consequences frame the chapter. Changing the loss changes the estimator even though
+nothing about the model or the data has changed — so an estimator cannot be defended
+without naming the decision it serves. And an estimator that is optimal for one loss is
+generally *not* merely worse for another but wrong in a specific, predictable direction,
+which is what makes the trade-off analysable rather than a matter of taste.
+
+## Goal 1 — the individual {#sec-ch17-individual}
+
+The first goal is the familiar one: report a number for each person that is close to that
+person's ability. The loss is weighted squared error, summed over persons.
+
+::: {#prp-pm-bayes}
+**The posterior mean is Bayes under squared-error loss.** *Restated from Shen and Louis
+(1998, §§ 2.2, 2.4, pp. 457--458)*
+
+With $\mathrm{WSEL}(\mathbf{a}, \boldsymbol\theta) = \sum_p w_p (a_p - \theta_p)^2$ and
+$\eta_p = \operatorname{E}[\theta_p \mid \mathbf{u}]$, $v_p =
+\operatorname{Var}[\theta_p \mid \mathbf{u}]$,
+
+$$
+\operatorname{E}[\mathrm{WSEL} \mid \mathbf{u}]
+ = \sum_p w_p (a_p - \eta_p)^2 + \sum_p w_p v_p ,
+$$ {#eq-wsel}
+
+so the minimizer is $a_p = \eta_p$ for every $p$ and every weighting, and the residual
+$\sum_p w_pv_p$ is the irreducible posterior risk. Shen and Louis use a person-indexed
+lambda for this quantity; this book uses the registered $v_p$ so that $\lambda_i$ remains
+reserved for 2PL item discrimination (TD-3).
+:::
+
+@eq-wsel is worth reading twice, because the decomposition does the argument's work. The
+first term is the only part the analyst controls; the second is what the data leave
+uncertain. **Nothing an estimator does can reduce the second term** — which is why an
+estimator that improves some other criterion must be paying for it in the first term, and
+why the size of that payment is a computable quantity rather than a matter of opinion.
+
+This is the EAP of @thm-eap-shrinkage arriving from the decision side, and it is the
+estimator the manuscript uses. @sec-ch11 derived it; this chapter says what it is *for*.
+
+## Goal 2 — the ranks {#sec-ch17-ranks}
+
+The second goal reports an ordering or percentile rank: how a class sorts and how uncertain
+each position is. The parameter of interest is the rank vector
+$R_p = \sum_q \mathbb{1}\{\theta_q \le \theta_p\}$, and the natural loss is squared error
+*on ranks*, whose Bayes action is $\operatorname{E}[R_p \mid \mathbf{u}]$ — optimally
+discretized back to a permutation, which is what Shen and Louis
+[-@shen_triple-goal_1998, eq. 1] call $\hat R_p$.
+
+::: {#prp-rank-of-mean}
+**The rank of the mean is not the mean of the rank.** *Restated from Shen and Louis (1998,
+§§ 2.1, 3) and Goldstein and Spiegelhalter (1996)*
+
+$\operatorname{rank}(\operatorname{E}[\theta_p \mid \mathbf{u}])$ and
+$\operatorname{E}[\operatorname{rank}(\theta_p) \mid \mathbf{u}]$ are different
+functionals, and the second is the Bayes action under rank loss. They differ in **value in
+general**, because expected ranks are pulled toward the middle of the range; they can agree
+in deterministic, tied, symmetric, or limiting cases. Whether they differ in **induced
+ordering** depends on the model.
+:::
+
+The value/ordering distinction is the one @sec-ch12-ranks establishes and this chapter must
+not blur, because the book got it wrong once. Under the common-form Rasch model the
+posteriors are stochastically ordered in the total score, and Shen and Louis
+[-@shen_triple-goal_1998, Theorem 2] then give
+$R^{*} = R^{\dagger} = \tilde R = \hat R$ up to reversal: every rank procedure induces the
+same ordering. What still differs is what gets *reported* — the expected rank of the top
+scorer is not $P$, and an interval around it is not degenerate.
+
+So Goal 2 in this book's setting is **not** "the ordering is wrong and needs repair." It
+is: the ordering is right, the rank *values* and their uncertainty are not what ranking
+point estimates suggests, and the regimes where even the ordering fails — different test
+forms, missing designs, integrated item uncertainty — must be named rather than assumed
+away. @sec-ch20 is where that is developed.
+
+The clean ordering result has a fixed-known-2PL analogue, but not an unrestricted 2PL
+analogue. As @prp-nosuff establishes, conditional on one common set of known
+discriminations, the 2PL likelihood is a
+one-parameter exponential family in the weighted score
+$T_{\boldsymbol\lambda}(\mathbf{u}_p)=\sum_i\lambda_i u_{pi}$; hence response patterns are
+monotone-likelihood-ratio ordered by that score, and their posteriors inherit the same
+stochastic order under a common prior. If discriminations or other item parameters are
+estimated and their uncertainty is integrated, the ordering statistic itself is no longer
+fixed. Different forms, missing items, and person-dependent item-parameter posteriors then
+need a separate ordering argument; this chapter makes no guarantee for those cases.
+
+## Goal 3 — the distribution {#sec-ch17-distribution}
+
+The third goal reports a distribution: what fraction of the population is below a cut
+score, how spread out the class is, whether the trait is bimodal. Shen and Louis
+[-@shen_triple-goal_1998, § 2] take the target to be the **empirical distribution of the
+realized parameters**,
+
+$$
+G_K(t) = \frac{1}{K}\sum_{k} \mathbb{1}\{\theta_k \le t\},
+$$ {#eq-edf-target}
+
+and the loss to be integrated squared error, $\mathrm{ISEL}(A, G_K) = \int \{A(t) -
+G_K(t)\}^2\,dt$. Their Theorem 1 gives the Bayes action: the minimizer of
+$\operatorname{E}[\mathrm{ISEL} \mid \mathbf{Y}]$ is the posterior expectation of $G_K$,
+and if the action is constrained to be a discrete distribution with at most $K$ mass
+points, the minimizer $\hat G_K$ puts mass $1/K$ at points they characterize explicitly.
+
+::: {.callout-important}
+## $G_N$ is the realized EDF, not $G$ — R1's question, answered
+
+Reviewer 1 wrote, at manuscript p. 16 line 32: "I became a bit lost in trying to understand
+whether the quantity $G_N(t)$ is a rank estimate or a latent trait estimate. It appears to
+be a mean probability of some type but then the authors describe it as a latent trait
+estimate."
+
+The confusion is the manuscript's to fix, not the reviewer's to overcome. $G_N$ is neither
+a rank estimate nor a latent trait estimate. It is the **empirical distribution function of
+the $N$ realized abilities in this sample** — @eq-edf-target with $K = N$ — so it is a
+random object even given $G$, and estimating it is a third decision problem alongside
+estimating the $\theta_p$ and estimating their ranks.
+
+The distinction that makes it a *separate* estimand matters and is easy to lose:
+
+- $G$ is the population distribution, a fixed unknown (frequentist) or a random measure
+  with a prior (Bayesian). @sec-ch16 says a finite test identifies only $I+1$ of its
+  functionals.
+- $G_N$ is the EDF of the particular $N$ people who took the test. It converges to $G$ as
+  $N$ grows, but for the $N$ at hand it is a different target, and it is the one a
+  cut-score report is actually about.
+
+The manuscript targets $G_N$ and the revision should say so in a sentence.
+:::
+
+## Names used in empirical comparisons {#sec-ch17-criteria}
+
+The three goals acquire short labels in simulation tables, and those labels should not be
+left implicit. If $A_p$ estimates the true rank $R_p$ among $P$ units, the mean squared error
+loss of ranks is
+
+$$
+\mathrm{MSELR}=\frac{1}{P}\sum_{p=1}^{P}(A_p-R_p)^2.
+$$
+
+The mean squared error loss of percentile ranks rescales both ranks by $P$,
+
+$$
+\mathrm{MSELP}=\frac{1}{P}\sum_{p=1}^{P}
+\left(\frac{A_p}{P}-\frac{R_p}{P}\right)^2
+=\frac{1}{P^2}\mathrm{MSELR}.
+$$
+
+MSELP is therefore comparable across settings with different numbers of units in a way the
+raw-rank scale is not [@lee_improving_2025, eqs. 6--7]. For an estimated EDF $\widehat G_P$
+and target EDF $G_P$, the Kolmogorov--Smirnov distance is
+
+$$
+\mathrm{KS}(\widehat G_P,G_P)=\sup_t|\widehat G_P(t)-G_P(t)|.
+$$
+
+KS is a supremum diagnostic, whereas ISEL integrates squared discrepancy. Neither rank loss
+nor an EDF distance is a substitute for individual RMSE; the names simply make the empirical
+counterparts of the three losses explicit.
+
+## The three goals can be incompatible {#sec-ch17-incompatible}
+
+The paper's thesis is that the choice among posterior summaries matters. That is currently
+asserted. The defensible theorem is an existence statement, not a universal boundary on all
+overlapping posteriors.
+
+::: {#thm-incompatible}
+**A single trait vector need not minimize all three reporting losses.** *Adapted from Shen
+and Louis (1998, §§ 2.1--2.4); existence proof here*
+
+There exist independent, non-degenerate, overlapping posteriors for which no vector of trait
+values can both be WSEL-optimal person by person and carry the ISEL-optimal $K$-point
+distribution. It follows that no such vector can simultaneously attain those two optima and
+the rank-loss-optimal ordering.
+:::
+
+*Proof.* Take $K = 2$ with independent posteriors $N(-0.6, 0.5)$ and $N(0.6, 0.2)$, where
+the second normal argument is a variance. The unique WSEL action is the vector of posterior
+means. Shen and Louis's Theorem 1 makes the ISEL-optimal equal-mass atoms the .25 and .75
+quantiles of
+
+$$
+\bar G_2(t)=\tfrac12\Pr(\theta_1\le t\mid Y_1)
+             +\tfrac12\Pr(\theta_2\le t\mid Y_2),
+$$
+
+and those atoms differ from the posterior means. Therefore no one trait vector attains both
+optima, hence none attains all three. ∎
+
+```{r}
+#| label: tbl-three-goals-counterexample
+#| tbl-cap: "The chapter-17 existence example. ISEL is evaluated against the posterior mean EDF. Source: tables/T-three-goals-counterexample.rds."
+#| echo: false
+z <- cx17
+for (j in 2:ncol(z)) z[[j]] <- sprintf("%.6f", z[[j]])
+knitr::kable(z)
+```
+
+The third row is included to prevent the original error from returning: posterior
+expectations of the order statistics optimize a different ordered-location criterion, not
+Shen and Louis's ISEL. In this example the ISEL action is more spread than the posterior
+means, but @thm-incompatible does **not** make that direction universal. Some non-degenerate,
+overlapping posterior configurations make the midpoint quantiles coincide with the means;
+the theorem claims existence of conflict, not a degenerate-only equality boundary. How
+often, and how expensively, the conflict is realized at practical designs is an
+empirical question the theorem cannot answer — and now has a grid-scoped answer. The
+companion simulation's pooled H7 contrast prices the trade in the theorem's direction;
+the separate descriptive point census finds that direction at 239 of 240
+condition-by-prior points, with one boundary-near KS exception (@sec-ch27). The
+existence result stays an existence result; what changed is that the conflict has been
+priced without turning the grid into a universal theorem.
+
+Shen and Louis [-@shen_triple-goal_1998, § 3, p. 459] add the fact that determines the shape of
+Part VI: **the ranks of the constrained-Bayes estimates are always identical to the ranks
+of the posterior means**, because CB is a positive affine transformation of them. So a
+spread repair cannot by itself be a rank repair. Their triple-goal construction is a
+three-stage compromise targeted to the distributional and rank goals — estimate the EDF, minimize a rank loss,
+then assign the $k$-th ranked unit the $\hat R_k$-th mass point of $\hat G_K$ — rather than
+assuming all three unconstrained optima coincide. Its coordinate squared-error placement
+interpretation needs the rank-agreement condition stated in @sec-ch19-properties.
+@sec-ch18 and @sec-ch19 are those two routes.
+
+## Which decision implies which loss {#sec-ch17-decisions}
+
+The formalism is only useful if a practitioner can tell which case they are in.
+
+**Squared-error loss on individuals** is implied when a number attaches to a person and is
+acted on person by person: a placement decision, a diagnosis, an individual growth report.
+The cost of error is borne by that person and does not depend on anyone else's estimate.
+
+**Rank loss** is implied when the reported action is the ordering or the ranks themselves
+and the trait scale is incidental: a published ordering, percentile-rank report, or league
+table. Goldstein and Spiegelhalter [-@goldstein_league_1996] show why the uncertainty must
+travel with the ranking; @sec-ch20 develops the decision problem.
+
+Top-$k$ allocation and classification below a substantive cut are related but different
+actions. A fixed-cardinality selection loss must price which units are included, while a
+threshold-classification loss must price false negatives against false positives. Neither is
+implied merely by writing down squared error on rank values.
+
+**Integrated squared error on the EDF** is implied when the report is about the
+*collection*: the proportion below a cut score, the spread of a class, whether a
+distribution is bimodal, an estimated variance component. @sec-ch01 opened with this case
+because it is the one where using the wrong estimator produces an answer that is
+confidently and systematically wrong rather than merely noisy.
+
+@tbl-goals collects the three.
+
+```{r}
+#| label: tbl-goals
+#| tbl-cap: "Three goals, three losses, three Bayes actions. Source: tables/T-goals.rds."
+#| echo: false
+knitr::kable(tbl("T-goals"))
+```
+
+The table deliberately keeps classification out of the rank row. @sec-ch20 shows that a
+rank estimator can be Bayes-optimal for rank loss and still be the wrong classifier.
+
+A single assessment programme often needs all three at once, from one calibration. That is
+not a contradiction; it is the reason @thm-incompatible has to be stated. **The estimates
+should differ because the questions differ**, and reporting one vector of numbers for all
+three purposes is the practice this book's Part VI exists to interrogate.
+
+## Sources and provenance {#sec-ch17-sources}
+
+@eq-bayes-action is standard Bayesian decision theory and is restated without attribution
+to a particular text.
+
+@prp-pm-bayes is Shen and Louis [-@shen_triple-goal_1998, § 2], read directly; the
+decomposition @eq-wsel including the irreducible $\sum_p w_pv_p$ term is theirs.
+@eq-edf-target, the ISEL loss, and the Theorem 1 characterization of its minimizer are
+from their § 2.3, pp. 457--458, read directly. The rank-loss action $\hat R_p$ is their
+equation (1) in § 2.1, and the CB rank-invariance fact quoted in
+@sec-ch17-incompatible is their § 3, p. 459.
+
+@prp-rank-of-mean is restated from Shen and Louis [-@shen_triple-goal_1998, §§ 2.1, 3] together
+with Goldstein and Spiegelhalter [-@goldstein_league_1996]. **Its statement is deliberately
+split into value and ordering**, because an earlier draft of this book asserted that
+differential shrinkage reorders posterior means in the common-form Rasch model, and that
+is false: Shen and Louis's Theorem 2 and Laird and Louis's [-@laird_empirical_1989,
+Appendix A] Theorem A give coincidence of the rank procedures under stochastic ordering,
+which @sec-ch12-ranks shows the Rasch total-score posterior satisfies. The correction is
+recorded in the project's step logs.
+
+@thm-incompatible is adapted. Paddock et al. [-@paddock_flexible_2006, abstract and § 2.1]
+state the general motivation that no single estimate is optimal for all three goals, and
+Shen and Louis supply each Bayes action. Neither source states the false universal condition
+that an earlier version of this chapter attached to that motivation. The narrower existence
+result and its normal example are this book's; the midpoint-quantile identities and direct
+ISEL comparison are checked in `code/R/15-derivation-checks.R` and frozen in
+`tables/T-three-goals-counterexample.rds`.
+
+R1's question about $G_N$ is quoted verbatim from the reviewer comments at manuscript
+p. 16 line 32. The reading of $G_N$ as the realized EDF follows from
+@eq-edf-target; that the manuscript should say so explicitly is this book's recommendation
+and is logged for the revision.

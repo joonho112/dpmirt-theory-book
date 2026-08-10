@@ -1,0 +1,6 @@
+key,preferred_library,reason
+guastadisegni_generalized_2025,irt_zotero,"Matches the curated bibliography block; alternate library block remains reported in verification/bibtex-conflicts.csv."
+li_summed_2018,irt_zotero,"Matches the curated bibliography block; alternate library block remains reported in verification/bibtex-conflicts.csv."
+mislevy_estimating_1984,nonnormal,"Matches the curated bibliography block and the source library used by the existing asset path."
+qiu_bayesian_2025,psych_methods,"Matches the curated bibliography block and the source library used by the existing asset path."
+samejima_departure_1997,irt_zotero,"Matches the curated bibliography block; alternate library block remains reported in verification/bibtex-conflicts.csv."

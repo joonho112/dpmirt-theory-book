@@ -1,0 +1,202 @@
+# Open Problems {#sec-ch23}
+
+```{r}
+#| label: setup-ch23
+#| include: false
+tbl <- function(id) readRDS(file.path("..", "..", "tables", paste0(id, ".rds")))
+```
+
+This is the shortest chapter and it does the most to say what kind of document this is.
+In the first edition it closed the Rasch-centred theory spine by listing what that argument
+could not settle. In this edition it still closes that spine, but it does **not** end the
+book. It is the hinge to Part VIII, **What Changes Under the 2PL**, and to Part IX, which
+places the ledger beside realized evidence.
+
+The hinge matters because the honest version of the argument in @sec-ch21 — that the
+question changes when reliability is a design quantity — only carries weight if the
+questions it *leaves* open are stated as plainly as the ones it closes.
+
+Each entry says three things: what is actually known, what would settle it, and **whose
+problem it is**. That last distinction matters. Some of these are places where this book had
+the tools and did not do the work. Some belong to the companion simulation study by the
+boundary this project set. And some are open in the field.
+
+A note for the reader of this edition: the **entries** in the ledger below are preserved
+in their first-edition state, because rewriting an open-problem record after the fact would
+launder it. The surrounding navigation is updated. Readers asking how the item-model
+change affects the theory should continue through @sec-ch24, @sec-ch25, and @sec-ch26.
+Readers asking what became of the ledger should continue through @sec-ch27 and @sec-ch28
+to @sec-ch29, which walks it item by item. Several entries are now settled by the companion
+volumes, some in a sharper form than the entry asked for, and the evidence has added
+entries of its own.
+
+## Problems this book could have closed and did not {#sec-ch23-ours}
+
+### The rank proposition outside its conditions {#sec-ch23-rank}
+
+@prp-rank-reliability is stated with conditions because the general claim is false. What is
+established is the leading-order statement — rank recovery depends on the model through the
+stability coefficient — plus a measurable residual under a matched constant-error Gaussian
+mapping and a Rasch computation on one grid of shapes.
+
+Three things are unknown. Whether the residual's behaviour is general: on the displayed grid
+the shape gap rises to a peak near $\bar w = 0.915$ and then declines, and the decline to
+zero in the perfect-information limit is proved only for continuous working shapes. Whether
+the ordering result of @sec-ch12 — that in a common-form Rasch model differential shrinkage
+cannot reorder — survives the three regimes @sec-ch20 names as vulnerable: different test
+forms, incomplete designs, and item uncertainty carried into the posterior. And whether the
+matched-reliability construction is the right comparison at all, since it holds $\bar w$
+fixed while the shapes differ, which is one of several defensible matchings.
+
+The first two are finite computations. They were not run.
+
+### How far the incompatibility theorem generalizes {#sec-ch23-incompat}
+
+@thm-incompatible is an existence statement, and it is stated that way because an earlier
+draft asserted a universal one and was refuted (@sec-ch17). The example is two independent
+non-degenerate overlapping normals; the degenerate coincident case where the actions agree
+is exhibited alongside it.
+
+What is not known is the boundary. For which families, and under what separation of the
+posterior means relative to their spreads, do the WSEL and ISEL actions coincide? The
+question has a clean form — characterize the set of posterior ensembles on which the
+midpoint-quantile action equals the vector of posterior means — and it is not answered here.
+A useful partial answer would be the exchangeable equal-variance case, which is the one
+applied work most often has.
+
+### What a finite polytomous test identifies about $G$ {#sec-ch23-polytomous}
+
+@sec-ch22 establishes that the partial credit model keeps sufficiency and the graded response
+model does not. It does not ask the semiparametric question. San Martín et al.'s result —
+that, under the anchored Rasch conditions, $I+1$ displayed integral evaluations of $G$
+generate the observable law subject to their identities (@sec-ch16) — has no counterpart
+here for a test of $I$ items with $m_i$ steps each.
+
+The conjecture worth stating is that the count should depend on the total number of steps
+rather than the number of items, since that is what the sufficient statistic counts. It is a
+conjecture. Nothing in this book supports it beyond the analogy.
+
+### Location conventions and interpretable functionals of $G$ {#sec-ch23-alpha}
+
+The earlier version of this section asked whether the location constraint changes the
+elicited prior on occupied-cluster count $K$. It does not. The implemented Rasch model
+centres the item parameters and does not transform the DPM atoms; even if all atoms were
+translated by one draw-specific constant, their cluster memberships and occupied count
+would remain exactly unchanged.
+
+A narrower question remains. Alternative location representatives, and the additional
+scale transformation required under a 2PL model, change the numerical locations and
+spreads used to describe $G$. This book does not characterize how priors on
+decision-relevant functionals — such as tail mass beyond a fixed substantive cut,
+variance, or separation between mixture components — transform across those conventions,
+or which such summaries are invariant. The open object is therefore an interpretable
+functional of $G$, not $K$.
+
+### What the normal working model costs on short tests {#sec-ch23-working}
+
+@sec-ch11 derives the closed-form posterior under a Gaussian working model and V8 verifies it
+against numerical integration. The working model is an approximation to a posterior whose
+error variance depends on $\theta$, and the approximation degrades as the test shortens. The
+size of that error at the test lengths this work is aimed at — a dozen items or fewer — is
+not quantified. It is a one-dimensional numerical exercise and it was not done.
+
+## Problems the boundary assigns elsewhere {#sec-ch23-boundary}
+
+Two questions in this book's neighbourhood belong to the companion simulation study, and
+saying so here is not evasion but the same boundary @sec-ch21 draws.
+
+**Whether Lee et al.'s prior-by-information pattern transfers to the IRT design.** Lee et
+al. show a conditional pattern in $I$ and $J$. Chapter 21 does not place assessment on the
+same numerical axis without a mapping. What happens under a full item-response likelihood
+as test length changes is a realized outcome.
+
+**Whether any of the theory's preferences survive Monte Carlo error.** Every statement in
+this book is about what is true of a model, not about what a finite simulation can
+distinguish.
+
+## Problems open in the field {#sec-ch23-field}
+
+### Finite-$N$ behaviour of the DPM posterior under weak identification {#sec-ch23-finiteN}
+
+This is the deepest of them. Under the anchored Rasch conditions, a finite test's observable
+law is generated by the $I+1$ displayed integral evaluations of $G$, subject to their
+identities, while guarantees for flexible deconvolution estimators are asymptotic.
+The literature read for this book does not give a finite-sample account of how posterior
+uncertainty in unidentified directions affects decisions based on those identified
+functionals.
+
+@sec-ch22 supplies a bounded comparison, not a solution. In restricted latent class
+models, grouped masses over finite equivalence classes can be identified when the relevant
+known-item or unknown-item structural conditions hold. Those masses are not partitions of
+continuous $G$, and San Martín's functionals already are a finite-design answer of a
+different kind. The useful open question is which identified Rasch functionals are
+decision-relevant and how a flexible posterior's nonidentified directions affect their
+finite-sample interpretation.
+
+### A multivariate constrained Bayes and triple-goal {#sec-ch23-mirt}
+
+Multivariate use already exists. Shen and Louis state that their approaches generalize to
+multivariate unit-specific parameters, and Lockwood et al. apply CB and TG coordinatewise
+in a bivariate hierarchical model (@sec-ch22). What is not supplied by those precedents is
+a canonical **joint** action: a transformation-aware loss, ordering or multivariate EDF
+target that is not an arbitrary collection of coordinatewise decisions. The open problem
+is to define and compare that joint target, not to invent multivariate CB/GR from nothing.
+
+### Misspecification of the measurement model {#sec-ch23-measurement}
+
+Every result in this book conditions on the item model being right. The whole programme asks
+what it costs to assume the wrong $G$ while the Rasch or 2PL likelihood is correct.
+
+Nothing here addresses the opposite failure, and there is reason to think it matters more.
+Xu et al.'s finding in the multidimensional case (@sec-ch22) is that non-normality can distort
+which items load on which dimension — the misspecified population distribution damaging the
+measurement model, not just the recovered distribution. If that coupling has a unidimensional
+analogue, then the separation this book relies on — item side estimable without $G$, so the
+cost of $G$ is isolable — is a property of correctly specified item models and not of the
+estimator.
+
+That would not invalidate anything proved here. It would relocate it.
+
+## A problem that is really a literature audit {#sec-ch23-audit}
+
+@sec-ch13 shows that a bimodal $G$ can produce a unimodal sum-score distribution — total
+variation $0.035$ on the worked case, with six spread items. The inference "the score
+distribution looks normal, therefore the trait distribution is" is therefore invalid, and it
+is common.
+
+What is unknown is whether any *published* conclusion about latent non-normality rests on it.
+Answering that means reading a body of applied work with a specific question, which is a
+different kind of labour from the rest of this book and was not undertaken. It is listed
+because it is the item on this list most likely to change what someone does tomorrow.
+
+## The list {#sec-ch23-summary}
+
+```{r}
+#| label: tbl-open-problems
+#| tbl-cap: "What this book does not settle. Source: tables/T-open-problems.rds."
+#| echo: false
+knitr::kable(tbl("T-open-problems"))
+```
+
+Five of the nine are marked as this book's own. That count records responsibility, not
+difficulty. Some are bounded numerical checks; others require a new characterization or
+semiparametric identification argument whose difficulty has not been established. A
+reader deciding whether to trust @sec-ch21's contribution statement is entitled to know
+which questions the book scoped out, without being told that they are all tractable.
+
+Three of the remaining four are genuinely open in the field, and one of those three — the
+finite-$N$ meaning of a DPM posterior for $G$ under weak identification — is the question
+that would do most to justify or undercut the entire flexible-prior programme this book
+describes.
+
+## Where the ledger leads {#sec-ch23-forward}
+
+This chapter ends the Rasch-centred theory spine, not the volume. The next route depends
+on the reader's question:
+
+- **What changes when discriminations are free?** Read @sec-ch24 for information,
+  @sec-ch25 for reliability, and @sec-ch26 for identification and the DPM. Together they
+  are Part VIII, **What Changes Under the 2PL**.
+- **What did the programme's evidence settle?** Read @sec-ch27 for the simulation record,
+  @sec-ch28 for the real-test record, and @sec-ch29 for the formal disposition of this
+  ledger.

@@ -1,0 +1,302 @@
+# Estimating Person Parameters {#sec-ch06}
+
+```{r}
+#| label: setup-ch06
+#| include: false
+tbl <- function(id) readRDS(file.path("..", "..", "tables", paste0(id, ".rds")))
+```
+
+Reviewer 2 asked for the mathematical expression of $\hat\theta_p$ and pointed out that
+the manuscript's claim — that ability can be estimated by maximum likelihood — holds only
+when the item parameters are known, whereas practice substitutes estimates. Both points
+are correct, and this chapter answers them.
+
+It also does something the usual treatment does not. Maximum likelihood, Bayesian modal
+estimation, and Warm's weighted likelihood estimator are normally presented as three
+competing methods. They are one estimating equation with three choices of a single
+function, and seeing that makes the differences between them exact rather than
+impressionistic. The unification is Warm's own, in the paper that introduced the third.
+
+## One equation, three estimators {#sec-ch06-family}
+
+Fix the item parameters for the moment. Write $P_i(\theta)$ for the probability of a
+correct response to item $i$, $Q_i = 1 - P_i$, and $P_i' = \partial P_i/\partial\theta$.
+The person's likelihood is $L(\mathbf{u}_p \mid \theta) = \prod_i P_i^{u_{pi}}Q_i^{1-u_{pi}}$,
+and maximizing it means solving
+
+$$
+\frac{\partial \ln L}{\partial\theta}
+  = \sum_{i=1}^{I}\frac{(u_{pi} - P_i)P_i'}{P_i Q_i} = 0 .
+$$ {#eq-score}
+
+Under the Rasch model $P_i' = P_iQ_i$, so @eq-score collapses to
+$r_p = \sum_i P_i(\hat\theta_p)$: **choose the ability at which the expected number
+correct equals the observed number correct.** That is the explicit expression Reviewer 2
+asked for, and it is worth stating in that form because it makes the estimator's meaning
+plain.
+
+Now consider maximizing not the likelihood but $f(\theta)L(\mathbf{u}_p \mid \theta)$ for
+some positive function $f$. The estimating equation becomes
+
+$$
+\sum_{i=1}^{I}\frac{(u_{pi} - P_i)P_i'}{P_i Q_i}
+  \;+\; \frac{\partial \ln f(\theta)}{\partial\theta} = 0 .
+$$ {#eq-warm-family}
+
+@eq-warm-family is the whole family, and three choices of $f$ name three estimators.
+
+| $f(\theta)$ | Estimator | What it is |
+|---|---|---|
+| a positive constant | **ML** | @eq-warm-family reduces to @eq-score |
+| a prior density for $\theta$ | **MAP** (Bayesian modal, BME) | $f \cdot L$ is proportional to the posterior |
+| $w(\theta)$ with $\partial\ln w/\partial\theta = J/(2\mathcal{J})$ | **WLE** | removes the leading bias term |
+
+So the switch from likelihood to posterior that Reviewer 1 found abrupt is not a switch
+of optimization template. It is a choice of $f$ in one equation. Whether $f$ represents
+a population prior or a test-specific bias-reducing weight is an inferential distinction
+even when the resulting objective has the same algebraic form.
+
+## Where the bias comes from, and how WLE removes it {#sec-ch06-wle}
+
+Lord [-@lord_unbiased_1983] gives the asymptotic bias of the ML ability estimate, of
+order $I^{-1}$:
+
+$$
+\operatorname{BIAS}(\hat\theta^{\mathrm{ML}}) = \frac{-J}{2\mathcal{J}^2},
+\qquad
+\mathcal{J} = \sum_i \frac{P_i'^2}{P_iQ_i},
+\qquad
+J = \sum_i \frac{P_i'P_i''}{P_iQ_i}.
+$$ {#eq-lord-bias}
+
+For a prior $f$, the bias of the corresponding estimator picks up one extra term,
+
+$$
+\operatorname{BIAS}(\theta^*)
+  = \operatorname{BIAS}(\hat\theta^{\mathrm{ML}})
+  + \frac{\partial \ln f(\theta)/\partial\theta}{\mathcal{J}},
+$$ {#eq-warm-bias}
+
+which for a standard normal prior is $-\theta/\mathcal{J}$ — shrinkage toward zero, visible
+as bias. Warm's step is to read @eq-warm-bias as an equation to be solved rather than a
+quantity to be reported: set the right-hand side to zero and solve for $f$. Substituting
+@eq-lord-bias gives
+
+$$
+\frac{\partial \ln w(\theta)}{\partial\theta} = \frac{J}{2\mathcal{J}},
+$$ {#eq-warm-weight}
+
+and the resulting estimating equation is
+
+$$
+\sum_{i=1}^{I}\frac{(u_{pi} - P_i)P_i'}{P_i Q_i} + \frac{J}{2\mathcal{J}} = 0 .
+$$ {#eq-wle}
+
+::: {#thm-warm}
+**Warm's bias correction.** *Restated from* Warm (1989, eqs. 6–10,
+Theorem, and Appendix)
+
+Assume the item parameters are known; $\theta$ is restricted to a bounded interval; the
+item response probabilities are continuous and bounded away from zero and one; five
+derivatives exist and are bounded; and test length grows by replication in Warm's stated
+asymptotic scheme. Then the estimator solving @eq-wle has
+$\operatorname{BIAS}(\hat\theta^{\mathrm{WLE}})=o(I^{-1})$, is asymptotically normal, and
+has the same **first-order asymptotic** variance $\mathcal{J}^{-1}+o(I^{-1})$ as ML.
+:::
+
+Warm proves the theorem in his appendix under these restrictive conditions and reports
+Hinkley's suggestion that the method can extend to consistent estimating equations with a
+computable bias. That suggestion is not a replacement for model-specific regularity
+checks. The theorem concerns interior replicated-item asymptotics, not finite tests at
+their all-correct or all-incorrect boundaries.
+
+For the 1PL and 2PL, WLE is algebraically Jeffreys-MAP although Warm's construction and
+interpretation are not Bayesian. For these models Warm shows
+$w(\theta)=\mathcal{J}(\theta)^{1/2}$, the Jeffreys weight. Maximizing
+$w(\theta)L(\theta)$ therefore has exactly the same mode equation as using that
+test-specific Jeffreys weight as a prior. The algebra cannot support a claim that WLE is
+“not MAP.” Warm's point is inferential: no population distribution for $\theta$ is
+assumed, and $w$ is a function of the administered items. He gives the direct comparison:
+two populations taking one test use the same WLE weight, while one population taking two
+tests uses different weights—the reverse of how a population prior behaves.
+
+The variance equality is first-order asymptotic rather than a finite-sample identity. Under
+@thm-warm's conditions WLE and ML have the same leading variance term. Their finite-test
+variances can differ, especially near the scale boundary. WLE deliberately uses only the
+within-person likelihood and a test-derived adjustment, not population information about
+the person. That makes it the natural contrast to EAP; it does not make every finite-sample
+risk component equal.
+
+## The 2PL specialization {#sec-ch06-2pl}
+
+For the 2PL,
+
+$$
+P_i(\theta)=\operatorname{logit}^{-1}\{\lambda_i(\theta-\beta_i)\},
+\qquad P_i'(\theta)=\lambda_iP_iQ_i,
+$$
+
+so the ML score and information are
+
+$$
+S_{2\mathrm{PL}}(\theta)=\sum_{i=1}^I\lambda_i(u_{pi}-P_i),
+\qquad
+\mathcal{J}_{2\mathrm{PL}}(\theta)=\sum_{i=1}^I\lambda_i^2P_iQ_i.
+$$ {#eq-2pl-score}
+
+The Warm numerator specializes to
+
+$$
+J_{2\mathrm{PL}}(\theta)
+=\sum_{i=1}^I\lambda_i^3P_iQ_i(1-2P_i),
+$$
+
+and the 2PL WLE solves
+
+$$
+\sum_{i=1}^I\lambda_i(u_{pi}-P_i)
++\frac{J_{2\mathrm{PL}}(\theta)}{2\mathcal{J}_{2\mathrm{PL}}(\theta)}=0.
+$$ {#eq-2pl-wle}
+
+Thus discrimination weights the score, enters information quadratically, and enters the
+Warm bias numerator cubically. When all $\lambda_i=1$, these expressions reduce to the
+Rasch equations above. Warm's known-item and asymptotic conditions apply to both.
+
+## Where there is no estimate at all {#sec-ch06-boundary}
+
+Under the Rasch model, @eq-score has no finite solution when $r_p=0$ or $r_p=I$. The same
+boundary result holds for the 2PL when every $\lambda_i>0$: an all-correct likelihood
+increases with $\theta$, and an all-incorrect likelihood decreases. The ML estimate is
+$+\infty$ or $-\infty$.
+
+On a twenty-item screening test in a class of sixty this is not an edge case. It is the
+students the screening is for.
+
+The estimators respond differently, and the difference is diagnostic of what each is
+doing. MAP is finite at the boundary because the prior supplies curvature the likelihood
+lacks. For the ordinary logistic Rasch and 2PL models, the
+$\mathcal{J}(\theta)^{1/2}$ weight yields finite WLE roots for extreme response patterns.
+ML is not finite, and practices such as bounding the estimate, dropping extreme scores,
+or assigning a conventional value are analytic decisions that should be reported. No
+software-default claim is needed for the mathematical comparison.
+
+## Plug-in scoring and calibration uncertainty {#sec-ch06-plugin}
+
+Everything so far fixed the item parameters. A common two-stage workflow calibrates
+items and then scores persons:
+
+$$
+\hat\theta_p = \hat\theta_p(\hat{\boldsymbol\psi}),
+$$
+
+substituting the calibration estimates into @eq-score or @eq-wle as though they were the
+truth. This is the **plug-in** estimator. The inverse root information
+$\mathcal{J}(\hat\theta_p)^{-1/2}$ is a local/asymptotic standard error conditional on the
+plugged-in item values. Whether it understates an unconditional standard error, and by how
+much, depends on how calibration and scoring samples are related.
+
+::: {#prp-plugin}
+**Independent-calibration delta method.** *Derived here; no
+originality claim*
+
+Let $\boldsymbol\psi$ collect all calibrated item parameters, let
+$S_p(\theta,\boldsymbol\psi)=0$ define a regular ability estimator, and suppose
+$\hat{\boldsymbol\psi}$ comes from an independent calibration sample with covariance
+$V_\psi$. Write
+
+$$
+\mathbf{g}_\psi
+=-\left(\frac{\partial S_p}{\partial\theta}\right)^{-1}
+  \frac{\partial S_p}{\partial\boldsymbol\psi}.
+$$
+
+Then the first-order variance is
+
+$$
+\operatorname{Var}\{\hat\theta_p(\hat{\boldsymbol\psi})\}
+\approx \mathcal{J}(\theta_p)^{-1}
++\mathbf{g}_\psi^\top V_\psi\mathbf{g}_\psi.
+$$ {#eq-plugin-delta}
+:::
+
+*Proof.* The implicit-function theorem gives the displayed sensitivity
+$\mathbf{g}_\psi$. A first-order Taylor expansion around the true item parameters, followed
+by independence of the calibration estimate and scoring response, adds the quadratic
+delta-method term to the known-item conditional variance. ∎
+
+For the Rasch ML score, the sensitivity to difficulty $\beta_j$ is
+$g_{\beta_j}=P_jQ_j/\mathcal{J}$. The 2PL has sensitivities to both difficulties and
+discriminations, so $\boldsymbol\psi=(\boldsymbol\beta,\boldsymbol\lambda)$. If calibration
+and scoring samples overlap, the independence step fails and cross-covariance terms can
+change the result. A stacked estimating-equation sandwich, a design-respecting bootstrap,
+or a joint posterior is then required.
+
+The size of the calibration term cannot be inferred from the number of persons being
+scored. It depends on the calibration sample size and design, item information,
+calibration/scoring overlap, constraints, and the target estimand. A scoring condition
+with $P=20$ signals a possible risk; it does not determine the magnitude or direction of
+the error by itself.
+
+**Warm's theorem does not cover this.** @thm-warm is proved, in Warm's words, "assuming
+the item parameters are known constants." The $O(I^{-1})$ bias that WLE removes is the
+bias of the ideal estimator. Whatever bias the plug-in step introduces is a separate
+matter that WLE does not address, and treating a WLE as unbiased in an operational
+setting conflates the two.
+
+This is the honest form of Reviewer 2's third bullet. The claim is not that plug-in
+estimation is wrong. The claim is that its uncertainty target must be named. Chapters 7
+and 8 call inverse-information MSEM and reliability **conditional on the calibrated item
+values**. A calibration-aware unconditional reliability replaces that error component
+with one that includes @eq-plugin-delta or its overlap-aware analogue; the two coefficients
+answer different design questions.
+
+## The four estimators {#sec-ch06-compare}
+
+```{r}
+#| label: tbl-estimators
+#| tbl-cap: "Person-parameter estimators. Source: tables/T-estimators.rds."
+#| echo: false
+knitr::kable(tbl("T-estimators"))
+```
+
+The last column is the one that matters for Part VI. ML and WLE use only the responses of
+the person being scored; MAP and EAP additionally use the population. That is not a defect
+of either pair — it is the difference between asking "what does this person's test say
+about them" and "what is my best guess about this person." @sec-ch17 shows that the two
+questions have different answers because they are different questions, and Part VI builds
+estimators for a third and fourth.
+
+## Sources and provenance {#sec-ch06-sources}
+
+The unification of @sec-ch06-family is Warm's [-@warm_weighted_1989], and this chapter
+follows his development closely because it is clearer than the usual three-methods
+presentation: his equations (3) through (5) give the family, (6) is Lord's
+[-@lord_unbiased_1983] bias expression, (7) is Lord's (1984) result for the Bayesian modal
+estimator under a standard normal prior, (8) is the conjecture that the bias of the
+general member picks up one extra term, and (9) and (10) solve for the weight and state
+the estimating equation. @thm-warm is his Theorem, proved in his appendix; the remark on
+generality is Hinkley's, reported there.
+
+One step of that chain is worth spelling out, because a reader who opens Lord will not
+find @eq-lord-bias on the page. Lord derives the bias in the three-parameter
+parameterization, as his equations (27) to (29) on p. 237: $B_1(\hat\theta) = I^{-2}\sum_i
+A_i I_i(\phi_i - \tfrac12)$ with $\phi_i = (P_i - c_i)/(1 - c_i)$ and $I_i =
+P_i'^2/(P_iQ_i)$, and he notes there that $B_1$ is of order $n^{-1}$ because $I$ is of
+order $n$ — which is @eq-lord-bias's order claim in his notation. Setting $c_i = 0$ and
+using $P_i' = A_iP_iQ_i$ and $P_i'' = A_i^2P_iQ_i(Q_i - P_i)$ turns his sum into $-J/2$,
+so the guessing-free form this chapter displays is Warm's rendering of Lord's result
+rather than a formula Lord himself writes. The equivalence was checked by hand against
+pp. 236–237, where Lord's (20) also supplies the $\mathcal{J}$ used here.
+
+The observation that $w(\theta)$ coincides with the Jeffreys prior is Warm's, citing
+Jeffreys (1961) and Akaike (1978); so is the disclaimer that WLE is nonetheless not
+Bayesian in derivation or population interpretation. Algebraically, maximizing the
+weighted likelihood is the Jeffreys-weight MAP objective for the 1PL and 2PL. Warm makes
+the test dependence explicit through his two-populations/one-test and
+one-population/two-tests comparison; the administered-test argument is his.
+
+The score equation and its Rasch simplification follow Baker and Kim
+[-@baker_item_2004, ch. 3]. @prp-plugin is a first-order implicit-function and delta-method
+derivation given here without an originality claim. It assumes independent calibration
+and scoring; the overlap alternatives are stated because a marginal law-of-total-variance
+identity alone does not supply the required covariance structure.

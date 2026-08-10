@@ -1,0 +1,289 @@
+# Relation to Lee et al. (2025) {#sec-ch21}
+
+```{r}
+#| label: setup-ch21
+#| include: false
+tbl <- function(id) readRDS(file.path("..", "..", "tables", paste0(id, ".rds")))
+```
+
+The Associate Editor's first demand was a clear delineation from Lee et al.
+[-@lee_improving_2025], and Reviewer 2's fifth comment put it more sharply: the machinery
+looks reused with limited adaptation. This chapter answers both, and it answers them by
+stating the overlap first and in full. Understating what transfers is what invites the
+charge; the delineation has to survive a reader who knows the earlier paper well.
+
+Everything below is read from the source itself. The delineation table's cells, the
+numbers, and the characterization of what that paper found are taken from the article at
+the locators recorded in `manifest/part-vii-source-receipts.csv`, not from the
+manuscript's summary of it, and not from the reviewer's. Where this chapter reports a work
+that Lee et al. themselves cite — Rubin's model, Antonelli et al.'s diffuse prior,
+Dorazio's induced prior on $K$ — it names the work without citing it, because what has
+been read is their use of it and not the original. @sec-ch12 and @sec-ch15 cite those
+sources on their own footing. That discipline changed the
+chapter: one cell the plan for this book had written in advance turned out to be false,
+and it was the cell the contribution argument had been resting on.
+
+## What Lee et al. (2025) did {#sec-ch21-summary}
+
+The setting is a multisite trial: (nearly) identical randomized experiments run at $J$
+sites, analysed as what they call a Rubin model for parallel randomized experiments —
+equivalently a random-effects meta-analysis. The model consumes two summary statistics per
+site — the site's estimated
+effect $\hat\tau_j$ and its squared standard error $\widehat{se}^2_j$, both computed by
+maximum likelihood from site $j$'s own data — and treats the second as known:
+
+$$\hat\tau_j \mid \tau_j, \widehat{se}^2_j \sim N(\tau_j, \widehat{se}^2_j),
+\qquad \tau_j \mid G \stackrel{\text{i.i.d.}}{\sim} G .$$
+
+Their target is the *finite-population* collection $\{\tau_j\}_{j=1}^J$ — the effects at
+the sites actually in the trial — rather than the superpopulation $G$ from which those
+sites were drawn. They make that choice deliberately, on the grounds that experimental
+sites are often not representative of any wider population and that finite-population
+inference is statistically less demanding.
+
+Against that model they cross two strategies. The first relaxes the shape of $G$ with a
+Dirichlet process prior in two arms: **DP-diffuse**, a deliberately vague $\alpha$ prior
+they take from Antonelli et al. (2016), and **DP-inform**, their own construction, which
+encodes a prior belief about the number of clusters $K$ as a $\chi^2(u)$ distribution and
+then chooses the Gamma$(a,b)$ prior on $\alpha$ minimizing the Kullback–Leibler
+divergence from the induced $\Pr(K \mid J, a, b)$ they take from Dorazio (2009). The second strategy replaces the posterior mean with a
+summary targeted at a particular loss: constrained Bayes [@ghosh_constrained_1992] or
+triple-goal [@shen_triple-goal_1998]. Three priors by three summaries gives nine
+estimators, evaluated over 1,500 simulated conditions with 100 replications each and
+summarized by meta-model regressions.
+
+Their three inferential goals — estimating the individual effects, ranking the units, and
+estimating the empirical distribution function — are **Shen and Louis's**, and Lee et al.
+attribute them there explicitly. @sec-ch17 develops the same three, from the same source.
+This book's manuscript should make that attribution as visible as Lee et al. do.
+
+### Their findings, stated as they stand {#sec-ch21-findings}
+
+Four results matter for what follows, and three of them constrain what this work may claim.
+
+**Reliability governs everything.** The paper defines *informativeness*
+
+$$I = \frac{\sigma^2}{\sigma^2 + \exp\!\left(\frac{1}{J}\sum_{j=1}^{J}
+\ln \widehat{se}^2_j\right)},$$
+
+which is the average reliability of the maximum-likelihood site estimates, and concludes
+that it was the most influential factor for all three goals. They give prospective design
+advice on that basis: when budget is constrained, increase the average number of subjects
+per site.
+
+**The prior choice reverses with reliability.** Semiparametric priors repay their cost
+only when the data are informative. Below roughly $I = .20$ the Gaussian model paired with
+a suitable summary performed on par with or better than the DP models **even when the true
+$G$ was not Gaussian**. The crossover depends on the number of sites: at $J = 300$ the DP
+models beat the Gaussian on integrated squared-error loss above about $I = .20$; at
+$J = 75$ or $100$ they need about $I = .40$; at $J = 25$ they never significantly beat it,
+even at the highest informativeness the design reached.
+
+**The summary choice is goal-specific and its ordering is stable.** The posterior mean is
+consistently best for root-mean-squared error and rarely best for the EDF; constrained
+Bayes and triple-goal shrink less and represent the EDF better. In their second case study
+the summary choice mattered more than the model choice: PM improved RMSE by 16–42 % over
+CB or GR, while Gaussian and DP-inform differed by 1 % under PM.
+
+**Ranking barely moves.** Mean-squared error loss of the percentiles was largely
+unaffected by the number of sites, by the coefficient of variation of site sizes, by the
+model, and by the summary method; it responded only to the average site size and to
+$\sigma$. Their explanation is that different models and summaries seldom alter the
+*ordering* of the estimates.
+
+That last finding is qualitatively consistent with something this book had to correct in
+itself. @sec-ch12 originally asserted that differential shrinkage reorders posterior
+means; @sec-ch12 now shows it cannot in the common-form Rasch model, because the posterior
+depends on the data only through the total score and the family is ordered in it. Lee et
+al. report empirical near-invariance of ordering in a different hierarchical model. The
+conclusions point in the same direction, but the mechanisms and evidential status differ:
+their MSELP result does not corroborate the Rasch theorem.
+
+## The delineation {#sec-ch21-delineation}
+
+```{r}
+#| label: tbl-lee-delineation
+#| tbl-cap: "This work against Lee et al. (2025), read from the source. Source: tables/T-lee-delineation.rds."
+#| echo: false
+knitr::kable(tbl("T-lee-delineation"))
+```
+
+::: {.callout-important}
+## A correction to this book's own plan
+
+The blueprint for this chapter asserted that reliability is "not a design factor" in Lee
+et al. **That is false**, and reading the paper is what showed it. Informativeness $I$ *is*
+an average reliability, it is the paper's single most influential factor, and they give
+design advice for raising it. The mechanism is the same one this book uses: more
+observations per unit lowers the within-unit error and raises reliability, exactly as more
+items lower the measurement error and raise $\bar w$.
+
+The contribution argument had been resting on that cell. Reading the paper removes that
+argument rather than replacing it with a claim about which reliability range belongs to
+which setting. The defensible distinction is structural: this work uses the full
+item-response likelihood, parameter-dependent information, and an identified latent
+scale. Whether Lee et al.'s empirical pattern transfers as assessment reliability changes
+is not established here; @sec-ch21-not-claimed assigns that empirical question.
+:::
+
+## What transfers {#sec-ch21-transfers}
+
+```{r}
+#| label: tbl-lee-transfer
+#| tbl-cap: "Provenance of each element, and its status in this work. Source: tables/T-lee-transfer.rds."
+#| echo: false
+knitr::kable(tbl("T-lee-transfer"))
+```
+
+Four things transfer with no adaptation worth claiming credit for. The three-goal
+framework is Shen and Louis's. Constrained Bayes is Ghosh's. The triple-goal estimator is
+Shen and Louis's. The $K$-matched elicitation of $\alpha$ is Lee et al.'s own, and it is
+used here as they built it: encode a belief about $K$, match a Gamma$(a,b)$ prior
+to it, fit. A fifth — putting a Dirichlet process on the distribution of unit-level
+parameters — is older than either paper and, in the item-response setting specifically,
+has been proposed several times for different reasons (@sec-ch16).
+
+Saying this plainly costs nothing. The question a delineation has to answer is not whether
+the tools are shared but whether the problem is.
+
+## What does not transfer {#sec-ch21-differences}
+
+Three differences, each methodological rather than a re-labelling.
+
+### The error variance is a function of the parameter {#sec-ch21-heteroscedastic}
+
+Lee et al.'s first stage is a Gaussian sampling approximation motivated by within-site
+large-sample theory. It plugs in $\widehat{se}^2_j$ from site $j$ and then treats that
+estimate as known and fixed; doing so does not make the stage exact. Their model assumes
+the site's precision is unrelated to the site's effect, and they name the assumption as a
+key limitation of the study, suggesting three ways to relax it: fitting with and without
+restrictions on the bivariate distribution of $\tau_j$ and $\widehat{se}^2_j$, treating
+$\widehat{se}^2_j$ as a covariate in $G$, or applying a variance-stabilizing transform.
+
+In an item-response model there is nothing to relax. The precision of a person's estimate
+is the Fisher information $\mathcal{J}(\theta_p)$, which depends on $\theta_p$ — a person
+near the difficulty of most items is measured precisely and a person at the extremes is
+not (@sec-ch07). Shrinkage is therefore heteroscedastic by construction, and the normal
+working model of @sec-ch11 is an approximation here where it was not needed there.
+
+What this does *not* imply is worth stating, because this book got it wrong once. Varying
+precision does not by itself reorder the posterior means: in the common-form Rasch model
+the ordering is fixed by the total score (@sec-ch12). The consequence of heteroscedastic
+shrinkage is in the *values and their uncertainty*, and in the regimes — different test
+forms, incomplete designs, integrated item uncertainty — where the ordering does become
+vulnerable (@sec-ch20).
+
+### The latent scale has to be identified before $G$ can be read {#sec-ch21-identification}
+
+A treatment effect is measured on the outcome's own scale. Lee et al. report effects in
+effect-size units, and convert log odds ratios to Cohen's $d$ where the outcome is binary;
+the scale is given by the data and no identification question arises.
+
+A latent trait has no scale of its own. The location must be constrained, and under the
+2PL the scale as well (@sec-ch04). The recovered $G$ is therefore a different object with
+a different warrant, and before any comparison of priors can be interpreted one has to say
+what a finite test identifies about $G$ at all. San Martín et al. [-@sanmartin_bayesian_2011]
+answer it under their anchored Rasch conditions: the observable law is generated by
+$I + 1$ displayed integral evaluations of $G$ (@sec-ch16). Those evaluations satisfy
+algebraic identities and should not be read as $I+1$ unconstrained independent dimensions,
+or as a proof that no other equivalent generating set can be written. Nothing in the
+multisite setting raises this question.
+
+This difference also has no analogue in the other direction. It is not that the multisite
+problem is easier; it is that the question does not arise there, so the semiparametric
+identification literature this book spends a chapter on has no place in that paper.
+
+### Reliability is shared; its design mapping differs {#sec-ch21-reliability}
+
+This is the contact point, and it needs care because the naive version of the claim is
+false (@sec-ch21-delineation).
+
+Both settings have a design lever that raises reliability, and both papers know it. In Lee
+et al.'s simulations informativeness ranges from $.01$ to $.71$ with a mean of $.25$; their
+applied example, a conditional cash transfer experiment in Bogotá with $J = 38$ sites,
+sits at $I = .04$ and $.06$. According to Lee et al.'s comparison with Weiss et al.
+(2017), the past multisite trials used to calibrate the design contain no case comparable
+to their most informative simulated condition. That is a secondary attribution through
+Lee et al., not an independently checked claim about Weiss et al.
+
+The design mapping is nevertheless different. Lee's $I$ depends on average site size and
+on $\sigma^2$, the true cross-site variance of effects; the latter is not a design choice.
+Assessment reliability $\bar w$ depends on test information and on the target trait
+population. Adding items can move it, but $I$ and $\bar w$ are not a common numerical axis
+without an explicit design-to-information mapping. The assessment study can therefore
+vary test length prospectively and ask whether Lee et al.'s conditional $I$-by-$J$ pattern
+transfers. It cannot assume in advance that assessment lies above their crossovers.
+
+## The contribution {#sec-ch21-contribution}
+
+Our contribution is not the application of constrained Bayes and triple-goal estimation to
+item response models. Those estimators are Ghosh's [-@ghosh_constrained_1992] and Shen and
+Louis's [-@shen_triple-goal_1998], the three-goal framing is Shen and Louis's, and Lee et
+al. [-@lee_improving_2025] have already shown, in multisite trials, that the value of a
+flexible prior depends on how informative the data are — that semiparametric priors repay
+their cost only when informativeness is high, and that below it a Gaussian prior paired
+with the right posterior summary performs as well or better even when the true effect
+distribution is not Gaussian.
+
+What this work adds is a narrower, IRT-specific adaptation. It replaces the site-level
+summary likelihood with the full binary-response likelihood, in which information is a
+function of $\theta_p$ and of the item design. It must fix the latent location — and under
+the 2PL the scale — before the recovered $G$ can be interpreted, and it must distinguish
+the $I+1$ functionals identified by a finite Rasch test from the rest of a flexible
+distribution [@sanmartin_bayesian_2011, Theorem 5]. Those requirements change the model,
+the warrant for reading $G$, and the way reliability is manipulated.
+
+The decision comparison also makes fixed-cut classification explicit as a fourth target.
+That target is not new: Ghosh [-@ghosh_constrained_1992] motivates constrained Bayes with
+above/below-cutoff and category decisions, and Paddock et al.
+[-@paddock_flexible_2006] and Lockwood et al. [-@lockwood_uncertainty_2002] provide
+adjacent threshold and classification precedents. The contribution is to include the
+fixed substantive cut in this IRT comparison and keep it separate from ranking
+(@sec-ch20), not to originate cut-score decision theory.
+
+These structural differences motivate an empirical question rather than answer it.
+Assessment reliability can be varied through test length, but whether the prior-by-summary
+pattern found by Lee et al. changes under a full response likelihood is a realized result
+assigned at @sec-ch21-not-claimed.
+
+### What this statement deliberately does not claim {#sec-ch21-not-claimed}
+
+Three restraints, each of which an earlier draft of this chapter violated.
+
+It does not claim that the prior-and-summary decision *reverses* with reliability as a
+finding of this work, or that assessments occupy a range beyond Lee et al.'s result. Lee
+et al. show a prior-choice reversal on integrated squared-error loss conditional on $I$
+and $J$, and they show it first. Whether that pattern transfers to a full IRT response
+model as test length changes is a realized outcome, so the answer belongs to the companion
+simulation study and not to this book (@sec-ch21-boundary).
+
+It does not claim that adding items is cheaper than adding examinees. That is plausible
+and it is not in the source; no argument here rests on it.
+
+It does not claim that the trait variance is fixed by an identification constraint. Under
+the Rasch model the metric is fixed by the model and $\sigma^2_\theta$ is a free parameter
+(@sec-ch04); only the location needs constraining. Reliability is a design quantity
+because test length moves the measurement error, not because the trait variance is pinned.
+
+## Adjacent precedents {#sec-ch21-precedents}
+
+Three works should be cited alongside rather than behind Lee et al., because each did part
+of this before.
+
+Paddock et al. [-@paddock_flexible_2006] combined flexible distributions with triple-goal
+estimation in two-stage hierarchical models, and their results do not uniformly flatter
+flexible methods (@sec-ch19). Lockwood et al. [-@lockwood_uncertainty_2002] supply the
+Gaussian calibration relating rank recovery to a stability coefficient that @sec-ch20
+uses; Lockwood et al. [-@lockwood_flexible_2018] later apply CB and TG coordinatewise in a
+bivariate hierarchical model. Shen and Louis [-@shen_triple-goal_1998] are the origin of
+the three goals and of the GR estimator, and are cited throughout Part VI.
+
+## The boundary this chapter does not cross {#sec-ch21-boundary}
+
+This chapter compares problems, models, and warrants. It does not report what any
+simulation found — not this project's and not, beyond what is needed to state their
+published conclusions, Lee et al.'s. Whether a flexible prior earns its cost at a given
+reliability in an item-response setting is a realized outcome, and the companion
+simulation study is the authority for it. The delineation above is complete without that
+answer, which is the point: it establishes that the question is a different question, and
+a different question is what the Associate Editor asked for.

@@ -1,0 +1,6 @@
+"Comparison","Mean KS ratio","Cells won"
+"Gaussian + GR against DP(focused) + PM, all 120 cells","0.747","100 of 120"
+"Gaussian + GR against DP(focused) + PM, non-normal cells","0.849","60 of 80"
+"Summary swap alone (Gaussian + GR against Gaussian + PM), non-normal","0.746","79 of 80"
+"Prior swap alone (DP(focused) + PM against Gaussian + PM), non-normal","0.879","73 of 80"
+"Both levers (DP(focused) + GR against Gaussian + PM), non-normal","0.593","80 of 80"

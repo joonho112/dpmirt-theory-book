@@ -1,0 +1,5 @@
+"Specification","Parameters of interest","Rasch","2PL"
+"Fixed effects — the $\theta_p$ are $P$ unknown parameters","$(\boldsymbol\theta, \boldsymbol\beta)$, and $\boldsymbol\lambda$ under the 2PL","$\beta_1 = 0$","$\beta_1 = 0$ and $\lambda_1 = 1$"
+"Random effects — $\theta_p \sim G$, $G$ known up to scale $\sigma$","$(\boldsymbol\beta, \sigma)$, and $\boldsymbol\lambda$ under the 2PL","**none within this known-shape family** — $\sigma$ is identified by a continuous strictly increasing bivariate-probability map under the stated regularity conditions","$\lambda_1 = 1$"
+"Random effects — $\theta_p \sim G$, $G$ with free location $\mu$ and scale $\sigma$","$(\boldsymbol\beta, \mu, \sigma)$, and $\boldsymbol\lambda$ under the 2PL","$\beta_1 = 0$","$\lambda_1 = 1$ and $\beta_1 = 0$; requires $I \ge 3$"
+"Semiparametric — $G$ itself an unknown parameter","$(\boldsymbol\beta, G)$","$\beta_1 = 0$ identifies $\boldsymbol\beta$ and $I+1$ response-score functionals; **full $G$ and its variance are not generally identified** (@sec-ch16)","**open problem**"

@@ -1,0 +1,33 @@
+cff-version: 1.2.0
+message: "If you use this book, please cite it as below."
+type: generic
+title: "Bayesian Semiparametric Item Response Modelling for Person-Specific Latent Traits"
+subtitle: "Theory, Identification, and the Literature Behind the Estimators"
+authors:
+  - family-names: Lee
+    given-names: JoonHo
+    email: jlee296@ua.edu
+    affiliation: "The University of Alabama"
+abstract: >-
+  The theory and literature companion of a research programme on Bayesian
+  semiparametric item response modelling. It develops the measurement models
+  and their identification, information and the reliability coefficients that
+  summarise it, hierarchical shrinkage and its empirical-Bayes lineage,
+  Dirichlet process mixture priors on the latent trait distribution, and the
+  decision-theoretic case that three inferential goals — individual scores,
+  ranks, and the trait distribution — imply three different posterior
+  summaries. A focused part extends the argument to the two-parameter model,
+  and a final part reads the realized evidence of the companion simulation and
+  case-study volumes back into the theory.
+keywords:
+  - item response theory
+  - psychometrics
+  - Bayesian nonparametrics
+  - Dirichlet process
+  - Rasch model
+  - reliability
+  - identification
+  - posterior summaries
+license: CC-BY-4.0
+license-url: "https://creativecommons.org/licenses/by/4.0/"
+year: 2026

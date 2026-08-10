@@ -1,0 +1,65 @@
+  PROP-03-2      same fixed-lambda weighted score gives theta-free likelihood ratio ok
+  PROP-04-2      common Rasch location shift preserves all response probabilities ok
+  PROP-04-3      2PL joint scale transformation preserves logits; Rasch scaling does not ok
+  PROP-04-3b     positive-affine 2PL normalization preserves logits and centers both item blocks ok
+  THM-04-4F      anchor and two centering rules select invariant fixed-effect representatives ok
+  THM-04-5R      shifting item locations and the mixing law preserves a marginal pattern probability ok
+  PROP-06-2      implicit item-parameter sensitivity matches finite differences ok
+  PROP-07-1      RMSEM >= mean se, strict when se varies              ok
+  PROP-07-1b     equality holds when se is constant                   ok
+  PROP-08-1      mean w_p >= w-bar, strict when se^2 varies           ok
+  PROP-08-1b     equality holds when se^2 is constant                 ok
+  PROP-08-2      w-bar = S^2/(1+S^2) with S = sigma/RMSEM             ok
+  C-001          printed S column reproduces from ROUNDED RMSEM only  ok
+  C-001b         printed H column reproduces from EXACT S             ok
+  THM-08-3       w-bar <= rho_Theta <= rho-tilde in all 12 cells      ok
+  THM-08-3b      equality when information is constant                ok
+  ch8-gap-size   every outer gap in the reported grid is below 0.03   ok
+  EQ-TWO-FORMS   v/(v+m) - (1 - m/v) = m^2/(v(v+m)) > 0               ok
+  PROP-09-1      c* under MSEM >= c* under average-information        ok
+  PROP-09-1b     scaled 2PL information is not obtained by freezing probabilities ok
+  PROP-10-2      Var = s2(1-1/I), Cov = -s2/I, Cor = -1/(I-1), rank I-1 ok
+  PROP-10-2b     the induced draws sum to zero                        ok
+  eq-hyperpriors Inv-Gamma(2.01,1.01) has mean 1 and variance 100     ok
+  THM-11-1       closed-form posterior mean matches numerical integration ok
+  THM-11-1b      posterior variance = w se^2 = (1-w) sigma^2          ok
+  PROP-11-3      Var(ML) = sigma^2 + MSEM                             ok
+  PROP-11-3b     Var(EAP) = w-bar sigma^2 exactly                     ok
+  PROP-11-3c     SD(EAP)/sigma = sqrt(w-bar)                          ok
+  PROP-11-3d     weight sqrt(w) restores the ensemble variance (Louis) ok
+  PROP-11-3e     exact posterior total-variance identity under a skewed G ok
+  THM-15-2       stick-breaking mean weights are geometric: E[p_n] = a^(n-1)/(1+a)^n ok
+  THM-15-2b      simulated first two moments agree with the sourced Beta marginal ok
+  APP-A-1-1      E[log(1-V)] = -1/alpha for V ~ Beta(1,alpha)         ok
+  THM-15-2c      the weights sum to one: truncation error decays geometrically ok
+  THM-15-4       Antoniak pmf sums to 1 and its mean is the digamma form ok
+  THM-15-4b      K_J grows like alpha log J: tenfold J adds ~2.3 alpha ok
+  THM-15-4c      alpha = 0.80 is what matching E[K_200] = 5 requires  ok
+  PROP-13-1a     normal G, 5 easy items: score skew -0.99, 38% at ceiling ok
+  PROP-13-1b     bimodal G, 6 spread items: unimodal score pmf, TV = 0.035 ok
+  PROP-13-1c     TV grows with test length: .035 / .066 / .172 / .305 ok
+  PROP-12-3x     common-item Rasch: EAP is monotone in the total score for every G ok
+  PROP-12-3y     across two test forms the ML and EAP orderings do disagree ok
+  PROP-17-1      E[WSEL] = sum (a - eta)^2 + sum v, minimized at the means ok
+  THM-17-3       Theorem 1 action uses Gbar midpoint quantiles and differs from WSEL means ok
+  THM-17-3b      midpoint-quantile action beats order-statistic means under ISEL ok
+  THM-18-1       Ghosh's a = sqrt(1 + H1/H2) equals the per-unit (1-1/P) form ok
+  THM-18-1b      R sample-variance form equals the exact finite-P independent specialization ok
+  THM-18-1c      the CB ensemble variance matches V_eta + (1-1/P) v-bar ok
+  THM-18-1d      Ghosh H1 equals marginal-variance term minus cross-person covariance term ok
+  PROP-18-2      CB preserves ranks and standardized moments of orders 3 through 6 ok
+  PROP-19-2      the GR ensemble is exactly the mass points of G-hat, permuted ok
+  PROP-19-3      general GR regret and eq. (14) simplification use their stated permutations ok
+  PROP-19-3b     CB attains the target ensemble variance and GR does not ok
+  eq-gbar        Gbar(t) is a probability in [0,1] and is nondecreasing ok
+  PROP-20-1      matched-grid reliability effect exceeds the maximum shape gap fourfold ok
+  PROP-20-1b     matched shape gap has an interior peak and declines on the displayed tail ok
+  PROP-20-1c     bimodal G has the most near-ties under full-support unit-variance quadrature ok
+  PROP-26-1      distinct finite-support G laws have identical known-2PL pattern integrals ok
+  F-stein        risk = 2 at the origin for every p; -> p as ||xi||^2 grows ok
+  APP-A-2-1      pattern law = exp(-sum u_i beta_i) * mu_{r}: I+1 functionals suffice ok
+  APP-A-2-1b     displayed evaluations satisfy the probability-normalization identity ok
+  APP-A-2-2      finite positive base variance yields Var(realized DP mean)=v0/(1+alpha) ok
+  APP-A-3-2      E[1/J(theta)] >= 1/E[J(theta)], strict when information varies ok
+
+V8 numerical checks: 63 run; 0 failed; derived-result coverage: 11/11; unmapped result checks: 0

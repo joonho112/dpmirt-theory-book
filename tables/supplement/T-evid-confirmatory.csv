@@ -1,0 +1,7 @@
+"Hypothesis","What it estimates","Estimate (log ratio)","95% CI","Ratio scale","Holm $p$","Decision"
+"H1","Primary contrast at the design centre (KS)","-0.221","[-0.246, -0.195]","0.80","1.4e-28","supported"
+"H2","Deepening per doubling of $N$ (KS)","-0.114","[-0.123, -0.106]","0.89","1.2e-131","supported"
+"H3","Rasch versus 2PL difference in differences (KS)","-0.127","[-0.175, -0.078]","0.88","0.0001","supported"
+"H4","Non-inferiority on individual accuracy (MSEL)","-0.070","[-0.080, -0.060]","0.93","2.3e-23","supported"
+"H5","Focused versus broad elicitation (KS)","-0.011","[-0.017, -0.005]","0.99","0.0001","supported"
+"Control","Calibration control on normal cells (KS)","0.016","[0.002, 0.030]","1.02","—","control (not a test)"

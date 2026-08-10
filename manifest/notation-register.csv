@@ -1,0 +1,112 @@
+symbol,meaning,type,first_use,source_convention,collides_with,note
+P,number of persons actually analyzed (index bound),scalar,ch02,this book,manuscript uses N for simulation sample size and P in the appendices,P = N in a realized design cell with no exclusions or missing persons
+N,planned simulation-design sample size,scalar,ch02,simulation-study book,P,a design factor; distinguished from the realized analytic index bound P
+I,number of items (index bound),scalar,ch02,Debelak,,
+p,person index,index,ch02,this book,,p = 1..P
+i,item index,index,ch02,this book,,i = 1..I
+U_{pi},response random variable,random variable,ch02,Appendix A draft,manuscript writes y_{ip} with indices reversed,"capital = random, lowercase = realized, held throughout"
+u_{pi},realized response,scalar,ch02,Appendix A draft,,
+y_{ip},legacy manuscript response notation,scalar,ch02,manuscript,U_{pi},used only in the notation crosswalk; replaced by u_{pi} with person-first indexing
+\mathbf{U},response matrix (random),matrix,ch02,Appendix A draft,,P x I; realized as \mathbf{u}
+\mathbf{u},realized response matrix,matrix,ch02,Appendix A draft,,the full data; distinct from the within-person vector \mathbf{u}_p
+\mathbf{u}_p,within-person response vector,vector,ch02,manuscript,,DEFINED in ch02 — R2's second bullet; the manuscript uses it undefined
+\mathbf{u}^i,item response vector across persons,vector,ch02,Appendix A draft,,
+r_p,person total score,scalar,ch02,Appendix A draft,,sufficient for theta_p under Rasch only (PROP-03-4)
+c_i,item total score,scalar,ch02,Appendix A draft,,
+\mathbf{r},vector of person total scores,vector,ch05,Debelak,,the statistic CML conditions on
+\theta_p,person latent trait,scalar,ch02,manuscript,,
+\beta_i,item difficulty,scalar,ch02,manuscript,,
+\lambda_i,item discrimination,scalar,ch02,simulation-study book,Shen & Louis use lambda_p for posterior variance,TD-3: present from ch02. Rasch is lambda_i == 1. See v_p
+\pi_{pi},probability of a correct response,scalar,ch02,Appendix A draft,,
+P_i(\theta),item response probability as a function of ability,function,ch06,Warm,\pi_{pi},local notation in ch06; equals Pr(U_{pi}=1 | theta) with person index suppressed
+Q_i(\theta),complementary item response probability,function,ch06,Warm,,Q_i(theta) = 1 - P_i(theta)
+P_i'(\theta),first derivative of the item response probability,function,ch06,Warm,,prime denotes differentiation with respect to theta; P_i'' is the second derivative
+J(\theta),Warm bias numerator,function,ch06,Warm,\mathcal{J}(\theta),plain J is not information; J(theta) = sum_i P_i' P_i''/(P_i Q_i) in ch06
+\mathcal{I},retired information symbol,legacy notation,ch02,manuscript,\mathcal{J}(\theta),appears only when documenting the manuscript collision; this book uses mathcal J
+L_C,Rasch conditional likelihood,function,ch05,this book,,conditions on person total scores
+L_M,marginal likelihood,function,ch02,this book,,integrates person traits against G
+T_{\boldsymbol\lambda},known-discrimination weighted score,function,ch03,this book,,a sufficient statistic only when the discrimination vector is fixed and known
+X_p,standardized latent variable,random variable,ch04,this book,,known-shape location-scale representation theta_p = sigma X_p
+"S_p(\theta\,\boldsymbol\psi)",person scoring estimating function,function,ch06,this book,,zero defines a regular plug-in ability estimator
+\boldsymbol\psi,vector of calibrated item parameters,vector,ch06,this book,\boldsymbol\phi,contains beta under Rasch and beta plus lambda under 2PL; distinct from item hyperparameters phi
+V_\psi,covariance matrix of calibrated item estimates,matrix,ch06,this book,,from the calibration design; independent-calibration formula in PROP-06-2
+\mathbf{g}_\psi,implicit-function sensitivity of ability to item parameters,vector,ch06,this book,,= -(partial S/partial theta)^(-1) partial S/partial psi
+g_{\beta_j},Rasch component of plug-in sensitivity,scalar,ch06,this book,,= P_j Q_j / mathcal J for the Rasch ML score
+\mathcal{J}_{2\mathrm{PL}}(\theta),2PL test information,function,ch06,this book,\mathcal{J}(\theta),local specialization = sum_i lambda_i^2 P_i Q_i
+J_{2\mathrm{PL}}(\theta),2PL Warm bias numerator,function,ch06,this book,J(\theta),local specialization = sum_i lambda_i^3 P_i Q_i (1-2P_i)
+\mathcal{J}(\theta),test information,function,ch02,manuscript,manuscript text alternates J and I within one paragraph,ONE symbol only; general form sum_i lambda_i^2 pi(1-pi)
+\mathrm{se}(\hat\theta_p)^2,conditional sampling variance of the ability estimate,scalar,ch02,manuscript,,never called 'the variance of theta_p' — ch11 sec6 explains why
+\mathrm{MSEM},mean square measurement error,scalar,ch07,Wright & Masters,,= P^{-1} sum_p se(hat theta_p)^2; W&M write MSE_P
+\mathrm{RMSEM},root mean square measurement error,scalar,ch07,Wright & Masters,,W&M write SE_P = (MSE_P)^{1/2}
+G,latent-trait distribution,distribution,ch02,manuscript,,distinct from G_N and bar G_N — the manuscript conflates them
+G_N,empirical distribution of the realized theta,distribution,ch02,Shen & Louis,,
+\bar G_N,posterior estimate of G_N,distribution,ch17,Shen & Louis,,"a probability in [0,1] evaluated at t — NOT a trait estimate. R1's confusion"
+\boldsymbol\delta,person hyperparameters (mu_theta sigma^2_theta),vector,ch02,manuscript,,'=' not 'in' — R2's sixth bullet
+\boldsymbol\phi,item hyperparameters (mu_beta sigma^2_beta),vector,ch02,manuscript,,
+\mu_\theta,person population mean,scalar,ch02,manuscript,,
+\sigma^2_\theta,person population variance,scalar,ch02,manuscript,,a design parameter in the simulation; an estimator (SA^2 = SD^2 - MSE) in Wright & Masters — C-004
+w_p,person shrinkage weight,scalar,ch11,manuscript,,
+\bar w,Rasch test reliability,scalar,ch08,Wright & Masters,,= sigma^2/(sigma^2+MSEM) = W&M's R_P. NOT equal to mean(w_p) — PROP-08-1
+S,person separation index,scalar,ch08,manuscript,W&M write G_P,= sigma_theta / RMSEM
+H,number of person strata,scalar,ch08,Wright & Masters,,"= (4S+1)/3, from strata three measurement errors apart"
+\eta_p,posterior mean of theta_p,scalar,ch11,Shen & Louis,,
+v_p,posterior variance of theta_p,scalar,ch11,this book,Shen & Louis write lambda_p,"DEPARTURE from Shen & Louis, forced by TD-3. Stated at first use in ch11, repeated at the Part VI first use in ch17 and in ch18, and recorded in the Appendix B crosswalk"
+\alpha,DP concentration parameter,scalar,ch15,Escobar & West,,NEVER 'precision' — R2-4a. The manuscript uses 'precision' throughout
+F,the DP-distributed mixing measure,random measure,ch15,manuscript,,
+G_0,DP base measure,distribution,ch15,manuscript,,
+K_J,number of occupied clusters among J draws,scalar,ch15,Antoniak,,
+M,finite truncation level,scalar,ch15,Ishwaran & James,,
+\theta^{CB}_p,constrained Bayes estimate,scalar,ch18,Ghosh,,
+\theta^{GR}_p,triple-goal estimate,scalar,ch19,Shen & Louis,,
+R_p,true rank of theta_p,scalar,ch17,Shen & Louis,,
+\hat R_p,integer-valued estimated rank,scalar,ch19,Shen & Louis,,
+\mathbf{I}_I,identity matrix of order I,matrix,ch10,standard,I,"the subscript is the test length; bold upright distinguishes it from the italic scalar I, and it appears only in PROP-10-2"
+\mathbf{C},centering matrix I_I - I^{-1} 11',matrix,ch10,this book,,symmetric idempotent of rank I-1; used only to derive the induced item prior in PROP-10-2
+\mathcal{X},sample space on which the Dirichlet process lives,set,ch15,Ferguson,,"Ferguson writes the pair (X, A); the latent-trait application takes X = R"
+\mathcal{A},sigma-field of subsets of the sample space,set,ch15,Ferguson,,the partitions in DEF-15-1 are measurable with respect to it
+p_n,nth stick-breaking weight,scalar,ch15,Sethuraman,,= theta_n prod_{m<n}(1 - theta_m); sums to one a.s.
+Y_n,nth stick-breaking atom location,scalar,ch15,Sethuraman,,"iid from the base measure G_0, independent of the sticks"
+W_i,indicator that the ith draw is a new distinct value,scalar,ch15,Antoniak,,P(W_i = 1) = alpha/(alpha + i - 1)
+Z_n,number of distinct values among n draws,scalar,ch15,Antoniak,K_J,Antoniak's symbol; this book writes K_J for the same quantity when J is the number of persons
+z_p,cluster label of person p under the CRP representation,scalar,ch16,DPMirt,,"the DPM's mixture-component assignment; theta_p | z_p ~ N(muTilde_{z_p}, s2Tilde_{z_p})"
+\mathbf{z},vector of cluster labels over persons,vector,ch16,DPMirt,,"z ~ CRP(alpha, P); its number of distinct values is K"
+\Theta,generic latent-trait random variable,scalar,ch04,this book,\theta_p,uppercase form is used when the trait is explicitly random
+\rho,generic reliability value or target,scalar,ch08,this book,\bar w,subscripts distinguish classical and population reliability functionals
+\varepsilon_p,person-level measurement error,scalar,ch08,this book,,appears in the working decomposition hat(theta)_p = theta_p + epsilon_p
+\chi^2,chi-squared distribution,distribution,ch10,standard notation,,used only in a prior-density comparison
+\epsilon,positive limiting or boundary constant,scalar,ch10,standard local notation,,local analytic placeholder rather than a model parameter
+\tau_L,working-likelihood precision,scalar,ch11,this book,,inverse conditional measurement-error variance
+\tau_\pi,prior precision,scalar,ch11,this book,,inverse latent population variance in the Gaussian working model
+\tau^2,canonical variance in the compound-decision formulation,scalar,ch12,compound-decision literature,\sigma^2_\theta,local translation of the source notation
+\xi,canonical mean vector in the James--Stein formulation,vector,ch12,James--Stein notation,\theta_p,used only in the compound-decision comparison
+\varphi_1,James--Stein estimator,vector,ch12,James--Stein notation,,canonical shrinkage rule in the source parameterization
+\nu_1,shape hyperparameter of the inverse-gamma base component,scalar,ch16,DPMirt,,package-facing name retained in the model specification
+\nu_2,scale hyperparameter of the inverse-gamma base component,scalar,ch16,DPMirt,,package-facing name retained in the model specification
+\xi_G(k),identified Laplace-transform functional of G,scalar,ch16,San Martin,,indexed by k = 0 through I
+\mathbf{a},action vector in a decision problem,vector,ch17,standard,,the quantity a loss is minimized over; distinct from any estimator until a loss is named
+a_p,pth coordinate of the action vector,scalar,ch17,standard,,the number reported for person p
+\mathbf{R},vector of person ranks,vector,ch17,Shen & Louis,,R_p = sum_q 1{theta_q <= theta_p}
+A_p,estimated rank assigned to person p,scalar,ch17,Lee et al. 2025,R_p,used in the rank-loss definitions
+\mathrm{MSELR},mean squared error loss of ranks,loss,ch17,Lee et al. 2025,,rank-scale loss averaged over persons
+\mathrm{MSELP},mean squared error loss of percentile ranks,loss,ch17,Lee et al. 2025,\mathrm{MSELR},equals MSELR divided by P squared
+\mathrm{KS},Kolmogorov--Smirnov distance,loss,ch17,standard notation,,supremum EDF discrepancy rather than integrated EDF loss
+Q_p,percentile rank of person p,scalar,ch20,this book,R_p,equals R_p divided by P
+\hat{U}_j,jth mass point of the ISEL-optimal discrete EDF estimate,scalar,ch19,Shen & Louis,,"= Gbar^-1((2j-1)/2K); on the trait scale, unlike Gbar itself"
+\bar{G}_K,posterior expectation of the realized EDF,function,ch19,Shen & Louis,G,a cumulative PROBABILITY at each t; this book writes Gbar_N when K = N persons
+m_i,number of ordered steps in polytomous item i,scalar,ch22,Masters (1982),,local to the polytomous section; the dichotomous case is m_i = 1
+x_{ni},"person n's score on polytomous item i, a count of completed steps",scalar,ch22,Masters (1982),u_{pi},"Masters' own notation, kept so the sufficiency derivation can be quoted at his locators; this book's dichotomous response is u_{pi} and his person index n is this book's p"
+Q,Q-matrix: which attributes each diagnostic item requires,matrix,ch22,Gu and Xu (2019),Q_i(\theta),"bare and unsubscripted, unlike ch. 6 complementary response probability Q_i(theta); the two never appear in the same section"
+\Gamma,design matrix whose columns index distinguishable latent profiles,matrix,ch22,Gu and Xu (2020),,separability of Gamma decides whether individual profile proportions are identified
+B_j,indicator that draw j opens a new CRP cluster,random variable,appA,this book,,"local to the Antoniak proof; the B_j are independent Bernoulli with P = alpha/(alpha+j-1), which is what puts E[K_J] in closed form"
+n_h,size of occupied CRP block h,scalar,appA,this book,,the family also licenses n_1 through n_k in the partition likelihood
+e_r,elementary symmetric polynomial of degree r,function,appA,this book,,used in the finite Rasch normalization identity
+\gamma_i,"slope-intercept item parameter, gamma_i = -lambda_i beta_i",scalar,appB,Paganin et al. (2022),,foreign notation quoted in the crosswalk; this book never reparameterizes to slope-intercept
+\zeta_i,"slope-intercept item parameter, zeta_i = -alpha_i beta_i",scalar,appB,Baker and Kim (2004),\gamma_i,the same object as Paganin et al.s gamma_i under a different letter; both quoted in the crosswalk
+\gamma,Baker and Kim's atypical difficulty parameter in Z = alpha theta - gamma,scalar,appB,Baker and Kim (2004),\gamma_i,named in the crosswalk only to warn that two different gammas circulate in the Gibbs-sampling literature
+\lambda_p,posterior variance of the unit parameter,scalar,appB,Shen and Louis (1998),\lambda_i,NOT used by this book; appears only in the crosswalk to record the collision that forced the v_p departure
+\beta_i^{\mathrm{tmp}},"working (uncentred) item difficulty inside the sampler, before the identification centring",scalar,ch26,DPMirt R/model_spec.R (beta.tmp),,the fitted beta_i is beta_i^tmp minus the mean of the beta^tmp vector; ch. 26 eq-2pl-constraints
+\beta^{\mathrm{tmp}},the vector of working item difficulties (appears under an overline as its mean),vector,ch26,DPMirt R/model_spec.R (beta.tmp),,companion of beta_i^tmp
+\lambda_i^{\mathrm{tmp}},"working (uncentred) log-scale discrimination inside the sampler, before the log-mean centring",scalar,ch26,DPMirt R/model_spec.R (logLambda.tmp),,"log lambda_i is log lambda_i^tmp minus the mean of the log lambda^tmp vector; prior N(0.5, 0.5) before centring"
+\lambda^{\mathrm{tmp}},the vector of working discriminations (appears under an overline as its log-mean),vector,ch26,DPMirt R/model_spec.R (logLambda.tmp),,companion of lambda_i^tmp
+d_s,"draw-s inverse geometric-mean discrimination multiplier used in 2PL post-hoc normalization",scalar,ch26,DPMirt R/rescale.R,,"equals (product_i lambda_is)^(-1/I); the positive-affine slope is a_s = 1/d_s"
+q_{\mathbf u}(\theta),known-item 2PL conditional probability kernel for response pattern u,function,ch26,this book,,"product of Bernoulli item probabilities; integrating it against G gives pi_u(G)"

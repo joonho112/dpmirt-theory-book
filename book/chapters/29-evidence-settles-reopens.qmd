@@ -1,0 +1,159 @@
+# What the Evidence Settles, and What It Reopens {#sec-ch29}
+
+@sec-ch23 closed the first edition of this book with a ledger of open
+problems, each tagged with whose problem it was. Two companion volumes and
+two corpus studies later, the honest bookkeeping is to walk the ledger again.
+None of the nine entries is fully closed; some are partially advanced or
+empirically bounded, some remain untouched, and the evidence has opened
+accounts of its own. Several broader questions around the ledger do now have
+grid-scoped answers.
+This chapter is short because most of the substance already lives in
+@sec-ch27 and @sec-ch28; what belongs here is the disposition.
+
+## The original ledger, item by item {#sec-ch29-ledger}
+
+The table preserves the nine questions as Chapter 23 posed them. “Evidence
+strength” labels the evidence that now bears on an entry; it does not promote
+that evidence into a test of the open problem itself. In particular, a
+confirmatory result inside the simulation can inform an OP without settling
+the theorem, identification, or transport question that OP asks.
+
+| Ledger item | Status | Evidence strength | Scope of this disposition | Next owner |
+|---|---|---|---|---|
+| OP-01 — finite-$N$ DPM behaviour | **Open; finite-grid performance bounded** | Indirect registered simulation results on losses; OP-01 itself was not tested | @sec-ch27 describes finite binary Rasch/2PL performance over the visited grid, not posterior behaviour in weakly identified directions | Semiparametric Bayes theory; the field |
+| OP-02 — rank proposition beyond its conditions | **Open; exploratory support** | Exploratory simulation synthesis | Rank losses are nearly inert in the common-form binary grid; different forms, incomplete designs, and propagated item uncertainty remain unrun | Targeted computation and theory; this programme |
+| OP-03 — boundary of goal incompatibility | **Open boundary; live conflict established** | Confirmatory pooled H7 plus a descriptive 239-of-240 point census | The KS-versus-MSEL conflict is supported for the studied summaries and priors; the posterior-family boundary of @thm-incompatible is not characterized | Decision-theory extension; this programme and the field |
+| OP-04 — joint multivariate CB/TG action | **Open** | No new evidence | Neither companion volume studies a joint transformation-aware multivariate CB/TG action | Multivariate decision theory; the field |
+| OP-05 — finite polytomous identification | **Open; urgency sharpened** | Descriptive corpus and screening evidence only | The evidence programme is binary; the prevalence of polytomous data in @sec-ch29-open shows scope pressure but supplies no identification result | Polytomous semiparametric theory and software |
+| OP-06 — priors under location/scale transport | **Partially advanced** | Exact affine-orbit algebra, not an empirical test | @sec-ch26 gives the 2PL location/scale transport; priors on substantive functionals such as fixed-cut tail mass remain uncharacterized | Identification and prior-elicitation theory; this programme |
+| OP-07 — short-test working-model cost | **Partially answered** | Exact quadrature illustration; no inferential claim | @fig-shrink-deviation includes short Rasch forms under two difficulty geometries, but does not quantify every working-model error or decision consequence | Expanded numerical study; this programme |
+| OP-08 — published sum-score fallacy | **Open; audit unrun** | No audit evidence | The counterexample remains valid, but no published conclusion has been traced to the sum-score fallacy | Targeted literature audit |
+| OP-09 — measurement-model misspecification | **Open; sensitivity only** | Descriptive case-study movement; no truth-based test | Item-model swaps can move reported shape, but moves are not improvements and do not measure cost under known measurement-model misspecification | Crossed misspecification simulation; the field |
+
+## Settled, and by whom {#sec-ch29-settled}
+
+**Whether the goal conflict is live at realistic designs.** @thm-incompatible
+gave existence; the simulation's pooled H7 contrast supported the conflict at
+confirmatory strength, with an average penalty of 0.281 log units. The separate
+condition-mean census is descriptive: 239 of 240 condition-by-prior points lie
+in the predicted quadrant, with one near-parity KS exception
+(@sec-ch27-record). The question “can one estimate set serve all three goals
+well enough in practice?” therefore has a grid-scoped answer: usually not for
+the distributional and individual losses studied, with the pooled concession
+estimated, without erasing the single exception or claiming universality.
+
+**Whether the Paddock pattern transfers to binary response models.**
+@sec-ch13 could only conjecture that the two-stage Gaussian findings
+(distributional functionals fragile, ranks robust, everything
+reliability-gated) would survive the move to item-response likelihoods with
+$\theta$-dependent information. Within the visited binary-response grid, the
+registered contrasts support the distributional direction and the reliability
+gate; rank robustness, the finer shape split, and the lever structure remain
+exploratory
+(@sec-ch27-verdicts). The transfer question this book listed as CB-013 is
+supported for that design, not discharged universally.
+
+**Whether "flexible when in doubt" carries a hidden individual-score cost.**
+The pooled confirmatory H4 result prices the mean: about seven percent *better*
+on average over the opportunity region. Its seven-cell bimodal,
+low-reliability localization, where the cost is five to fourteen percent and
+each interval excludes parity, is the source volume's post-outcome Addendum
+006 disclosure rather than a second confirmatory test. The exception region
+is also where the case-study volume
+found real cases sitting (its C12), and where the simulation volume's own
+claim gate withholds a recommendation; this book adds nothing to that
+withholding and repeats it. The mean question is settled for the registered
+opportunity region; the seven-cell localization remains a quantified
+post-outcome disclosure, not a second confirmatory verdict.
+
+**Where real tests sit on the axes the theory cares about.** The reliability
+corpus puts a third to a half of real datasets below .80 depending on the
+definition; the shape corpus puts the median latent estimate .109 from its
+normal calibration, with skew the dominant morphology and pronounced
+multimodality a minority feature; the null calibration puts a resolution
+floor near a few hundred respondents under any shape claim at all
+(@sec-ch28). The theory's motivating premises, that low reliability is
+ordinary and that estimated non-normality is ordinary, now have corpus
+measurements behind them. Reliability's interaction with flexible-prior
+performance is instead a grid-scoped simulation result and cross-study
+synthesis; it is not a third corpus measurement.
+
+## Settled in a sharper form than the theory stated {#sec-ch29-sharpened}
+
+Three of this book's own statements should be carried forward in the
+evidence's formulation rather than the original one.
+
+The **shrinkage rule** $\sqrt{\bar w}$ of @sec-ch11 is a working-model
+identity whose deviation under exact Rasch posteriors is design-dependent
+(@fig-shrink-deviation); sentences that used it as if it were a model
+theorem should say "approximately, and exactly under the constant-error
+working model," which is what @sec-ch11 and @sec-ch13 now say.
+
+The **reliability axis** of any design built on the targeting machinery is a
+bundle, length and discrimination scale calibrated jointly, and effects
+"of reliability" are effects of the bundle (@sec-ch25-ladder). The clean
+separation, discrimination varied at fixed length, is an unrun design.
+
+The exploratory simulation decomposition places the **summary lever above the
+prior lever** on distributional losses in the visited grid, by a factor and a
+variance share that were nobody's prediction (@sec-ch27-levers). Part VI's
+architecture — summaries as first-class decisions — is consistent with that
+exploratory ordering. Its scope must travel with it: the ordering concerns
+truth-based losses in the simulated grid, while on real tests the case-study
+volume finds the prior the larger *mover* of reported distributions on
+non-normal cells. Displacement and improvement are different quantities, and
+@sec-ch28-moves keeps them apart.
+
+## Reopened, or newly opened {#sec-ch29-open}
+
+**The 2PL identification edge.** @sec-ch26 now supplies the known-item
+response-pattern-functional bound: @prp-2pl-pattern-id gives at most $2^I-1$
+independent probabilities and shows that a finite known-item 2PL does not
+point-identify unrestricted $G$. What remains open is the sharp *joint*
+characterization when item difficulties and discriminations are free, after
+quotienting the positive-affine orbit. That is now the sharpest purely
+theoretical open problem this programme owns.
+
+**Separating the reliability bundle.** The companion simulation's own
+discussion names the next design — vary discrimination at fixed test length —
+and the collinearity diagnostic (@sec-ch25-ladder) is the reason it is
+needed. Until it runs, tier-gradient statements are bundle statements.
+
+**The bimodal low-reliability corner.** The safety exception is documented
+within the simulated grid,
+but the constructive question, whether an estimator exists that keeps the
+distributional gains without the individual-score cost in that corner or
+whether the trade is forced, is open, and @thm-incompatible suggests "forced" is a
+live possibility rather than a defeatist one.
+
+**Polytomous and beyond.** Every result in the evidence base is binary. The
+case-study volume's screening records that roughly three quarters of the
+shape-measured Warehouse corpus is polytomous and therefore outside the
+current software's reach; @sec-ch22's boundary chapter already argued the
+polytomous frontier does not fall where "Rasch versus the rest" puts it. The
+gap between where the evidence lives and where the data live is the
+programme's largest exposure, and closing it is software work before it is
+theory work [@lee_dpmirt_2026].
+
+**The elicitation cap.** The concentration-elicitation machinery this book
+recommends (@sec-ch15-elicitation) is implemented with an Antoniak
+tabulation that stops at five hundred persons in the current release of its
+package — the case-study volume hit the ceiling on its first day and worked
+at $n \le 500$ throughout [@lee_casestudy_2026; @lee_dpprior_2026]. A cap
+that binds at the fifth percentile of corpus sample sizes is an
+implementation boundary, not a theory boundary, but practitioners inherit
+implementation boundaries, and this one belongs on the list until it is
+lifted.
+
+## The standing boundary {#sec-ch29-boundary}
+
+Nothing in the two evidence chapters moves the division of labour this book
+declared at the outset. Correctness claims live in the simulation volume;
+consequence claims live in the case-study volume; the theory lives here, and
+it cites the other two rather than absorbing them. Where the evidence
+contradicts a sentence of Parts I through VIII, the repair is recorded in
+place and the sentence is not silently harmonized. The nine-row disposition
+above therefore keeps genuinely untouched work visible. OP-08 is the cleanest
+example: the sum-score counterexample survives, but the literature audit that
+would determine whether it changed a published conclusion remains unrun. A
+book that keeps ledgers ends on one.

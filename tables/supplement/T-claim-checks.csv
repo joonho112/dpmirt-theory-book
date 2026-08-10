@@ -1,0 +1,5 @@
+"Checker","What it audits","Current output","Checks","Negative fixtures","Issues"
+"C1 evidence claims","the evidence-claim register's executable rows","evidence-claim-check.csv; evidence-claim-fixtures.csv",11,7,0
+"C2 external sources","companion-store identity, schema, and row counts","external-source-ledger-check.csv; external-source-negative-fixtures.csv",11,3,0
+"C3 figure claims","what each new figure draws against what its caption claims","figure-claim-check.csv; figure-claim-negative-fixtures.csv",11,14,0
+"C4 release closure","manifest closure and the disposition of every review finding","review-025-disposition-check.csv",6,0,0

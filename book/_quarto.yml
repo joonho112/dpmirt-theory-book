@@ -1,0 +1,86 @@
+project:
+  type: book
+  output-dir: _book
+
+book:
+  title: "Bayesian Semiparametric Item Response Modelling for Person-Specific Latent Traits"
+  subtitle: "Theory, Identification, and the Literature Behind the Estimators"
+  author:
+    - name: JoonHo Lee
+      email: jlee296@ua.edu
+      affiliation: The University of Alabama
+  date: today
+  search: true
+  chapters:
+    - index.qmd
+    - part: "I — Orientation"
+      chapters:
+        - chapters/01-the-estimation-problem.qmd
+        - chapters/02-notation-and-frameworks.qmd
+    - part: "II — The Measurement Models"
+      chapters:
+        - chapters/03-rasch-and-2pl-foundations.qmd
+        - chapters/04-identification.qmd
+        - chapters/05-item-parameter-estimation.qmd
+        - chapters/06-person-parameter-estimation.qmd
+    - part: "III — Information, Error, and Reliability"
+      chapters:
+        - chapters/07-information-and-error.qmd
+        - chapters/08-reliability.qmd
+        - chapters/09-designing-for-reliability.qmd
+    - part: "IV — Bayesian Hierarchical Modelling and Shrinkage"
+      chapters:
+        - chapters/10-bayesian-hierarchical-rasch.qmd
+        - chapters/11-conditional-posterior-and-shrinkage.qmd
+        - chapters/12-empirical-bayes-tradition.qmd
+    - part: "V — Beyond Normality: Flexible Latent-Trait Distributions"
+      chapters:
+        - chapters/13-non-normality.qmd
+        - chapters/14-flexible-alternatives.qmd
+        - chapters/15-dirichlet-process.qmd
+        - chapters/16-dpm-priors.qmd
+    - part: "VI — Posterior Summaries and Inferential Goals"
+      chapters:
+        - chapters/17-three-goals.qmd
+        - chapters/18-constrained-bayes.qmd
+        - chapters/19-triple-goal.qmd
+        - chapters/20-ranking-and-classification.qmd
+    - part: "VII — Positioning"
+      chapters:
+        - chapters/21-relation-to-lee-et-al.qmd
+        - chapters/22-scope-and-extensions.qmd
+        - chapters/23-open-problems.qmd
+    - part: "VIII — What Changes Under the 2PL"
+      chapters:
+        - chapters/24-discrimination-and-information.qmd
+        - chapters/25-reliability-under-2pl.qmd
+        - chapters/26-identification-dpm-2pl.qmd
+    - part: "IX — The Realized Evidence"
+      chapters:
+        - chapters/27-what-the-simulation-settled.qmd
+        - chapters/28-what-real-tests-look-like.qmd
+        - chapters/29-evidence-settles-reopens.qmd
+  appendices:
+    - appendices/A-proofs.qmd
+    - appendices/B-crosswalk.qmd
+    - appendices/C-corrections.qmd
+    - appendices/D-annotated-bibliography.qmd
+    - appendices/E-acquisition-ledger.qmd
+    - appendices/F-software.qmd
+    - appendices/G-build-report.qmd
+
+bibliography: references.bib
+
+format:
+  html:
+    theme: cosmo
+    toc: true
+    toc-depth: 3
+    number-sections: true
+    df-print: kable
+    include-in-header:
+      text: |
+        <style>
+        .prov { font-size: 0.88em; color: #555; font-style: italic; }
+        blockquote.ms { border-left: 3px solid #c0392b; background: #fdf3f2; }
+        </style>

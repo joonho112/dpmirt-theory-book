@@ -1,0 +1,328 @@
+# The Bayesian Hierarchical Rasch Model {#sec-ch10}
+
+```{r}
+#| label: setup-ch10
+#| include: false
+tbl <- function(id) readRDS(file.path("..", "..", "tables", paste0(id, ".rds")))
+```
+
+Parts II and III treated the item and person parameters as things to be estimated, and
+the population distribution $G$ as either a device for eliminating incidental parameters
+(@sec-ch05-mml) or a source of shrinkage (@sec-ch06-family). This part writes the model
+that holds all of it together, and it does so for a specific reason: the argument of this
+research programme is about the *shape* of $G$, and a hierarchical Bayesian formulation
+is the framework in which that shape can be given a prior and learned. Everything in
+Part V depends on the model stated here.
+
+The chapter is deliberately concrete. It states the model the companion software actually
+fits, read from its source, rather than a textbook idealization — and where the two differ,
+it says so.
+
+## Four levels, and what is actually at each one {#sec-ch10-levels}
+
+The phrase "second stage," which the manuscript uses, is a source of avoidable confusion:
+different literatures count stages differently. The level vocabulary of @sec-ch02-levels
+is used instead.
+
+**Level 1, the measurement model.** Conditional on $\theta_p$ and $\boldsymbol\beta$,
+responses are independent Bernoulli variables with the Rasch probability of @eq-rasch:
+
+$$
+U_{pi} \mid \theta_p, \beta_i \;\stackrel{\text{ind}}{\sim}\;
+\operatorname{Bernoulli}(\pi_{pi}), \qquad
+\operatorname{logit}(\pi_{pi}) = \theta_p - \beta_i .
+$$ {#eq-level1}
+
+This is the only level that touches the data, and it carries the local-independence
+assumption of @sec-ch03-lsi.
+
+**Level 2, the persons.** $\theta_p \mid G \stackrel{\text{iid}}{\sim} G$. Under the
+parametric specification $G = N(\mu_\theta, \sigma^2_\theta)$; under the semiparametric
+one, $G$ is itself given a prior, which is @sec-ch16. Level 2 is where the entire book
+turns, and stating it as $\theta_p \sim G$ rather than $\theta_p \sim N(\cdot)$ is the
+whole of the generalization.
+
+**Level 3, the items.** The item difficulties are given a common distribution as well.
+This is where the implemented model and the drafted appendix part company, and
+@sec-ch10-item-prior takes it up separately because the difference is not cosmetic.
+
+**Level 4, the hyperpriors.** Priors on whatever remains free at level 2 and level 3.
+@sec-ch10-hyperpriors reports what these actually are and what is known about the choice.
+
+## The item prior is not the one usually written down {#sec-ch10-item-prior}
+
+The Appendix D draft specifies level 3 as $\beta_i \mid \mu_\beta, \sigma^2_\beta
+\stackrel{\text{iid}}{\sim} N(\mu_\beta, \sigma^2_\beta)$ with a flat prior on $\mu_\beta$
+and an inverse-$\chi^2$ prior on $\sigma^2_\beta$. The fitted model does something else.
+Read from the model code, the Rasch specification under item-centred identification is
+
+$$
+\tilde\beta_i \stackrel{\text{iid}}{\sim} N(0, \sigma^2_\beta),
+\qquad
+\beta_i = \tilde\beta_i - \frac{1}{I}\sum_{j=1}^{I}\tilde\beta_j ,
+\qquad \sigma^2_\beta = 3 \text{ fixed},
+$$ {#eq-item-centered}
+
+with no $\mu_\beta$ anywhere and no hyperprior on $\sigma^2_\beta$. The centering is the
+identification device of @sec-ch04-constraints imposed inside the sampler rather than
+after it, and it makes the free item mean unnecessary — which is why the model does not
+have one.
+
+The prior on $\boldsymbol\beta$ that this induces is worth writing out, because it is not
+what @eq-item-centered looks like it is.
+
+::: {#prp-centered-item}
+**The induced item prior is singular, and its marginal variance is not $\sigma^2_\beta$.**
+*Derived here; no originality claim*
+
+With $\tilde{\boldsymbol\beta} \sim N(\mathbf{0}, \sigma^2_\beta \mathbf{I}_I)$ and
+$\boldsymbol\beta = (\mathbf{I}_I - I^{-1}\mathbf{1}\mathbf{1}^{\top})
+\tilde{\boldsymbol\beta}$, the induced law of $\boldsymbol\beta$ is Gaussian with mean
+zero, covariance $\sigma^2_\beta(\mathbf{I}_I - I^{-1}\mathbf{1}\mathbf{1}^{\top})$, and
+rank $I-1$. In particular
+
+$$
+\operatorname{Var}(\beta_i) = \sigma^2_\beta\!\left(1 - \frac{1}{I}\right),
+\qquad
+\operatorname{Cov}(\beta_i, \beta_j) = -\frac{\sigma^2_\beta}{I},
+\qquad
+\operatorname{Cor}(\beta_i, \beta_j) = -\frac{1}{I-1}
+$$ {#eq-centered-moments}
+
+for $i \ne j$, and $\sum_i \beta_i = 0$ almost surely.
+:::
+
+*Proof.* The centering matrix $\mathbf{C} = \mathbf{I}_I - I^{-1}\mathbf{1}\mathbf{1}
+^{\top}$ is symmetric and idempotent with rank $I-1$, so $\boldsymbol\beta = \mathbf{C}
+\tilde{\boldsymbol\beta}$ is Gaussian with covariance $\sigma^2_\beta \mathbf{C}
+\mathbf{C}^{\top} = \sigma^2_\beta\mathbf{C}$. Reading off the diagonal and off-diagonal
+entries of $\mathbf{C}$ gives @eq-centered-moments, and $\mathbf{1}^{\top}\mathbf{C} =
+\mathbf{0}$ gives the sum constraint. ∎
+
+Three consequences follow, and the first two are practical.
+
+**Setting $\sigma^2_\beta$ does not set the item variance.** At $I = 12$ and
+$\sigma^2_\beta = 3$, each $\beta_i$ has prior variance $2.75$, not $3$. The discrepancy
+is $O(I^{-1})$ and negligible on long tests, but it is a real bias on the short tests
+that @sec-ch09-table2 shows this programme uses at low reliability, and anyone eliciting
+$\sigma^2_\beta$ from a belief about item spread should divide accordingly.
+
+**The difficulties are negatively correlated a priori.** The correlation $-1/(I-1)$ is
+small but structural: it is the price of the constraint, and it says that the prior
+carries information about item *differences* and none at all about their common level.
+That is exactly right, because the common level is not identified (@prp-location), and it
+is a clean illustration of the general point that a constraint is a choice of
+representative from an orbit rather than an assumption about the world.
+
+**The prior is improper in no direction and degenerate in one.** The induced law lives on
+the $(I-1)$-dimensional sum-to-zero hyperplane. There is no flat prior anywhere in the
+model, which matters for the propriety questions @sec-ch10-hyperpriors raises.
+
+::: {.callout-important}
+## The appendix and the implementation describe different models
+
+The Appendix D draft's level 3 has a free item mean $\mu_\beta$ with a flat prior and a
+hyperprior on $\sigma^2_\beta$. The fitted model has neither: the mean is removed by
+centering and the variance is fixed at 3. The drafted specification is strictly more
+general than the one that produced the results.
+
+Neither is wrong as a model. What is wrong is describing one and fitting the other, and
+the appendix should be brought into line with @eq-item-centered before it is published.
+Logged as `C-013`.
+:::
+
+## The joint posterior {#sec-ch10-posterior}
+
+With the levels in place the posterior factors in the only way it can.
+
+::: {#prp-joint-posterior}
+**Joint posterior factorization.** *Adapted from Fox (2010, ch. 2, § 2.1)*
+
+$$
+p(\boldsymbol\theta, \boldsymbol\beta, \boldsymbol\psi \mid \mathbf{u})
+\;\propto\;
+\underbrace{\textstyle\prod_{p}\prod_{i} \pi_{pi}^{u_{pi}}(1-\pi_{pi})^{1-u_{pi}}}
+           _{\text{level 1}}
+\;\cdot\;
+\underbrace{\textstyle\prod_{p} g(\theta_p \mid \boldsymbol\psi_\theta)}_{\text{level 2}}
+\;\cdot\;
+\underbrace{p(\boldsymbol\beta \mid \boldsymbol\psi_\beta)}_{\text{level 3}}
+\;\cdot\;
+\underbrace{p(\boldsymbol\psi)}_{\text{level 4}} ,
+$$ {#eq-joint-posterior}
+
+where $\boldsymbol\psi = (\boldsymbol\psi_\theta, \boldsymbol\psi_\beta)$ collects the
+hyperparameters and the level-4 term factors further under prior independence.
+:::
+
+*Proof.* Bayes's rule applied to the joint density, which factors as stated because each
+level is conditionally independent of everything above it given its own parents. ∎
+
+
+Two features of @eq-joint-posterior earn their keep later. The level-2 term is the *only*
+place $G$ enters, so replacing a normal $G$ by a Dirichlet process mixture changes one
+factor and leaves the rest of the model untouched — that modularity is why the
+semiparametric extension of @sec-ch16 is an extension rather than a rewrite. And the
+level-3 term does **not** factor over items under @eq-item-centered, because
+@prp-centered-item makes the $\beta_i$ dependent; writing it as $\prod_i p(\beta_i)$,
+as the Appendix D draft does, is correct for the drafted model and false for the fitted
+one.
+
+## Hyperpriors, and what is known about choosing them {#sec-ch10-hyperpriors}
+
+The implemented defaults, read from the model code, are
+
+$$
+\mu_\theta \sim N(0, 3), \qquad
+\sigma^2_\theta \sim \text{Inv-Gamma}(2.01, 1.01) .
+$$ {#eq-hyperpriors}
+
+The second is worth a moment. An inverse-gamma with shape $a$ and scale $b$ has mean
+$b/(a-1)$ and finite variance only for $a > 2$. At $(2.01, 1.01)$ the mean is exactly
+$1.0$ and the variance is $100$. Fixing Rasch discriminations at one defines the unit; it
+does **not** fix the population variance after location anchoring. The value one is
+therefore substantive prior centring, not an identification constraint. The default is
+proper and heavy-tailed, but its suitability must be checked by prior-predictive or
+sensitivity analysis rather than inferred from identification.
+
+It is also not the specification the standard warning is about.
+
+::: {.callout-note appearance="simple"}
+::: {.ms}
+**What the inverse-gamma pathology does and does not say here.** Gelman
+[-@gelman_prior_2006, §§ 2.1–2.2] shows that the inverse-gamma$(\epsilon, \epsilon)$
+family — the $\text{IG}(0.001, 0.001)$ that older software offered as "noninformative" —
+has *no proper limiting posterior* as $\epsilon \to 0$, so inferences remain sensitive to
+$\epsilon$ and it "cannot simply be comfortably set to a low value." Elsewhere in the
+paper Gelman develops uniform and half-$t$ alternatives on the standard-deviation scale;
+that recommendation is not attributed to §§ 2.1–2.2.
+
+Two things follow for this model. The default @eq-hyperpriors is *not* of the
+$(\epsilon,\epsilon)$ form and does not inherit the pathology. And the "groups" at level 2
+are persons, of which there are hundreds or thousands, so the regime where the choice
+dominates — few groups, group-level variance near zero — is not the regime this programme
+works in. The warning is real and is aimed elsewhere; repeating it here without that
+qualification would be citation by topic adjacency rather than by content (R1).
+:::
+:::
+
+The prior on $\sigma^2_\theta$ does still matter in one place this book cares about. It
+sets the shrinkage weight of @eq-shrinkage-weight, hence the reliability of
+@sec-ch08-shrinkage, and under a semiparametric $G$ its role is taken over by the
+base-measure and concentration hyperparameters of @sec-ch15, where the sensitivity is
+larger and less well understood.
+
+## A prior and a population distribution are still not the same thing {#sec-ch10-parallel}
+
+@sec-ch02-frameworks laid out the parallel and @tbl-frameworks-ch10 repeats it, because
+this is the chapter where the temptation to collapse the two is strongest.
+
+```{r}
+#| label: tbl-frameworks-ch10
+#| tbl-cap: "The role of $G$ in the two frameworks, repeated from @sec-ch02-frameworks. Source: tables/T-frameworks.rds."
+#| echo: false
+knitr::kable(tbl("T-frameworks"))
+```
+
+The mathematics is genuinely shared. Marginal maximum likelihood integrates the person
+likelihood against $g$ (@eq-mml); the hierarchical Bayesian model multiplies by the same
+$g$ at level 2 of @eq-joint-posterior. MML then maximizes over $(\boldsymbol\beta,
+\boldsymbol\psi_\theta)$ while the Bayesian model integrates over them under a
+hyperprior, and MML is recoverable as the limit of flat hyperpriors with a posterior
+concentrating at the maximizer.
+
+What differs is the epistemic status and what follows from it. Under MML the normality of
+$G$ is a structural claim about a population, assessable by fit and relaxable by
+nonparametric MML. Under the Bayesian model it is a prior belief, updated by data and
+relaxable by a nonparametric prior. Reviewer 2 was right that a distributional assumption
+is not a specifically Bayesian sin; @sec-ch02-frameworks says so and this chapter does not
+retreat from it.
+
+The honest addition is that **the practical difference is smaller than the rhetorical
+one**. Both frameworks shrink, both are sensitive to a misspecified $G$ in the same
+direction, and @sec-ch12 shows that the shrinkage phenomenon is a property of the
+hierarchical structure rather than of the inferential philosophy. What the Bayesian
+formulation buys is not correctness. It is three specific things.
+
+## Why the Bayesian formulation, specifically {#sec-ch10-why-bayes}
+
+**Uncertainty propagates coherently from items to persons.** This is the argument
+@sec-ch06-plugin set up and `C-012` recorded. Two-stage practice calibrates items, fixes
+them at their estimates, and scores persons as though the item parameters were known;
+@eq-sem is then a conditional standard error reported as though it were unconditional.
+Patz and Junker [-@patz_straightforward_1999] state the alternative exactly: MCMC "treat[s]
+item and subject parameters at the same time," which "allows us to incorporate standard
+errors of item estimates into trait inferences, and vice versa." That is the plug-in gap
+closed by construction rather than by an extra term, and it is the cleanest argument in
+the list.
+
+**Small samples.** Where $P$ is small the incidental-parameter difficulty of
+@thm-neyman-scott is at its worst and the asymptotics of @eq-sem are least trustworthy.
+Gilholm et al. [-@gilholm_bayesian_2021] fit hierarchical multidimensional IRT to small,
+sparse samples for exactly this reason, and Fox [-@fox_redefining_2025] takes the more
+radical route of integrating the person factor out analytically to obtain a model that
+behaves in small samples. Neither is this programme's setting — the simulation uses
+hundreds of persons — so the argument is real but is not what carries the case here, and
+overstating it would be easy.
+
+**The route to a nonparametric $G$.** This is the argument that actually matters. Under
+MML, relaxing $G$ means nonparametric maximum likelihood, whose solution is a discrete
+mixing distribution on finitely many support points — useful, and not a density. Under the
+hierarchical model, relaxing $G$ means putting a prior on it, and the Dirichlet process
+mixture of @sec-ch15 delivers a continuous density with a full posterior over its shape.
+Since the question this programme asks is what the *distribution* of latent traits looks
+like and how well its features are recovered, a framework that yields a posterior over
+distributions is not a stylistic preference. It is the object of study.
+
+## Computation, briefly {#sec-ch10-computation}
+
+@eq-joint-posterior has no closed form and is sampled. Four approaches appear in this
+literature, and the differences among them are not merely tactical.
+
+Albert [-@albert_bayesian_1992] introduced data augmentation for the normal-ogive model:
+latent continuous responses are imputed, conditional on which the item parameters have
+conjugate normal full conditionals, so the whole sampler is Gibbs. It is elegant and it is
+tied to the probit link. Patz and Junker [-@patz_straightforward_1999] gave the
+general-purpose alternative — Metropolis-within-Gibbs, which does not require conjugacy
+and therefore extends to models that have no augmentation trick, which is most of them.
+Hamiltonian Monte Carlo as implemented in Stan is the modern default for the parametric
+model [@burkner_bayesian_2021]. The semiparametric models of Part V are fitted in NIMBLE,
+which is what makes the Dirichlet process machinery available at all.
+
+The identification strategy interacts with the sampler, and @sec-ch04-constraints already
+said why: centering inside the sampler (@eq-item-centered) and rescaling afterwards target
+the same identified posterior for every location-invariant function, but they present the
+sampler with different geometry and can differ in efficiency by an order of magnitude.
+Details are in Appendix F; the point for here is that this is a computational choice with
+no inferential content, and it should not be mistaken for a modelling one.
+
+## Sources and provenance {#sec-ch10-sources}
+
+The four-level structure follows the Appendix D draft §§ D.2.1–D.2.5. Fox
+[-@fox_bayesian_2010, ch. 2, § 2.1, eqs. 2.1–2.2] directly gives the conditional-
+independence factorization for person and item hierarchies; @prp-joint-posterior adapts it
+to the four levels and centred item prior used here. Its inline proof records the algebra;
+the `adapted` provenance records the literature source rather than claiming priority.
+
+@eq-item-centered and @eq-hyperpriors were read from the companion package's model source
+(`R/model_spec.R`, the item-centred Rasch specification and the default constants), not
+from its documentation or its vignette, and the discrepancy with the Appendix D draft that
+@sec-ch10-item-prior reports was found that way. @prp-centered-item is elementary linear
+algebra, derived here, and was checked numerically before being written.
+
+The inverse-gamma discussion is Gelman [-@gelman_prior_2006, §§ 2.1–2.2], read directly;
+the qualification that its regime is small-$J$ and that @eq-hyperpriors is not of the
+$(\epsilon,\epsilon)$ form is this book's, and is stated because the citation is otherwise
+routinely made without it. The moments of $\text{Inv-Gamma}(2.01, 1.01)$ are computed from
+the standard formulas.
+
+The uncertainty-propagation argument quotes Patz and Junker [-@patz_straightforward_1999];
+the small-sample arguments are Gilholm et al. [-@gilholm_bayesian_2021] and Fox
+[-@fox_redefining_2025], read at the level of their stated aims rather than their
+derivations, which is all the claim here requires. Albert [-@albert_bayesian_1992] is
+cited for data augmentation under the normal ogive and Bürkner
+[-@burkner_bayesian_2021] for the Stan route.
+
+The parallel-structure argument of @sec-ch10-parallel is @sec-ch02-frameworks restated
+with the same sources; the added claim — that the practical difference is smaller than the
+rhetorical one — is this book's and is supported in @sec-ch12 rather than here.

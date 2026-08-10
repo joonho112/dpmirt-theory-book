@@ -1,0 +1,14 @@
+# Rendered output — published to the gh-pages branch, not tracked on main
+_book/
+*_files/
+.quarto/
+_freeze/
+
+# R session and editor state
+.Rproj.user/
+.Rhistory
+.RData
+.Rapp.history
+
+# macOS
+.DS_Store

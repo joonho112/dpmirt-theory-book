@@ -1,0 +1,5 @@
+"Tier","Entries","Meaning"
+"primary-held",292,"Held in a reference library, not read at a locator for this book"
+"primary-read",74,"Independent literature opened at the locator cited; annotated here"
+"programme-artifact-read",8,"Programme-owned book, manuscript, package, code, or table opened directly; supports fidelity to that artifact, not independent corroboration"
+"secondary",3,"Cited as a secondary treatment, and marked as such where used"

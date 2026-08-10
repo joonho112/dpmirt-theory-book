@@ -1,0 +1,32 @@
+"appendix","symbol","hits"
+"A","P (persons)",7
+"A","U_{pi}",7
+"A","u_p vector",7
+"B","P (persons)",5
+"B","U_{pi}",2
+"B","u_p vector",15
+"B","I information",10
+"B","sigma^2_theta",1
+"C","P (persons)",4
+"C","u_p vector",2
+"C","I information",7
+"C","MSEM",28
+"C","delta hyperparam",1
+"C","sigma^2_theta",16
+"D","P (persons)",10
+"D","U_{pi}",4
+"D","u_p vector",5
+"D","MSEM",2
+"D","sigma^2_theta",19
+"E","P (persons)",3
+"E","U_{pi}",1
+"E","u_p vector",13
+"E","I information",4
+"E","MSEM",2
+"E","delta hyperparam",13
+"E","sigma^2_theta",30
+"F","P (persons)",8
+"F","U_{pi}",1
+"F","u_p vector",4
+"F","lambda (discrim.)",2
+"F","sigma^2_theta",1

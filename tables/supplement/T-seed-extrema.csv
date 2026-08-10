@@ -1,0 +1,3 @@
+"Scope","Pairs searched","Worst top-decile churn","Maximizing case-cell and method"
+"All stored same-method prior-summary pairs",234,"32.35%","C12 Rasch, DP(broad) + PM/CB; C12 2PL, DP(broad) + GR"
+"Gaussian + PM subset plotted in the case-study figure",26,"28%","C4 Rasch, Gaussian + PM"

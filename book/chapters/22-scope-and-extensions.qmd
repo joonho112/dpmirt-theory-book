@@ -1,0 +1,228 @@
+# Scope: Why Rasch, and What Extends {#sec-ch22}
+
+```{r}
+#| label: setup-ch22
+#| include: false
+tbl <- function(id) readRDS(file.path("..", "..", "tables", paste0(id, ".rds")))
+```
+
+The Associate Editor's second demand has two halves: justify restricting the work to a
+unidimensional Rasch model, and say what happens outside it. Sufficiency supplies this
+book's cleanest answer, but it is not the only logically possible design for studying
+$G$.
+
+**The chosen criterion is sufficiency.** A model that admits a sufficient statistic for
+the person parameter admits conditional maximum likelihood, and CML estimates item
+parameters without specifying $G$ (@sec-ch05). That gives this book a particularly clean
+reference design: estimate the item side without a population-distribution model, then
+vary $G$. Where person sufficiency fails, ordinary marginal calibration couples the item
+and person sides through an assumed $G$. Alternatives such as fixed-effects joint
+likelihood or externally known item parameters can still separate parts of the problem,
+so sufficiency is a strong design reason for Rasch here, not a necessary condition for
+every possible sensitivity study.
+
+Reading the primary sources for this chapter moved the boundary. It does not fall where
+"Rasch versus everything else" would put it.
+
+One boundary this chapter once carried has moved inside the book, but the move does not
+make the coverage symmetric. The theory spine remains Rasch-centred because its
+cleanest arguments use sufficiency, CML, and the available semiparametric identification
+result. Part VIII, **What Changes Under the 2PL**, is a bounded extension along three fault
+lines: information and its allocation (@sec-ch24), reliability under uneven information
+(@sec-ch25), and identification with a free scale (@sec-ch26). What remains here is
+everything past the 2PL — polytomous response formats, multidimensionality, and diagnostic
+classification.
+
+## Why Rasch {#sec-ch22-why}
+
+Three reasons, in decreasing order of how much this book leans on them.
+
+**Sufficiency and CML.** The number-correct score is sufficient for $\theta_p$, so item
+difficulties can be estimated by conditioning the person parameters out entirely. Masters
+[-@masters_rasch_1982, p. 152] states the dichotomous case flatly: this is the *only* latent
+trait model for dichotomously scored responses in which the number of successes is a
+sufficient statistic for the person parameter. That uniqueness is the strongest reason
+for the reference design used here. @sec-ch05 develops the estimator; what matters here
+is that its existence gives this book a calibration point that does not specify $G$.
+
+**No scale indeterminacy.** The logit metric fixes the unit, so only the location needs
+constraining (@sec-ch04). This is what makes the semiparametric identification question
+tractable at all: with one constraint, San Martín et al. [-@sanmartin_bayesian_2011] can say
+exactly what a finite test identifies about $G$ (@sec-ch16). Under the 2PL a second
+constraint is needed and the corresponding semiparametric result is not available
+(@sec-ch22-2pl).
+
+**The target context.** Curriculum-based measures and the short dichotomous instruments this
+work is aimed at are where the 1PL is standard practice, and @sec-ch01 sets out their
+measured reliabilities.
+
+## What the Rasch-centred body already says about the 2PL {#sec-ch22-2pl}
+
+The earlier parts introduce the 2PL at the places where it changes a Rasch argument; they
+do not build a parallel theory from the ground up. This section consolidates those named
+differences, and Part VIII follows the three that require a longer treatment.
+
+Sufficiency is lost as soon as discriminations vary, because the score that would be
+sufficient is weighted by the unknown $\lambda_i$ (@sec-ch03). A second constraint becomes
+necessary, since location and scale are both free (@sec-ch04). Information changes shape:
+doubling the discriminations does **not** quadruple the information, because the response
+probabilities move too — the realized multiplier is 1.74 to 2.72 across $\theta$
+(@sec-ch07). And one thing does not change at all: the shrinkage algebra of @sec-ch11 never
+used sufficiency, so it holds verbatim.
+
+What does not survive is the semiparametric identification result. San Martín
+[-@sanmartin_identification_2016] marks the semiparametric 2PL with question marks in his
+own summary table and says in the text that it is open; every identification statement this
+book proves about $G$ is proved for the Rasch case. That is recorded as `C-010` because the
+manuscript fits DPMs under the 2PL as well and does not disclose it.
+
+## Polytomous models: the boundary is not where "Rasch versus the rest" puts it {#sec-ch22-polytomous}
+
+The blueprint for this chapter expected the polytomous section to say that the shrinkage and
+summary arguments carry over unchanged while information changes. That is true and it is not
+the interesting part. Reading Masters and Muraki shows that **the sufficiency criterion cuts
+straight through the polytomous family**, and it cuts in a place that matters.
+
+**The partial credit model keeps everything.** Masters' model gives the probability of
+scoring $x$ on an $m_i$-step item as an exponential of the accumulated step differences
+[@masters_rasch_1982, eq. 10, p. 158]. Conditioning on the total count of completed steps
+$r_n = \sum_i x_{ni}$ removes $\beta_n$ from the likelihood exactly as in the dichotomous
+case [@masters_rasch_1982, eqs. 11–14, pp. 159–160], so $r_n$ is sufficient and CML is
+available. Everything the CML part of the "why Rasch" argument buys is bought again here.
+The step difficulties are estimated from the calibration responses without specifying
+$G$; they are not free of the calibration sample.
+
+**The graded response model loses it, and not because of the discrimination parameter.**
+This is the sentence worth quoting to a reviewer. Masters [-@masters_rasch_1982, p. 155]
+shows that the graded response form — built by differencing cumulative boundary
+probabilities — "prevents the algebraic separation of person and item parameters" *even in
+the absence of a discrimination parameter*, so no sufficient statistic exists for either
+side. For this comparison the obstruction is the **category-boundary parameterization**,
+not the slope. Samejima's graded response model parameterizes boundaries between regions
+of a continuum; Masters parameterizes the difficulty of each step. Two different objects,
+and only one of these two constructions separates. Masters' § 4 states the contrast, and a
+direct check of Samejima [-@samejima_estimation_1969] confirms the cumulative
+category-boundary construction. This local PCM-versus-GRM contrast does not establish a
+universal boundary for every ordered-response parameterization.
+
+**The generalized partial credit model loses it for the ordinary reason.** Muraki
+[-@muraki_generalized_1992] adds a slope $a_j$ to the partial credit model, and says
+directly that separability and minimal sufficient statistics are distinct properties of the
+*Rasch* model, which is what permits CML [@muraki_generalized_1992, p. 160]. His derivative
+
+$$\frac{\partial}{\partial\theta}P_{jk}(\theta) = a_j P_{jk}(\theta)
+\left[k - \sum_{c} c\,P_{jc}(\theta)\right]$$
+
+[@muraki_generalized_1992, eq. 13, p. 163] is the polytomous form of the same fact
+@sec-ch07 records for the 2PL: the slope multiplies, but the category probabilities move
+with it, so information does not scale as the slope squared.
+
+One detail from Muraki bears directly on this book's programme and is easy to miss. His
+estimation procedure is marginal maximum likelihood by EM, integrating $\theta$ against a
+**normal** population density with Gauss–Hermite quadrature whose weights are approximately
+standard normal ordinates [@muraki_generalized_1992, eqs. 17 and 22–23, pp. 165–167]. The
+normality of $G$ is not a finding there; it is a population-model assumption in the
+marginal likelihood. Gauss–Hermite quadrature is the computational method used to
+approximate the corresponding integrals. The example shows how a conventional normal
+model can be embedded in an implementation; it does not turn normality from a modelling
+decision into a computational default.
+
+## MIRT: the question gets harder, not easier {#sec-ch22-mirt}
+
+Three constraints are needed rather than one — location, scale, and rotation — so the
+identification argument of @sec-ch04 does not transfer, and the semiparametric question
+@sec-ch16 answers for the Rasch case is not even posed in a settled form for the
+multivariate one.
+
+The shrinkage argument holds coordinatewise, and multivariate use is not absent. Shen and
+Louis [-@shen_triple-goal_1998, p. 468] explicitly say that their approaches generalize
+to multivariate unit-specific parameters and point to Ghosh for multivariate constrained
+Bayes. Lockwood et al. [-@lockwood_flexible_2018, pp. 666–672] fit a bivariate
+hierarchical model and apply CB and TG coordinatewise. These precedents close the
+categorical “no multivariate form” claim.
+
+What remains unsettled is narrower. A coordinatewise action depends on the chosen axes and
+does not by itself define a joint ordering, a multivariate EDF target, or a
+transformation-aware joint loss. This book does not construct a canonical joint CB/GR
+action for vectors; that is the open problem it records.
+
+Xu et al.
+[-@xu_robustness_2025] test the three standard procedures for recovering item–trait
+structure — exploratory item factor analysis with rotation, EM-based $L_1$ regularization,
+and expectation model selection — under latent traits generated with varying skewness and
+excess kurtosis, and report that non-normality generally lowers the $F_1$ score for
+identifying item–trait relationships and raises the mean squared error of parameter
+estimates, with method- and condition-specific exceptions, including cells in which EIFA
+benefits. In the multidimensional case a misspecified $G$ can distort **which items load on
+which dimension**, so the damage can reach the measurement model itself. Their discussion
+also proposes more flexible latent distributions as a future response. This paper
+therefore supports a robustness warning, not a literature-wide claim that the field
+responds only with robustness assessment.
+
+## Diagnostic classification: a bounded discrete analogue {#sec-ch22-cdm}
+
+The blueprint expected this section to say that the flexible-$G$ programme is *replaced*
+by a different question, because the latent variable is a discrete attribute profile
+rather than a point on a continuum. That is too categorical. A distributional target has
+a discrete analogue, but the estimands and identification objects are different.
+
+In a restricted latent class model each respondent's profile $\boldsymbol\alpha$ is drawn
+from a categorical distribution with proportions $\boldsymbol p = (p_{\boldsymbol\alpha})$,
+and responses are conditionally independent given the profile [@gu_partial_2020, § 2]. Those
+proportions are the discrete analogue of $G$: they are the latent distribution, and
+recovering them is the analogue of the distributional goal.
+
+Gu and Xu [-@gu_sufficient_2019, Theorem 1] give the sufficient **and necessary** condition
+for identifying all DINA parameters, and it is a condition on the design alone: the
+$Q$-matrix must be complete, each attribute must be required by at least three items, and
+the columns of the submatrix below the identity block must be distinct
+[@gu_sufficient_2019, Conditions 1–2, pp. 4–5]. When it holds, the maximum likelihood
+estimates are consistent [@gu_sufficient_2019, Corollary 1].
+
+The partial-identification result requires a distinction the first version of this chapter
+missed. With **known item parameters**, Gu and Xu
+[-@gu_partial_2020, Proposition 3.2] show that the sums of
+$p_{\boldsymbol\alpha}$ over equivalence classes of profiles with identical
+$\Gamma$-columns are identifiable. With **unknown item parameters**, inseparability alone
+is not enough: their Definition 3.2 defines $\boldsymbol p$-partial identifiability,
+Theorem 3.1 requires structural conditions C1 and C2, and Proposition 3.3 gives an
+adjusted-$\Gamma$ route under the corresponding conditions. A raw inseparable
+$\Gamma$-matrix therefore does not, by itself, identify the grouped proportions in the
+full model.
+
+The connection to @sec-ch16 is a limited methodological analogy. Gu and Xu's grouped
+proportions are sums of masses over equivalence classes in a finite latent space. San
+Martín et al.'s $I+1$ objects are integral functionals of a distribution on the real line,
+not masses of a partition of that line. Both literatures warn against reporting more of a
+latent distribution than a finite design identifies, but they do not identify
+structurally identical objects and neither result is a template for the other.
+
+What does not transfer is the estimators. Constrained Bayes rescales real-valued posterior
+means to match a variance; triple-goal orders units and reads quantiles off an estimated
+distribution function. Neither operation is defined on an unordered profile space, so
+whether an analogue exists is open.
+
+## The summary {#sec-ch22-summary}
+
+```{r}
+#| label: tbl-extensions
+#| tbl-cap: "Does each part of the argument survive outside the Rasch model? Source: tables/T-extensions.rds."
+#| echo: false
+knitr::kable(tbl("T-extensions"))
+```
+
+Reading the column "Sufficient statistic for the person" down the table gives this book's
+chosen answer to AE-2. The restriction is not conservatism about model complexity. It
+selects models in which CML lets the cost of assuming $G$ be studied with the item side
+calibrated without specifying $G$. That clean set contains the Rasch model and the partial
+credit model, and it excludes the graded response model for a reason that, in the Masters
+comparison, has nothing to do with discrimination parameters. Other study designs can
+relax the necessity of this criterion, but they do not provide the same CML reference
+point.
+
+Two honest weaknesses. The 2PL is tracked at the points where the Rasch argument changes
+even though it is outside that clean set; Part VIII makes those changes explicit, but the
+semiparametric 2PL identification problem stays open and is disclosed as `C-010`. And
+three cells in the table say "open in this book" for the polytomous families: what a finite
+polytomous test identifies about $G$ is a question this work has not asked, and @sec-ch23
+records it.

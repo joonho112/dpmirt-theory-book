@@ -1,0 +1,4 @@
+"fixture","rejected"
+"source-hash-drift",TRUE
+"reliability-row-drift",TRUE
+"shape-schema-drift",TRUE

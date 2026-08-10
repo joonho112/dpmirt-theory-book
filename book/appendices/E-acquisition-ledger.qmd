@@ -1,0 +1,59 @@
+# Reference Acquisition Ledger {#sec-appendix-e}
+
+```{r}
+#| label: setup-appe
+#| include: false
+tbl <- function(id) readRDS(file.path("..", "..", "tables", paste0(id, ".rds")))
+ledger <- tbl("T-acquisition-ledger")
+debt <- tbl("T-acquisition-debt")
+stopifnot(nrow(ledger) == 33L, !anyDuplicated(ledger$Key))
+n_outstanding <- sum(ledger$Status == "outstanding")
+n_identity <- sum(ledger$Status == "confirm identity first")
+```
+
+This appendix is the rendered view of the live acquisition source
+`refs/acquisition-ledger.csv`. It contains **`r nrow(ledger)` entries**: `r n_outstanding`
+ordinary outstanding acquisitions and `r n_identity` entries whose bibliographic identity
+must be confirmed before acquisition. The source CSV, not this prose, is authoritative.
+
+The ledger is current work debt, not a historical claim that the project still lacks every
+source named in early planning documents. A work can remain here because the preferred
+edition or primary route is still wanted even when a secondary route is already sufficient
+for the bounded statement in the book. Conversely, an `outstanding` row does not authorize
+the book to cite the work as read; V1 and the bibliography tiers govern that separately.
+
+## Status debt {#sec-appe-status}
+
+```{r}
+#| label: tbl-acquisition-debt
+#| tbl-cap: "Open acquisition entries by current status and criticality. Source: tables/T-acquisition-debt.rds."
+#| echo: false
+knitr::kable(debt)
+```
+
+The three `uncertain` criticality rows are the same three `confirm identity first` rows.
+They are not acquisition requests until author, title, and year are disambiguated. A named
+R5 route records the secondary source that can support a narrower statement; it does not
+turn the absent primary into a `primary-read` source.
+
+## Per-entry ledger {#sec-appe-entries}
+
+```{r}
+#| label: tbl-acquisition-ledger
+#| tbl-cap: "The complete 33-entry acquisition ledger. Locator is the stable source-CSV line for each entry. Source: tables/T-acquisition-ledger.rds."
+#| echo: false
+knitr::kable(ledger)
+```
+
+Every row has a key, target chapter, status, owner, and a locator back to the source CSV.
+Blank route or date fields mean “not yet recorded”; they are displayed as blanks rather
+than the literal token `NA`. Closing a row requires updating the source CSV and, if the work
+will support a claim, separately adding the bibliography tier, locator, and receipt demanded
+by V1. The next build then regenerates this appendix and reconciles the row count exactly.
+
+## Retirement rule {#sec-appe-retirement}
+
+An entry leaves this ledger only when one of three things happens: the intended source is
+acquired and processed into the reference inventory; a verified substitute makes the
+preferred source unnecessary and the decision is recorded; or the intended identity is
+shown not to exist. Merely finishing a chapter does not close its acquisition debt.

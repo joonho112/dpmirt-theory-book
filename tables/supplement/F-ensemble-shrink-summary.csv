@@ -1,0 +1,14 @@
+"metric","value"
+"latent_variance",1
+"error_variance_left",0.6
+"shrinkage_weight_left",0.625
+"error_variance_bimodal",0.55
+"true_sd",1
+"posterior_mean_sd",0.797746157112182
+"cb_sd",0.995609180785649
+"true_excess_kurtosis",-1.58202743580841
+"posterior_mean_excess_kurtosis",-0.654328950422582
+"cb_excess_kurtosis",-0.65432895042257
+"ks_ml",0.1027
+"ks_posterior_mean",0.1715
+"ks_cb",0.1201

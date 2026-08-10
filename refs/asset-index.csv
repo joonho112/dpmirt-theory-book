@@ -1,0 +1,661 @@
+"key","library","stem","pdf","ocr","bibtex"
+,"irt_zotero","[Slides] Bayesian IRM in R with brms and Stan_Burkner",TRUE,TRUE,FALSE
+"abedi_standardized_2002","irt_zotero","Abedi - 2002 - Standardized Achievement Tests and English Languag",TRUE,TRUE,TRUE
+"adams_reliability_2005","irt_zotero","Adams - 2005 - Reliability as a measurement design effect",TRUE,TRUE,TRUE
+"andersson_large_2018","irt_zotero","Andersson and Xin - 2018 - Large Sample Confidence Intervals for Item Response Theory Reliability Coefficients",TRUE,TRUE,TRUE
+,"irt_zotero","annotated_originals/Adams - 2005 - Reliability as a measurement design effect",TRUE,FALSE,FALSE
+,"irt_zotero","annotated_originals/Burkner (2021). Bayesian Item Response Modeling in R with brms and Stan. JSS",TRUE,FALSE,FALSE
+,"irt_zotero","annotated_originals/De Boeck and Jeon - 2019 - An Overview of Models for Response Times and Proce",TRUE,FALSE,FALSE
+,"irt_zotero","annotated_originals/Devlieger et al. - 2019 - New Developments in Factor Score Regression Fit I",TRUE,FALSE,FALSE
+,"irt_zotero","annotated_originals/Finch and Edwards - 2016 - Rasch Model Parameter Estimation in the Presence o",TRUE,FALSE,FALSE
+,"irt_zotero","annotated_originals/Fox et al. - 2021 - LNIRT An R Package for Joint Modeling of Response",TRUE,FALSE,FALSE
+,"irt_zotero","annotated_originals/Glas - 2019 - Reliability issues in high-stakes educational test",TRUE,FALSE,FALSE
+,"irt_zotero","annotated_originals/Hoofs et al. - 2018 - Evaluating Model Fit in Bayesian Confirmatory Fact",TRUE,FALSE,FALSE
+,"irt_zotero","annotated_originals/Lembke et al. - 2017 - Progress Monitoring in Social Studies Using Vocabu",TRUE,FALSE,FALSE
+,"irt_zotero","annotated_originals/Micceri - 1989 - The unicorn, the normal curve, and other improbabl",TRUE,FALSE,FALSE
+,"irt_zotero","annotated_originals/Molenaar et al. - 2015 - A generalized linear factor model approach to the ",TRUE,FALSE,FALSE
+,"irt_zotero","annotated_originals/Monroe and Cai - 2014 - Estimation of a Ramsay-Curve Item Response Theory ",TRUE,FALSE,FALSE
+,"irt_zotero","annotated_originals/Paek et al. - 2023 - Investigating Confidence Intervals of Item Paramet",TRUE,FALSE,FALSE
+,"irt_zotero","annotated_originals/Paganin et al. - 2022 - Computational Strategies and Estimation Performanc",TRUE,FALSE,FALSE
+,"irt_zotero","annotated_originals/Paganin et al. (2021). Computational methods for Bayesian semiparametric Item Response Theory models.",TRUE,FALSE,FALSE
+,"irt_zotero","annotated_originals/Paganin et al. (2021). NIMBLE IRT poster",TRUE,FALSE,FALSE
+,"irt_zotero","annotated_originals/Partchev - A visual guide to item response theory",TRUE,FALSE,FALSE
+,"irt_zotero","annotated_originals/Reliability and Separation",TRUE,FALSE,FALSE
+,"irt_zotero","annotated_originals/San Martín et al. - 2011 - On the Bayesian Nonparametric Generalization of IR",TRUE,FALSE,FALSE
+,"irt_zotero","annotated_originals/Svetina et al. - 2017 - Parameter Recovery in Multidimensional Item Respon",TRUE,FALSE,FALSE
+,"irt_zotero","annotated_originals/Wind - 2017 - An Instructional Module on Mokken Scale Analysis",TRUE,FALSE,FALSE
+,"irt_zotero","annotated_originals/Zhang et al. - 2021 - Bayesian Inference for IRT Models with Non-Normal ",TRUE,FALSE,FALSE
+"ark_mokken_2007","irt_zotero","Ark - 2007 - Mokken Scale Analysis in R",TRUE,TRUE,TRUE
+"ark_standard_2025","irt_zotero","Ark - 2025 - Standard Errors for Reliability Coefficients",TRUE,TRUE,TRUE
+"bambirra_goncalves_bayesian_2018","irt_zotero","Bambirra Gonçalves et al. - 2018 - Bayesian item response model a generalized approa",TRUE,TRUE,TRUE
+"beauducel_how_2025","irt_zotero","Beauducel et al. - 2025 - How to Improve the Regression Factor Score Predictor When Individuals Have Different Factor Loadings",TRUE,TRUE,TRUE
+"bock_adaptive_1982","irt_zotero","Bock and Mislevy - 1982 - Adaptive EAP Estimation of Ability in a Microcompu",TRUE,TRUE,TRUE
+"boeck_estimation_2011","irt_zotero","Boeck et al. - 2011 - The Estimation of Item Response Models with the lm",TRUE,TRUE,TRUE
+"bogaert_small_2022","irt_zotero","Bogaert et al. - 2022 - A Small Sample Correction for Factor Score Regress",TRUE,TRUE,TRUE
+"burkner_bayesian_2021","irt_zotero","Bürkner - 2021 - Bayesian Item Response Modeling in R with brms and Stan",TRUE,TRUE,TRUE
+,"irt_zotero","Burkner (2021). Bayesian Item Response Modeling in R with brms and Stan. JSS",TRUE,TRUE,FALSE
+"can_collinear_2015","irt_zotero","Can et al. - 2015 - Collinear Latent Variables in Multilevel Confirmatory Factor Analysis A Comparison of Maximum Likel",TRUE,TRUE,TRUE
+"chen_item_2025","irt_zotero","Chen et al. - 2025 - Item Response Theory—A Statistical Framework for Educational and Psychological Measurement",TRUE,TRUE,TRUE
+"cheng_estimating_2025","irt_zotero","Cheng and Meng - 2025 - Estimating IRT Models Under Gaussian Mixture Modeling of Latent Traits An Application of MSAEM Algo",TRUE,TRUE,TRUE
+"cheng_comparison_2012","irt_zotero","Cheng et al. - 2012 - Comparison of Reliability Measures Under Factor Analysis and Item Response Theory",TRUE,TRUE,TRUE
+"cho_detecting_2015","irt_zotero","Cho et al. - 2015 - Detecting Intervention Effects in a Cluster-Randomized Design Using Multilevel Structural Equation M",TRUE,TRUE,TRUE
+"cho_modeling_2023","irt_zotero","Cho et al. - 2023 - Modeling variability in treatment effects for clus",TRUE,TRUE,TRUE
+"cho_modeling_2024","irt_zotero","Cho et al. - 2024 - Modeling Nonlinear Effects of Person-by-Item Covariates in Explanatory Item Response Models Explora",TRUE,TRUE,TRUE
+"classe_latent_2024","irt_zotero","Classe and Kern - 2024 - Latent Variable Forests for Latent Variable Score ",TRUE,TRUE,TRUE
+"conoyer_meta-analysis_2022","irt_zotero","Conoyer et al. - 2022 - Meta-Analysis of Validity and Review of Alternate ",TRUE,TRUE,TRUE
+"cronbach_signalnoise_1964","irt_zotero","Cronbach and Gleser - 1964 - The SignalNoise Ratio in the Comparison of Reliability Coefficients",TRUE,TRUE,TRUE
+"cui_stochastic_2022","irt_zotero","Cui et al. - 2022 - A stochastic approximation expectation maximization algorithm for estimating Ramsay-curve three-para",TRUE,TRUE,TRUE
+"dai_handling_2021","irt_zotero","Dai - 2021 - Handling Missing Responses in Psychometrics Metho",TRUE,TRUE,TRUE
+"davison_multidimensional_2024","irt_zotero","Davison et al. - 2024 - A Multidimensional Model to Facilitate Within Pers",TRUE,TRUE,TRUE
+"de_boeck_overview_2019","irt_zotero","De Boeck and Jeon - 2019 - An Overview of Models for Response Times and Proce",TRUE,TRUE,TRUE
+"delosreyes_obtaining_2025","irt_zotero","DelosReyes and Padilla - 2025 - Obtaining a Bayesian Estimate of Coefficient Alpha Using a Posterior Normal Distribution",TRUE,TRUE,TRUE
+"depaoli_parameter_2021","irt_zotero","Depaoli et al. - 2021 - Parameter Specification in Bayesian CFA An Explor",TRUE,TRUE,TRUE
+"der_linden_what_2022","irt_zotero","der Linden - 2022 - What Is Actually Equated in “Test Equating” A Did",TRUE,TRUE,TRUE
+"devlieger_new_2019","irt_zotero","Devlieger et al. - 2019 - New Developments in Factor Score Regression Fit I",TRUE,TRUE,TRUE
+"do_parameter_2024","irt_zotero","Do and Brooks - 2024 - Parameter Recovery for the Four-Parameter Item Res",TRUE,TRUE,TRUE
+"domingue_speedaccuracy_2022","irt_zotero","Domingue et al. - 2022 - Speed–Accuracy Trade-Off Not So Fast Marginal Changes in Speed Have Inconsistent Relationships Wit",TRUE,TRUE,TRUE
+"domingue_introduction_2025","irt_zotero","Domingue et al. - 2025 - An introduction to the Item Response Warehouse (IRW) A resource for enhancing data usage in psychom",TRUE,TRUE,TRUE
+"doran_information_2005","irt_zotero","Doran - 2005 - The Information Function for the One-Parameter Logistic Model Is it Reliability",TRUE,TRUE,TRUE
+"draxler_bayesian_2018","irt_zotero","Draxler - 2018 - Bayesian conditional inference for Rasch models",TRUE,TRUE,TRUE
+"duncan_nonparametric_2008","irt_zotero","Duncan and MacEachern - 2008 - Nonparametric Bayesian modelling for item response",TRUE,TRUE,TRUE
+"edwards_simulation_2021","irt_zotero","Edwards et al. - 2021 - A Simulation Study on the Performance of Different Reliability Estimation Methods",TRUE,TRUE,TRUE
+"enders_impact_2004","irt_zotero","Enders - 2004 - The Impact of Missing Data on Sample Reliability Estimates Implications for Reliability Reporting P",TRUE,TRUE,TRUE
+"fife_assessment_2012","irt_zotero","Fife et al. - 2012 - The Assessment of Reliability Under Range Restriction A Comparison of α, ω, and Test–Retest Reliabi",TRUE,TRUE,TRUE
+,"irt_zotero","files/2895/Bambirra Gonçalves et al. - 2018 - Bayesian item response model a generalized approa",TRUE,FALSE,FALSE
+,"irt_zotero","files/2971/Conoyer et al. - 2022 - Meta-Analysis of Validity and Review of Alternate ",TRUE,FALSE,FALSE
+,"irt_zotero","files/2980/Monroe and Cai - 2014 - Estimation of a Ramsay-Curve Item Response Theory ",TRUE,FALSE,FALSE
+,"irt_zotero","files/4829/Cho et al. - 2024 - Modeling Nonlinear Effects of Person-by-Item Covariates in Explanatory Item Response Models Explora",TRUE,FALSE,FALSE
+,"irt_zotero","files/5008/Domingue et al. - 2025 - An introduction to the Item Response Warehouse (IRW) A resource for enhancing data usage in psychom",TRUE,FALSE,FALSE
+,"irt_zotero","files/5186/Andersson and Xin - 2018 - Large Sample Confidence Intervals for Item Response Theory Reliability Coefficients",TRUE,FALSE,FALSE
+"finch_rasch_2016","irt_zotero","Finch and Edwards - 2016 - Rasch Model Parameter Estimation in the Presence o",TRUE,TRUE,TRUE
+"fox_redefining_2025","irt_zotero","Fox - 2025 - Redefining Item Response Models for Small Samples",TRUE,TRUE,TRUE
+"fox_joint_2016","irt_zotero","Fox and Marianti - 2016 - Joint Modeling of Ability and Differential Speed U",TRUE,TRUE,TRUE
+"fox_modeling_2007","irt_zotero","Fox et al. - 2007 - Modeling of Responses and Response Times with the ",TRUE,TRUE,TRUE
+"fox_lnirt_2021","irt_zotero","Fox et al. - 2021 - LNIRT An R Package for Joint Modeling of Response",TRUE,TRUE,TRUE
+"gadat_optimal_2023","irt_zotero","Gadat and Panloup - 2023 - Optimal non-asymptotic analysis of the Ruppert–Polyak averaging stochastic algorithm",TRUE,TRUE,TRUE
+"gilbert_multilevel_2025","irt_zotero","Gilbert and Miratrix - 2025 - Multilevel Metamodels Enhancing Inference, Interpretability, and Generalizability in Monte Carlo Si",TRUE,TRUE,TRUE
+"gilholm_bayesian_2021","irt_zotero","Gilholm et al. - 2021 - Bayesian Hierarchical Multidimensional Item Response Modeling of Small Sample, Sparse Data for Perso",TRUE,TRUE,TRUE
+"glas_reliability_2019","irt_zotero","Glas - 2019 - Reliability issues in high-stakes educational test",TRUE,TRUE,TRUE
+"gu_sufficient_2019","irt_zotero","Gu and Xu - 2019 - The Sufficient and Necessary Condition for the Identifiability and Estimability of the DINA Model",TRUE,TRUE,TRUE
+"gu_partial_2020","irt_zotero","Gu and Xu - 2020 - Partial identifiability of restricted latent class models",TRUE,TRUE,TRUE
+"guastadisegni_generalized_2025","irt_zotero","Guastadisegni et al. - 2025 - The generalized Hausman test for detecting non-normality in the latent variable distribution of the",TRUE,TRUE,TRUE
+"hecht_comparing_2021","irt_zotero","Hecht et al. - 2021 - Comparing the MCMC Efficiency of JAGS and Stan for",TRUE,TRUE,TRUE
+"hedges_variance_2012","irt_zotero","Hedges et al. - 2012 - The Variance of Intraclass Correlations in Three- and Four-Level Models",TRUE,TRUE,TRUE
+"heister_bayesian_2025","irt_zotero","Heister et al. - 2025 - Bayesian Thurstonian IRT Modeling Logical Dependencies as an Accurate Reflection of Thurstone’s Law",TRUE,TRUE,TRUE
+"hoofs_evaluating_2018","irt_zotero","Hoofs et al. - 2018 - Evaluating Model Fit in Bayesian Confirmatory Fact",TRUE,TRUE,TRUE
+"hsu_impact_2017","irt_zotero","Hsu et al. - 2017 - The Impact of Intraclass Correlation on the Effectiveness of Level-Specific Fit Indices in Multileve",TRUE,TRUE,TRUE
+"hu_nonparametric_2020","irt_zotero","Hu et al. - 2020 - A Nonparametric Bayesian Item Response Modeling Ap",TRUE,TRUE,TRUE
+"jara_bayesian_nodate","irt_zotero","Jara et al. - Bayesian Semi- and Nonparametric Modeling in R",TRUE,TRUE,TRUE
+"jeon_mapping_2021","irt_zotero","Jeon et al. - 2021 - Mapping unobserved item-respondent interactions A",TRUE,TRUE,TRUE
+"jiang_gibbs_2019","irt_zotero","Jiang and Templin - 2019 - Gibbs Samplers for Logistic Item Response Models v",TRUE,TRUE,TRUE
+"johnson_simulation-based_2015","irt_zotero","Johnson and Kuhn - 2015 - Simulation-based Bayesian inference for latent tra",TRUE,TRUE,TRUE
+"kappus_nonparametric_2020","irt_zotero","Kappus et al. - 2020 - Nonparametric estimation of the ability density in the Mixed-Effect Rasch Model",TRUE,TRUE,TRUE
+"kim_note_2012","irt_zotero","Kim - 2012 - A Note on the Reliability Coefficients for Item Response Model-Based Ability Estimates",TRUE,TRUE,TRUE
+"kim_estimation_2010","irt_zotero","Kim and Feldt - 2010 - The estimation of the IRT reliability coefficient and its lower and upper bounds, with comparisons t",TRUE,TRUE,TRUE
+"koopman_two-step_2022","irt_zotero","Koopman et al. - 2022 - A two-step, test-guided Mokken scale analysis, for nonclustered and clustered data",TRUE,TRUE,TRUE
+"koopman_assumptions_2025","irt_zotero","Koopman et al. - 2025 - Assumptions and Properties of Two-Level Nonparametric Item Response Theory Models",TRUE,TRUE,TRUE
+,"irt_zotero","Koopman.QURE.SWMDK.Output",TRUE,TRUE,FALSE
+"lei_logit_2024","irt_zotero","Lei and Rodriguez - 2024 - Logit unfolding choice models for binary data",TRUE,TRUE,TRUE
+"lembke_progress_2017","irt_zotero","Lembke et al. - 2017 - Progress Monitoring in Social Studies Using Vocabu",TRUE,TRUE,TRUE
+"li_summed_2018","irt_zotero","Li and Cai - 2018 - Summed Score Likelihood–Based Indices for Testing ",TRUE,TRUE,TRUE
+"liljequist_intraclass_2019","irt_zotero","Liljequist et al. - 2019 - Intraclass correlation – A discussion and demonstration of basic features",TRUE,TRUE,TRUE
+"liu_bayesian_nodate","irt_zotero","Liu - Bayesian Q Matrix Estimation of Saturated Diagnost",TRUE,TRUE,TRUE
+"liu_inferring_nodate","irt_zotero","Liu - Inferring Individual Attributes Using Testlet-Base",TRUE,TRUE,TRUE
+"ludtke_multiple_2017","irt_zotero","Lüdtke et al. - 2017 - Multiple imputation of missing data in multilevel designs A comparison of different strategies.",TRUE,TRUE,TRUE
+"luo_bayesian_2023","irt_zotero","Luo et al. - 2023 - Bayesian Estimation of Latent Space Item Response ",TRUE,TRUE,TRUE
+"luque_operationalizing_2024","irt_zotero","Luque and Sosa - Operationalizing Legislative Bodies A Methodologi",TRUE,TRUE,TRUE
+"manapat_examining_2022","irt_zotero","Manapat and Edwards - 2022 - Examining the Robustness of the Graded Response and 2-Parameter Logistic Models to Violations of Con",TRUE,TRUE,TRUE
+"marcoulides_latent_2002","irt_zotero","Marcoulides and Moustaki - 2002 - Latent variable and latent structure models",TRUE,TRUE,TRUE
+"mcneish_effect_2016","irt_zotero","McNeish and Stapleton - 2016 - The Effect of Small Sample Size on Two-Level Model Estimates A Review and Illustration",TRUE,TRUE,TRUE
+"merkle_bayesian_2019","irt_zotero","Merkle et al. - 2019 - Bayesian Comparison of Latent Variable Models Con",TRUE,TRUE,TRUE
+"merkle_opaque_2023","irt_zotero","Merkle et al. - 2023 - Opaque prior distributions in Bayesian latent vari",TRUE,TRUE,TRUE
+"micceri_unicorn_1989","irt_zotero","Micceri - 1989 - The unicorn, the normal curve, and other improbabl",TRUE,TRUE,TRUE
+"moerbeek_bayesian_2024","irt_zotero","Moerbeek - 2024 - Bayesian sequential designs in studies with multilevel data",TRUE,TRUE,TRUE
+"molenaar_generalized_2015","irt_zotero","Molenaar et al. - 2015 - A generalized linear factor model approach to the ",TRUE,TRUE,TRUE
+"monroe_testing_2021","irt_zotero","Monroe - 2021 - Testing Latent Variable Distribution Fit in IRT Using Posterior Residuals",TRUE,TRUE,TRUE
+"monroe_estimation_2014","irt_zotero","Monroe and Cai - 2014 - Estimation of a Ramsay-Curve Item Response Theory ",TRUE,TRUE,TRUE
+"morris_using_2019","irt_zotero","Morris et al. - 2019 - Using simulation studies to evaluate statistical methods",TRUE,TRUE,TRUE
+"mulder_bayes_2019","irt_zotero","Mulder and Fox - 2019 - Bayes Factor Testing of Multiple Intraclass Correlations",TRUE,TRUE,TRUE
+"muthen_multi-dimensional_nodate","irt_zotero","Muthen and Asparouhov - Multi-Dimensional, Multi-Level, and Multi-Timepoin",TRUE,TRUE,TRUE
+"myszkowski_bayesian_2025","irt_zotero","Myszkowski and Storme - 2025 - Bayesian Estimation of Generalized Log-Linear Poisson Item Response Models for Fluency Scores Using",TRUE,TRUE,TRUE
+"nelson_review_2023","irt_zotero","Nelson et al. - 2023 - Review of curriculum-based measurement in mathemat",TRUE,TRUE,TRUE
+,"irt_zotero","Number of Person or Item Strata- (4Separation + 1",TRUE,TRUE,FALSE
+"paek_investigating_2023","irt_zotero","Paek et al. - 2023 - Investigating Confidence Intervals of Item Paramet",TRUE,TRUE,TRUE
+"paganin_computational_2022","irt_zotero","Paganin et al. - 2022 - Computational Strategies and Estimation Performanc",TRUE,TRUE,TRUE
+,"irt_zotero","Paganin et al. (2021). Computational methods for Bayesian semiparametric Item Response Theory models.",TRUE,TRUE,FALSE
+,"irt_zotero","Paganin et al. (2021). NIMBLE IRT poster",TRUE,TRUE,FALSE
+"pan_bayesian_2024","irt_zotero","Pan et al. - 2024 - A Bayesian nonparametric approach for handling ite",TRUE,TRUE,TRUE
+"partchev_visual_nodate","irt_zotero","Partchev - A visual guide to item response theory",TRUE,TRUE,TRUE
+"qiu_bayesian_2023","irt_zotero","Qiu et al. - 2023 - Bayesian Nonparametric Latent Class Analysis for D",TRUE,TRUE,TRUE
+"raykov_intraclass_2011","irt_zotero","Raykov - 2011 - Intraclass Correlation Coefficients in Hierarchical Designs Evaluation Using Latent Variable Modeli",TRUE,TRUE,TRUE
+"raykov_design_2022","irt_zotero","Raykov and DiStefano - 2022 - Design Effect in Multilevel Settings A Commentary on a Latent Variable Modeling Procedure for Its E",TRUE,TRUE,TRUE
+"raykov_intraclass_2015","irt_zotero","Raykov and Marcoulides - 2015 - Intraclass Correlation Coefficients in Hierarchical Design Studies With Discrete Response Variables",TRUE,TRUE,TRUE
+"raykov_pitfalls_2021","irt_zotero","Raykov and Marcoulides - 2021 - On the Pitfalls of Estimating and Using Standardized Reliability Coefficients",TRUE,TRUE,TRUE
+"raykov_importance_2023","irt_zotero","Raykov et al. - 2023 - On the Importance of Coefficient Alpha for Measurement Research Loading Equality Is Not Necessary f",TRUE,TRUE,TRUE
+,"irt_zotero","Reliability and Separation",TRUE,TRUE,FALSE
+,"irt_zotero","Reliability, Separation, Strata Statistics",TRUE,TRUE,FALSE
+"revelle_reliability_2019","irt_zotero","Revelle and Condon - 2019 - Reliability from α to ω A tutorial.",TRUE,TRUE,TRUE
+"rights_relationship_2016","irt_zotero","Rights and Sterba - 2016 - The relationship between multilevel models and non-parametric multilevel mixture models Discrete ap",TRUE,TRUE,TRUE
+"robbins_stochastic_1951","irt_zotero","Robbins and Monro - 1951 - A Stochastic Approximation Method",TRUE,TRUE,TRUE
+"rouder_hierarchical-model_2024","irt_zotero","Rouder and Mehrvarz - 2024 - Hierarchical-Model Insights for Planning and Interpreting Individual-Difference Studies of Cognitive",TRUE,TRUE,TRUE
+"rutkowski_measuring_2013","irt_zotero","Rutkowski and Rutkowski - 2013 - Measuring Socioeconomic Background in PISA One Si",TRUE,TRUE,TRUE
+"samejima_departure_1997","irt_zotero","Samejima - 1997 - Departure from normal assumptions A promise for f",TRUE,TRUE,TRUE
+,"irt_zotero","San Martín et al. - 2011 - On the Bayesian Nonparametric Generalization of IR",TRUE,TRUE,FALSE
+"segawa_increase_2025","irt_zotero","Segawa - 2025 - Increase of Uncertainty in Summed-Score-Based Scoring in Non-Rasch IRT",TRUE,TRUE,TRUE
+"shi_bayesian_1997","irt_zotero","Shi and Lee - 1997 - A bayesian estimation of factor score in confirmat",TRUE,TRUE,TRUE
+"sinharay_detection_2020","irt_zotero","Sinharay - 2020 - Detection of Item Preknowledge Using Response Time",TRUE,TRUE,TRUE
+"sinharay_lack_2021","irt_zotero","Sinharay - 2021 - The Lack of Robustness of a Statistic Based on the Neyman–Pearson Lemma to Violations of Its Underly",TRUE,TRUE,TRUE
+"sinharay_lack_2021","irt_zotero","sinharay-2021-the-lack-of-robustness-of-a-statistic-based-on-the-neyman-pearson-lemma-to-violations-of-its-underlying",TRUE,TRUE,TRUE
+,"irt_zotero","sj-pdf-1-apm-10.1177_01466216251350342",TRUE,TRUE,FALSE
+"soland_how_2024","irt_zotero","Soland et al. - 2024 - How survey scoring decisions can influence your study’s results A trip through the IRT looking glas",TRUE,TRUE,TRUE
+"suh_multilevel_2018","irt_zotero","Suh et al. - 2018 - A Multilevel Longitudinal Nested Logit Model for M",TRUE,TRUE,TRUE
+,"irt_zotero","Supplemental Material",TRUE,TRUE,FALSE
+"svetina_parameter_2017","irt_zotero","Svetina et al. - 2017 - Parameter Recovery in Multidimensional Item Respon",TRUE,TRUE,TRUE
+"sweeney_investigation_2022","irt_zotero","Sweeney et al. - 2022 - An Investigation of the Nature and Consequence of the Relationship between IRT Difficulty and Discri",TRUE,TRUE,TRUE
+"ten_hove_interrater_2022","irt_zotero","Ten Hove et al. - 2022 - Interrater reliability for multilevel data A generalizability theory approach.",TRUE,TRUE,TRUE
+"tong_robust_2020","irt_zotero","Tong and Zhang - 2020 - Robust Bayesian Approaches in Growth Curve Modelin",TRUE,TRUE,TRUE
+"toulis_proximal_2021","irt_zotero","Toulis et al. - 2021 - The Proximal Robbins–Monro Method",TRUE,TRUE,TRUE
+,"irt_zotero","v40i05-appendix",TRUE,TRUE,FALSE
+"van_den_berg_variance_2007","irt_zotero","van den Berg et al. - 2007 - Variance Decomposition Using an IRT Measurement Mo",TRUE,TRUE,TRUE
+"van_der_linden_lords_2019","irt_zotero","van der Linden - 2019 - Lord’s Equity Theorem Revisited",TRUE,TRUE,TRUE
+"veldkamp_theoretical_2019","irt_zotero","Veldkamp and Sluijter - 2019 - Theoretical and Practical Advances in Computer-bas",TRUE,TRUE,TRUE
+"wang_robustness_2018","irt_zotero","Wang et al. - 2018 - Robustness of Parameter Estimation to Assumptions ",TRUE,TRUE,TRUE
+"wang_modeling_2019","irt_zotero","Wang et al. - 2019 - Modeling Response Time and Responses in Multidimen",TRUE,TRUE,TRUE
+"wilkins-reeves_data_2021","irt_zotero","Wilkins-Reeves et al. - 2021 - Data Harmonization Via Regularized Nonparametric M",TRUE,TRUE,TRUE
+"wind_instructional_2017","irt_zotero","Wind - 2017 - An Instructional Module on Mokken Scale Analysis",TRUE,TRUE,TRUE
+"wind_identifying_2022","irt_zotero","Wind - 2022 - Identifying Problematic Item Characteristics With ",TRUE,TRUE,TRUE
+"winter_tutorial_2025","irt_zotero","Winter et al. - 2025 - A tutorial on Bayesian item response theory An illustration using the Teacher Stress Inventory-Shor",TRUE,TRUE,TRUE
+"woods_ramsay-curve_2006","irt_zotero","Woods - 2006 - Ramsay-curve item response theory (RC-IRT) to detect and correct for nonnormal latent variables.",TRUE,TRUE,TRUE
+"woods_ramsay_2007","irt_zotero","Woods - 2007 - Ramsay Curve IRT for Likert-Type Data",TRUE,TRUE,TRUE
+"woods_ramsay-curve_2008","irt_zotero","Woods - 2008 - Ramsay-Curve Item Response Theory for the Three-Parameter Logistic Item Response Model",TRUE,TRUE,TRUE
+"woods_item_2006","irt_zotero","Woods and Thissen - 2006 - Item Response Theory with Estimation of the Latent Population Distribution Using Spline-Based Densit",TRUE,TRUE,TRUE
+"wu_irt_2025","irt_zotero","Wu et al. - IRT Observed-Score Equating for Rater-Mediated Assessments Using a Hierarchical Rater Model",TRUE,TRUE,TRUE
+"xiao_performance_2023","irt_zotero","Xiao and Hau - 2023 - Performance of Coefficient Alpha and Its Alternati",TRUE,TRUE,TRUE
+"xing_bayesian_2018","irt_zotero","Xing et al. - Bayesian Conﬁrmatory Factor Analysis",TRUE,TRUE,TRUE
+"xu_robustness_2025","irt_zotero","Xu et al. - 2025 - Robustness of Identifying Item–Trait Relationships Under Non-Normality in MIRT Models",TRUE,TRUE,TRUE
+"yang_characterizing_2012","irt_zotero","Yang et al. - 2012 - Characterizing Sources of Uncertainty in Item Response Theory Scale Scores",TRUE,TRUE,TRUE
+"yemao_bayesian_2017","irt_zotero","Yemao and Maolin - 2017 - Bayesian analysis for confirmatory factor model wi",TRUE,TRUE,TRUE
+"zhang_bayesian_2021","irt_zotero","Zhang et al. - 2021 - Bayesian Inference for IRT Models with Non-Normal ",TRUE,TRUE,TRUE
+"zhang_blcfa_2021","irt_zotero","Zhang et al. - 2021 - blcfa An R Package for Bayesian Model Modificatio",TRUE,TRUE,TRUE
+"zhang_empirical_nodate","irt_zotero","Zhang et al. - Empirical vs. Expected IRT-Based Reliability Estim",TRUE,TRUE,TRUE
+"zhu_bayesian_2021","irt_zotero","Zhu et al. - 2021 - Bayesian Analysis of a Quantile Multilevel Item Response Theory Model",TRUE,TRUE,TRUE
+"zitzmann_performance_2021","irt_zotero","Zitzmann et al. - 2021 - On the Performance of Bayesian Approaches in Small",TRUE,TRUE,TRUE
+"zumbo_linear_2025","irt_zotero","Zumbo - 2025 - From Linear Geometry to Nonlinear and Information-Geometric Settings in Test Theory Bregman Project",TRUE,TRUE,TRUE
+"zumbo_reliability_2025","irt_zotero","Zumbo - 2025 - Reliability as Projection in Operator-Theoretic Test Theory Conditional Expectation, Hilbert Space",TRUE,TRUE,TRUE
+,"epm_references","2025-04-29_draft_Proof_hi_APM_First_Manuscript",TRUE,TRUE,FALSE
+,"epm_references","2025-08-10_첫번째 review 결과 major revision",TRUE,TRUE,FALSE
+,"epm_references","2025-08-12_Second reviewer comment",TRUE,TRUE,FALSE
+,"epm_references","Adams - 2005 - Reliability as a measurement design effect",TRUE,TRUE,FALSE
+,"epm_references","An Introduction to the Rasch Model with Examples in R Rudolf Debelak etc z-lib_annotated",TRUE,FALSE,FALSE
+,"epm_references","An Introduction to the Rasch Model with Examples in R Rudolf Debelak etc z-lib_unannotated",TRUE,FALSE,FALSE
+,"epm_references","Andersson and Xin - 2018 - Large Sample Confidence Intervals for Item Response Theory Reliability Co",FALSE,TRUE,FALSE
+,"epm_references","Andersson and Xin - 2018 - Large Sample Confidence Intervals for Item Response Theory Reliability Coefficients",TRUE,FALSE,FALSE
+,"epm_references","Appendices_Debelak",TRUE,TRUE,FALSE
+,"epm_references","Baker and Kim_03_ML Estimation of Examinee Ability",TRUE,TRUE,FALSE
+,"epm_references","Baker and Kim_05_Rasch model",TRUE,TRUE,FALSE
+,"epm_references","Baker and Kim_06_MMLE and EM Algorithm",TRUE,TRUE,FALSE
+,"epm_references","Baker and Kim_07_Bayesian estimation",TRUE,TRUE,FALSE
+,"epm_references","Baker and Kim_12_Gibbs sampler",TRUE,TRUE,FALSE
+,"epm_references","Bambirra Gonçalves et al. - 2018 - Bayesian item response model a generalized approa",TRUE,TRUE,FALSE
+,"epm_references","Bambirra Gonçalves et al. - 2018 - Bayesian item response model a generalized approa",FALSE,TRUE,FALSE
+,"epm_references","Bayesian Data Analysis 3rd Edition",TRUE,FALSE,FALSE
+,"epm_references","Bayesian Hierarchical Models-With Applications Using R Second Edition by Peter D Congdon Author z-lib",TRUE,FALSE,FALSE
+,"epm_references","Bayesian Item Response Modeling 2010_annotated",TRUE,FALSE,FALSE
+,"epm_references","Bayesian Item Response Modeling 2010_unannotated",TRUE,FALSE,FALSE
+,"epm_references","Bayesian Nonparametrics for Causal Inference and Missing Data Michael J Daniels Antonio Linero Jason Roy",TRUE,FALSE,FALSE
+,"epm_references","Bayesian psychometric modeling (Levy, Roy Mislevy, Robert J)CRC Press (Z-Library)",TRUE,FALSE,FALSE
+,"epm_references","Beauducel et al. - 2025 - How to Improve the Regression Factor Score Predictor When Individuals Have",FALSE,TRUE,FALSE
+,"epm_references","Beauducel et al. - 2025 - How to Improve the Regression Factor Score Predictor When Individuals Have Different Factor Loadings",TRUE,FALSE,FALSE
+,"epm_references","Bürkner - 2021 - Bayesian Item Response Modeling in R with brms and Stan",FALSE,TRUE,FALSE
+,"epm_references","Bürkner - 2021 - Bayesian Item Response Modeling in R with brms and Stan",TRUE,TRUE,FALSE
+,"epm_references","Can et al. - 2015 - Collinear Latent Variables in Multilevel Confirmatory Factor Analysis A Comparis",FALSE,TRUE,FALSE
+,"epm_references","Can et al. - 2015 - Collinear Latent Variables in Multilevel Confirmatory Factor Analysis A Comparison of Maximum Likel",TRUE,FALSE,FALSE
+,"epm_references","Chapter_01_Introduction_Debelak",TRUE,TRUE,FALSE
+,"epm_references","Chapter_01_Introduction_Fox",TRUE,TRUE,FALSE
+,"epm_references","Chapter_02_Bayesian IRT_Fox",TRUE,TRUE,FALSE
+,"epm_references","Chapter_02_Rasch model_Debelak",TRUE,TRUE,FALSE
+,"epm_references","Chapter_03_Bayesian Basics_Fox",TRUE,TRUE,FALSE
+,"epm_references","Chapter_03_Parameter estimation_Debelak",TRUE,TRUE,FALSE
+,"epm_references","Chapter_04_Estimation_Fox",TRUE,TRUE,FALSE
+,"epm_references","Chapter_04_Test evaluation_Debelak",TRUE,TRUE,FALSE
+,"epm_references","Chapter_06_Assessment_Fox",TRUE,TRUE,FALSE
+,"epm_references","Chapter_07_Multilevel IRT_Fox",TRUE,TRUE,FALSE
+,"epm_references","Chapter_08_R package TAM_Debelak",TRUE,TRUE,FALSE
+,"epm_references","Chapter_08_Random item effects_Fox",TRUE,TRUE,FALSE
+,"epm_references","Chapter_09_R interface to Stan_Debelak",TRUE,TRUE,FALSE
+,"epm_references","Chapter_09_Response time_Fox",TRUE,TRUE,FALSE
+,"epm_references","Chapter_10_Extension to Rasch model_Debelak",TRUE,TRUE,FALSE
+,"epm_references","Chapter_10_Randomized IRT_Fox",TRUE,TRUE,FALSE
+,"epm_references","Cheng and Meng - 2025 - Estimating IRT Models Under Gaussian Mixture Modeling of Latent Traits An Ap",FALSE,TRUE,FALSE
+,"epm_references","Cheng and Meng - 2025 - Estimating IRT Models Under Gaussian Mixture Modeling of Latent Traits An Application of MSAEM Algo",TRUE,FALSE,FALSE
+,"epm_references","Cho et al. - 2015 - Detecting Intervention Effects in a Cluster-Randomized Design Using Multilevel S",FALSE,TRUE,FALSE
+,"epm_references","Cho et al. - 2015 - Detecting Intervention Effects in a Cluster-Randomized Design Using Multilevel Structural Equation M",TRUE,FALSE,FALSE
+,"epm_references","Cho et al. - 2024 - Modeling Nonlinear Effects of Person-by-Item Covariates in Explanatory Item Resp",FALSE,TRUE,FALSE
+,"epm_references","Cho et al. - 2024 - Modeling Nonlinear Effects of Person-by-Item Covariates in Explanatory Item Response Models Explora",TRUE,FALSE,FALSE
+,"epm_references","Classe and Kern - 2024 - Latent Variable Forests for Latent Variable Score ",TRUE,TRUE,FALSE
+,"epm_references","Cui et al. - 2022 - A stochastic approximation expectation maximization algorithm for estimating Ram",FALSE,TRUE,FALSE
+,"epm_references","Cui et al. - 2022 - A stochastic approximation expectation maximization algorithm for estimating Ramsay-curve three-para",TRUE,FALSE,FALSE
+,"epm_references","Daniels et al. (2022)_Causal inference on quantiles",TRUE,TRUE,FALSE
+,"epm_references","DelosReyes and Padilla - 2025 - Obtaining a Bayesian Estimate of Coefficient Alpha Using a Posterior",FALSE,TRUE,FALSE
+,"epm_references","DelosReyes and Padilla - 2025 - Obtaining a Bayesian Estimate of Coefficient Alpha Using a Posterior Normal Distribution",TRUE,FALSE,FALSE
+,"epm_references","Domingue et al. - 2022 - Speed–Accuracy Trade-Off Not So Fast Marginal Changes in Speed Have Inconsi",FALSE,TRUE,FALSE
+,"epm_references","Domingue et al. - 2022 - Speed–Accuracy Trade-Off Not So Fast Marginal Changes in Speed Have Inconsistent Relationships Wit",TRUE,FALSE,FALSE
+,"epm_references","Domingue et al. - 2025 - An introduction to the Item Response Warehouse (IRW) A resource for enhanci",FALSE,TRUE,FALSE
+,"epm_references","Domingue et al. - 2025 - An introduction to the Item Response Warehouse (IRW) A resource for enhancing data usage in psychom",TRUE,FALSE,FALSE
+,"epm_references","Doran - 2005 - The Information Function for the One-Parameter Logistic Model Is it Reliability",TRUE,TRUE,FALSE
+,"epm_references","Enders - 2004 - The Impact of Missing Data on Sample Reliability Estimates Implications for Reliabil",FALSE,TRUE,FALSE
+,"epm_references","Enders - 2004 - The Impact of Missing Data on Sample Reliability Estimates Implications for Reliability Reporting P",TRUE,FALSE,FALSE
+,"epm_references","Fife et al. - 2012 - The Assessment of Reliability Under Range Restriction A Comparison of α, ω, and",FALSE,TRUE,FALSE
+,"epm_references","Fife et al. - 2012 - The Assessment of Reliability Under Range Restriction A Comparison of α, ω, and Test–Retest Reliabi",TRUE,FALSE,FALSE
+,"epm_references","Finch and Edwards - 2016 - Rasch Model Parameter Estimation in the Presence o",TRUE,TRUE,FALSE
+,"epm_references","Fox - 2025 - Redefining Item Response Models for Small Samples",TRUE,TRUE,FALSE
+,"epm_references","Gilholm et al. - 2021 - Bayesian Hierarchical Multidimensional Item Response Modeling of Small Sampl",FALSE,TRUE,FALSE
+,"epm_references","Gilholm et al. - 2021 - Bayesian Hierarchical Multidimensional Item Response Modeling of Small Sample, Sparse Data for Perso",TRUE,FALSE,FALSE
+,"epm_references","Glas - 2019 - Reliability issues in high-stakes educational test pages 213 - 230",TRUE,TRUE,FALSE
+,"epm_references","Glas_ML estimation",TRUE,TRUE,FALSE
+,"epm_references","Guastadisegni et al. - 2025 - The generalized Hausman test for detecting non-normality in the latent",FALSE,TRUE,FALSE
+,"epm_references","Guastadisegni et al. - 2025 - The generalized Hausman test for detecting non-normality in the latent variable distribution of the",TRUE,FALSE,FALSE
+,"epm_references","Handbook of item response theory volume 1 models",TRUE,FALSE,FALSE
+,"epm_references","Handbook of item response theory volume 2 statistical tools",TRUE,FALSE,FALSE
+,"epm_references","Handbook of item response theory volume 3 applications",TRUE,FALSE,FALSE
+,"epm_references","Handbook_01_Identification IRT_San Martin",TRUE,TRUE,FALSE
+,"epm_references","Handbook_02_Nuisance and incidental parameters_Shelby Haberman",TRUE,TRUE,FALSE
+,"epm_references","Handbook_03_EM Algorithm_Murray Aitkin",TRUE,TRUE,FALSE
+,"epm_references","Handbook_04_Bayesian estimation_Johnson and Sinharay",TRUE,TRUE,FALSE
+,"epm_references","Handbook_05_Variational approximation_Rijmen et al",TRUE,TRUE,FALSE
+,"epm_references","Hedges et al. - 2012 - The Variance of Intraclass Correlations in Three- and Four-Level Models",TRUE,TRUE,FALSE
+,"epm_references","Heister et al. - 2025 - Bayesian Thurstonian IRT Modeling Logical Dependencies as an Accurate Reflec",FALSE,TRUE,FALSE
+,"epm_references","Heister et al. - 2025 - Bayesian Thurstonian IRT Modeling Logical Dependencies as an Accurate Reflection of Thurstone’s Law",TRUE,FALSE,FALSE
+,"epm_references","Hsu et al. - 2017 - The Impact of Intraclass Correlation on the Effectiveness of Level-Specific Fit ",FALSE,TRUE,FALSE
+,"epm_references","Hsu et al. - 2017 - The Impact of Intraclass Correlation on the Effectiveness of Level-Specific Fit Indices in Multileve",TRUE,FALSE,FALSE
+,"epm_references","IRW",TRUE,FALSE,FALSE
+,"epm_references","IRW_Difficulty",TRUE,TRUE,FALSE
+,"epm_references","Item Response Theory Baker 김석호",TRUE,FALSE,FALSE
+,"epm_references","Johnson and Kuhn - 2015 - Simulation-based Bayesian inference for latent tra",TRUE,TRUE,FALSE
+,"epm_references","lee-et-al-2024-improving-the-estimation-of-site-specific-effects-and-their-distribution-in-multisite",FALSE,TRUE,FALSE
+,"epm_references","lee-et-al-2024-improving-the-estimation-of-site-specific-effects-and-their-distribution-in-multisite-trials",TRUE,FALSE,FALSE
+,"epm_references","Li and Cai - 2018 - Summed Score Likelihood–Based Indices for Testing ",TRUE,TRUE,FALSE
+,"epm_references","Liljequist et al. - 2019 - Intraclass correlation – A discussion and demonstration of basic features",TRUE,TRUE,FALSE
+,"epm_references","Lüdtke et al. - 2017 - Multiple imputation of missing data in multilevel designs A comparison of di",FALSE,TRUE,FALSE
+,"epm_references","Lüdtke et al. - 2017 - Multiple imputation of missing data in multilevel designs A comparison of different strategies.",TRUE,FALSE,FALSE
+,"epm_references","Manapat and Edwards - 2022 - Examining the Robustness of the Graded Response and 2-Parameter Logisti",FALSE,TRUE,FALSE
+,"epm_references","Manapat and Edwards - 2022 - Examining the Robustness of the Graded Response and 2-Parameter Logistic Models to Violations of Con",TRUE,FALSE,FALSE
+,"epm_references","Mazzeo_Handbook of item response theory volume 3 applications pages 297 - 311",TRUE,TRUE,FALSE
+,"epm_references","Micceri - 1989 - The unicorn, the normal curve, and other improbabl",TRUE,TRUE,FALSE
+,"epm_references","micceri---1989---the-unicorn-the-normal-curve-and-other-improba-3fe3e40d-1710-4c4f-a065-05db35904503",FALSE,TRUE,FALSE
+,"epm_references","Moerbeek - 2024 - Bayesian sequential designs in studies with multilevel data",TRUE,TRUE,FALSE
+,"epm_references","Monroe - 2021 - Testing Latent Variable Distribution Fit in IRT Using Posterior Residuals",TRUE,TRUE,FALSE
+,"epm_references","Monroe and Cai - 2014 - Estimation of a Ramsay-Curve Item Response Theory ",TRUE,TRUE,FALSE
+,"epm_references","Morris et al. - 2019 - Using simulation studies to evaluate statistical methods",TRUE,TRUE,FALSE
+,"epm_references","Mulder and Fox - 2019 - Bayes Factor Testing of Multiple Intraclass Correlations",TRUE,TRUE,FALSE
+,"epm_references","Paek et al. - 2023 - Investigating Confidence Intervals of Item Paramet",TRUE,TRUE,FALSE
+,"epm_references","Paganin et al. - 2022 - Computational Strategies and Estimation Performanc_Unannotated",TRUE,TRUE,FALSE
+,"epm_references","R305A180293_child-level_CT_v5_0",TRUE,FALSE,FALSE
+,"epm_references","Raykov - 2011 - Intraclass Correlation Coefficients in Hierarchical Designs Evaluation Using Latent ",FALSE,TRUE,FALSE
+,"epm_references","Raykov - 2011 - Intraclass Correlation Coefficients in Hierarchical Designs Evaluation Using Latent Variable Modeli",TRUE,FALSE,FALSE
+,"epm_references","Raykov and DiStefano - 2022 - Design Effect in Multilevel Settings A Commentary on a Latent Variable",FALSE,TRUE,FALSE
+,"epm_references","Raykov and DiStefano - 2022 - Design Effect in Multilevel Settings A Commentary on a Latent Variable Modeling Procedure for Its E",TRUE,FALSE,FALSE
+,"epm_references","Raykov and Marcoulides - 2015 - Intraclass Correlation Coefficients in Hierarchical Design Studies W",FALSE,TRUE,FALSE
+,"epm_references","Raykov and Marcoulides - 2015 - Intraclass Correlation Coefficients in Hierarchical Design Studies With Discrete Response Variables",TRUE,FALSE,FALSE
+,"epm_references","Raykov and Marcoulides - 2021 - On the Pitfalls of Estimating and Using Standardized Reliability Coe",FALSE,TRUE,FALSE
+,"epm_references","Raykov and Marcoulides - 2021 - On the Pitfalls of Estimating and Using Standardized Reliability Coefficients",TRUE,FALSE,FALSE
+,"epm_references","Raykov et al. - 2023 - On the Importance of Coefficient Alpha for Measurement Research Loading Equal",FALSE,TRUE,FALSE
+,"epm_references","Raykov et al. - 2023 - On the Importance of Coefficient Alpha for Measurement Research Loading Equality Is Not Necessary f",TRUE,FALSE,FALSE
+,"epm_references","Reserved for Later/Armstrong et al. - 2022 - Robust Empirical Bayes Confidence Intervals",TRUE,TRUE,FALSE
+,"epm_references","Reserved for Later/Bates et al. - 2014 - Handling Correlations Between Covariates and Random Slopes in Multilevel Model",FALSE,TRUE,FALSE
+,"epm_references","Reserved for Later/Bates et al. - 2014 - Handling Correlations Between Covariates and Random Slopes in Multilevel Models",TRUE,FALSE,FALSE
+,"epm_references","Reserved for Later/Bloom and Spybrook - 2017 - Assessing the Precision of Multisite Trials for Es",TRUE,TRUE,FALSE
+,"epm_references","Reserved for Later/Bloom et al. - 2017 - Using Multisite Experiments to Study Cross-Site Va",TRUE,TRUE,FALSE
+,"epm_references","Reserved for Later/Castellano et al. - 2014 - Composition, Context, and Endogeneity in School and Teacher Comparisons",TRUE,FALSE,FALSE
+,"epm_references","Reserved for Later/Castellano et al. - 2014 - Composition, Context, and Endogeneity in School and Teacher Comparisons.p",FALSE,TRUE,FALSE
+,"epm_references","Reserved for Later/Chaisemartin and Deeb - 2024 - Estimating treatment-effect heterogeneity across sites, in multi-site",FALSE,TRUE,FALSE
+,"epm_references","Reserved for Later/Chaisemartin and Deeb - 2024 - Estimating treatment-effect heterogeneity across sites, in multi-site randomized experiments with fe",TRUE,FALSE,FALSE
+,"epm_references","Reserved for Later/Chan and Hedges - 2022 - Pooling Interactions Into Error Terms in Multisite",TRUE,TRUE,FALSE
+,"epm_references","Reserved for Later/Chung et al. - 2013 - A Nondegenerate Penalized Likelihood Estimator for Variance Parameters in Mult",FALSE,TRUE,FALSE
+,"epm_references","Reserved for Later/Chung et al. - 2013 - A Nondegenerate Penalized Likelihood Estimator for Variance Parameters in Multilevel Models",TRUE,FALSE,FALSE
+,"epm_references","Reserved for Later/Chung et al. - 2013 - Avoiding zero between-study variance estimates in random-effects meta-analysis",TRUE,TRUE,FALSE
+,"epm_references","Reserved for Later/Dong et al. - 2021 - Design Considerations in Multisite Randomized Tria",TRUE,TRUE,FALSE
+,"epm_references","Reserved for Later/Gilraine et al. - 2020 - A New Method for Estimating Teacher Value-Added",TRUE,TRUE,FALSE
+,"epm_references","Reserved for Later/Gu and Koenker - 2023 - Invidious Comparisons Ranking and Selection as Co",TRUE,TRUE,FALSE
+,"epm_references","Reserved for Later/Henderson and Hartman - 2025 - Targeted Parameter Estimation for Robust Empirical Bayes Ranking",TRUE,TRUE,FALSE
+,"epm_references","Reserved for Later/Ignatiadis and Wager - 2022 - Confidence Intervals for Nonparametric Empirical Bayes Analysis",TRUE,TRUE,FALSE
+,"epm_references","Reserved for Later/Jaffe et al. - 2025 - Constrained Denoising, Empirical Bayes, and Optimal Transport",TRUE,TRUE,FALSE
+,"epm_references","Reserved for Later/Lockwood et al. - 2002 - Uncertainty in Rank Estimation Implications for V",TRUE,TRUE,FALSE
+,"epm_references","Reserved for Later/Lockwood et al. - 2018 - Flexible Bayesian Models for Inferences From Coars",TRUE,TRUE,FALSE
+,"epm_references","Reserved for Later/Lockwood et al. - 2022 - Improving Accuracy and Stability of Aggregate Student Growth Measures Using",FALSE,TRUE,FALSE
+,"epm_references","Reserved for Later/Lockwood et al. - 2022 - Improving Accuracy and Stability of Aggregate Student Growth Measures Using Empirical Best Linear Pr",TRUE,FALSE,FALSE
+,"epm_references","Reserved for Later/Lunn et al. - 2013 - Fully Bayesian hierarchical modelling in two stage",TRUE,TRUE,FALSE
+,"epm_references","Reserved for Later/McCulloch and Neuhaus - 2011 - Misspecifying the Shape of a Random Effects Distri",TRUE,TRUE,FALSE
+,"epm_references","Reserved for Later/Miratrix et al. - 2021 - An Applied Researcher’s Guide to Estimating Effect",TRUE,TRUE,FALSE
+,"epm_references","Reserved for Later/Mogstad et al. - 2020 - Inference for Ranks with Applications to Mobility across Neighborhoods and A",FALSE,TRUE,FALSE
+,"epm_references","Reserved for Later/Mogstad et al. - 2020 - Inference for Ranks with Applications to Mobility across Neighborhoods and Academic Achievement across Countries",TRUE,FALSE,FALSE
+,"epm_references","Reserved for Later/Moretti and Whitworth - 2023 - Estimating the Uncertainty of a Small Area Estimator Based on a Micro",FALSE,TRUE,FALSE
+,"epm_references","Reserved for Later/Moretti and Whitworth - 2023 - Estimating the Uncertainty of a Small Area Estimator Based on a Microsimulation Approach",TRUE,FALSE,FALSE
+,"epm_references","Reserved for Later/Ohlssen et al. - 2007 - A hierarchical modelling framework for identifying",TRUE,TRUE,FALSE
+,"epm_references","Reserved for Later/Paddock et al. - 2006 - Flexible distributions for triple-goal estimates i",TRUE,TRUE,FALSE
+,"epm_references","Reserved for Later/Rabe-Hesketh et al. - 2003 - Correcting for covariate measurement error in logi",TRUE,TRUE,FALSE
+,"epm_references","Reserved for Later/Raudenbush and Schwartz - 2020 - Randomized Experiments in Education, with Implicat",TRUE,TRUE,FALSE
+,"epm_references","Reserved for Later/Shen and Louis - 1998 - Triple-goal estimates in two-stage hierarchical mo",TRUE,TRUE,FALSE
+,"epm_references","Rights and Sterba - 2016 - The relationship between multilevel models and non-parametric multilevel ",FALSE,TRUE,FALSE
+,"epm_references","Rights and Sterba - 2016 - The relationship between multilevel models and non-parametric multilevel mixture models Discrete ap",TRUE,FALSE,FALSE
+,"epm_references","Rouder and Mehrvarz - 2024 - Hierarchical-Model Insights for Planning and Interpreting Individual-Di",FALSE,TRUE,FALSE
+,"epm_references","Rouder and Mehrvarz - 2024 - Hierarchical-Model Insights for Planning and Interpreting Individual-Difference Studies of Cognitive",TRUE,FALSE,FALSE
+,"epm_references","sirt-2",TRUE,FALSE,FALSE
+,"epm_references","Soland et al. - 2024 - How survey scoring decisions can influence your study’s results A trip throug",FALSE,TRUE,FALSE
+,"epm_references","Soland et al. - 2024 - How survey scoring decisions can influence your study’s results A trip through the IRT looking glas",TRUE,FALSE,FALSE
+,"epm_references","Svetina et al. - 2017 - Parameter Recovery in Multidimensional Item Respon",TRUE,TRUE,FALSE
+,"epm_references","TAM",TRUE,FALSE,FALSE
+,"epm_references","Ten Hove et al. - 2022 - Interrater reliability for multilevel data A generalizability theory approa",FALSE,TRUE,FALSE
+,"epm_references","Ten Hove et al. - 2022 - Interrater reliability for multilevel data A generalizability theory approach.",TRUE,FALSE,FALSE
+,"epm_references","The IRW Data Standard – Item Response Warehouse",TRUE,FALSE,FALSE
+,"epm_references","van den Berg et al. - 2007 - Variance Decomposition Using an IRT Measurement Mo",TRUE,TRUE,FALSE
+,"epm_references","Wang et al. - 2018 - Robustness of Parameter Estimation to Assumptions ",TRUE,TRUE,FALSE
+,"epm_references","Wind - 2022 - Identifying Problematic Item Characteristics With ",TRUE,TRUE,FALSE
+,"epm_references","Woods - 2006 - Ramsay-curve item response theory (RC-IRT) to detect and correct for nonnormal latent",FALSE,TRUE,FALSE
+,"epm_references","Woods - 2006 - Ramsay-curve item response theory (RC-IRT) to detect and correct for nonnormal latent variables.",TRUE,FALSE,FALSE
+,"epm_references","Woods - 2007 - Ramsay Curve IRT for Likert-Type Data",TRUE,TRUE,FALSE
+,"epm_references","Woods - 2008 - Ramsay-Curve Item Response Theory for the Three-Parameter Logistic Item Response Mode",FALSE,TRUE,FALSE
+,"epm_references","Woods - 2008 - Ramsay-Curve Item Response Theory for the Three-Parameter Logistic Item Response Model",TRUE,FALSE,FALSE
+,"epm_references","Woods and Thissen - 2006 - Item Response Theory with Estimation of the Latent Population Distributio",FALSE,TRUE,FALSE
+,"epm_references","Woods and Thissen - 2006 - Item Response Theory with Estimation of the Latent Population Distribution Using Spline-Based Densit",TRUE,FALSE,FALSE
+,"epm_references","Xu et al. - 2025 - Robustness of Identifying Item–Trait Relationships Under Non-Normality in MIRT Mo",FALSE,TRUE,FALSE
+,"epm_references","Xu et al. - 2025 - Robustness of Identifying Item–Trait Relationships Under Non-Normality in MIRT Models",TRUE,FALSE,FALSE
+,"epm_references","Yang et al. - 2012 - Characterizing Sources of Uncertainty in Item Response Theory Scale Scores",TRUE,TRUE,FALSE
+,"epm_references","Zhang et al. - 2021 - Bayesian Inference for IRT Models with Non-Normal ",TRUE,TRUE,FALSE
+,"epm_references","Zhang et al. - Empirical vs. Expected IRT-Based Reliability Estim",TRUE,TRUE,FALSE
+,"epm_references","Zitzmann et al. - 2021 - On the Performance of Bayesian Approaches in Small",TRUE,TRUE,FALSE
+,"epm_references","Zumbo - 2025 - Reliability as Projection in Operator-Theoretic Test Theory Conditional Expectation, ",FALSE,TRUE,FALSE
+,"epm_references","Zumbo - 2025 - Reliability as Projection in Operator-Theoretic Test Theory Conditional Expectation, Hilbert Space",TRUE,FALSE,FALSE
+"aarts_modeling_2026","psych_methods","Aarts and Haslbeck - 2026 - Modeling psychological time series with multilevel hidden Markov models A tutorial",TRUE,TRUE,TRUE
+"bartos_robust_2025","psych_methods","Bartoš et al. - 2025 - Robust Bayesian meta-regression Model-averaged moderation analysis in the presence of publication b",TRUE,TRUE,TRUE
+"baurne_heterogeneous_2026","psych_methods","Baurne et al. - 2026 - Heterogeneous variance models with Gaussian processes",TRUE,TRUE,TRUE
+"boedeker_so_2024","psych_methods","Boedeker et al. - 2024 - So is it better than something else Using the results of a random-effects meta-analysis to characte",TRUE,TRUE,TRUE
+"bonett_sample_2026","psych_methods","Bonett - 2026 - Sample size planning for studies with multiple measurement trials",TRUE,TRUE,TRUE
+"bonifay_reassessing_2025","psych_methods","Bonifay et al. - 2025 - Reassessing the fitting propensity of factor models",TRUE,TRUE,TRUE
+"brancaccio_application_2026","psych_methods","Brancaccio and Stefanutti - 2026 - An application of procedural knowledge space theory to the study of strategic planning in board game",TRUE,TRUE,TRUE
+"brusco_clustering_2024","psych_methods","Brusco et al. - 2024 - Clustering methods To optimize or to not optimize",TRUE,TRUE,TRUE
+"chen_adapting_2025","psych_methods","Chen and Pustejovsky - 2025 - Adapting methods for correcting selective reporting bias in meta-analysis of dependent effect sizes",TRUE,TRUE,TRUE
+"chen_addressing_2026","psych_methods","Chen and Pustejovsky - 2026 - Addressing selective reporting bias in meta-analysis of dependent effect sizes A tutorial in R.",TRUE,TRUE,TRUE
+"cho_reliability_2025","psych_methods","Cho and Béland - 2025 - Reliability in unidimensional ordinal data A comparison of continuous and ordinal estimators",TRUE,TRUE,TRUE
+"choi_you_2026","psych_methods","Choi et al. - 2026 - You must parcel carefully if you have to! Comparing eight item parceling strategies with the item-le",TRUE,TRUE,TRUE
+"dao_bayesian_2025","psych_methods","Dao et al. - 2025 - Bayesian inference for evidence accumulation models with regressors",TRUE,TRUE,TRUE
+"de_jonge_how_2025","psych_methods","de Jonge et al. - 2025 - How to synthesize randomized controlled trial data with meta-analytic structural equation modeling",TRUE,TRUE,TRUE
+"de_vries_adjusting_2025","psych_methods","de Vries et al. - 2025 - Adjusting for nonrepresentativeness in continuous norming using multilevel regression and poststrati",TRUE,TRUE,TRUE
+"doebler_beta-binomial_2024","psych_methods","Doebler et al. - 2024 - Beta-binomial meta-analysis of individual differences based on sample means and standard deviations",TRUE,TRUE,TRUE
+"du_modeling_2026","psych_methods","Du et al. - 2026 - Modeling cyclic patterns using a two-stage hybrid Bayesian approach",TRUE,TRUE,TRUE
+"galanter_adjustment_2026","psych_methods","Galanter et al. - 2026 - Adjustment set selection for estimating optimal treatment rules under confounding",TRUE,TRUE,TRUE
+"guo_extending_2026","psych_methods","Guo and Rights - 2026 - Extending bias adjustments for R-squared to multilevel models",TRUE,TRUE,TRUE
+"haines_tutorial_2025","psych_methods","Haines et al. - 2025 - A tutorial on using generative models to advance psychological science Lessons from the reliability",TRUE,TRUE,TRUE
+"heister_item_2024","psych_methods","Heister et al. - 2024 - Item response theory-based continuous test norming",TRUE,TRUE,TRUE
+"humberg_investigating_2024","psych_methods","Humberg et al. - 2024 - Investigating the effects of congruence between within-person associations A comparison of two exte",TRUE,TRUE,TRUE
+"kang_integration_2025","psych_methods","Kang and Jeon - 2025 - Integration of latent space and confirmatory factor analysis to explain unexplained person–item inte",TRUE,TRUE,TRUE
+"keller_factored_2025","psych_methods","Keller - 2025 - A factored regression approach to modeling latent variable interactions and nonlinear effects",TRUE,TRUE,TRUE
+"kiefer_definition_2024","psych_methods","Kiefer et al. - 2024 - Definition and identification of causal ratio effects",TRUE,TRUE,TRUE
+"konold_practice_2025","psych_methods","Konold and Sanders - 2025 - The practice of aggregating lower level predictors in clustered data A reflection on reflective var",TRUE,TRUE,TRUE
+"lai_two-stage_2026","psych_methods","Lai and Liu - 2026 - A two-stage approach to account for measurement error when using empirical Bayes estimates of random",TRUE,TRUE,TRUE
+"lazic_why_2024","psych_methods","Lazic - 2024 - Why multiple hypothesis test corrections provide poor control of false positives in the real world",TRUE,TRUE,TRUE
+"le_bayesian_2025","psych_methods","Le et al. - 2025 - Bayesian multilevel compositional data analysis Introduction, evaluation, and application",TRUE,TRUE,TRUE
+"lee_comparison_2024","psych_methods","Lee and Leite - 2024 - A comparison of random forest-based missing imputation methods for covariates in propensity score an",TRUE,TRUE,TRUE
+"leite_machine_2025","psych_methods","Leite et al. - 2025 - Machine learning for propensity score estimation A systematic review and reporting guidelines",TRUE,TRUE,TRUE
+"li_bayesian_2026","psych_methods","Li and Luo - 2026 - Bayesian marginalized zero-inflated Poisson model with random effects for single-case experimental d",TRUE,TRUE,TRUE
+"liang_power_2024","psych_methods","Liang and Sterba - 2024 - Power analysis to detect misfit in SEMs with many items Resolving unrecognized problems, relating o",TRUE,TRUE,TRUE
+"lin_reliability_2025","psych_methods","Lin et al. - 2025 - Reliability for multilevel data A correlation approach",TRUE,TRUE,TRUE
+"liu_summed_2024","psych_methods","Liu and Pek - 2024 - Summed versus estimated factor scores Considering uncertainties when using observed scores",TRUE,TRUE,TRUE
+,"psych_methods","log/ocr-audit-notes",FALSE,TRUE,FALSE
+"loh_tutorial_2025","psych_methods","Loh and Jorgensen - 2025 - A tutorial on estimating dynamic treatment regimes from observational longitudinal data using lavaan",TRUE,TRUE,TRUE
+"luo_bayesian_2026","psych_methods","Luo et al. - 2026 - Bayesian evaluation for latent variable models A tutorial on computing information criteria and bay",TRUE,TRUE,TRUE
+"ma_comparison_2026","psych_methods","Ma et al. - 2026 - A comparison of the predictive performance of continuous and class-based latent trait models",TRUE,TRUE,TRUE
+"mcneish_exploring_2025","psych_methods","McNeish and Savord - 2025 - Exploring how many categories are needed to model ordinal intensive longitudinal data as continuous",TRUE,TRUE,TRUE
+"miyoshi_generalized_2024","psych_methods","Miyoshi and Nishida - 2024 - Generalized Gaussian signal detection theory A unified signal detection framework for confidence da",TRUE,TRUE,TRUE
+"noel_post_2026","psych_methods","Noel - 2026 - Post Hoc comparisons in fixed-effect ANOVA A sequential fusion approach with calibrated error contr",TRUE,TRUE,TRUE
+"orsoni_information_2025","psych_methods","Orsoni et al. - 2025 - Information theory, machine learning, and Bayesian networks in the analysis of dichotomous and Liker",TRUE,TRUE,TRUE
+"padgett_regularizing_2024","psych_methods","Padgett et al. - 2024 - Regularizing threshold priors with sparse response patterns in Bayesian factor analysis with categor",TRUE,TRUE,TRUE
+"park_reevaluating_2025","psych_methods","Park and Yi - 2025 - Reevaluating R²med as an effect size measure for indirect effects",TRUE,TRUE,TRUE
+"park_causal_2025","psych_methods","Park et al. - 2025 - Causal decomposition analysis with synergistic interventions A triply robust machine-learning appro",TRUE,TRUE,TRUE
+"pesigan_inferences_2025","psych_methods","Pesigan et al. - 2025 - Inferences and effect sizes for direct, indirect, and total effects in continuous-time mediation mod",TRUE,TRUE,TRUE
+"pfister_consistency_2024","psych_methods","Pfister - 2024 - Consistency of Bayes factor estimates in Bayesian analysis of variance",TRUE,TRUE,TRUE
+"pohl_causal_2026","psych_methods","Pohl et al. - 2026 - A causal framework for explaining effect heterogeneity in conceptual replications",TRUE,TRUE,TRUE
+"qiu_bayesian_2025","psych_methods","Qiu et al. - 2025 - Bayesian nonparametric latent class analysis with different item types",TRUE,TRUE,TRUE
+"rosel_tutorial_2025","psych_methods","Rosel et al. - 2025 - A tutorial and methodological review of linear time series models Using R and SPSS",TRUE,TRUE,TRUE
+"shao_zero_2025","psych_methods","Shao et al. - 2025 - Zero inflation in intensive longitudinal data Why is it important and how should we deal with it",TRUE,TRUE,TRUE
+"siepe_simulation_2024","psych_methods","Siepe et al. - 2024 - Simulation studies for methodological research in psychology A standardized template for planning,",TRUE,TRUE,TRUE
+"silvey_bayes_2024","psych_methods","Silvey et al. - 2024 - Bayes factors for logistic (mixed-effect) models",TRUE,TRUE,TRUE
+"speck_beyond_2026","psych_methods","Speck et al. - 2026 - Beyond the hype A simulation study evaluating the predictive performance of machine learning models",TRUE,TRUE,TRUE
+"van_aert_meta-analyzing_2025","psych_methods","van Aert - 2025 - Meta-analyzing nonpreregistered and preregistered studies",TRUE,TRUE,TRUE
+"vieira_evaluating_2026","psych_methods","Vieira et al. - 2026 - Evaluating local structural-after-measurement and traditional approaches for the estimation of compl",TRUE,TRUE,TRUE
+"whittaker_meta-analysis_2024","psych_methods","Whittaker et al. - 2024 - Meta-analysis of Monte Carlo simulations examining class enumeration accuracy with mixture models",TRUE,TRUE,TRUE
+"yang_role_2024","psych_methods","Yang et al. - 2024 - The role of a quadratic term in estimating the average treatment effect from longitudinal randomized",TRUE,TRUE,TRUE
+"zhang_bayesian_2024","psych_methods","Zhang et al. - 2024 - Bayesian (non)linear random effects mediation models Evaluating the impact of omitting confounders",TRUE,TRUE,TRUE
+"zhang_best_2026","psych_methods","Zhang et al. - 2026 - Best practices in multilevel modeling for within-cluster group comparisons An evaluation of coding",TRUE,TRUE,TRUE
+"blanca_skewness_2013","nonnormal","Blanca et al. - 2013 - Skewness and Kurtosis in Real Data Samples",TRUE,TRUE,TRUE
+"bock_marginal_1981","nonnormal","Bock and Aitkin - 1981 - Marginal Maximum Likelihood Estimation of Item Parameters Application of an EM Algorithm",TRUE,TRUE,TRUE
+"cain_univariate_2017","nonnormal","Cain et al. - 2017 - Univariate and multivariate skewness and kurtosis for measuring nonnormality Prevalence, influence",TRUE,TRUE,TRUE
+"ferr_normal_2025","nonnormal","Ferr - 2025 - The normal distribution is not normal in psychological data Moving beyond parametric dogma",TRUE,TRUE,TRUE
+"guastadisegni_generalized_2025","nonnormal","Guastadisegni et al. - 2025 - The generalized Hausman test for detecting non-normality in the latent variable distribution of the",TRUE,TRUE,TRUE
+"ho_descriptive_2015","nonnormal","Ho and Yu - 2015 - Descriptive Statistics for Modern Test Score Distributions Skewness, Kurtosis, Discreteness, and Ce",TRUE,TRUE,TRUE
+"li_summed_2018","nonnormal","Li and Cai - 2018 - Summed Score Likelihood–Based Indices for Testing Latent Variable Distribution Fit in Item Response",TRUE,TRUE,TRUE
+,"nonnormal","log/ocr-audit-notes",FALSE,TRUE,FALSE
+"mislevy_estimating_1984","nonnormal","Mislevy - 1984 - Estimating Latent Distributions",TRUE,TRUE,TRUE
+"monroe_testing_2021","nonnormal","Monroe - 2021 - Testing Latent Variable Distribution Fit in IRT Using Posterior Residuals",TRUE,TRUE,TRUE
+"samejima_departure_1997","nonnormal","Samejima - 1997 - Departure from Normal Assumptions A Promise for Future Psychometrics with Substantive Mathematical",TRUE,TRUE,TRUE
+"sass_estimating_2008","nonnormal","Sass et al. - 2008 - Estimating Non-Normal Latent Trait Distributions within Item Response Theory Using True and Estimate",TRUE,TRUE,TRUE
+"van_den_oord_estimating_2005","nonnormal","van den Oord - 2005 - Estimating Johnson Curve Population Distributions in MULTILOG",TRUE,TRUE,TRUE
+"woods_empirical_2007","nonnormal","Woods - 2007 - Empirical Histograms in Item Response Theory With Ordinal Data",TRUE,TRUE,TRUE
+"woods_item_2009","nonnormal","Woods and Lin - 2009 - Item Response Theory With Estimation of the Latent Density Using Davidian Curves",TRUE,TRUE,TRUE
+"woods_item_2006","nonnormal","Woods and Thissen - 2006 - Item Response Theory with Estimation of the Latent Population Distribution Using Spline-Based Densit",TRUE,TRUE,TRUE
+"acciai_estimating_2023","irw_reliability","Acciai et al. - 2023 - Estimating social bias in data sharing behaviours an open science experiment",TRUE,TRUE,TRUE
+"ahmed_heterogeneity_2025","irw_reliability","Ahmed et al. - 2025 - Heterogeneity of Item-Treatment Interactions Masks Complexity and Generalizability in Randomized Con",TRUE,TRUE,TRUE
+"berge_greatest_2004","irw_reliability","Berge and Sočan - 2004 - The Greatest Lower Bound to the Reliability of a Test and the Hypothesis of Unidimensionality",TRUE,TRUE,TRUE
+"bonett_sample_2002","irw_reliability","Bonett - 2002 - Sample Size Requirements for Testing and Estimating Coefficient Alpha",TRUE,TRUE,TRUE
+"bonett_varying_2010","irw_reliability","Bonett - 2010 - Varying coefficient meta-analytic methods for alpha reliability.",TRUE,TRUE,TRUE
+"chalmers_mirt_2012","irw_reliability","Chalmers - 2012 - mirt A Multidimensional Item Response Theory Package for the R Environment",TRUE,TRUE,TRUE
+"cho_multilevel_2019","irw_reliability","Cho et al. - 2019 - Multilevel Reliability Measures of Latent Scores Within an Item Response Theory Framework",TRUE,TRUE,TRUE
+"cronbach_coefficient_1951","irw_reliability","Cronbach - 1951 - Coefficient Alpha and the Internal Structure of Tests",TRUE,TRUE,TRUE
+"cronbach_my_2004","irw_reliability","Cronbach and Shavelson - 2004 - My Current Thoughts on Coefficient Alpha and Successor Procedures",TRUE,TRUE,TRUE
+"culpepper_reliability_2013","irw_reliability","Culpepper - 2013 - The Reliability and Precision of Total Scores and IRT Estimates as a Function of Polytomous IRT Para",TRUE,TRUE,TRUE
+"domingue_intermodel_2024","irw_reliability","Domingue et al. - 2024 - The InterModel Vigorish as a Lens for Understanding (and Quantifying) the Value of Item Response Mod",TRUE,TRUE,TRUE
+"efron_empirical_2016","irw_reliability","Efron - 2016 - Empirical Bayes deconvolution estimates",TRUE,TRUE,TRUE
+,"irw_reliability","files/7256/Cronbach - 1951 - Coefficient Alpha and the Internal Structure of Tests",TRUE,FALSE,FALSE
+"gelman_difference_2006","irw_reliability","Gelman and Stern - 2006 - The Difference Between “Significant” and “Not Significant” is not Itself Statistically Significant",TRUE,TRUE,TRUE
+"gilbert_estimating_2025","irw_reliability","Gilbert et al. - 2025 - Estimating heterogeneous treatment effects with item-level outcome data Insights from Item Response",TRUE,TRUE,TRUE
+"gilbert_item-level_2025","irw_reliability","Gilbert et al. - 2025 - Item-Level Heterogeneity in Value Added Models Implications for Reliability, Cross-Study Comparabil",TRUE,TRUE,TRUE
+"gilbert_conditional_2026","irw_reliability","Gilbert et al. - 2026 - Conditional Dependencies Between Response Time and Item Discrimination An Item-Level Meta-Analysis",TRUE,TRUE,TRUE
+"gilbert_estimating_2026","irw_reliability","Gilbert et al. - 2026 - Estimating causal effects on psychological networks using item response theory.",TRUE,TRUE,TRUE
+"gilbert_sensitivity_2026","irw_reliability","Gilbert et al. - 2026 - The Sensitivity of Value-Added Estimates to Test Scoring Decisions",TRUE,TRUE,TRUE
+"greco_meta-analysis_2018","irw_reliability","Greco et al. - 2018 - Meta-Analysis of Coefficient Alpha A Reliability Generalization Study",TRUE,TRUE,TRUE
+"green_technical_1984","irw_reliability","Green et al. - 1984 - Technical Guidelines for Assessing Computerized Adaptive Tests",TRUE,TRUE,TRUE
+"guttman_basis_1945","irw_reliability","Guttman - 1945 - A Basis for Analyzing Test-Retest Reliability",TRUE,TRUE,TRUE
+"hedges_robust_2010","irw_reliability","Hedges et al. - 2010 - Robust variance estimation in meta-regression with dependent effect size estimates",TRUE,TRUE,TRUE
+"holm_simple_1979","irw_reliability","Holm - 1979 - A Simple Sequentially Rejective Multiple Test Procedure",TRUE,TRUE,TRUE
+"hussey_aberrant_2025","irw_reliability","Hussey et al. - 2025 - An Aberrant Abundance of Cronbach’s Alpha Values at .70",TRUE,TRUE,TRUE
+"kelley_confidence_2016","irw_reliability","Kelley and Pornprasertmanit - 2016 - Confidence intervals for population reliability coefficients Evaluation of methods, recommendations",TRUE,TRUE,TRUE
+"kim_ability_1993","irw_reliability","Kim and Nicewander - 1993 - Ability Estimation for Conventional Tests",TRUE,TRUE,TRUE
+"konstantopoulos_fixed_2011","irw_reliability","Konstantopoulos - 2011 - Fixed effects and variance components estimation in three-level meta-analysis",TRUE,TRUE,TRUE
+"lance_sources_2006","irw_reliability","Lance et al. - 2006 - The Sources of Four Commonly Reported Cutoff Criteria What Did They Really Say",TRUE,TRUE,TRUE
+"lee_reliability-targeted_2026","irw_reliability","Lee - 2026 - Reliability-Targeted Simulation of Item Response Data Solving the Inverse Design Problem",TRUE,TRUE,TRUE
+"liu_comparing_2026","irw_reliability","Liu et al. - 2026 - Comparing Compensatory and Noncompensatory MIRT Models Using Large-Scale Item Response Data",TRUE,TRUE,TRUE
+,"irw_reliability","log/ocr-audit-notes",FALSE,TRUE,FALSE
+"bonett_varying_2010","irw_reliability","log/replaced-source/Bonett-2010-one-page/Bonett - 2010 - one-page-OCR",FALSE,TRUE,TRUE
+,"irw_reliability","log/replaced-source/Bonett-2010-one-page/Bonett - 2010 - one-page-source",TRUE,FALSE,FALSE
+"loken_measurement_2017","irw_reliability","Loken and Gelman - 2017 - Measurement error and the replication crisis",TRUE,TRUE,TRUE
+"lopez-ibanez_reliability_2024","irw_reliability","López-Ibáñez et al. - 2024 - Reliability generalization meta-analysis comparing different statistical methods",TRUE,TRUE,TRUE
+"masters_rasch_1982","irw_reliability","Masters - 1982 - A Rasch Model for Partial Credit Scoring",TRUE,TRUE,TRUE
+"mcneish_thanks_2018","irw_reliability","McNeish - 2018 - Thanks coefficient alpha, we’ll take it from here",TRUE,TRUE,TRUE
+"nalbandyan_signposts_2026","irw_reliability","Nalbandyan et al. - 2026 - Signposts on the Path From Nominal to Ordinal Scales Moving From a Discrete to a Continuous View",TRUE,TRUE,TRUE
+"parsons_psychological_2019","irw_reliability","Parsons et al. - 2019 - Psychological Science Needs a Standard Practice of Reporting the Reliability of Cognitive-Behavioral",TRUE,TRUE,TRUE
+"pustejovsky_small-sample_2018","irw_reliability","Pustejovsky and and Tipton - 2018 - Small-Sample Methods for Cluster-Robust Variance Estimation and Hypothesis Testing in Fixed Effects",TRUE,TRUE,TRUE
+"pustejovsky_meta-analysis_2022","irw_reliability","Pustejovsky and Tipton - 2022 - Meta-analysis with Robust Variance Estimation Exp",TRUE,TRUE,TRUE
+"pustejovsky_meta-analysis_2022","irw_reliability","Pustejovsky and Tipton 2022 Supplementary materials",TRUE,TRUE,TRUE
+"pustejovsky_meta-analysis_2022","irw_reliability","s11121-021-01246-3",TRUE,TRUE,TRUE
+"sanchez-meca_recommended_2013","irw_reliability","Sánchez-Meca et al. - 2013 - Some recommended statistical analytic practices when reliability generalization studies are conducte",TRUE,TRUE,TRUE
+"satterthwaite_approximate_1946","irw_reliability","Satterthwaite - 1946 - An Approximate Distribution of Estimates of Variance Components",TRUE,TRUE,TRUE
+"scherer_tutorial_2020","irw_reliability","Scherer and Teo - 2020 - A tutorial on the meta-analytic structural equation modeling of reliability coefficients",TRUE,TRUE,TRUE
+"sijtsma_use_2009","irw_reliability","Sijtsma - 2009 - On the Use, the Misuse, and the Very Limited Usefulness of Cronbach’s Alpha",TRUE,TRUE,TRUE
+"sijtsma_part_2021","irw_reliability","Sijtsma and Pfadt - 2021 - Part II On the Use, the Misuse, and the Very Limited Usefulness of Cronbach’s Alpha Discussing Low",TRUE,TRUE,TRUE
+"simonsohn_specification_2020","irw_reliability","Simonsohn et al. - 2020 - Specification curve analysis",TRUE,TRUE,TRUE
+"steegen_increasing_2016","irw_reliability","Steegen et al. - 2016 - Increasing Transparency Through a Multiverse Analysis",TRUE,TRUE,TRUE
+"thompson_psychometrics_2000","irw_reliability","Thompson and Vacha-Haase - 2000 - Psychometrics is Datametrics the Test is not Reliable",TRUE,TRUE,TRUE
+"tipton_small-sample_2015","irw_reliability","Tipton and Pustejovsky - 2015 - Small-Sample Adjustments for Tests of Moderators and Model Fit Using Robust Variance Estimation in M",TRUE,TRUE,TRUE
+"vacha-haase_reliability_1998","irw_reliability","Vacha-Haase - 1998 - Reliability Generalization Exploring Variance in Measurement Error Affecting Score Reliability Acro",TRUE,TRUE,TRUE
+"van_den_noortgate_three-level_2013","irw_reliability","Van den Noortgate et al. - 2013 - Three-level meta-analysis of dependent effect sizes",TRUE,TRUE,TRUE
+"viechtbauer_conducting_2010","irw_reliability","Viechtbauer - 2010 - Conducting Meta-Analyses in R with the metafor Package",TRUE,TRUE,TRUE
+"warm_weighted_1989","irw_reliability","Warm - 1989 - Weighted Likelihood Estimation of Ability in Item Response Theory",TRUE,TRUE,TRUE
+"weston_recommendations_2019","irw_reliability","Weston et al. - 2019 - Recommendations for Increasing the Transparency of Analysis of Preexisting Data Sets",TRUE,TRUE,TRUE
+"zhang_realistic_2025","irw_reliability","Zhang et al. - 2025 - Realistic simulation of item difficulties",TRUE,TRUE,TRUE
+"adams_reliability_2005","reliability_assets","Adams - 2005 - Reliability as a measurement design effect",TRUE,TRUE,TRUE
+"andersson_large_2018","reliability_assets","Andersson and Xin - 2018 - Large Sample Confidence Intervals for Item Response Theory Reliability Coefficients",TRUE,TRUE,TRUE
+"ark_standard_2025","reliability_assets","Ark - 2025 - Standard Errors for Reliability Coefficients",TRUE,TRUE,TRUE
+"bock_marginal_1981","reliability_assets","Bock and Aitkin - 1981 - Marginal Maximum Likelihood Estimation of Item Parameters Application of an EM Algorithm",TRUE,TRUE,TRUE
+"bock_adaptive_1982","reliability_assets","Bock and Mislevy - 1982 - Adaptive EAP Estimation of Ability in a Microcompu",TRUE,TRUE,TRUE
+"boedeker_so_2024","reliability_assets","Boedeker et al. - 2024 - So is it better than something else Using the results of a random-effects meta-analysis to characte",TRUE,TRUE,TRUE
+"borsboom_concept_2004","reliability_assets","Borsboom et al. - 2004 - The Concept of Validity",TRUE,TRUE,TRUE
+"chen_adapting_2025","reliability_assets","Chen and Pustejovsky - 2025 - Adapting methods for correcting selective reporting bias in meta-analysis of dependent effect sizes",TRUE,TRUE,TRUE
+"chen_addressing_2026","reliability_assets","Chen and Pustejovsky - 2026 - Addressing selective reporting bias in meta-analysis of dependent effect sizes A tutorial in R.",TRUE,TRUE,TRUE
+"cheng_comparison_2012","reliability_assets","Cheng et al. - 2012 - Comparison of Reliability Measures Under Factor Analysis and Item Response Theory",TRUE,TRUE,TRUE
+"cho_reliability_2025","reliability_assets","Cho and Béland - 2025 - Reliability in unidimensional ordinal data A comparison of continuous and ordinal estimators",TRUE,TRUE,TRUE
+"cronbach_signalnoise_1964","reliability_assets","Cronbach and Gleser - 1964 - The SignalNoise Ratio in the Comparison of Reliability Coefficients",TRUE,TRUE,TRUE
+"cronbach_construct_1955","reliability_assets","Cronbach and Meehl - 1955 - Construct validity in psychological tests",TRUE,TRUE,TRUE
+"delosreyes_obtaining_2025","reliability_assets","DelosReyes and Padilla - 2025 - Obtaining a Bayesian Estimate of Coefficient Alpha Using a Posterior Normal Distribution",TRUE,TRUE,TRUE
+"diciccio_bootstrap_1996","reliability_assets","DiCiccio and Efron - 1996 - Bootstrap confidence intervals",TRUE,TRUE,TRUE
+"doebler_beta-binomial_2024","reliability_assets","Doebler et al. - 2024 - Beta-binomial meta-analysis of individual differences based on sample means and standard deviations",TRUE,TRUE,TRUE
+"domingue_speedaccuracy_2022","reliability_assets","Domingue et al. - 2022 - Speed–Accuracy Trade-Off Not So Fast Marginal Changes in Speed Have Inconsistent Relationships Wit",TRUE,TRUE,TRUE
+"domingue_introduction_2025","reliability_assets","Domingue et al. - 2025 - An introduction to the Item Response Warehouse (IRW) A resource for enhancing data usage in psychom",TRUE,TRUE,TRUE
+"doran_information_2005","reliability_assets","Doran - 2005 - The Information Function for the One-Parameter Logistic Model Is it Reliability",TRUE,TRUE,TRUE
+"edwards_simulation_2021","reliability_assets","Edwards et al. - 2021 - A Simulation Study on the Performance of Different Reliability Estimation Methods",TRUE,TRUE,TRUE
+"ellis_standard_2013","reliability_assets","Ellis - 2013 - A standard for test reliability in group research",TRUE,TRUE,TRUE
+"ellis_test_2021","reliability_assets","Ellis - 2021 - A Test Can Have Multiple Reliabilities",TRUE,TRUE,TRUE
+"enders_impact_2004","reliability_assets","Enders - 2004 - The Impact of Missing Data on Sample Reliability Estimates Implications for Reliability Reporting P",TRUE,TRUE,TRUE
+"fife_assessment_2012","reliability_assets","Fife et al. - 2012 - The Assessment of Reliability Under Range Restriction A Comparison of α, ω, and Test–Retest Reliabi",TRUE,TRUE,TRUE
+"flake_measurement_2020","reliability_assets","Flake and Fried - 2020 - Measurement Schmeasurement Questionable Measurement Practices and How to Avoid Them",TRUE,TRUE,TRUE
+"glas_reliability_2019","reliability_assets","Glas - 2019 - Reliability issues in high-stakes educational test",TRUE,TRUE,TRUE
+"hedge_reliability_2018","reliability_assets","Hedge et al. - 2018 - The reliability paradox Why robust cognitive tasks do not produce reliable individual differences",TRUE,TRUE,TRUE
+"hedges_variance_2012","reliability_assets","Hedges et al. - 2012 - The Variance of Intraclass Correlations in Three- and Four-Level Models",TRUE,TRUE,TRUE
+"ho_descriptive_2015","reliability_assets","Ho and Yu - 2015 - Descriptive Statistics for Modern Test Score Distributions Skewness, Kurtosis, Discreteness, and Ce",TRUE,TRUE,TRUE
+"kim_note_2012","reliability_assets","Kim - 2012 - A Note on the Reliability Coefficients for Item Response Model-Based Ability Estimates",TRUE,TRUE,TRUE
+"kim_estimation_2010","reliability_assets","Kim and Feldt - 2010 - The estimation of the IRT reliability coefficient and its lower and upper bounds, with comparisons t",TRUE,TRUE,TRUE
+"koehler_assessment_2009","reliability_assets","Koehler et al. - 2009 - On the Assessment of Monte Carlo Error in Simulation-Based Statistical Analyses",TRUE,TRUE,TRUE
+"lin_reliability_2025","reliability_assets","Lin et al. - 2025 - Reliability for multilevel data A correlation approach",TRUE,TRUE,TRUE
+"liu_summed_2024","reliability_assets","Liu and Pek - 2024 - Summed versus estimated factor scores Considering uncertainties when using observed scores",TRUE,TRUE,TRUE
+"ma_comparison_2026","reliability_assets","Ma et al. - 2026 - A comparison of the predictive performance of continuous and class-based latent trait models",TRUE,TRUE,TRUE
+"markon_reliability_2023","reliability_assets","Markon - 2023 - Reliability as Lindley Information",TRUE,TRUE,TRUE
+"micceri_unicorn_1989","reliability_assets","Micceri - 1989 - The unicorn, the normal curve, and other improbabl",TRUE,TRUE,TRUE
+"nosek_promoting_2015","reliability_assets","Nosek et al. - 2015 - Promoting an open research culture",TRUE,TRUE,TRUE
+,"reliability_assets","Number of Person or Item Strata- (4Separation + 1",TRUE,TRUE,FALSE
+"raykov_pitfalls_2021","reliability_assets","Raykov and Marcoulides - 2021 - On the Pitfalls of Estimating and Using Standardized Reliability Coefficients",TRUE,TRUE,TRUE
+"raykov_importance_2023","reliability_assets","Raykov et al. - 2023 - On the Importance of Coefficient Alpha for Measurement Research Loading Equality Is Not Necessary f",TRUE,TRUE,TRUE
+,"reliability_assets","Reliability and Separation",TRUE,TRUE,FALSE
+,"reliability_assets","Reliability, Separation, Strata Statistics",TRUE,TRUE,FALSE
+"revelle_reliability_2019","reliability_assets","Revelle and Condon - 2019 - Reliability from α to ω A tutorial.",TRUE,TRUE,TRUE
+"rouder_hierarchical-model_2024","reliability_assets","Rouder and Mehrvarz - 2024 - Hierarchical-Model Insights for Planning and Interpreting Individual-Difference Studies of Cognitive",TRUE,TRUE,TRUE
+"segawa_increase_2025","reliability_assets","Segawa - 2025 - Increase of Uncertainty in Summed-Score-Based Scoring in Non-Rasch IRT",TRUE,TRUE,TRUE
+"shavelson_generalizability_1989","reliability_assets","Shavelson et al. - 1989 - Generalizability theory",TRUE,TRUE,TRUE
+"soland_how_2024","reliability_assets","Soland et al. - 2024 - How survey scoring decisions can influence your study’s results A trip through the IRT looking glas",TRUE,TRUE,TRUE
+"sweeney_investigation_2022","reliability_assets","Sweeney et al. - 2022 - An Investigation of the Nature and Consequence of the Relationship between IRT Difficulty and Discri",TRUE,TRUE,TRUE
+"ten_hove_interrater_2022","reliability_assets","Ten Hove et al. - 2022 - Interrater reliability for multilevel data A generalizability theory approach.",TRUE,TRUE,TRUE
+"webb_4_2006","reliability_assets","Webb et al. - 2006 - 4 Reliability Coefficients and Generalizability Theory",TRUE,TRUE,TRUE
+"xiao_performance_2023","reliability_assets","Xiao and Hau - 2023 - Performance of Coefficient Alpha and Its Alternati",TRUE,TRUE,TRUE
+"yang_characterizing_2012","reliability_assets","Yang et al. - 2012 - Characterizing Sources of Uncertainty in Item Response Theory Scale Scores",TRUE,TRUE,TRUE
+"yarkoni_choosing_2017","reliability_assets","Yarkoni and Westfall - 2017 - Choosing Prediction Over Explanation in Psychology Lessons From Machine Learning",TRUE,TRUE,TRUE
+"zhang_empirical_nodate","reliability_assets","Zhang et al. - Empirical vs. Expected IRT-Based Reliability Estim",TRUE,TRUE,TRUE
+"zumbo_linear_2025","reliability_assets","Zumbo - 2025 - From Linear Geometry to Nonlinear and Information-Geometric Settings in Test Theory Bregman Project",TRUE,TRUE,TRUE
+"zumbo_reliability_2025","reliability_assets","Zumbo - 2025 - Reliability as Projection in Operator-Theoretic Test Theory Conditional Expectation, Hilbert Space",TRUE,TRUE,TRUE
+"dorazio_selecting_2009","dpm_paper","1-s2.0-S0378375809000755-main",TRUE,TRUE,TRUE
+"antonelli_mitigating_2016","dpm_paper","Antonelli et al. - 2016 - Mitigating Bias in Generalized Linear Mixed Models",TRUE,TRUE,TRUE
+"antoniak_mixtures_1974","dpm_paper","Antoniak - 1974 - Mixtures of Dirichlet Processes with Applications ",TRUE,TRUE,TRUE
+"arratia_number_2000","dpm_paper","Arratia et al. - 2000 - The number of components in a logarithmic combinatorial structure",TRUE,TRUE,TRUE
+"arratia_logarithmic_2003","dpm_paper","Arratia et al. - 2003 - Logarithmic combinatorial structures a probabilistic approach",TRUE,TRUE,TRUE
+"basu_marginal_2003","dpm_paper","Basu and Chib - 2003 - Marginal Likelihood and Bayes Factors for Dirichle",TRUE,TRUE,TRUE
+"bauer_uniqueness_2016","dpm_paper","Bauer et al. - 2016 - Uniqueness of the Fisher–Rao metric on the space of smooth densities",TRUE,TRUE,TRUE
+"bonafos_dirichlet_2024","dpm_paper","Bonafos et al. - 2024 - Dirichlet process mixture model based on topologically augmented signal representation for clusterin",TRUE,TRUE,TRUE
+"cao_bayesian_2024","dpm_paper","Cao et al. - 2024 - A Bayesian nonparametric meta-analysis model for estimating the reference interval",TRUE,TRUE,TRUE
+"cardoso_dirichlet_2024","dpm_paper","Cardoso et al. - 2024 - Dirichlet process mixture models to impute missing",TRUE,TRUE,TRUE
+"dombowsky_product_2025","dpm_paper","Dombowsky and Dunson - 2025 - Product Centered Dirichlet Processes for Bayesian Multiview Clustering",TRUE,TRUE,TRUE
+"dorazio_selecting_2009","dpm_paper","Dorazio - 2009 - On selecting a prior for the precision parameter o",TRUE,TRUE,TRUE
+"dorazio_modeling_2008","dpm_paper","Dorazio et al. - 2008 - Modeling Unobserved Sources of Heterogeneity in An",TRUE,TRUE,TRUE
+"dunson_bayesian_2006","dpm_paper","Dunson - 2006 - Bayesian dynamic modeling of latent trait distribu",TRUE,TRUE,TRUE
+"dunson_bayesian_2007","dpm_paper","Dunson et al. - 2007 - Bayesian Density Regression",TRUE,TRUE,TRUE
+"escobar_bayesian_1995","dpm_paper","Escobar and West - 1995 - Bayesian Density Estimation and Inference Using Mi",TRUE,TRUE,TRUE
+"escobar_computing_1998","dpm_paper","Escobar and West - 1998 - Computing Nonparametric Hierarchical Models",TRUE,TRUE,TRUE
+"ferguson_bayesian_1973","dpm_paper","Ferguson - 1973 - A Bayesian Analysis of Some Nonparametric Problems",TRUE,TRUE,TRUE
+,"dpm_paper","files/5023/Vicentini and Jermyn - 2025 - Prior selection for the precision parameter of Dirichlet Process Mixtu",FALSE,TRUE,FALSE
+"fruhwirth-schnatter_generalized_2021","dpm_paper","Frühwirth-Schnatter et al. - 2021 - Generalized Mixtures of Finite Mixtures and Telescoping Sampling",TRUE,TRUE,TRUE
+"ghilotti_bayesian_2025","dpm_paper","Ghilotti et al. - 2025 - Bayesian analysis of product feature allocation models",TRUE,TRUE,TRUE
+"gill_nonparametric_2009","dpm_paper","Gill and Casella - 2009 - Nonparametric Priors for Ordinal Bayesian Social S",TRUE,TRUE,TRUE
+"giordano_evaluating_2022","dpm_paper","Giordano et al. - 2022 - Evaluating Sensitivity to the Stick-Breaking Prior",TRUE,TRUE,TRUE
+"grazian_advances_2025","dpm_paper","Grazian - 2025 - Advances in Bayesian random partition models A comprehensive review",TRUE,TRUE,TRUE
+"greve_spying_2022","dpm_paper","Greve et al. - 2022 - Spying on the prior of the number of data clusters and the partition distribution in Bayesian cluste",TRUE,TRUE,TRUE
+"ishwaran_markov_2000","dpm_paper","Ishwaran and Zarepour - 2000 - Markov chain Monte Carlo in approximate Dirichlet ",TRUE,TRUE,TRUE
+"iwashige_bayesian_2025","dpm_paper","Iwashige and Hashimoto - 2025 - Bayesian mixture modeling using a mixture of finite mixtures with normalized inverse Gaussian weight",TRUE,TRUE,TRUE
+"jeffreys_invariant_1946","dpm_paper","Jeffreys - 1946 - An invariant form for the prior probability in estimation problems",TRUE,TRUE,TRUE
+"kingman_random_1975","dpm_paper","Kingman - 1975 - Random Discrete Distributions",TRUE,TRUE,TRUE
+"lee_constrained_nodate","dpm_paper","Lee - Constrained Bayesian Inference for Density Estimation and Informative Bayesian Models",TRUE,TRUE,TRUE
+"leslie_general_2007","dpm_paper","Leslie et al. - 2007 - A general approach to heteroscedastic linear regre",TRUE,TRUE,TRUE
+"liu_nonparametric_1996","dpm_paper","Liu - 1996 - Nonparametric hierarchical Bayes via sequential imputations",TRUE,TRUE,TRUE
+"lo_class_1984","dpm_paper","Lo - 1984 - On a Class of Bayesian Nonparametric Estimates I. Density Estimates",TRUE,TRUE,TRUE
+,"dpm_paper","log/annotated-originals/2554__Dorazio - 2009 - On selecting a prior for the precision parameter o",TRUE,FALSE,FALSE
+,"dpm_paper","log/annotated-originals/2562__Antonelli et al. - 2016 - Mitigating Bias in Generalized Linear Mixed Models",TRUE,FALSE,FALSE
+,"dpm_paper","log/annotated-originals/3044__Giordano et al. - 2022 - Evaluating Sensitivity to the Stick-Breaking Prior",TRUE,FALSE,FALSE
+,"dpm_paper","log/annotated-originals/3045__Gill and Casella - 2009 - Nonparametric Priors for Ordinal Bayesian Social S",TRUE,FALSE,FALSE
+,"dpm_paper","log/annotated-originals/3046__Muthukumarana and Tiwari - 2016 - Meta-analysis using Dirichlet process",TRUE,FALSE,FALSE
+,"dpm_paper","log/annotated-originals/3048__Dunson - 2006 - Bayesian dynamic modeling of latent trait distribu",TRUE,FALSE,FALSE
+,"dpm_paper","log/annotated-originals/3060__Murugiah and Sweeting - 2012 - Selecting the precision parameter prior in Dirichl",TRUE,FALSE,FALSE
+,"dpm_paper","log/annotated-originals/3063__Dorazio et al. - 2008 - Modeling Unobserved Sources of Heterogeneity in An",TRUE,FALSE,FALSE
+,"dpm_paper","log/ocr-audit-notes",FALSE,TRUE,FALSE
+"ma_bayesian_2020","dpm_paper","Ma and Chen - 2020 - Bayesian semiparametric latent variable model with",TRUE,TRUE,TRUE
+"maceachern_estimating_1998","dpm_paper","Maceachern and Müller - 1998 - Estimating Mixture of Dirichlet Process Models",TRUE,TRUE,TRUE
+"matza_infinite_2021","dpm_paper","Matza and Bistritz - 2021 - Infinite Gaussian Mixture Modeling with an Improved Estimation of the Number of Clusters",TRUE,TRUE,TRUE
+"mignemi_bayesian_2025","dpm_paper","Mignemi and Manolopoulou - 2025 - Bayesian Nonparametric Models for Multiple Raters A General Statistical Framework",TRUE,TRUE,TRUE
+"miller_mixture_2018","dpm_paper","Miller and Harrison - 2018 - Mixture Models With a Prior on the Number of Components",TRUE,TRUE,TRUE
+"muller_bayesian_2015","dpm_paper","Müller et al. - 2015 - Bayesian Nonparametric Data Analysis",TRUE,TRUE,TRUE
+"murugiah_selecting_2012","dpm_paper","Murugiah and Sweeting - 2012 - Selecting the precision parameter prior in Dirichl",TRUE,TRUE,TRUE
+"muthukumarana_meta-analysis_2016","dpm_paper","Muthukumarana and Tiwari - 2016 - Meta-analysis using Dirichlet process",TRUE,TRUE,TRUE
+"navarro_modeling_2006","dpm_paper","Navarro et al. - 2006 - Modeling individual differences using Dirichlet processes",TRUE,TRUE,TRUE
+"panagiotopoulou_meta-analysis_2025","dpm_paper","Panagiotopoulou et al. - 2025 - Meta-analysis models relaxing the random-effects normality assumption methodological systematic rev",TRUE,TRUE,TRUE
+"qiu_bayesian_2025","dpm_paper","Qiu et al. - 2025 - Bayesian nonparametric latent class analysis with different item types",TRUE,TRUE,TRUE
+"ricciardi_dirichlet_2020","dpm_paper","Ricciardi et al. - 2020 - Dirichlet Process Mixture Models for Regression Di",TRUE,TRUE,TRUE
+"ricciardi_dirichlet_2020","dpm_paper","ricciardi-et-al-2022-dirichlet-process-mixture-models-for-regression-discontinuity-designs",TRUE,TRUE,TRUE
+"rigon_bayesian_2025","dpm_paper","Rigon et al. - 2025 - A Bayesian theory for estimation of biodiversity",TRUE,TRUE,TRUE
+"robert_monte_2004","dpm_paper","Robert and Casella - 2004 - Monte Carlo Statistical Methods",TRUE,TRUE,TRUE
+"rodriguez_jeffreys_2013","dpm_paper","Rodríguez - 2013 - On the Jeffreys prior for the multivariate Ewens distribution",TRUE,TRUE,TRUE
+"mignemi_bayesian_2025","dpm_paper","S0033312325100355sup001",TRUE,TRUE,TRUE
+"sethuraman_constructive_1994","dpm_paper","Sethuraman - 1994 - A Constructive Definition of Dirichlet Priors",TRUE,TRUE,TRUE
+"sollmann_bayesian_2021","dpm_paper","Sollmann et al. - 2021 - A Bayesian Dirichlet process community occupancy model to estimate community structure and species s",TRUE,TRUE,TRUE
+"vicentini_prior_2025","dpm_paper","Vicentini and Jermyn - 2025 - Prior selection for the precision parameter of Dirichlet Process Mixtures",TRUE,TRUE,TRUE
+"zito_bayesian_2024","dpm_paper","Zito et al. - 2024 - Bayesian nonparametric modeling of latent partitions via Stirling-gamma priors",TRUE,TRUE,TRUE
+"albert_bayesian_1992","dpmirt","Albert - 1992 - Bayesian Estimation of Normal Ogive Item Response Curves Using Gibbs Sampling",TRUE,TRUE,TRUE
+"bolt_mixture_2001","dpmirt","Bolt et al. - 2001 - A Mixture Item Response Model for Multiple-Choice Data",TRUE,TRUE,TRUE
+"fuchs_past_2004","dpmirt","Fuchs - 2004 - The Past, Present, and Future of Curriculum-Based Measurement Research",TRUE,TRUE,TRUE
+"gelman_prior_2006","dpmirt","Gelman - 2006 - Prior distributions for variance parameters in hierarchical models (comment on article by Browne and",TRUE,TRUE,TRUE
+"ghosh_constrained_1992","dpmirt","Ghosh - 1992 - Constrained Bayes Estimation with Applications",TRUE,TRUE,TRUE
+"gnaldi_multilevel_2016","dpmirt","Gnaldi et al. - 2016 - A multilevel finite mixture item response model to cluster examinees and schools",TRUE,TRUE,TRUE
+"goldstein_league_1996","dpmirt","Goldstein and Spiegelhalter - 1996 - League Tables and Their Limitations Statistical Issues in Comparisons of Institutional Performance",TRUE,TRUE,TRUE
+"jara_dppackage_2011","dpmirt","Jara et al. - 2011 - DPpackage  Bayesian Semi- and Nonparametric Modeling in R",TRUE,TRUE,TRUE
+"laird_empirical_1989","dpmirt","Laird and Louis - 1989 - Empirical Bayes Ranking Methods",TRUE,TRUE,TRUE
+"lee_improving_2025","dpmirt","Lee et al. - 2025 - Improving the Estimation of Site-Specific Effects and Their Distribution in Multisite Trials",TRUE,TRUE,TRUE
+"lin_loss_2006","dpmirt","Lin et al. - 2006 - Loss function based ranking in two-stage, hierarchical models",TRUE,TRUE,TRUE
+"lockwood_uncertainty_2002","dpmirt","Lockwood et al. - 2002 - Uncertainty in Rank Estimation Implications for V",TRUE,TRUE,TRUE
+"lockwood_flexible_2018","dpmirt","Lockwood et al. - 2018 - Flexible Bayesian Models for Inferences From Coars",TRUE,TRUE,TRUE
+,"dpmirt","log/annotated-originals/2559__Shen and Louis - 1998 - Triple-goal estimates in two-stage hierarchical mo",TRUE,FALSE,FALSE
+,"dpmirt","log/annotated-originals/2563__Lockwood et al. - 2018 - Flexible Bayesian Models for Inferences From Coars",TRUE,FALSE,FALSE
+,"dpmirt","log/ocr-audit-notes",FALSE,TRUE,FALSE
+"lord_unbiased_1983","dpmirt","Lord - 1983 - Unbiased Estimators of Ability Parameters, of their Variance, and of their Parallel-Forms Reliabilit",TRUE,TRUE,TRUE
+"louis_estimating_1984","dpmirt","Louis - 1984 - Estimating a Population of Parameter Values Using Bayes and Empirical Bayes Methods",TRUE,TRUE,TRUE
+"louis_innovations_1999","dpmirt","Louis and Shen - 1999 - Innovations in Bayes and empirical Bayes methods estimating parameters, populations and ranks",TRUE,TRUE,TRUE
+"mislevy_estimating_1984","dpmirt","Mislevy - 1984 - Estimating Latent Distributions",TRUE,TRUE,TRUE
+"mislevy_bayes_1986","dpmirt","Mislevy - 1986 - Bayes Modal Estimation in Item Response Models",TRUE,TRUE,TRUE
+"mislevy_estimating_1992","dpmirt","Mislevy et al. - 1992 - Estimating Population Characteristics from Sparse Matrix Samples of Item Responses",TRUE,TRUE,TRUE
+"miyazaki_bayesian_2009","dpmirt","Miyazaki and Hoshino - 2009 - A Bayesian Semiparametric Item Response Model with Dirichlet Process Priors",TRUE,TRUE,TRUE
+"muraki_generalized_1992","dpmirt","Muraki - 1992 - A Generalized Partial Credit Model Application of an EM Algorithm",TRUE,TRUE,TRUE
+"paddock_flexible_2006","dpmirt","Paddock et al. - 2006 - Flexible distributions for triple-goal estimates i",TRUE,TRUE,TRUE
+"patz_straightforward_1999","dpmirt","Patz and Junker - 1999 - A Straightforward Approach to Markov Chain Monte Carlo Methods for Item Response Models",TRUE,TRUE,TRUE
+"rubin_estimation_1981","dpmirt","Rubin - 1981 - Estimation in Parallel Randomized Experiments",TRUE,TRUE,TRUE
+"samejima_estimation_1969","dpmirt","Samejima - 1969 - Estimation of Latent Ability Using a Response Pattern of Graded Scores",TRUE,TRUE,TRUE
+"shen_triple-goal_1998","dpmirt","Shen and Louis - 1998 - Triple-goal estimates in two-stage hierarchical mo",TRUE,TRUE,TRUE
+"shen_empirical_1999","dpmirt","Shen and Louis - 1999 - Empirical Bayes Estimation via the Smoothing by Ro",TRUE,TRUE,TRUE
+"stein_inadmissibility_1956","dpmirt","Stein - 1956 - Inadmissibility of the usual estimator for the mean of a multivariate normal distribution",TRUE,TRUE,TRUE
+"blackwell_ferguson_1973","remaining","Blackwell and MacQueen - 1973 - Ferguson Distributions Via Polya Urn Schemes",TRUE,TRUE,TRUE
+"james_estimation_1992","remaining","James and Stein - 1992 - Estimation with Quadratic Loss",TRUE,TRUE,TRUE
+,"remaining","log/ocr-audit-notes",FALSE,TRUE,FALSE
+"neal_markov_2000","remaining","Neal - 2000 - Markov Chain Sampling Methods for Dirichlet Process Mixture Models",TRUE,TRUE,TRUE
+"robbins_empirical_1992","remaining","Robbins - 1992 - An Empirical Bayes Approach to Statistics",TRUE,TRUE,TRUE
+"wright_rating_1982","remaining","Wright and Masters - 1982 - Rating scale analysis",TRUE,TRUE,TRUE

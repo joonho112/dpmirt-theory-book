@@ -1,0 +1,13 @@
+V9 spec coverage: 29 chapters plus front matter and 7 appendices; blocking issues: 0 (2 ratified deviations); contents lexical-diagnostic items: 176; low-coverage diagnostics: 7
+ chapter items low_coverage
+       1     5            1
+       2     6            1
+       3     6            2
+       4     7            2
+       6     7            1
+                                                                                                                                                   detail
+                                                                                C01-05: (5) A short closing orientation that routes readers without  [0%]
+                                                                               C02-04: (4) Why "first stage / second stage" is dropped in favour of [43%]
+   C03-01: (1) Bernoulli–logit formulation; the IRF; the log-odds readi [0%] | C03-06: (6) Bounded sections: what *fit* assessment looks like, and  [38%]
+ C04-02: (2) **Proposition (location indeterminacy):** $(\\theta_p + c [43%] | C04-07: (7) A decision table: which constraint under CML, MML,   Bay [33%]
+                                                                            C06-02: (2) **Non-existence at the boundary**: $r_p \\in \\{0,   I\\}$  [33%]

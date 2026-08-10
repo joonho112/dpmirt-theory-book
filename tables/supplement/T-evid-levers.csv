@@ -1,0 +1,6 @@
+"Loss family","Summary-swap range factor (geometric mean)","Prior-swap range factor (geometric mean)","Share of spread: summary","Share of spread: prior"
+"KS (distribution)","1.52","1.13","82%","14%"
+"squared error (individual)","1.18","1.07","79%","18%"
+"rank family","1.00","1.01","5%","86%"
+"quantile","2.01","1.26","77%","14%"
+"tail","2.24","1.45","68%","17%"

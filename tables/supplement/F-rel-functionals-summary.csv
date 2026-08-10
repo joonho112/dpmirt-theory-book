@@ -1,0 +1,3 @@
+"model","n_items","high_discrimination_item_count","tower_design_high_discrimination_item_count","sum_lambda_sq","discrimination_sq_resource_ratio_vs_uniform","rho_bar","rho_eap"
+"uniform",16,0,6,16,1,0.725642929680083,0.730700098478831
+"tower",16,6,6,73.984,4.624,0.596911650271434,0.81069879555304

@@ -1,0 +1,4 @@
+"Level","Describes","Why not ""stage"""
+"Level 1 — measurement","The observation process conditional on the parameters: the likelihood","""Stage"" names a step in an estimation procedure, not a layer of the model"
+"Level 2 — population","The distribution of the Level-1 parameters — $\theta_p \sim G$; under item centering, iid Gaussian auxiliaries induce a dependent prior on constrained $\boldsymbol\beta$","MML followed by ability estimation is two stages of *estimation* within one Level-2 model"
+"Level 3 — hyperprior","The distribution of the parameters governing Level 2","The two vocabularies cut the model differently, and conflating them is what made the manuscript's usage unreadable"

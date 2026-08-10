@@ -1,0 +1,7 @@
+"Question","Frequentist (MML)","Bayesian (hierarchical)"
+"What is $G$?","A population distribution: the law of $\theta$ in the population persons were sampled from","A prior for $\theta_p$ — but a *hierarchical* one, which is why the distinction is subtle"
+"Are the $\theta_p$ random?","Yes — random effects, integrated out","Yes — assigned a prior"
+"Are the $\beta_i$ random?","No — fixed structural parameters, no distribution assigned","Yes — assigned a prior, which is the extra assumption"
+"What is done with $G$'s parameters?","Estimated by maximising the marginal likelihood","Assigned hyperpriors and integrated over"
+"How is $G$ relaxed?","Nonparametric MML: estimate $G$ as a discrete or smoothed distribution","Semiparametric priors: a Dirichlet process mixture over $G$"
+"Does shrinkage occur?","Yes — via empirical Bayes, plugging $(\hat\mu_\theta,\hat\sigma^2_\theta)$ into the same weight","Yes — the same weight, with hyperparameter uncertainty carried"

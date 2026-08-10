@@ -1,0 +1,6 @@
+"Quantity","Estimate (log)","SE","95% CI","Reading"
+"H6: reliability-tier slope of the primary contrast (KS)","-0.514","0.037","[-0.587, -0.441]","the DP advantage shrinks steeply as reliability falls"
+"H6 diagnostic: the same slope on normal cells","-0.029","0.052","[-0.131, 0.074]","covers zero: no tier trend where there is no shape to recover"
+"H6 refit, bimodal cells only","-0.775","0.053","—","the bimodal slope is about three times the skew slope"
+"H6 refit, skewed cells only","-0.253","0.052","—","see previous row"
+"H7: MSEL-versus-KS trade-off of GR against PM","0.281","0.031","[0.210, 0.351]","GR pays on individual accuracy while usually winning on the distribution"

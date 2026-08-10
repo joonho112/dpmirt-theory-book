@@ -1,0 +1,6 @@
+"Symbol","In this book","Elsewhere","Why it matters"
+"$I$","number of items","Lee et al.'s **informativeness**, an average reliability in $[0,1]$","Both are central and both appear in @sec-ch21; a reader moving between the two papers can read a reliability as a test length"
+"$\eta$","posterior mean of $\theta_p$","Paganin et al.'s **latent ability**, this book's $\theta_p$","@sec-ch11 and Part VI use $\eta_p$ for the posterior mean on every page"
+"$\alpha$","Dirichlet process concentration","Baker and Kim's **item discrimination** $\alpha_i$","The DP literature and the 2PL literature both reach for $\alpha$; @sec-ch15 and @sec-ch16 use it only for concentration"
+"$i$ and $k$","$i$ indexes items; persons are $p$","Fox indexes **persons** by $i$ and **items** by $k$ --- both reversed","Every formula in Fox's ch. 2 transposes against this book's"
+"$\lambda_p$","not used; discrimination is $\lambda_i$","Shen and Louis's **posterior variance**, this book's $v_p$","The collision that forced this book's one notation departure (@sec-ch02)"

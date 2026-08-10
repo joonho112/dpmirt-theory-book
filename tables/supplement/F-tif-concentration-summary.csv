@@ -1,0 +1,3 @@
+"design","n_items","sum_lambda_sq","summed_item_peak_height","integrated_information","integrated_information_vs_uniform_pct","integrated_information_lower_than_uniform_pct","assignment_cor_abs_beta_lambda","peak_test_information","rho_bar"
+"uniform discriminations",20,20,5,20,100,0,,4.14695645337788,0.777556235536539
+"concentrated discriminations",20,20,5,18.094614840818,90.4730742040898,9.52692579591021,-0.906093587551344,4.82371506833042,0.764175965306277

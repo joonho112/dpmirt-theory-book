@@ -1,0 +1,8 @@
+"Coefficient","True variance is","Formula","Scale","Read from"
+"$\bar w$ (this programme)","**assumed known** ($\sigma^2_\theta$, set by design)","$\sigma^2_\theta/(\sigma^2_\theta+\mathrm{MSEM})$","latent","manuscript sec. 2.1"
+"Person-separation reliability","$\operatorname{Var}(\hat\theta) - \mathrm{MSEM}$ (subtracted)","$1-\mathrm{MSEM}/\operatorname{Var}(\hat\theta)$","latent","`TAM::WLErel`; `mirt::empirical_rxx(T_as_X = TRUE)`"
+"EAP reliability","$\operatorname{Var}(\hat\theta)$ itself (estimates are shrunk)","$\operatorname{Var}(\hat\theta)/(\operatorname{Var}(\hat\theta)+\bar\sigma^2_{\text{post}})$","latent","`mirt::empirical_rxx` (default)"
+"Marginal reliability $\rho_\Theta$ (standard; mirt caveat)","$\sigma^2_\theta$, pointwise","$\operatorname{E}_G[\sigma^2_\theta\mathcal{J}/(\sigma^2_\theta\mathcal{J}+1)]$; mirt computes $\operatorname{E}_G[\mathcal{J}/(\mathcal{J}+\sigma^2_\theta)]$","latent","Andersson & Xin (2018, eq. 13), scale-adapted; `mirt::marginal_rxx` agrees only at $\sigma^2_\theta=1$"
+"Average-information $\tilde\rho$","$\sigma^2_\theta$","$\sigma^2_\theta\bar{\mathcal{J}}/(\sigma^2_\theta\bar{\mathcal{J}}+1)$","latent","`IRTsimrel::compute_rho_tilde`"
+"Coefficient $\alpha$","not identified; bounded","$\frac{n}{n-1}(1-\sum_i V_i/V_t)$","sum score","Cronbach (1951)"
+"Guttman's $\lambda_2$","not identified; bounded","lower bound using squared covariances","sum score","Guttman (1945, sec. 13)"

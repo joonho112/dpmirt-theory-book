@@ -1,0 +1,8 @@
+"fixture_id","mutation","rejected","detail"
+"FX01","temporary in-memory H1 estimate mutation",TRUE,"H1 estimate contradicts its unchanged interval"
+"FX02","H2 estimate-only mutation with unchanged CI/prose contract",TRUE,"H2 estimate contradicts its unchanged interval"
+"FX03","missing lever metric label",TRUE,"missing lever label"
+"FX04","estimate outside a contradictory confidence interval",TRUE,"H1 estimate contradicts its unchanged interval"
+"FX05","H7 effect drift",TRUE,"H7 estimate drift"
+"FX06","seed universe drops the undetermined class",TRUE,"seed shape universe drift"
+"FX07","frozen reliability snapshot hash drift",TRUE,"frozen reliability snapshot hash drift"

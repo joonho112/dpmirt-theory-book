@@ -1,0 +1,211 @@
+# Estimating Item Parameters {#sec-ch05}
+
+```{r}
+#| label: setup-ch05
+#| include: false
+tbl <- function(id) readRDS(file.path("..", "..", "tables", paste0(id, ".rds")))
+```
+
+Reviewer 1 objected that the manuscript switches from maximum likelihood to Bayesian
+estimation without saying why, and particularly that it gives the item difficulties a
+prior without explanation. The objection is fair, and the answer is not a preference. It
+is that the person parameters are a nuisance whose number grows with the sample. They can
+be maximized over, conditioned away, or integrated out; splitting integration by how $G$
+is specified and whether priors are assigned yields the five approaches compared here.
+
+This chapter sets out the four, and it does so with an eye on a question the next
+chapters need answered: **what does each method assume about $G$?** That is the axis along
+which they differ most, and it is the axis this book cares about.
+
+## The incidental-parameters problem {#sec-ch05-incidental}
+
+Write the joint likelihood over all persons and items,
+
+$$
+L(\boldsymbol\theta, \boldsymbol\beta \mid \mathbf{u})
+  = \prod_{p=1}^{P}\prod_{i=1}^{I} \pi_{pi}^{u_{pi}}(1-\pi_{pi})^{1-u_{pi}},
+$$ {#eq-joint-lik}
+
+and maximize it over everything at once. This is **joint maximum likelihood** (JML), and
+it is the obvious thing to do. It does not work, and the reason is structural rather than
+computational.
+
+The item parameters are **structural**: there are $I$ of them and $I$ stays fixed as more
+people take the test. The person parameters are **incidental**: there is one per person,
+so their number grows with the sample. Ordinary maximum-likelihood asymptotics assume the
+parameter count is fixed while information accumulates, and here it is not — every new
+person brings $I$ new observations and one new parameter, so the information per
+parameter never grows.
+
+::: {#thm-neyman-scott}
+**Inconsistency of joint maximum likelihood.** *Restated from* Haberman
+(2016, § 9.2.1), reporting Andersen (1973, pp. 66–69); the general phenomenon is Neyman
+and Scott's (1948)
+
+Under the Rasch model with $I$ fixed and $P \to \infty$, the JML estimator of the item
+parameters does not converge to the truth. In the classical two-item case, the estimated
+difficulty difference converges almost surely to **twice** its true value.
+:::
+
+The two-item case is worth carrying because it makes the failure concrete: the estimator
+is not noisy, it is systematically wrong by a factor, and no amount of additional data
+fixes it. The familiar $(I-1)/I$ correction applied in practice is an attempt to undo
+this factor and is a patch on a structural problem rather than a solution to it.
+
+Haberman adds a qualification that the usual telling omits, and it matters for how
+severely one should judge JML. If $I$ grows as well as $P$ — specifically if
+$\log(I)/P \to 0$ with the parameters uniformly bounded — then JML **is** consistent for
+both the item and the person parameters. The inconsistency is a fixed-$I$ phenomenon.
+This theorem does not supply a finite-sample threshold at which the bias becomes small;
+claims about a particular 10- or 60-item design require separate simulation or empirical
+evidence.
+
+## Conditioning it away {#sec-ch05-cml}
+
+@thm-suff said that under the Rasch model $r_p$ is sufficient for $\theta_p$. Sufficiency
+means the conditional distribution of $\mathbf{U}_p$ given $r_p$ does not depend on
+$\theta_p$ at all, so conditioning on the total score removes the incidental parameters
+exactly rather than approximately:
+
+$$
+L_C(\boldsymbol\beta \mid \mathbf{u}, \mathbf{r})
+  = \prod_{p=1}^{P} \Pr\{\mathbf{U}_p = \mathbf{u}_p \mid r_p; \boldsymbol\beta\}.
+$$ {#eq-cml}
+
+Maximizing @eq-cml is **conditional maximum likelihood** (CML), and the resulting
+estimator of $\boldsymbol\beta$ is consistent as $P \to \infty$ with $I$ fixed.
+
+The property that matters for this book is not consistency but what CML does *not*
+require: @eq-cml contains no distribution for $\theta$. The person parameters have not
+been integrated out against an assumed $G$; they have been conditioned away. JML also
+specifies no $G$, but it is inconsistent in the fixed-$I$ regime. Unrestricted marginal
+methods avoid a parametric shape for $G$ but inherit identification qualifications. CML's
+distinctive conjunction is **no model for $G$, exact elimination of person parameters,
+and fixed-$I$ consistency for Rasch item parameters**. That makes it the clean conditional
+reference for measuring the cost of a distributional assumption.
+
+The price is computational and, more importantly, structural. The conditional
+probabilities involve elementary symmetric functions of the item parameters, whose
+evaluation is delicate for long tests. And @prp-nosuff says the whole construction is
+unavailable under the unrestricted 2PL in its ordinary Rasch form: the
+parameter-indexed weighted score cannot serve as a parameter-free person total. A 2PL
+analysis can still be used as a generalization or sensitivity analysis, but it lacks this
+exact Rasch conditional anchor.
+
+## Integrating it away {#sec-ch05-mml}
+
+The third option treats the $\theta_p$ as draws from a distribution and integrates:
+
+$$
+L_M(\boldsymbol\beta, G \mid \mathbf{u})
+  = \prod_{p=1}^{P} \int L(\theta, \boldsymbol\beta \mid \mathbf{u}_p)\, dG(\theta).
+$$ {#eq-mml-ch5}
+
+This is **marginal maximum likelihood** (MML). The incidental parameters are gone, the
+method accommodates fixed $I$, and restricted MML extends to an identified parametric
+2PL once location and scale constraints are imposed. Consistency additionally requires
+correct specification of the chosen family for $G$, identification, and the usual
+regularity conditions; it is not a property of the integral alone.
+
+What it costs is stated in @eq-mml-ch5 itself: $G$ appears, and something must be said
+about it. Two things can be said, and the distinction is Haberman's.
+
+**Restricted marginal estimation** fixes a parametric family — almost always
+$G = N(\mu_\theta, \sigma^2_\theta)$ — and estimates its parameters alongside
+$\boldsymbol\beta$. This is what "MML" means in ordinary usage and what the manuscript
+does. The integral is then computed by Gauss–Hermite quadrature and the whole maximized by
+EM: treating the $\theta_p$ as missing data, the E step forms the posterior of each
+person's trait under current parameters and the M step maximizes the expected complete
+log-likelihood, which separates by item. That algorithm is Bock and Aitkin's
+[-@bock_marginal_1981], and it is what made MML practical.
+
+**Unrestricted marginal estimation** leaves $G$ completely free and maximizes @eq-mml-ch5
+over $\boldsymbol\beta$ and over the space of distribution functions jointly. The
+maximizer is a discrete distribution on finitely many support points. This is
+nonparametric MML, and it is the frequentist counterpart of what Part V does with a prior
+over distributions — @sec-ch14 traces it and @sec-ch15 develops the Bayesian route. It is
+worth naming here because the two are usually presented as unrelated traditions when they
+are two answers to one question. It is not a license for categorical consistency claims:
+Haberman warns that unrestricted estimation can be unsatisfactory, and finite-item Rasch
+data identify only anchored item parameters and finitely many functionals of $G$, not the
+full mixing distribution. For a semiparametric 2PL, identification remains open.
+
+## Giving the items a prior {#sec-ch05-bayes}
+
+The fifth approach is the manuscript's, and it is a Bayesian version of marginalization.
+Under this book's preferred sum-to-zero item constraint, independent priors are placed on
+unconstrained auxiliaries and then centered:
+
+$$
+\widetilde\beta_i \overset{\text{iid}}{\sim} N(0,\sigma^2_\beta),
+\qquad
+\beta_i=\widetilde\beta_i-\frac1I\sum_{j=1}^I\widetilde\beta_j,
+\qquad \sum_i\beta_i=0.
+$$ {#eq-item-prior}
+
+The induced prior on $\boldsymbol\beta$ is exchangeable on the constrained subspace but
+is not iid: centering makes the difficulties dependent. Hyperpriors are placed on
+$\sigma^2_\beta$ and on $G$'s parameters, and the joint posterior is reported. An
+anchor-based parameterization could instead put priors on the free item coordinates, but
+the two prior constructions should not be conflated.
+
+@sec-ch02 established that this is *not* where the distributional assumption on $\theta$
+enters — restricted MML makes that assumption too. @eq-item-prior is the genuinely
+additional regularization model, and Reviewer 1 was right to ask what it buys.
+
+**Partial pooling across items.** An item answered correctly by everyone has no finite
+unregularized difficulty estimate; under a proper version of @eq-item-prior it has a
+finite posterior, shrunk toward the constrained item center. The size of that effect is a
+prior-sensitivity question.
+
+**Coherent propagation of uncertainty.** In a two-stage procedure the item estimates are
+treated as known when persons are scored, which understates the uncertainty in
+$\hat\theta_p$ — @sec-ch06 makes this precise and it is the substance of Reviewer 2's
+third bullet. Fitting everything jointly carries the item uncertainty into the person
+posterior automatically.
+
+**A route to a flexible $G$.** Once $G$ is a parameter with a prior, replacing that prior
+with one over distributions is a change of prior rather than a change of method. That is
+what makes the semiparametric extension of Part V natural in this framework and awkward
+in the others.
+
+The price is a second modelling assumption. @eq-item-prior is exchangeable over item
+labels before centering and regularizes the constrained vector toward a common center.
+For a test assembled from a blueprint with deliberate difficulty targets, that is best
+treated as a regularization device whose influence is checked, not automatically as a
+literal model of item writing.
+
+## Five approaches, side by side {#sec-ch05-compare}
+
+```{r}
+#| label: tbl-estimation
+#| tbl-cap: "Five approaches to incidental person parameters, with model and identification scope. Source: tables/T-estimation.rds."
+#| echo: false
+knitr::kable(tbl("T-estimation"))
+```
+
+The $G$ column is only one axis. The model/scope and identification columns prevent a
+shape-free mixing distribution from being read as an identified full $G$, and they keep
+the open semiparametric-2PL problem visible. Part V weakens parametric shape assumptions;
+it does not thereby solve identification.
+
+## Sources and provenance {#sec-ch05-sources}
+
+The incidental-parameters framing and @thm-neyman-scott follow Haberman's
+[-@haberman_nuisance_2016] chapter, which is the reference treatment: the JML
+inconsistency and the two-item example are his § 9.2.1, reporting Andersen (1973,
+pp. 66–69), and the consistency result under growing $I$ is his citation of his own
+earlier work. The distinction between restricted and unrestricted marginal estimation is
+his §§ 9.4–9.5, and the terminology is worth adopting because the usual vocabulary has no
+name for the difference. Neyman and Scott [-@neyman_consistent_1948] named the general
+phenomenon and are cited through Haberman under rule R3b; the primary is not held.
+
+The EM algorithm for restricted marginal estimation is Bock and Aitkin's
+[-@bock_marginal_1981]. CML's development follows Debelak et al.
+[-@debelak_introduction_2022, § 3.2], and the sufficiency it rests on is @thm-suff.
+
+The argument of @sec-ch05-bayes is assembled here rather than taken from a source. Its
+three components — partial pooling, uncertainty propagation, and the route to a flexible
+$G$ — are individually standard; the claim that the third is what makes the Bayesian
+framework the natural home for a semiparametric $G$ is this book's framing, and it is
+argued rather than asserted in @sec-ch15 and @sec-ch16.

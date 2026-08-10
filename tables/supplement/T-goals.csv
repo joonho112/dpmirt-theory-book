@@ -1,0 +1,4 @@
+"Goal","Estimand","Loss","Bayes action","Decision it serves","What it gets wrong elsewhere"
+"The individual","$\theta_p$, person by person","$\sum_p w_p(a_p-\theta_p)^2$ (WSEL)","posterior mean $\eta_p$","person-specific point reports under numeric error costs","the ensemble can be under-dispersed; the exact $\sqrt{\bar w}$ ratio needs the constant-error Gaussian model"
+"The ranks","$R_p=\sum_q \mathbb{1}\{\theta_q\le\theta_p\}$","squared error on ranks","$\hat R_p$, the discretized $\operatorname{E}[R_p\mid\mathbf u]$","rank or percentile reporting; a published ordering","it is not a threshold-classification rule; rank values still carry uncertainty"
+"The distribution","$G_N(t)=N^{-1}\sum_p \mathbb{1}\{\theta_p\le t\}$, the **realized** EDF","$\int\{A(t)-G_N(t)\}^2\,dt$ (ISEL)","$\hat G_N$, discrete with mass $1/N$","realized-ensemble proportions, spread, modality","the induced person values are generally not WSEL-optimal"

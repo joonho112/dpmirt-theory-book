@@ -1,0 +1,5 @@
+"Estimator","Weight f in eq. 6.2","Bias with items known","Finite at a perfect or zero score","Information used"
+"ML","a positive constant","$-J/(2\mathcal{J}^2)$, order $I^{-1}$","**no**","within-person only"
+"WLE","w with d log w / d theta = J / (2 J-info)","**$o(I^{-1})$** under Warm's conditions; same first-order asymptotic variance as ML","yes","within-person only"
+"MAP (Bayesian modal)","a prior density for theta","ML bias $+\,(\partial\ln f/\partial\theta)/\mathcal{J}$","yes","within-person and population"
+"EAP (posterior mean)","not a member: the posterior mean, not a mode","shrunk toward $\mu_\theta$; minimizes squared-error loss","yes","within-person and population"

@@ -1,0 +1,348 @@
+[1m[34m[ 1/37] index.qmd[39m[22m
+[31m
+
+processing file: index.qmd
+[39m1/3              
+2/3 [setup-index]
+3/3              
+[31moutput file: index.knit.md
+
+[39m[1m[34m[ 2/37] chapters/01-the-estimation-problem.qmd[39m[22m
+[31m
+
+processing file: 01-the-estimation-problem.qmd
+[39m1/3             
+2/3 [setup-ch01]
+3/3             
+[31moutput file: 01-the-estimation-problem.knit.md
+
+[39m[1m[34m[ 3/37] chapters/02-notation-and-frameworks.qmd[39m[22m
+[31m
+
+processing file: 02-notation-and-frameworks.qmd
+[39m1/9                 
+2/9 [setup-ch02]    
+3/9                 
+4/9 [tbl-notation]  
+5/9                 
+6/9 [tbl-frameworks]
+7/9                 
+8/9 [tbl-levels]    
+9/9                 
+[31moutput file: 02-notation-and-frameworks.knit.md
+
+[39m[1m[34m[ 4/37] chapters/03-rasch-and-2pl-foundations.qmd[39m[22m
+[1m[34m[ 5/37] chapters/04-identification.qmd[39m[22m
+[31m
+
+processing file: 04-identification.qmd
+[39m1/5                     
+2/5 [setup-ch04]        
+3/5                     
+4/5 [tbl-identification]
+5/5                     
+[31moutput file: 04-identification.knit.md
+
+[39m[1m[34m[ 6/37] chapters/05-item-parameter-estimation.qmd[39m[22m
+[31m
+
+processing file: 05-item-parameter-estimation.qmd
+[39m1/5                 
+2/5 [setup-ch05]    
+3/5                 
+4/5 [tbl-estimation]
+5/5                 
+[31moutput file: 05-item-parameter-estimation.knit.md
+
+[39m[1m[34m[ 7/37] chapters/06-person-parameter-estimation.qmd[39m[22m
+[31m
+
+processing file: 06-person-parameter-estimation.qmd
+[39m1/5                 
+2/5 [setup-ch06]    
+3/5                 
+4/5 [tbl-estimators]
+5/5                 
+[31moutput file: 06-person-parameter-estimation.knit.md
+
+[39m[1m[34m[ 8/37] chapters/07-information-and-error.qmd[39m[22m
+[31m
+
+processing file: 07-information-and-error.qmd
+[39m1/3             
+2/3 [setup-ch07]
+3/3             
+[31moutput file: 07-information-and-error.knit.md
+
+[39m[1m[34m[ 9/37] chapters/08-reliability.qmd[39m[22m
+[31m
+
+processing file: 08-reliability.qmd
+[39m1/5             
+2/5 [setup-ch08]
+3/5             
+4/5 [tbl-zoo]   
+5/5             
+[31moutput file: 08-reliability.knit.md
+
+[39m[1m[34m[10/37] chapters/09-designing-for-reliability.qmd[39m[22m
+[1m[34m[11/37] chapters/10-bayesian-hierarchical-rasch.qmd[39m[22m
+[31m
+
+processing file: 10-bayesian-hierarchical-rasch.qmd
+[39m1/5                      
+2/5 [setup-ch10]         
+3/5                      
+4/5 [tbl-frameworks-ch10]
+5/5                      
+[31moutput file: 10-bayesian-hierarchical-rasch.knit.md
+
+[39m[1m[34m[12/37] chapters/11-conditional-posterior-and-shrinkage.qmd[39m[22m
+[1m[34m[13/37] chapters/12-empirical-bayes-tradition.qmd[39m[22m
+[1m[34m[14/37] chapters/13-non-normality.qmd[39m[22m
+[1m[34m[15/37] chapters/14-flexible-alternatives.qmd[39m[22m
+[31m
+
+processing file: 14-flexible-alternatives.qmd
+[39m1/5                 
+2/5 [setup-ch14]    
+3/5                 
+4/5 [tbl-flexible-g]
+5/5                 
+[31moutput file: 14-flexible-alternatives.knit.md
+
+[39m[1m[34m[16/37] chapters/15-dirichlet-process.qmd[39m[22m
+[31m
+
+processing file: 15-dirichlet-process.qmd
+[39m1/7                         
+2/7 [setup-ch15]            
+3/7                         
+4/7 [tbl-dp-representations]
+5/7                         
+6/7 [tbl-alpha-elicitation] 
+7/7                         
+[31moutput file: 15-dirichlet-process.knit.md
+
+[39m[1m[34m[17/37] chapters/16-dpm-priors.qmd[39m[22m
+[1m[34m[18/37] chapters/17-three-goals.qmd[39m[22m
+[31m
+
+processing file: 17-three-goals.qmd
+[39m1/7                                 
+2/7 [setup-ch17]                    
+3/7                                 
+4/7 [tbl-three-goals-counterexample]
+5/7                                 
+6/7 [tbl-goals]                     
+7/7                                 
+[31moutput file: 17-three-goals.knit.md
+
+[39m[1m[34m[19/37] chapters/18-constrained-bayes.qmd[39m[22m
+[31m
+
+processing file: 18-constrained-bayes.qmd
+[39m1/3             
+2/3 [setup-ch18]
+3/3             
+[31moutput file: 18-constrained-bayes.knit.md
+
+[39m[1m[34m[20/37] chapters/19-triple-goal.qmd[39m[22m
+[31m
+
+processing file: 19-triple-goal.qmd
+[39m1/5                
+2/5 [setup-ch19]   
+3/5                
+4/5 [tbl-gr-worked]
+5/5                
+[31moutput file: 19-triple-goal.knit.md
+
+[39m[1m[34m[21/37] chapters/20-ranking-and-classification.qmd[39m[22m
+[31m
+
+processing file: 20-ranking-and-classification.qmd
+[39m1/3             
+2/3 [setup-ch20]
+3/3             
+[31moutput file: 20-ranking-and-classification.knit.md
+
+[39m[1m[34m[22/37] chapters/21-relation-to-lee-et-al.qmd[39m[22m
+[31m
+
+processing file: 21-relation-to-lee-et-al.qmd
+[39m1/7                      
+2/7 [setup-ch21]         
+3/7                      
+4/7 [tbl-lee-delineation]
+5/7                      
+6/7 [tbl-lee-transfer]   
+7/7                      
+[31moutput file: 21-relation-to-lee-et-al.knit.md
+
+[39m[1m[34m[23/37] chapters/22-scope-and-extensions.qmd[39m[22m
+[31m
+
+processing file: 22-scope-and-extensions.qmd
+[39m1/5                 
+2/5 [setup-ch22]    
+3/5                 
+4/5 [tbl-extensions]
+5/5                 
+[31moutput file: 22-scope-and-extensions.knit.md
+
+[39m[1m[34m[24/37] chapters/23-open-problems.qmd[39m[22m
+[31m
+
+processing file: 23-open-problems.qmd
+[39m1/5                    
+2/5 [setup-ch23]       
+3/5                    
+4/5 [tbl-open-problems]
+5/5                    
+[31moutput file: 23-open-problems.knit.md
+
+[39m[1m[34m[25/37] chapters/24-discrimination-and-information.qmd[39m[22m
+[1m[34m[26/37] chapters/25-reliability-under-2pl.qmd[39m[22m
+[31m
+
+processing file: 25-reliability-under-2pl.qmd
+[39m1/9                  
+2/9 [setup-ch25]     
+3/9                  
+4/9 [fig-c4-reversal]
+5/9                  
+6/9 [tbl-rel-gaps]   
+7/9                  
+8/9 [tbl-ladder-v2]  
+9/9                  
+[31moutput file: 25-reliability-under-2pl.knit.md
+
+[39m[1m[34m[27/37] chapters/26-identification-dpm-2pl.qmd[39m[22m
+[1m[34m[28/37] chapters/27-what-the-simulation-settled.qmd[39m[22m
+[31m
+
+processing file: 27-what-the-simulation-settled.qmd
+[39m1/17                        
+2/17 [setup-ch27]           
+3/17                        
+4/17 [tbl-evid-confirmatory]
+5/17                        
+6/17 [tbl-evid-secondary]   
+7/17                        
+8/17 [tbl-evid-safety]      
+9/17                        
+10/17 [tbl-evid-h7-census]   
+11/17                        
+12/17 [tbl-evid-levers]      
+13/17                        
+14/17 [tbl-evid-crossed]     
+15/17                        
+16/17 [tbl-evid-census]      
+17/17                        
+[31moutput file: 27-what-the-simulation-settled.knit.md
+
+[39m[1m[34m[29/37] chapters/28-what-real-tests-look-like.qmd[39m[22m
+[31m
+
+processing file: 28-what-real-tests-look-like.qmd
+[39m1/15                      
+2/15 [setup-ch28]         
+3/15                      
+4/15 [tbl-irw-reliability]
+5/15                      
+6/15 [tbl-irw-shape]      
+7/15                      
+8/15 [tbl-shape-null]     
+9/15                      
+10/15 [tbl-materiality]    
+11/15                      
+12/15 [tbl-seed-floor]     
+13/15                      
+14/15 [tbl-seed-extrema]   
+15/15                      
+[31moutput file: 28-what-real-tests-look-like.knit.md
+
+[39m[1m[34m[30/37] chapters/29-evidence-settles-reopens.qmd[39m[22m
+[1m[34m[31/37] appendices/A-proofs.qmd[39m[22m
+[31m
+
+processing file: A-proofs.qmd
+[39m1/5                  
+2/5 [setup-appa]     
+3/5                  
+4/5 [tbl-proof-index]
+5/5                  
+[31moutput file: A-proofs.knit.md
+
+[39m[1m[34m[32/37] appendices/B-crosswalk.qmd[39m[22m
+[31m
+
+processing file: B-crosswalk.qmd
+[39m1/7                 
+2/7 [setup-appb]    
+3/7                 
+4/7 [tbl-crosswalk] 
+5/7                 
+6/7 [tbl-collisions]
+7/7                 
+[31moutput file: B-crosswalk.knit.md
+
+[39m[1m[34m[33/37] appendices/C-corrections.qmd[39m[22m
+[31m
+
+processing file: C-corrections.qmd
+[39m1/7                        
+2/7 [setup-appc]           
+3/7                        
+4/7 [tbl-corrections-index]
+5/7                        
+6/7 [appc-entries]         
+7/7                        
+[31moutput file: C-corrections.knit.md
+
+[39m[1m[34m[34/37] appendices/D-annotated-bibliography.qmd[39m[22m
+[31m
+
+processing file: D-annotated-bibliography.qmd
+[39m1/7                
+2/7 [setup-appd]   
+3/7                
+4/7 [tbl-bib-tiers]
+5/7                
+6/7 [appd-entries] 
+7/7                
+[31moutput file: D-annotated-bibliography.knit.md
+
+[39m[1m[34m[35/37] appendices/E-acquisition-ledger.qmd[39m[22m
+[31m
+
+processing file: E-acquisition-ledger.qmd
+[39m1/7                         
+2/7 [setup-appe]            
+3/7                         
+4/7 [tbl-acquisition-debt]  
+5/7                         
+6/7 [tbl-acquisition-ledger]
+7/7                         
+[31moutput file: E-acquisition-ledger.knit.md
+
+[39m[1m[34m[36/37] appendices/F-software.qmd[39m[22m
+[1m[34m[37/37] appendices/G-build-report.qmd[39m[22m
+[31m
+
+processing file: G-build-report.qmd
+[39m1/9                   
+2/9 [setup-appg]      
+3/9                   
+4/9 [tbl-build-report]
+5/9                   
+6/9 [tbl-verifiers]   
+7/9                   
+8/9 [tbl-claim-checks]
+9/9                   
+[31moutput file: G-build-report.knit.md
+
+[39m
+Output created: _book/index.html
+

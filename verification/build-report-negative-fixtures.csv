@@ -1,0 +1,4 @@
+"fixture","rejected"
+"zero-output-with-stale-run-token",TRUE
+"receipted-zero-output-mutated-after-run",TRUE
+"required-current-output-missing",TRUE
